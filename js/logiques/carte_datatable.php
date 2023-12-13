@@ -2,7 +2,7 @@
     $(function() {
         'use strict';
         // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
-        $.get('http://localhost:8080/kaspy_changes_office/index.php?page=api_carte', function(rep) {
+        $.get('http://localhost/kaspy_changes_office/index.php?page=api_carte', function(rep) {
             let data = JSON.parse(rep)
             data.map((champ_bd) => {
                 var imageUrl = champ_bd.logo;

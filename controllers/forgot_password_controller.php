@@ -8,7 +8,7 @@ if (isset($_POST['btn_valider'])) {
     require '../plugins/email/envois_mailForgot.php';
 
     $forgotEMAIL = strSecur($_POST['forgot_email']);
-    $lien_for_forgot = 'http://localhost:8080/kaspy_changes_office/index.php?page=changePassword';
+    $lien_for_forgot = 'http://localhost/kaspy_changes_office/index.php?page=changePassword';
     $mail_objet = "Mot de passe oublié";
     
 
