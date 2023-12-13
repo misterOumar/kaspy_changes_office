@@ -60,7 +60,7 @@
 
 
                     <?php if (intval($_SESSION['KaspyISS_user_details'][8]['lecture']) === 1) { ?>
-                        <li class="<?= $_GET['page'] === 'type_batiment' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=type_batiment"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">UBA</span></a>
+                        <li class="<?= $_GET['page'] === 'type_batiment' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=uba"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">UBA</span></a>
                         </li>
                     <?php
                     }; ?>

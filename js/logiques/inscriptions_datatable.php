@@ -7,7 +7,7 @@
     'use strict';
 
     // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
-    $.get('http://localhost/kaspy_iss/index.php?page=api_inscriptions', function(rep) {
+    $.get('http://localhost:8080/kaspy_iss/index.php?page=api_inscriptions', function(rep) {
       let data = JSON.parse(rep)
       data.map((champ_bd) => {
 

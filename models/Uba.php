@@ -7,18 +7,20 @@
 
 
 /**
- * Class money_gram - Représente un(e) money_gram
+ * Class uba - Représente un(e) uba
  */
-class money_gram
+class uba
 {
     public $id;
-    public $Heure_et_date;
-    public $Num_Ref;
-    public $Identifiant_utilisateur;
-    public $ID_point_vente;
-    public $Montant;
-    public $Frais;
-    public $Total;
+    public $Trans_ID;
+    public $Dates;
+    public $Amount;
+    public $Fees;
+    public $Running_Bal;
+    public $Description;
+    public $Reference;
+    public $Account_Id;
+    public $Last_Name;
     public $ajouter_par;
 
     public $date_creation;
@@ -33,7 +35,7 @@ class money_gram
     public $ip_modif;
 
     /**
-     * money_gram constructor.
+     * uba constructor.
      *
      * @param $id
      */
@@ -42,18 +44,20 @@ class money_gram
         global $db;
         $id = strSecur($id);
 
-        $req = $db->prepare('SELECT * FROM transaction_money_gram WHERE id = ?');
+        $req = $db->prepare('SELECT * FROM transaction_uba WHERE id = ?');
         $req->execute([$id]);
         $data = $req->fetch();
 
         $this->id = $id;
-        $this->Heure_et_date = $data['Heure_et_date'];
-        $this->Num_Ref = $data['Num_Ref'];
-        $this->Identifiant_utilisateur = $data['Identifiant_utilisateur'];
-        $this->ID_point_vente = $data['ID_point_vente'];
-        $this->Montant = $data['Montant'];
-        $this->Frais = $data['Frais'];
-        $this->Total = $data['Total'];
+        $this->Trans_ID = $data['Trans_ID'];
+        $this->Dates = $data['Dates'];
+        $this->Amount = $data['Amount'];
+        $this->Fees = $data['Fees'];
+        $this->Running_Bal = $data['Running_Bal'];
+        $this->Description = $data['Description'];
+        $this->Reference = $data['Reference'];
+        $this->Account_Id = $data['Account_Id'];
+        $this->Last_Name = $data['Last_Name'];
         $this->ajouter_par = $data['ajouter_par'];
 
         $this->date_creation = $data['date_creation'];
@@ -74,17 +78,17 @@ class money_gram
     }
 
     /**
-     * Renvoi la liste des transaction_money_gram.
+     * Renvoi la liste des transaction_uba.
      *
      * @return array
      */
     static function getAll()
     {
         global $db;
-        $req = $db->prepare("select transaction_money_gram.*,
-        login.nom_prenom as nom_prenom from transaction_money_gram 
-        left join login on transaction_money_gram.ajouter_par = login.id
-       	where transaction_money_gram.Num_Ref != 'Num_Ref' order by transaction_money_gram.id");
+        $req = $db->prepare("select transaction_uba.*,
+        login.nom_prenom as nom_prenom from transaction_uba 
+        left join login on transaction_uba.ajouter_par = login.id
+        where transaction_uba.Trans_ID != 'Trans_ID' order by transaction_uba.id");
         $req->execute([]);
         return $req->fetchAll();
     }
@@ -100,7 +104,7 @@ class money_gram
         SUM(Montant) AS somme_montant,
         SUM(Frais) AS somme_frais,
         SUM(Total) AS somme_total
-    FROM transaction_money_gram
+    FROM transaction_uba
     WHERE DATE(date_creation) = CURDATE();
     ");
         $req->execute([]);
@@ -108,7 +112,7 @@ class money_gram
     }
 
     /**
-     * Méthode pour récupérer un(e) transaction_money_gram en fonction de son id.
+     * Méthode pour récupérer un(e) transaction_uba en fonction de son id.
      *
      * @param $id
      * @return mixed
@@ -116,29 +120,29 @@ class money_gram
     static function getByID($id)
     {
         global $db;
-        $req = $db->prepare("select transaction_money_gram.*,
-        login.nom_prenom as nom_prenom from transaction_money_gram 
-        left join login on transaction_money_gram.ajouter_par = login.id
-       	where transaction_money_gram.id = ? order by transaction_money_gram.id");
+        $req = $db->prepare("select transaction_uba.*,
+        login.nom_prenom as nom_prenom from transaction_uba 
+        left join login on transaction_uba.ajouter_par = login.id
+        where transaction_uba.id = ? order by transaction_uba.id");
         $req->execute([$id]);
         return $req->fetch();
     }
 
     /**
-     * Méthode de récupération du dernier element de la table transaction_money_gram.
+     * Méthode de récupération du dernier element de la table transaction_uba.
      *
      * @return mixed
      */
     static function getLast()
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM transaction_money_gram  ORDER BY ID DESC LIMIT 1");
+        $req = $db->prepare("SELECT * FROM transaction_uba  ORDER BY ID DESC LIMIT 1");
         $req->execute([]);
         return $req->fetch();
     }
 
     /**
-     * Méthode de récupération du nombre d'enregistrement de la table transaction_money_gram.
+     * Méthode de récupération du nombre d'enregistrement de la table transaction_uba.
      *
      * @param $
      * @return mixed
@@ -146,12 +150,12 @@ class money_gram
     static function getCount()
     {
         global $db;
-        $req = $db->prepare("SELECT COUNT(*) FROM transaction_money_gram ");
+        $req = $db->prepare("SELECT COUNT(*) FROM transaction_uba");
         $req->execute([]);
         return $req->fetch()[0];
     }
     /**
-     * Méthode de récupération du nombre de transaction transaction_money_gram par jour.
+     * Méthode de récupération du nombre de transaction transaction_uba par jour.
      *
      * @param $
      * @return mixed
@@ -160,7 +164,7 @@ class money_gram
     {
         global $db;
         $req = $db->prepare("SELECT COUNT(*) AS nombre_transaction
-        FROM transaction_money_gram
+        FROM transaction_uba
         WHERE DATE(date_creation) = CURDATE();
         ");
         $req->execute([]);
@@ -171,16 +175,19 @@ class money_gram
     //||------------ INSERTIONS ------------||
     //||**********************************||
     /**
-     * Méthode pour insérer un(e) transaction_money_gram en base de données.
+     * Méthode pour insérer un(e) transaction_uba en base de données.
      *
-     * @param $Heure_et_date
-     * @param $Num_Ref
-     * @param $Identifiant_utilisateur
-     * @param $ID_point_vente
-     * @param $Montant
-     * @param $Frais
-     * @param $Total
+     * @param $Trans_ID
+     * @param $Dates
+     * @param $Amount
+     * @param $Fees
+     * @param $Running_Bal
+     * @param $Description
+     * @param $Reference
+     * @param $Account_Id
+     * @param $Last_Name
      * @param $ajouter_par
+
      
      * @param $date_creation
      * @param $user_creation
@@ -194,15 +201,15 @@ class money_gram
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter($id, $Heure_et_date, $Num_Ref, $Identifiant_utilisateur, $ID_point_vente, $Montant, $Frais, $Total, $ajouter_par, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
+    static function Ajouter($id, $Trans_ID, $Dates, $Amount, $Fees, $Running_Bal, $Description, $Reference, $Account_Id, $Last_Name, $ajouter_par, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
     {
         global $db;
 
         $req = $db->prepare('
-            INSERT INTO transaction_money_gram(id, Heure_et_date, Num_Ref, Identifiant_utilisateur, ID_point_vente, Montant, Frais, Total, ajouter_par,  date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO transaction_uba(id, Trans_ID, Dates, Amount, Fees, Running_Bal, Description, Reference, Account_Id, Last_Name, ajouter_par, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,?)
         ');
-        return $req->execute([$id, $Heure_et_date, $Num_Ref, $Identifiant_utilisateur, $ID_point_vente, $Montant, $Frais, $Total, $ajouter_par, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$id, $Trans_ID, $Dates, $Amount, $Fees, $Running_Bal, $Description, $Reference, $Account_Id, $Last_Name, $ajouter_par, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 
@@ -210,7 +217,7 @@ class money_gram
     //||---------- MODIFICATIONS ----------||
     //||**********************************||
     /**
-     * Méthode pour modifier un(e) transaction_money_gram en base de données.
+     * Méthode pour modifier un(e) transaction_uba en base de données.
      *
      * @param $libelle
      * @param $type_batiment
@@ -235,7 +242,7 @@ class money_gram
     {
         global $db;
         $req = $db->prepare('
-            UPDATE transaction_money_gram SET libelle = ?, type_batiment = ?, nombre_appartement = ?, parking = ?, jardin = ?, ascenseur = ?, proprietaire= ?, cout_construction= ?,  date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
+            UPDATE transaction_uba SET libelle = ?, type_batiment = ?, nombre_appartement = ?, parking = ?, jardin = ?, ascenseur = ?, proprietaire= ?, cout_construction= ?,  date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
         ');
         return $req->execute([$libelle, $type_batiment, $nombre_appartement, $parking, $jardin, $ascenseur, $proprietaire, $cout_construction, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     }
@@ -246,7 +253,7 @@ class money_gram
     //||**********************************||
 
     /**
-     * Méthode pour supprimer un(e) transaction_money_gram
+     * Méthode pour supprimer un(e) transaction_uba
      *
      * @param $id
      * @return bool
@@ -254,7 +261,7 @@ class money_gram
     static function Supprimer($id)
     {
         global $db;
-        $req = $db->prepare('DELETE FROM transaction_money_gram WHERE id= ?');
+        $req = $db->prepare('DELETE FROM transaction_uba WHERE id= ?');
         return $req->execute([$id]);
     }
 }
