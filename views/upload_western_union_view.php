@@ -273,13 +273,19 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                             r: 3
                         }, // 4th row
                         e: {
+                            // c: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.c,
+                            // r: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.r
+                            
                             c: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.c,
-                            r: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.r
+                            r:9
                         }
                     };
 
                     // Déterminez la dernière ligne du premier tableau
-                    var lastRowTable1 = XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.r;
+                    // var lastRowTable1 = XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.r;
+                    var lastRowTable1 = 10;
+
+                    console.log(lastRowTable1);
 
                     // Calculez le point de départ pour le deuxième tableau (5 lignes après la dernière ligne du premier tableau)
                     var startRowTable2 = lastRowTable1 + 17;
@@ -288,14 +294,15 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                     var range2 = {
                         s: {
                             c: 0,
-                            r: startRowTable2
+                            // r: startRowTable2
+                            r:27
                         }, // 16th row
                         e: {
                             c: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.c,
-                            r: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.r
+                            // r: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.r
+                            r:37
                         }
                     };
-
                     var excelData1 = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
                         range: range1
                     });
@@ -344,6 +351,8 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
                     // Fusionnez les deux tableaux
                     var excelData = excelData1.concat(excelData2);
+                    // var excelData = excelData1
+                    console.log(excelData);
 
                     // Affichez les données dans un DataTable
                     $("#excelDataTable").DataTable({

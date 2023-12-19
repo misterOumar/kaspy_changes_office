@@ -74,7 +74,7 @@
 
                                     <div class="form-group input-group mb-1">
                                         <select class="form-control" id="bureau" name="bureau" tabindex="3" required>
-                                            <option selected="selected">Choisir le bien...</option>
+                                            <option selected="selected">Choisir le magasin...</option>
                                             <?php
                                             // chemin d'accès au fichier JSON
                                             $file = 'config/bureaux.json';

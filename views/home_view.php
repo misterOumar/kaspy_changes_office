@@ -58,14 +58,13 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Tableau de bord</h2>
+                            <h2 class="content-header-title float-start mb-0">Accueil</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="#">Analyse</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Tableau de bord
+                                    <li class="breadcrumb-item active">Page d'accueil
                                     </li>
                                 </ol>
                             </div>
