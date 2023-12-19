@@ -3,7 +3,7 @@
     'use strict';
 
     // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
-    $.get('http://localhost/kaspy_changes_office/index.php?page=api_money_gram', function (rep) {
+    $.get('http://localhost/kaspy_changes_office/index.php?page=api_changes', function (rep) {
       let data = JSON.parse(rep)
       data.map((champ_bd) => {
 
@@ -11,11 +11,11 @@
           .add({
             responsive_id: champ_bd.id,
             id: champ_bd.id,
-            Date: champ_bd.Heure_et_date,
+            dates: champ_bd.dates,
             ajouter_par: champ_bd.nom_prenom,
-            Num_Ref: champ_bd.Num_Ref,
-            Total: champ_bd.Total,
-            Frais: champ_bd.Frais,
+            elements: champ_bd.elements,
+            achats: champ_bd.achats,
+            total: champ_bd.total,
           })
           .draw();
       })
@@ -47,13 +47,13 @@
           data: 'id'
         }, // used for sorting so will hide this column
         {
-          data: 'Date'
+          data: 'dates'
         },
         {
           data: 'ajouter_par'
         },
         {
-          data: 'Num_Ref',
+          data: 'elements',
           render: function (data, type, row) {
             // Assurez-vous que la colonne "Num_Ref" contient du texte
             if (type === 'display' && data) {
@@ -66,10 +66,10 @@
         },
 
         {
-          data: 'Total'
+          data: 'achats'
         },
         {
-          data: 'Frais'
+          data: 'total'
         },
         {
           data: ''
@@ -377,7 +377,7 @@
             for (let i = 0; i < rows.length; i++) {
               const cells = rows[i].split(",");
               // Do something with the cells, like sending them to the server
-              // console.log(cells);
+            //   console.log(cells);
               // sendDataToServer(cells);
               $("#ChangerImport").on('click', function () {
                 // console.log(cells);
@@ -401,7 +401,7 @@
       // Envoi des données au serveur via AJAX
       $.ajax({
         type: "POST",
-        url: "controllers/money_gram_controller.php",
+        url: "controllers/changes_controller.php",
         data: { data: data },
         success: function (result) {
           // console.log(result);
@@ -451,7 +451,7 @@
       $.ajax({
         type: "GET",
         data: "idInfonsTrans=" + id,
-        url: "controllers/infos_transactions_money_gram_controller.php",
+        url: "controllers/infos_transactions_changes_controller.php",
         success: function (result) {
           // alert(result);
           var donnees = JSON.parse(result);
@@ -481,7 +481,7 @@
             // window.location.href = 'index.php?page=infos_transactions_money_gram';
 
             // Construction de l'URL avec les données
-            var url = 'index.php?page=infos_transactions_money_gram&';
+            var url = 'index.php?page=infos_transactions_changes&';
             for (var key in infos_transactions_money_gram) {
               if (infos_transactions_money_gram.hasOwnProperty(key)) {
                 url += encodeURIComponent(key) + '=' + encodeURIComponent(infos_transactions_money_gram[key]) + '&';

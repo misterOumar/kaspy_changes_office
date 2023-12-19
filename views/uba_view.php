@@ -14,7 +14,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
 <head>
     <title>
-        <?= APP_NAME ?> - Money Gram
+        <?= APP_NAME ?> - UBA
     </title>
 
     <!-- Fichiers CSS par défaut (TEMPLATE) -->
@@ -64,14 +64,14 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Transactions Money Gram</h2>
+                            <h2 class="content-header-title float-start mb-0">Gestion UBA</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
                                     </li>
                                     <li class="breadcrumb-item"><a href="#">Structures</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Money Gram
+                                    <li class="breadcrumb-item active">UBA
                                     </li>
                                 </ol>
                             </div>
@@ -93,14 +93,14 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 <table class="datatables-basic table">
                                     <thead>
                                         <tr>
-                                            <th></th>
+                                        <th></th>
                                             <th></th>
                                             <th>id</th>
-                                            <th>Date</th>
+                                            <th>Trans Id</th>
                                             <th>Ajouter par</th>
-                                            <th>Numero de reference</th>
-                                            <th>Total</th>
-                                            <th>Frais</th>
+                                            <th>Dates</th>
+                                            <th>Amount</th>
+                                            <th>Running Bal</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -308,8 +308,8 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <!-- END: Footer-->
 
 
-    <?php include 'js/logiques/money_gram_datatable.php' ?>
-    <?php include 'js/logiques/money_gram_logiques.php' ?>
+    <?php include 'js/logiques/uba_datatable.php' ?>
+    <?php include 'js/logiques/uba_logiques.php' ?>
     <?php include 'js/droits_access/gestion_DroitsAccess_Batiment.php' ?>
     <?php include 'js/logiques/reporting_logiques.php' ?>
 
