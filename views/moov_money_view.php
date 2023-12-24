@@ -1,4 +1,4 @@
-   <?php
+<?php
     if (!isset($_SESSION["KaspyISS_user"])) {
         header("Location: index.php?page=login");
     };
@@ -38,9 +38,7 @@
         ?>
    </head>
 
-
    <!-- BEGIN: Body-->
-
    <body class="vertical-layout vertical-menu-modern  navbar-floating footer-static " data-open="click" data-menu="vertical-menu-modern" data-col="">
        <!-- BEGIN: Main Menu-->
        <?php include 'includes/main_menu.php' ?>
@@ -85,19 +83,16 @@
                                            <tr>
                                                <th></th>
                                                <th></th>
-                                               <th>id</th>
-                                               <th>Montant</th>
+                                               <th>id</th>                                             
                                                <th>Date</th>
-                                               <th>Client</th>
-                                               <th>téléphone Client</th>
-                                               <th>Destinataire</th>
-                                               <th>téléphone Destinataire</th>
+                                               <th>TYPE OPERATION</th>                                               
+                                               <th>telephone destinataire</th>
+                                               <th>Montant</th>
                                                <th>Actions</th>
                                            </tr>
                                        </thead>
                                    </table>
                                </div>
-
                            </div>
                        </div>
                        <!-- Modal to add new record -->
@@ -113,46 +108,39 @@
                                    <button type="button" id="bt_vider" name="bt_vider" class="btn" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" class="avatar pull-up my-0" title="Vider les champs" style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
                                        <i data-feather='refresh-ccw'></i></button>
                                    <div class="modal-body flex-grow-1">
-                                       <!--- NOM ET PRENOM OU RAISON SOCIALE --->
+                                       <!--- NOM ET PRENOM OU RAISON SOCIALE --->                                                                        <div>
+                                           <label class='form-label' for='etablie_le'>Date</label>
+                                           <input type='text' class='form-control dt-full-etablie_le' id='date_t' name='date_t' placeholder='La date' aria - Label='etablie_le' maxlength='75' />
+                                       </div>
+                                       <div class='mb-1'><small id='date_tHelp' class='text-danger invisible'></small></div>
+                                       <!-- COMPTE -->                                       
+                                          <div class="row mb-n2 pb-n2">
+                                                    <div class="demo-inline-spacing">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="radio_type" id="radio_depot" checked  value="Dépot" />
+                                                            <label class="form-check-label" for="radio_homme">Dépot</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="radio_type" id="radio_retrait" value="Retrait" />
+                                                            <label class="form-check-label" for="radio_femme">Retrait</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class='mb-1'><small id='typeHelp' class='text-danger invisible'></small></div>
+                                            </div>                                                                        
+                                       
+                                       <div>
+                                           <label class='form-label' for='compte_contribuable'>N° Destinataire</label>
+                                           <input type='tel' class='form-control dt-full-compte_contribuable' id='tel_cli' name='tel_cli' placeholder="Veuillez saisir le numéro du client" aria - Label='compte_contribuable' maxlength='75' />
+                                       </div>
+                                       <div class='mb-1'><small id='tel_cliHelp' class='text-danger invisible'></small></div>
+                                     
+                                   
                                        <div>
                                            <label class='form-label' for='nom_prenom'>Montant </label>
                                            <input type='text' class='form-control dt-full-nom_prenom' id='montant' name='montant' placeholder='Montant' aria - Label='nom_prenom' maxlength='75' />
                                        </div>
                                        <div class='mb-1'><small id='montantHelp' class='text-danger invisible'></small></div>
-
-                                       <!--- NUMERO --->
-                                       <div>
-                                           <label class='form-label' for='numero_telephone'>Client</label>
-                                           <input type='text' class='form-control dt-full-numero_telephone' id='client' name='client' placeholder='Nom complet du destinataire' aria - Label='numero_telephone' maxlength='75' />
-                                       </div>
-                                       <div class='mb-1'><small id='clientHelp' class='text-danger invisible'></small></div>
-                                       <!--- DOMICILE --->
-                                       <div>
-                                           <label class='form-label' for='etablie_le'>Date</label>
-                                           <input type='text' class='form-control dt-full-etablie_le' id='date_t' name='date_t' placeholder='La date' aria - Label='etablie_le' maxlength='75' />
-                                       </div>
-                                       <div class='mb-1'><small id='date_tHelp' class='text-danger invisible'></small></div>
-                                       <!-- COMPTE -->
-                                       <div>
-                                           <label class='form-label' for='compte_contribuable'>N° Client</label>
-                                           <input type='tel' class='form-control dt-full-compte_contribuable' id='tel_cli' name='tel_cli' placeholder="Veuillez saisir le numéro du client" aria - Label='compte_contribuable' maxlength='75' />
-                                       </div>
-                                       <div class='mb-1'><small id='tel_cliHelp' class='text-danger invisible'></small></div>
-
-                                       <!--- EMAIL --->
-                                       <div>
-                                           <label class='form-label' for='email'>Destinataire</label>
-                                           <input type='text' class='form-control dt-email' id='destinataire' name='destinataire' placeholder="Veuillez saisir le nom du destinataire" aria - Label='email' maxlength='75' />
-                                       </div>
-                                       <div class='mb-1'><small id='destinataireHelp' class='text-danger invisible'></small></div>
-
-                                       <!--- FONCTION --->
-                                       <div>
-                                           <label class='form-label' for='compte_contribuable'>N° Destinataire</label>
-                                           <input type='tel' class='form-control dt-full-compte_contribuable' id='tel_dest' name='tel_dest' placeholder="Veuillez saisir le numéro du destinataire" aria - Label='compte_contribuable' maxlength='75' />
-                                       </div>
-                                       <div class='mb-1'><small id='tel_destHelp' class='text-danger invisible'></small></div>
-
+                                     
                                        <!--- ENREGISTREMENT --->
                                        <button type="submit" id='bt_enregistrer' name='bt_enregistrer' class='btn btn-primary enregistrer me-5'>Enregistrer</button>
                                        <button type='reset' id='bt_annuler' name='annuler' class='btn btn-outline-secondary' data-bs-dismiss='modal'>Annuler</button>
@@ -174,52 +162,42 @@
                                    </div>
                                    <button type="button" id="bt_vider" name="bt_vider" class="btn" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" class="avatar pull-up my-0" title="Vider les champs" style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
                                        <i data-feather='refresh-ccw'></i></button>
-
-
-                                   <div class="modal-body flex-grow-1">
-
-                                       <!--- NOM ET PRENOM OU RAISON SOCIALE --->
-                                       <div>
-                                           <label class='form-label' for='nom_prenom_modif'>Montant</label>
-                                           <input type='text' class='form-control dt-full-nom_prenom' id='montant_modif' name='montant_modif' placeholder='Montant' aria - Label='nom_prenom_modif' maxlength='75' />
-                                       </div>
-                                       <div class='mb-1'><small id='montant_modifHelp' class='text-danger invisible'></small></div>
-
-                                       <!--- NUMERO --->
-                                       <div>
-                                           <label class='form-label' for='numero_telephone_modif'>Client</label>
-                                           <input type='text' class='form-control dt-full-numero_telephone' id='client_modif' name='client_modif' placeholder='Nom complet du locataire' aria - Label='numero_telephone_modif' maxlength='75' />
-                                       </div>
-                                       <div class='mb-1'><small id='client_modifHelp' class='text-danger invisible'></small></div>
+                                   <div class="modal-body flex-grow-1">                                       <!--- NUMERO --->
+                                    
                                        <!--- DOMICILE --->
                                        <div>
                                            <label class='form-label' for='domicile'>Date</label>
                                            <input type='date' class='form-control dt-full-domicile' id='date_t_modif' name='date_t_modif' placeholder='Nom complet du locataire' aria - Label='domicile_modif' maxlength='75' />
                                        </div>
-                                       <div class='mb-1'><small id='date_t_modifHelp' class='text-danger invisible'></small></div>
-
-                                       <div>
-                                           <label class='form-label' for='compte_contribuable_modif'>N° Client</label>
-                                           <input type='tel' class='form-control dt-full-compte_contribuable' id='tel_cli_modif' name='tel_cli_modif' placeholder="Veuillez saisir le numéro téléphone" aria - Label='compte_contribuable_modif' maxlength='75' />
-                                       </div>
-                                       <div class='mb-1'><small id='tel_cli_modifHelp' class='text-danger invisible'></small></div>
-
-                                       <!--- etablie --->
-                                       <div>
-                                           <label class='form-label' for='etablie_le_modif'>Destinataire</label>
-                                           <input type='text' class='form-control dt-full-etablie_le' id='destinataire_modif' name='destinataire_modif' placeholder='Nom complet du locataire' aria - Label='etablie_le_modif' maxlength='75' />
-                                       </div>
-                                       <div class='mb-1'><small id='destinataire_modifHelp' class='text-danger invisible'></small></div>
-
+                                       <div class='mb-1'><small id='date_t_modifHelp' class='text-danger invisible'></small></div>                               
+                                                                    
+                                       
+                                          <div class="row mb-n2 pb-n2">
+                                                    <div class="demo-inline-spacing">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="radio_type_modif" id="radio_depot_modif" checked  value="Dépot" />
+                                                            <label class="form-check-label" for="radio_homme">Dépot</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="radio_type_modif" id="radio_retrait_modif" value="Retrait" />
+                                                            <label class="form-check-label" for="radio_femme">Retrait</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class='mb-1'><small id='type_modifHelp' class='text-danger invisible'></small></div>
+                                            </div>
+                                  
                                        <!-- TELEPHONE -->
                                        <div>
                                            <label class='form-label' for='compte_contribuable_modif'>N° Destinataire</label>
-                                           <input type='tel' class='form-control dt-full-compte_contribuable' id='tel_dest_modif' name='tel_dest_modif' placeholder="Veuillez saisir le numéro téléphone" aria - Label='compte_contribuable_modif' maxlength='75' />
+                                           <input type='tel' class='form-control dt-full-compte_contribuable' id='tel_cli_modif' name='tel_cli_modif' placeholder="Veuillez saisir le numéro téléphone" aria - Label='compte_contribuable_modif' maxlength='75' />
                                        </div>
-                                       <div class='mb-1'><small id='tel_dest_modif' class='text-danger invisible'></small></div>
+                                       <div class='mb-1'><small id='tel_cli_modif' class='text-danger invisible'></small></div>
 
-                                       <!--- EMAIL --->
-
+                                       <div>
+                                           <label class='form-label' for='nom_prenom_modif'>Montant</label>
+                                           <input type='text' class='form-control dt-full-nom_prenom' id='montant_modif' name='montant_modif' placeholder='Montant' aria - Label='nom_prenom_modif' maxlength='75' />
+                                       </div>
+                                       <div class='mb-1'><small id='montant_modifHelp' class='text-danger invisible'></small></div>
 
                                        <!--- FONCTION --->
 
@@ -592,14 +570,14 @@
            $('#bt_enregistrer').on('click', function() {
                // Enregistrez les données actuelles de la table dans la base de données
                saveToDatabase($('#S').DataTable().data().toArray());
-               location.reload();
+               //    location.reload();
                $('#input').val('');
                // window.location.reload();
            });
 
            $('#bt_annuler').on('click', function() {
                // Enregistrez les données actuelles de la table dans la base de données
-               window.location.reload();
+               //    window.location.reload();
            });
 
            function saveToDatabase(data) {

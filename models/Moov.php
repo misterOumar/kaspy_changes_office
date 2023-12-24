@@ -11,14 +11,11 @@
  */
 class moov
 {
-    public $id;
-    public $montant;
+    public $id; 
     public $date;
-    public $client;
-    public $telephone_client;
-    public $destinataire;
-    public $telephone_destinataire;
-
+    public $type_operation;
+    public $telephone_client;     
+    public $montant;
     public $date_creation;
     public $user_creation;
     public $navigateur_creation;
@@ -47,10 +44,9 @@ class moov
         $this->id = $id;
         $this->montant = $data['montant'];
         $this->date = $data['date'];
-        $this->client = $data['client'];
-        $this->destinataire = $data['destinataire'];
+        $this->type_operation = $data['type_operation'];        
         $this->telephone_client = $data['telephone_client'];
-        $this->telephone_destinataire = $data['telephone_destinataire'];
+     
 
 
         $this->date_creation = $data['date_creation'];
@@ -165,15 +161,15 @@ class moov
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter($montant, $date, $client, $telephone_client, $destinataire, $telephone_destinataire, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
+    static function Ajouter( $date, $type_operation, $telephone_client,  $montant, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
     {
         global $db;
 
         $req = $db->prepare('
-            INSERT INTO moov( montant, date,client, telephone_client,destinataire, telephone_destinataire, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+            INSERT INTO moov( date,type_operation, telephone_client,   montant, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([$montant, $date, $client, $telephone_client, $destinataire, $telephone_destinataire, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([ $date, $type_operation, $telephone_client,   $montant, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 
@@ -213,12 +209,11 @@ class moov
     //     return $req->execute([$montant, $date, $client, $telephone_client, $destinataire, $telephone_destinataire,  $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     // }
     static function Modifier(
-        $montant,
+       
         $date,
-        $client,
+        $type_operation,
         $telephone_client,
-        $destinataire,
-        $telephone_destinataire,
+        $montant,
         $date_modif,
         $user_modif,
         $navigateur_modif,
@@ -229,12 +224,11 @@ class moov
         global $db;
         $req = $db->prepare('
         UPDATE moov SET 
-        montant = ?, 
+       
         date = ?,
-        client = ?,
-        telephone_client = ?, 
-        destinataire = ?,
-        telephone_destinataire = ?,
+        type_operation = ?,    
+        telephone_client =?,
+        montant = ?, 
         date_modif = ?,
         user_modif = ?, 
         navigateur_modif = ?,
@@ -244,9 +238,9 @@ class moov
     ');
 
         return $req->execute([
-            $montant, $date, $client,
-            $telephone_client, $destinataire,
-            $telephone_destinataire, $date_modif, $user_modif,
+             $date, $type_operation,
+            $telephone_client,$montant,
+            $date_modif, $user_modif,
             $navigateur_modif, $ordinateur_modif, $ip_modif, $id
         ]);
     }

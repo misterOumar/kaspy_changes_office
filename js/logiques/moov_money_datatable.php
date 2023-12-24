@@ -11,12 +11,10 @@
                     .add({
                         responsive_id: champ_bd.id,
                         id: champ_bd.id,
-                        montant: champ_bd.montant,
                         date: champ_bd.date,
-                        client: champ_bd.client,
+                        type_operation: champ_bd.type_operation,
                         telephone_client: champ_bd.telephone_client,
-                        destinataire: champ_bd.destinataire,
-                        telephone_destinataire: champ_bd.telephone_destinataire,
+                        montant: champ_bd.montant,
                     })
                     .draw();
             })
@@ -31,7 +29,7 @@
         //Construction des colonnes de la datatable
         if (dt_basic_table.length) {
             var dt_basic = dt_basic_table.DataTable({
-                columns: [{
+                columns: [ {
                         data: 'responsive_id'
                     },
                     {
@@ -41,23 +39,19 @@
                         data: 'id'
                     },
                     // used for sorting so will hide this column
-                    {
-                        data: 'montant'
-                    },
+                   
                     {
                         data: 'date'
                     },
                     {
-                        data: 'client'
+                        data: 'type_operation'
                     },
                     {
                         data: 'telephone_client'
                     },
+                    
                     {
-                        data: 'destinataire'
-                    },
-                    {
-                        data: 'telephone_destinataire'
+                        data: 'montant'
                     },
 
                     {
@@ -103,8 +97,8 @@
                         responsivePriority: 1,
                         render: function(data, type, full, meta) {
                             var $user_img = full['avatar'],
-                                $libelle = full['client'],
-                                $duree = full['montant'];
+                                $libelle = full['date'],
+                                $duree = full['date'];
                             if ($user_img) {
                                 // For Avatar image
                                 var $output =
@@ -114,7 +108,7 @@
                                 var stateNum = full['status'];
                                 var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
                                 var $state = states[stateNum],
-                                    $libelle = full['montant'],
+                                    $libelle = full['date'],
                                     $initials = $libelle.match(/\b\w/g) || [];
                                 $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
                                 $output = '<span class="avatar-content">' + $initials + '</span>';
@@ -131,7 +125,7 @@
                                 '</div>' +
                                 '<div class="d-flex flex-column">' +
                                 '<span class="emp_nom text-truncate fw-bold">' +
-                                $libelle + ' ' + 'FCFA' +
+                                $libelle + ' ' +  
                                 '</span>' +
                                 '</div>' +
                                 '</div>';
@@ -263,23 +257,6 @@
                         }
                     },
                     {
-                        text: feather.icons['download'].toSvg({
-                            class: 'me-50 font-small-4'
-                        }) + 'importer un fichier',
-                        className: 'btn btn-outline-secondary',
-                        attr: {
-                            'id': 'bt_importer',
-                            'name': 'bt_importer',
-                            'data-bs-toggle': 'modal',
-                            'data-bs-target': '#modal-import'
-                        },
-                        style: {
-                            'margin-right': '10px' // Ajoutez la marge à droite
-                        },
-                        init: function(api, node, config) {
-                            $(node).removeClass('btn-success');
-                        }
-                    }, {
                         text: feather.icons['plus'].toSvg({
                             class: 'me-50 font-small-4'
                         }) + 'Ajouter nouveau',
@@ -350,11 +327,11 @@
         // MODIFIER UN ELEMENT
         $('#form_ajouter').on('submit', function(e) {
             var $new_montant = $('#montant').val(),
-                $new_client = $('#client').val(),
+         new_type_op = $("input[name='radio_type']:checked").val(),
                 $new_date_t = $('#date_t').val(),
-                $new_destinataire = $('#destinataire').val(),
-                $new_tel_cli = $('#tel_cli').val(),
-                $new_tel_dest = $('#tel_dest').val();
+            
+                $new_tel_cli = $('#tel_cli').val();
+                 
             e.preventDefault()
 
             if ($new_montant != '') {
@@ -383,6 +360,9 @@
                         if (donnee['success'] === 'true') {
                             $('#montant').val("");
                             $('#montantHelp').html("").addClass('invisible');
+                            $('#tel_cli').val("");
+                            $('#tel_cliHelp').html("").addClass('invisible');
+                           
 
                             // MESSAGE ALERT
                             swal_Alert_Sucess(donnee['message'])
@@ -406,10 +386,8 @@
                                                 id: last_id,
                                                 montant: $new_montant,
                                                 date: $new_date_t,
-                                                client: $new_client,
-                                                telephone_client: $new_tel_cli,
-                                                destinataire: $new_destinataire,
-                                                telephone_destinataire: $new_tel_dest,
+                                                type_operation: $new_type_op,
+                                                telephone_client: $new_tel_cli,                                             
                                                 status: 5
 
                                             })
@@ -449,10 +427,9 @@
                         $('#idModif').val(transaction['id']);
                         $('#montant_modif').val(transaction['montant']);
                         $('#date_t_modif').val(transaction['date']);
-                        $('#client_modif').val(transaction['client']);
+                        $('#radio_type_modif').val(transaction['type_operation']);
                         $('#tel_cli_modif').val(transaction['telephone_client']);
-                        $('#destinataire_modif').val(transaction['destinataire']);
-                        $('#tel_dest_modif').val(transaction['telephone_destinataire']);
+                      
 
                     }
                 }
@@ -466,7 +443,7 @@
             //--------------- Confirm Options SWEET ALERT ---------------
             Swal.fire({
                 title: 'Voulez vous vraiment supprimer ?',
-                text: 'la transaction de < ' + (dt_basic.row($(this).parents('tr')).data().client) + ' :' + (dt_basic.row($(this).parents('tr')).data().montant) +
+                text: 'la transaction de < ' + (dt_basic.row($(this).parents('tr')).data().telephone_client) + ' :' + (dt_basic.row($(this).parents('tr')).data().montant) +
                     '> sera supprimé définitivement',
                 icon: 'warning',
                 showCancelButton: true,
@@ -482,7 +459,7 @@
                     Swal.fire({
                         icon: 'success',
                         title: 'Suppression éffectuée !',
-                        text: "'la transaction de  " + (dt_basic.row($(that).parents('tr')).data().client) + " ' a été supprimée avec succès.",
+                        text: "'la transaction de  " + (dt_basic.row($(that).parents('tr')).data().telephone_client) + " ' a été supprimée avec succès.",
                         showConfirmButton: false,
                         timer: 1300,
                         customClass: {

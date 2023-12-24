@@ -227,14 +227,13 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
     <!-- <?php include 'js/flatpick_fr.js' ?>
      -->
-    <?php include 'js/logiques/type_carte_datatable.php' ?>
-    <?php include 'js/logiques/type_carte_logiques.php' ?>
+
     <?php include 'js/logiques/upload_western_union_logique.php' ?>
     <?php include("views/components/alerts.php") ?>
 
 
 
-    <script>
+    <!-- <script>
         // Configuration de Dropzone
         Dropzone.options.dpzSingleFile = {
             paramName: "file", // Le nom du paramètre qui contient le fichier dans la requête HTTP
@@ -441,7 +440,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
             });
 
         });
-    </script>
+    </script> -->
 
     <script>
         $(document).ready(function() {

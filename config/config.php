@@ -52,4 +52,4 @@ define("DATABASE_PASSWORD", "KASPY77");
 
 
 // API REST informations
-define("API_HOST", "http://localhost/kaspy_chnages_office");
+define("API_HOST", "http://localhost/kaspy_changes_office");

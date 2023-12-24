@@ -17,6 +17,7 @@ class cartes
     public $date_expiration;
     public $type_carte;
     public $duree;
+    public $status;
     public $date_creation;
     public $user_creation;
     public $navigateur_creation;
@@ -46,6 +47,7 @@ class cartes
         $this->date_expiration = $data['date_expiration'];
         $this->type_carte = $data['type_carte'];
         $this->duree = $data['duree'];
+        $this->status = $data['status'];
         $this->date_creation = $data['date_creation'];
         $this->user_creation = $data['user_creation'];
         $this->navigateur_creation = $data['navigateur_creation'];
@@ -83,7 +85,22 @@ class cartes
         $req->execute([]);
         return $req->fetchAll();
     }
+    
+    static function Carte_Nvendues()
+    {
+        global $db;
+        $req = $db->prepare("SELECT * FROM cartes  WHERE status = 0 ");
+        $req->execute([]);
+        return $req->fetchAll();
+    }
 
+    static function Nb_carte()
+    {
+        global $db;
+        $req = $db->prepare('SELECT  COUNT(*) FROM cartes');
+        $req->execute();
+        return $req->fetchColumn();
+    }
 
     /**
      * Méthode pour récupérer un(e) cartes en fonction de son id.
@@ -200,6 +217,7 @@ class cartes
         $date_expiration,
         $type_carte,
         $duree,
+        $status,
         $date_creation,
         $user_creation,
         $navigateur_creation,
@@ -213,10 +231,10 @@ class cartes
     ) {
         global $db;
         $req = $db->prepare('
-            INSERT INTO cartes(customer_id,date_activation,date_expiration, type_carte , duree,  date_creation,user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(?, ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+            INSERT INTO cartes(customer_id,date_activation,date_expiration, type_carte , duree, status ,   date_creation,user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(?, ?,?,?,?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([$customer_id, $date_activation, $date_expiration, $type_carte, $duree, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$customer_id, $date_activation, $date_expiration, $type_carte, $duree, $status , $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 
@@ -243,13 +261,13 @@ class cartes
      * @return bool
      */
 
-
     static function Modifier(
         $customer_id,
         $date_activation,
         $date_expiration,
         $type_carte,
         $duree,
+        $status , 
         $date_modif,
         $user_modif,
         $navigateur_modif,
@@ -259,15 +277,33 @@ class cartes
     ) {
         global $db;
         $req = $db->prepare('
-            UPDATE cartes SET cartes = ?,  customer_id=?,date_activation=?,
-            date_expiration=?,type_carte=? ,duree = ?, date_modif = ?,
+            UPDATE cartes SET   customer_id=?,date_activation=?,
+            date_expiration=?,type_carte=? ,duree = ?, status = ? ,  date_modif = ?,
              user_modif = ?, navigateur_modif = ?,
               ordinateur_modif = ?,
                ip_modif = ? WHERE id= ?
         ');
-        return $req->execute([$customer_id, $date_activation, $date_expiration, $type_carte, $duree,   $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
+        return $req->execute([$customer_id, $date_activation, $date_expiration, $type_carte, $duree, $status , $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     }
 
+
+    static function Carte_vendue(
+        $customer_id,
+        $date_modif,
+        $user_modif,
+        $navigateur_modif,
+        $ordinateur_modif,
+        $ip_modif,
+    ) {
+        global $db;
+        $req = $db->prepare('
+            UPDATE cartes SET   status = ? ,   date_modif = ?,
+             user_modif = ?, navigateur_modif = ?,
+              ordinateur_modif = ?,
+               ip_modif = ? WHERE customer_id= ?
+        ');
+        return $req->execute([1, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $customer_id ]);
+    }
 
     //||**********************************||
     //||----------- SUPPRESSIONS ---------||

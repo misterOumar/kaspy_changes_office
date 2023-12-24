@@ -1,4 +1,4 @@
-<?php
+ <?php
 //||******************************************************||
 //||----------------- Kaspy Web Framework ----------------||
 //||--- kaspy corporation, We're developing the future ---||
@@ -7,17 +7,19 @@
 
 
 /**
- * Class orange - Représente un(e) orange
+ * Class vente_carte - Représente un(e) vente_carte
  */
-class orange
+class vente_carte
 {
     public $id;
- 
-    public $date;
-    public $type_operation;
-    public $telephone_client;     
     public $montant;
-
+    public $client;
+    public $telephone;
+    public $carte;
+    public $numero_carte;
+    public $prix_unitaire;
+    public $quantite;
+    public $date;
     public $date_creation;
     public $user_creation;
     public $navigateur_creation;
@@ -30,7 +32,7 @@ class orange
     public $ip_modif;
 
     /**
-     * orange constructor.
+     * vente_carte constructor.
      *
      * @param $id
      */
@@ -39,18 +41,19 @@ class orange
         global $db;
         $id = strSecur($id);
 
-        $req = $db->prepare('SELECT * FROM orange WHERE id = ?');
+        $req = $db->prepare('SELECT * FROM vente_carte WHERE id = ?');
         $req->execute([$id]);
         $data = $req->fetch();
 
         $this->id = $id;
         $this->montant = $data['montant'];
+        $this->client = $data['client'];
+        $this->telephone = $data['telephone']; 
+        $this->carte = $data['carte'];
+        $this->numero_carte = $data['numero_carte'];
+        $this->prix_unitaire = $data['prix_unitaire'];
+        $this->quantite = $data['quantite'];
         $this->date = $data['date'];
-        $this->type_operation = $data['type_operation'];        
-        $this->telephone_client = $data['telephone_client'];
-     
-
-
         $this->date_creation = $data['date_creation'];
         $this->user_creation = $data['user_creation'];
         $this->navigateur_creation = $data['navigateur_creation'];
@@ -68,21 +71,25 @@ class orange
         //||**********************************||
     }
 
+
+
+
+
     /**
-     * Renvoi la liste des orange.
+     * Renvoi la liste des vente_carte.
      *
      * @return array
      */
     static function getAll()
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM orange ORDER BY id");
+        $req = $db->prepare("SELECT * FROM vente_carte ORDER BY id");
         $req->execute([]);
         return $req->fetchAll();
     }
 
     /**
-     * Méthode pour récupérer un(e) orange en fonction de son id.
+     * Méthode pour récupérer un(e) vente_carte en fonction de son id.
      *
      * @param $id
      * @return mixed
@@ -90,26 +97,26 @@ class orange
     static function getByID($id)
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM orange WHERE id = ?");
+        $req = $db->prepare("SELECT * FROM vente_carte WHERE id = ?");
         $req->execute([$id]);
         return $req->fetch();
     }
 
     /**
-     * Méthode de récupération du dernier element de la table orange.
+     * Méthode de récupération du dernier element de la table vente_carte.
      *
      * @return mixed
      */
     static function getLast()
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM orange  ORDER BY ID DESC LIMIT 1");
+        $req = $db->prepare("SELECT * FROM vente_carte  ORDER BY ID DESC LIMIT 1");
         $req->execute([]);
         return $req->fetch();
     }
 
     /**
-     * Méthode de récupération du nombre d'enregistrement de la table orange.
+     * Méthode de récupération du nombre d'enregistrement de la table vente_carte.
      *
      * @param $
      * @return mixed
@@ -117,13 +124,13 @@ class orange
     static function getCount()
     {
         global $db;
-        $req = $db->prepare("SELECT COUNT(*) FROM orange ");
+        $req = $db->prepare("SELECT COUNT(*) FROM vente_carte ");
         $req->execute([]);
         return $req->fetch()[0];
     }
 
     /**
-     * Méthode de récupération de orange en fonction du nom_prenom.
+     * Méthode de récupération de vente_carte en fonction du nom_prenom.
      *
      * @param $nom_prenom
      * @return mixed
@@ -131,7 +138,7 @@ class orange
     static function getByClient($client)
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM orange WHERE client = ?");
+        $req = $db->prepare("SELECT * FROM vente_carte WHERE client = ?");
         $req->execute([$client]);
         return $req->fetch();
     }
@@ -140,7 +147,7 @@ class orange
     //||------------ INSERTIONS ------------||
     //||**********************************||
     /**
-     * Méthode pour insérer un(e) orange en base de données.
+     * Méthode pour insérer un(e) vente_carte en base de données.
      *
      * @param $nom_prenom
      * @param $numero_telephone
@@ -163,15 +170,48 @@ class orange
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter( $date, $type_operation, $telephone_client,  $montant, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
-    {
+    static function Ajouter(
+        $montant,
+        $client,
+        $telephone,         
+        $carte,
+        $numero_carte,
+        $prix_unitaire,
+        $quantite,
+        $date,
+        $date_creation,
+        $user_creation,
+        $navigateur_creation,
+        $ordinateur_creation,
+        $ip_creation,
+        $date_modif,
+        $user_modif,
+        $navigateur_modif,
+        $ordinateur_modif,
+        $ip_modif
+    ) {
         global $db;
 
         $req = $db->prepare('
-            INSERT INTO orange( date,type_operation, telephone_client,   montant, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+            INSERT INTO vente_carte( montant,client,telephone,  carte, numero_carte,prix_unitaire,
+             quantite, date,  date_creation, user_creation,
+              navigateur_creation, ordinateur_creation, ip_creation,
+               date_modif, user_modif, navigateur_modif,
+                ordinateur_modif, ip_modif) 
+            VALUES( ?,?, ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([ $date, $type_operation, $telephone_client,   $montant, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([
+            $montant,
+            $client,
+            $telephone,         
+            $carte,
+            $numero_carte,
+            $prix_unitaire, $quantite,  $date,
+            $date_creation, $user_creation, $navigateur_creation,
+            $ordinateur_creation, $ip_creation, $date_modif,
+            $user_modif, $navigateur_modif,
+            $ordinateur_modif, $ip_modif
+        ]);
     }
 
 
@@ -179,7 +219,7 @@ class orange
     //||---------- MODIFICATIONS ----------||
     //||**********************************||
     /**
-     * Méthode pour modifier un(e) orange en base de données.
+     * Méthode pour modifier un(e) vente_carte en base de données.
      *
      * @param $nom_prenom
      * @param $numero_telephone
@@ -202,20 +242,23 @@ class orange
      * @param $ip_modif
      * @return bool
      */
-    // static function Modifier($montant, $date, $client, $telephone_client, $destinataire, $telephone_destinataire,  $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id)
+    // static function Modifier($date, $date, $client, $carte, $prix_unitaire, $quantite,  $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id)
     // {
     //     global $db;
     //     $req = $db->prepare('
-    //         UPDATE orange SET montant = ?, client= ?, telephone_client = ?, destinataire = ?,telephone_destinataire =? date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
+    //         UPDATE vente_carte SET montant = ?, client= ?, carte = ?, prix_unitaire = ?,quantite =? date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
     //     ');
-    //     return $req->execute([$montant, $date, $client, $telephone_client, $destinataire, $telephone_destinataire,  $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
+    //     return $req->execute([$date, $date, $client, $carte, $prix_unitaire, $quantite,  $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     // }
     static function Modifier(
-       
-        $date,
-        $type_operation,
-        $telephone_client,
         $montant,
+        $client,
+        $telephone,   
+        $carte,
+        $numero_carte,
+        $prix_unitaire,
+        $quantite,
+        $date,
         $date_modif,
         $user_modif,
         $navigateur_modif,
@@ -225,12 +268,15 @@ class orange
     ) {
         global $db;
         $req = $db->prepare('
-        UPDATE orange SET 
-       
+        UPDATE vente_carte SET    
+          montant = ?,        
+        client = ?,
+        telephone = ?,       
+        carte = ?, 
+        numero_carte = ?,
+        prix_unitaire = ?,
+        quantite = ?,
         date = ?,
-        type_operation = ?,    
-        telephone_client =?,
-        montant = ?, 
         date_modif = ?,
         user_modif = ?, 
         navigateur_modif = ?,
@@ -240,9 +286,14 @@ class orange
     ');
 
         return $req->execute([
-             $date, $type_operation,
-            $telephone_client,$montant,
-            $date_modif, $user_modif,
+            $montant,
+            $client,
+            $telephone,            
+            $carte, 
+            $numero_carte, 
+            $prix_unitaire,
+            $quantite,
+            $date, $date_modif, $user_modif,
             $navigateur_modif, $ordinateur_modif, $ip_modif, $id
         ]);
     }
@@ -253,7 +304,7 @@ class orange
     //||**********************************||
 
     /**
-     * Méthode pour supprimer un(e) orange
+     * Méthode pour supprimer un(e) vente_carte
      *
      * @param $id
      * @return bool
@@ -261,7 +312,7 @@ class orange
     static function Supprimer($id)
     {
         global $db;
-        $req = $db->prepare('DELETE FROM orange WHERE id= ?');
+        $req = $db->prepare('DELETE FROM vente_carte WHERE id= ?');
         return $req->execute([$id]);
     }
 }

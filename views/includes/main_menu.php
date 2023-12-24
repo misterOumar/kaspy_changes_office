@@ -36,20 +36,39 @@
 
             <li class=" navigation-header" style="margin-top:15px;"><span data-i18n="Apps &amp; Pages">COMPTABILITE</span><i data-feather="more-horizontal"></i>
             </li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="sliders"></i><span class="menu-title text-truncate" data-i18n="Invoice">Transactions</span></a>
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="credit-card"></i><span class="menu-title text-truncate" data-i18n="Invoice">Transactions</span></a>
                 <ul class="menu-content">
 
-
-                    <li class="<?= $_GET['page'] === 'changes' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=changes"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Changes</span></a>
-                    </li>
-                    <?php if (intval($_SESSION['KaspyISS_user_details'][4]['lecture']) === 1) { ?>
-                        <li class="<?= $_GET['page'] === 'orange_money' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=orange_money"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Orange money</span></a>
+                    <?php if (intval($_SESSION['KaspyISS_user_details'][10]['lecture']) === 1) { ?>
+                        <li class="<?= $_GET['page'] === 'upload_ria' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=upload_ria"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">RIA</span></a>
                         </li>
                     <?php
                     }; ?>
-                    <li class="<?= $_GET['page'] === 'money_gram' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=money_gram"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Money Gram</span></a>
+                 <?php if (intval($_SESSION['KaspyISS_user_details'][9]['lecture']) === 1) { ?>
+                        <li class="<?= $_GET['page'] === 'upload_western_union' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=upload_western_union"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Wersten Union</span></a>
+                        </li>
+                    <?php
+                    }; ?>
+              <li class="<?= $_GET['page'] === 'money_gram' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=money_gram"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Money Gram</span></a>
                     </li>
 
+                   
+                    <?php if (intval($_SESSION['KaspyISS_user_details'][4]['lecture']) === 1) { ?>
+                        <li class="<?= $_GET['page'] === 'orange_money' ? "active" : "" ?>">
+                        <a class="d-flex align-items-center" href="index.php?page=orange_money"><i data-feather="circle"></i>
+                        <span class="menu-item text-truncate" data-i18n="List">Orange money</span></a>
+                        </li>
+
+                    <?php
+                    }; ?>
+
+
+                    <?php if (intval($_SESSION['KaspyISS_user_details'][5]['lecture']) === 1) { ?>
+                        <li class="<?= $_GET['page'] === 'moov_money' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=moov_money"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List"> MOOV money</span></a>
+                        </li>
+                    <?php
+                    }; ?>
+                   
                     <?php if (intval($_SESSION['KaspyISS_user_details'][5]['lecture']) === 1) { ?>
                         <li class="<?= $_GET['page'] === 'mtn_money' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=mtn_money"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List"> MTN money</span></a>
                         </li>
@@ -59,23 +78,16 @@
 
 
 
-                    <?php if (intval($_SESSION['KaspyISS_user_details'][8]['lecture']) === 1) { ?>
-                        <li class="<?= $_GET['page'] === 'type_batiment' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=uba"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">UBA</span></a>
+                    <!-- <?php if (intval($_SESSION['KaspyISS_user_details'][8]['lecture']) === 1) { ?>
+                        <li class="<?= $_GET['page'] === 'carte' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=carte"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">cartes Visa</span></a>
                         </li>
                     <?php
-                    }; ?>
+                    }; ?> -->
 
-                    <?php if (intval($_SESSION['KaspyISS_user_details'][9]['lecture']) === 1) { ?>
-                        <li class="<?= $_GET['page'] === 'upload_western_union' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=upload_western_union"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Wersten Union</span></a>
-                        </li>
-                    <?php
-                    }; ?>
+<li class="<?= $_GET['page'] === 'changes' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=changes"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Changes</span></a>
+                    </li>
 
-                    <?php if (intval($_SESSION['KaspyISS_user_details'][10]['lecture']) === 1) { ?>
-                        <li class="<?= $_GET['page'] === 'upload_ria' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=upload_ria"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">RIA</span></a>
-                        </li>
-                    <?php
-                    }; ?>
+                 
 
                 </ul>
             </li>
@@ -104,11 +116,6 @@
 
                 </ul>
             </li>
-
-
-
-
-
 
 
             <?php if (intval($_SESSION['KaspyISS_user_details'][2]['lecture']) === 1) { ?>
@@ -140,7 +147,7 @@
 
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="user-check"></i><span class="menu-title text-truncate" data-i18n="Invoice">Utilisateurs</span></a>
                 <ul class="menu-content">
-                    <!-- <li class="<?= $_GET['page'] === 'droits_access' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=droits_access"><i data-feather="shield"></i><span class="menu-item text-truncate" data-i18n="List">Droits d'accès</span></a> -->
+                    <li class="<?= $_GET['page'] === 'role_permission' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=role_permission"><i data-feather="shield"></i><span class="menu-item text-truncate" data-i18n="List">Droits d'accès</span></a>  
             </li>
 
             <?php if (intval($_SESSION['KaspyISS_user_details'][12]['lecture']) === 1) { ?>
@@ -154,11 +161,11 @@
         <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="monitor"></i><span class="menu-title text-truncate" data-i18n="Invoice">Application</span></a>
             <ul class="menu-content">
 
-                <!-- <?php if (intval($_SESSION['KaspyISS_user_details'][14]['lecture']) === 1) { ?>
+                 <?php if (intval($_SESSION['KaspyISS_user_details'][14]['lecture']) === 1) { ?>
                        <li class="<?= $_GET['page'] === 'reglages' ? "active" : "" ?>"><a class="d-flex align-items-center" href="app-invoice-list.html"><i data-feather="settings"></i><span class="menu-item text-truncate" data-i18n="List">Réglages</span></a>
                        </li>
                    <?php
-                        }; ?> -->
+                        }; ?>  
 
                 <?php if (intval($_SESSION['KaspyISS_user_details'][15]['lecture']) === 1) { ?>
                     <li class="<?= $_GET['page'] === 'logo_pied_page' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=logo_pied_page"><i data-feather="package"></i><span class="menu-item text-truncate" data-i18n="List">Logo et

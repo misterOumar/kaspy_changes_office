@@ -2,22 +2,18 @@
 <link rel="stylesheet" href="css/drop_menu_etats.css" />
 
 <!-- BEGIN: Header-->
-<nav
-    class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
+<nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
     <div class="navbar-container d-flex content">
 
         <div class="bookmark-wrapper d-flex align-items-center">
             <ul class="nav navbar-nav d-xl-none">
-                <li class="nav-item"><a class="nav-link menu-toggle" href="#"><i class="ficon"
-                            data-feather="menu"></i></a></li>
+                <li class="nav-item"><a class="nav-link menu-toggle" href="#"><i class="ficon" data-feather="menu"></i></a></li>
             </ul>
         </div>
 
-
         <div class="navbar-nav align-items-center navbar-expand">
             <div class="">
-                <a class="btn btn-flat-primary dropdown-toggl d-sm-inline-block d-none" id="dropdownMenuButton100"
-                    data-bs-toggle="dropdown" aria-expanded="false" style="left:-5px">
+                <a class="btn btn-flat-primary dropdown-toggl d-sm-inline-block d-none" id="dropdownMenuButton100" data-bs-toggle="dropdown" aria-expanded="false" style="left:-5px">
                     Fichier
                 </a>
 
@@ -29,46 +25,41 @@
             </div>
             <div class="">
                 <li class="nav-item drop-down01">
-                    <a class="btn btn-flat-primary dropdown-toggl" id="dropdownMenuButton100" data-bs-toggle="dropdown"
-                        aria-expanded="false" style="left:-20px">
+                    <a class="btn btn-flat-primary dropdown-toggl" id="dropdownMenuButton100" data-bs-toggle="dropdown" aria-expanded="false" style="left:-20px">
                         Etats
                     </a>
                     <ul class="dropdown-menu sub-menu01" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="javascript:void(0)" data-bs-target="#JournalRecouvrement"
-                                data-bs-toggle="modal" class="stretched-link text-nowrap add-new-role"><i
-                                    class="fas fa-file-alt mr-2"> </i> Journal des recouvrements </a></li>
-                        <li><a class="dropdown-item" href="etats/EtatListeBatiments.php" target="_blank"><i
-                                    class="fas fa-file-alt mr-2"> </i> Liste des batiments</a></li>
-                        <li><a class="dropdown-item" href="etats/EtatListeAppartement.php" target="_blank"><i
-                                    class="fas fa-file-alt mr-2"> </i> Liste des appartements</a></li>
-                        <li><a class="dropdown-item" href="etats/EtatListeLocataires.php" target="_blank"><i
-                                    class="fas fa-file-alt mr-2"> </i> Liste des locataires</a></li>
-                        <li><a class="dropdown-item" href="etats/EtatListeRecouvreurs.php" target="_blank"><i
-                                    class="fas fa-file-alt mr-2"> </i> Liste des recouvreur</a></li>
-                        <li><a class="dropdown-item" href="etats/EtatListeProprietaires.php" target="_blank"><i
-                                    class="fas fa-file-alt mr-2"> </i> Liste des proprietaires</a></li>
+
+                        <li><a class="dropdown-item" href="etats/EtatListeOrange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions orange money</a></li>
+
+                        <li><a class="dropdown-item" href="etats/EtatListeMoov.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions moov money</a></li>
+
+                        <li><a class="dropdown-item" href="etats/EtatListeMtn.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions mtn money</a></li>
+
+                        <li><a class="dropdown-item" href="etats/EtatListeVenteCarte.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Liste des ventes de cartes</a> </li>
+                        <li><a class="dropdown-item" href="etats/EtatListeChange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Liste des échanges</a> </li>
+                                <li><a class="dropdown-item" href="etats/EtatListeCarte.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Liste des cartes</a> </li>
+
                         <div class="dropdown-divider"></div>
 
-                        <li class="nav-item dropdown drop-down02">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                        <!-- <li class="nav-item dropdown drop-down02">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 Etats listes <i class="fas fa-chevron-right"> </i>
                             </a>
-                            <ul class="dropdown-menu sub-menu02" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="javascript:void(0)"
-                                        data-bs-target="#batitmentParproprietaire" data-bs-toggle="modal"
-                                        class="stretched-link text-nowrap add-new-role"><i class="fas fa-file-alt mr-2"
-                                            style="color: #7367f0;"> </i>Liste des batiments par proprietaire</a></li>
+                            <ul class="dropdown-menu sub-menu02" aria-labelledby="navbarDropdown"> -->
+                                <!-- <li><a class="dropdown-item" href="etats/EtatListeChange.php" data-bs-target="#batitmentParproprietaire" data-bs-toggle="modal" class="stretched-link text-nowrap add-new-role"><i class="fas fa-file-alt mr-2" style="color: #7367f0;"> </i></a></li> -->
                                 <!-- <li><a class="dropdown-item" href="javascript:void(0)" data-bs-target="#Reporting" data-bs-toggle="modal" class="stretched-link text-nowrap add-new-role"><i class="fas fa-file-alt mr-2" style="color: #7367f0;"> </i>Liste des appartements par locataire</a></li> -->
-                            </ul>
-                        </li>
+                            <!-- </ul> -->
+                        <!-- </li> -->
                     </ul>
                 </li>
             </div>
 
             <div class="">
-                <a class="btn btn-flat-primary" id="dropdownMenuButton600" data-bs-toggle="dropdown"
-                    aria-expanded="false" style="left:-20px">
+                <a class="btn btn-flat-primary" id="dropdownMenuButton600" data-bs-toggle="dropdown" aria-expanded="false" style="left:-20px">
                     ?
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton600">
@@ -76,11 +67,9 @@
                         <i class="fas fa-info-circle mr-2"> </i>
                         <?= "A propos de " . APP_NAME ?>
                     </a>
-
                     <a href="#" class="dropdown-item">
                         <i class="fas fa-question-circle mr-2"> </i> Aide
                     </a>
-
                     <div class="dropdown-divider"></div>
                     <a href="#licenceModal" class="dropdown-item" data-toggle="modal">
                         <i class="fas fa-award mr-2"> </i> Licence d'utilisation
@@ -90,22 +79,17 @@
         </div>
 
         <ul class="nav navbar-nav align-items-center ms-auto">
-            <li id="Dark_Mode" class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon"
-                        data-feather="moon"></i></a></li>
-            <li class="nav-item nav-search"><a class="nav-link nav-link-search"><i class="ficon"
-                        data-feather="search"></i></a>
+            <li id="Dark_Mode" class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon" data-feather="moon"></i></a></li>
+            <li class="nav-item nav-search"><a class="nav-link nav-link-search"><i class="ficon" data-feather="search"></i></a>
                 <div class="search-input">
                     <div class="search-input-icon"><i data-feather="search"></i></div>
-                    <input class="form-control input" type="text" placeholder="  <?= "Explorer " . APP_NAME . "..." ?>"
-                        tabindex="-1" data-search="search">
+                    <input class="form-control input" type="text" placeholder="  <?= "Explorer " . APP_NAME . "..." ?>" tabindex="-1" data-search="search">
                     <div class="search-input-close"><i data-feather="x"></i></div>
                     <ul class="search-list search-list-main"></ul>
                 </div>
             </li>
 
-            <li class="nav-item dropdown dropdown-notification me-25"><a class="nav-link" href="#"
-                    data-bs-toggle="dropdown"><i class="ficon" data-feather="bell"></i><span
-                        class="badge rounded-pill bg-danger badge-up">5</span></a>
+            <li class="nav-item dropdown dropdown-notification me-25"><a class="nav-link" href="#" data-bs-toggle="dropdown"><i class="ficon" data-feather="bell"></i><span class="badge rounded-pill bg-danger badge-up">5</span></a>
                 <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end">
                     <li class="dropdown-menu-header">
                         <div class="dropdown-header d-flex">
@@ -116,9 +100,7 @@
                     <li class="scrollable-container media-list"><a class="d-flex" href="#">
                             <div class="list-item d-flex align-items-start">
                                 <div class="me-1">
-                                    <div class="avatar"><img
-                                            src="../../../app-assets/images/portrait/small/avatar-s-15.jpg" alt="avatar"
-                                            width="32" height="32"></div>
+                                    <div class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-15.jpg" alt="avatar" width="32" height="32"></div>
                                 </div>
                                 <div class="list-item-body flex-grow-1">
                                     <p class="media-heading"><span class="fw-bolder">Congratulation Sam 🎉</span>winner!
@@ -128,9 +110,7 @@
                         </a><a class="d-flex" href="#">
                             <div class="list-item d-flex align-items-start">
                                 <div class="me-1">
-                                    <div class="avatar"><img
-                                            src="../../../app-assets/images/portrait/small/avatar-s-3.jpg" alt="avatar"
-                                            width="32" height="32"></div>
+                                    <div class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-3.jpg" alt="avatar" width="32" height="32"></div>
                                 </div>
                                 <div class="list-item-body flex-grow-1">
                                     <p class="media-heading"><span class="fw-bolder">New message</span>&nbsp;received
@@ -187,8 +167,7 @@
                             <div class="list-item d-flex align-items-start">
                                 <div class="me-1">
                                     <div class="avatar bg-light-warning">
-                                        <div class="avatar-content"><i class="avatar-icon"
-                                                data-feather="alert-triangle"></i></div>
+                                        <div class="avatar-content"><i class="avatar-icon" data-feather="alert-triangle"></i></div>
                                     </div>
                                 </div>
                                 <div class="list-item-body flex-grow-1">
@@ -202,21 +181,15 @@
                             notifications</a></li>
                 </ul>
             </li>
-            <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link"
-                    id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">
                             <?= $_SESSION["KaspyISS_user"]['users'] ?>
                         </span><span class="user-status">
                             <?= $_SESSION["KaspyISS_user"]['type_compte_reel'] ?>
-                        </span></div><span class="avatar"><img class="round"
-                            src="<?= "assets/images/users/" . $_SESSION["KaspyISS_user"]['photo'] ?>" alt="avatar"
-                            height="40" width="40"><span class="avatar-status-online"></span></span>
+                        </span></div><span class="avatar"><img class="round" src="<?= "assets/images/users/" . $_SESSION["KaspyISS_user"]['photo'] ?>" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user"><a class="dropdown-item"
-                        href="index.php?page=profile"><i class="me-50" data-feather="user"></i> Mon profile</a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item" href="index.php?page=entreprise"><i
-                            class="me-50" data-feather="settings"></i> Paramètres</a><a class="dropdown-item"
-                        href="controllers/deconnexion.php?logout=true"><i class="me-50" data-feather="power"></i>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user"><a class="dropdown-item" href="index.php?page=profile"><i class="me-50" data-feather="user"></i> Mon profile</a>
+                    <div class="dropdown-divider"></div><a class="dropdown-item" href="index.php?page=entreprise"><i class="me-50" data-feather="settings"></i> Paramètres</a><a class="dropdown-item" href="controllers/deconnexion.php?logout=true"><i class="me-50" data-feather="power"></i>
                         Déconnexion</a>
                 </div>
             </li>
@@ -227,8 +200,7 @@
     <li class="d-flex align-items-center"><a href="#">
             <h6 class="section-label mt-75 mb-0">Files</h6>
         </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100"
-            href="app-file-manager.html">
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100" href="app-file-manager.html">
             <div class="d-flex">
                 <div class="me-75"><img src="../../../app-assets/images/icons/xls.png" alt="png" height="32"></div>
                 <div class="search-data">
@@ -237,8 +209,7 @@
                 </div>
             </div><small class="search-data-size me-50 text-muted">&apos;17kb</small>
         </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100"
-            href="app-file-manager.html">
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100" href="app-file-manager.html">
             <div class="d-flex">
                 <div class="me-75"><img src="../../../app-assets/images/icons/jpg.png" alt="png" height="32"></div>
                 <div class="search-data">
@@ -247,8 +218,7 @@
                 </div>
             </div><small class="search-data-size me-50 text-muted">&apos;11kb</small>
         </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100"
-            href="app-file-manager.html">
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100" href="app-file-manager.html">
             <div class="d-flex">
                 <div class="me-75"><img src="../../../app-assets/images/icons/pdf.png" alt="png" height="32"></div>
                 <div class="search-data">
@@ -257,8 +227,7 @@
                 </div>
             </div><small class="search-data-size me-50 text-muted">&apos;150kb</small>
         </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100"
-            href="app-file-manager.html">
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100" href="app-file-manager.html">
             <div class="d-flex">
                 <div class="me-75"><img src="../../../app-assets/images/icons/doc.png" alt="png" height="32"></div>
                 <div class="search-data">
@@ -269,43 +238,35 @@
     <li class="d-flex align-items-center"><a href="#">
             <h6 class="section-label mt-75 mb-0">Members</h6>
         </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100"
-            href="app-user-view-account.html">
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="app-user-view-account.html">
             <div class="d-flex align-items-center">
-                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-8.jpg" alt="png"
-                        height="32"></div>
+                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-8.jpg" alt="png" height="32"></div>
                 <div class="search-data">
                     <p class="search-data-title mb-0">John Doe</p><small class="text-muted">UI designer</small>
                 </div>
             </div>
         </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100"
-            href="app-user-view-account.html">
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="app-user-view-account.html">
             <div class="d-flex align-items-center">
-                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="png"
-                        height="32"></div>
+                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="png" height="32"></div>
                 <div class="search-data">
                     <p class="search-data-title mb-0">Michal Clark</p><small class="text-muted">FontEnd
                         Developer</small>
                 </div>
             </div>
         </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100"
-            href="app-user-view-account.html">
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="app-user-view-account.html">
             <div class="d-flex align-items-center">
-                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-14.jpg" alt="png"
-                        height="32"></div>
+                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-14.jpg" alt="png" height="32"></div>
                 <div class="search-data">
                     <p class="search-data-title mb-0">Milena Gibson</p><small class="text-muted">Digital Marketing
                         Manager</small>
                 </div>
             </div>
         </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100"
-            href="app-user-view-account.html">
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="app-user-view-account.html">
             <div class="d-flex align-items-center">
-                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-6.jpg" alt="png"
-                        height="32"></div>
+                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-6.jpg" alt="png" height="32"></div>
                 <div class="search-data">
                     <p class="search-data-title mb-0">Anna Strong</p><small class="text-muted">Web Designer</small>
                 </div>
@@ -313,8 +274,7 @@
         </a></li>
 </ul>
 <ul class="main-search-list-defaultlist-other-list d-none">
-    <li class="auto-suggestion justify-content-between"><a
-            class="d-flex align-items-center justify-content-between w-100 py-50">
+    <li class="auto-suggestion justify-content-between"><a class="d-flex align-items-center justify-content-between w-100 py-50">
             <div class="d-flex justify-content-start"><span class="me-75" data-feather="alert-circle"></span><span>No
                     results found.</span></div>
         </a></li>
@@ -351,7 +311,7 @@
     }
 
     // Gérer le clic sur le bouton Dark Mode
-    $('#Dark_Mode').on('click', function () {
+    $('#Dark_Mode').on('click', function() {
         // Vérifier si le mode sombre est actuellement activé
         if (document.body.classList.contains('dark-mode')) {
             // Désactiver le mode sombre
@@ -361,5 +321,4 @@
             activerDarkMode();
         }
     });
-
 </script>

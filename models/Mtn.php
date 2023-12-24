@@ -12,12 +12,11 @@
 class mtn
 {
     public $id;
-    public $montant;
+ 
     public $date;
-    public $client;
-    public $telephone_client;
-    public $destinataire;
-    public $telephone_destinataire;
+    public $type_operation;
+    public $telephone_client;     
+    public $montant;
 
     public $date_creation;
     public $user_creation;
@@ -47,10 +46,9 @@ class mtn
         $this->id = $id;
         $this->montant = $data['montant'];
         $this->date = $data['date'];
-        $this->client = $data['client'];
-        $this->destinataire = $data['destinataire'];
+        $this->type_operation = $data['type_operation'];        
         $this->telephone_client = $data['telephone_client'];
-        $this->telephone_destinataire = $data['telephone_destinataire'];
+     
 
 
         $this->date_creation = $data['date_creation'];
@@ -80,20 +78,6 @@ class mtn
         global $db;
         $req = $db->prepare("SELECT * FROM mtn ORDER BY id");
         $req->execute([]);
-        return $req->fetchAll();
-    }
-
-
-    /**
-     * Renvoi la liste des mtn.
-     *
-     * @return array
-     */
-    static function getDataByMontantDateClient($montant, $date, $client)
-    {
-        global $db;
-        $req = $db->prepare("SELECT * FROM mtn WHERE montant = ? AND date = ? AND client = ? ");
-        $req->execute([$montant, $date, $client]);
         return $req->fetchAll();
     }
 
@@ -144,11 +128,11 @@ class mtn
      * @param $nom_prenom
      * @return mixed
      */
-    static function getByNom($nom_prenom)
+    static function getByClient($client)
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM mtn WHERE nom_prenom = ?");
-        $req->execute([$nom_prenom]);
+        $req = $db->prepare("SELECT * FROM mtn WHERE client = ?");
+        $req->execute([$client]);
         return $req->fetch();
     }
 
@@ -179,76 +163,16 @@ class mtn
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter(
-        $montant,
-        $date,
-        $client,
-        $telephone_client,
-        $destinataire,
-        $telephone_destinataire,
-
-        $date_creation,
-        $user_creation,
-        $navigateur_creation,
-        $ordinateur_creation,
-        $ip_creation,
-
-        $date_modif,
-        $user_modif,
-
-        $navigateur_modif,
-        $ordinateur_modif,
-        $ip_modif
-    ) {
+    static function Ajouter( $date, $type_operation, $telephone_client,  $montant, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
+    {
         global $db;
 
         $req = $db->prepare('
-        INSERT INTO mtn(
-            montant, 
-            date,
-            client,
-            telephone_client,
-            destinataire, 
-            telephone_destinataire,
-
-            date_creation,
-            user_creation,
-            navigateur_creation, 
-            ordinateur_creation, 
-            ip_creation, 
-
-            date_modif,
-            user_modif, 
-
-            navigateur_modif, 
-            ordinateur_modif, 
-            ip_modif
-        ) 
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
-    ');
-
-        return $req->execute([
-            $montant,
-            $date,
-            $client,
-            $telephone_client,
-            $destinataire,
-            $telephone_destinataire,
-
-            $date_creation,
-            $user_creation,
-            $navigateur_creation,
-            $ordinateur_creation,
-            $ip_creation,
-
-            $date_modif,
-            $user_modif,
-            $navigateur_modif,
-            $ordinateur_modif,
-            $ip_modif
-        ]);
+            INSERT INTO mtn( date,type_operation, telephone_client,   montant, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+        ');
+        return $req->execute([ $date, $type_operation, $telephone_client,   $montant, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
-
 
 
     //||**********************************||
@@ -287,12 +211,11 @@ class mtn
     //     return $req->execute([$montant, $date, $client, $telephone_client, $destinataire, $telephone_destinataire,  $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     // }
     static function Modifier(
-        $montant,
+       
         $date,
-        $client,
+        $type_operation,
         $telephone_client,
-        $destinataire,
-        $telephone_destinataire,
+        $montant,
         $date_modif,
         $user_modif,
         $navigateur_modif,
@@ -303,12 +226,11 @@ class mtn
         global $db;
         $req = $db->prepare('
         UPDATE mtn SET 
-        montant = ?, 
+       
         date = ?,
-        client = ?,
-        telephone_client = ?, 
-        destinataire = ?,
-        telephone_destinataire = ?,
+        type_operation = ?,    
+        telephone_client =?,
+        montant = ?, 
         date_modif = ?,
         user_modif = ?, 
         navigateur_modif = ?,
@@ -318,9 +240,9 @@ class mtn
     ');
 
         return $req->execute([
-            $montant, $date, $client,
-            $telephone_client, $destinataire,
-            $telephone_destinataire, $date_modif, $user_modif,
+             $date, $type_operation,
+            $telephone_client,$montant,
+            $date_modif, $user_modif,
             $navigateur_modif, $ordinateur_modif, $ip_modif, $id
         ]);
     }

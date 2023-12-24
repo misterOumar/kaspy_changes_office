@@ -18,17 +18,15 @@ if (isset($_POST['bt_enregistrer'])) {
     include('../models/Moov.php');
 
     // Récupération des données postés dépuis le formulaire dans les variables respectives
-    $client = strSecur($_POST["client"]);
-    $montant = strSecur($_POST["montant"]);
-    $destinataire = strSecur($_POST["destinataire"]);
-    $tel_cli = strSecur($_POST["tel_cli"]);
-    $tel_dest = strSecur($_POST["tel_dest"]);
+    $type = strSecur($_POST["radio_type"]);
+    $montant = strSecur($_POST["montant"]);    
+    $tel_cli = strSecur($_POST["tel_cli"]);  
     // $date_t = strSecur($_POST["date_t"]);
     $date_t = strSecur($_POST["date_t"]);
     $date_t = date('Y-m-d', strtotime($date_t));
 
     // Déclaration et initialisation des variables d'erreur (e)
-    $e_montant = $e_client  = $e_destinataire = $e_date_t = $e_tel_dest = $e_tel_cli = "";
+    $e_montant = $e_tel_cli = "";
     $succes = true;
 
     // Vérifications
@@ -37,33 +35,15 @@ if (isset($_POST['bt_enregistrer'])) {
         $succes = false;
     }
 
-    if (empty($client)) {
-        $e_client = "Ce champ ne doit pas être vide.";
-        $succes = false;
-    }
-
-
-
-    if (empty($destinataire)) {
-        $e_destinataire = "Ce champ ne doit pas être vide.";
-        $succes = false;
-    }
-
-    if (empty($date_t)) {
-        $e_date_t = "Ce champ ne doit pas être vide.";
-        $succes = false;
-    }
+   
+ 
 
     if (empty($tel_cli)) {
         $e_tel_cli = "Ce champ ne doit pas être vide.";
         $succes = false;
     }
 
-    if (empty($tel_dest)) {
-        $e_tel_dest = "Ce champ ne doit pas être vide.";
-        $succes = false;
-    }
-
+  
 
 
 
@@ -76,12 +56,10 @@ if (isset($_POST['bt_enregistrer'])) {
         $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         $dt = date("Y-m-d H:i:s");
         if (moov::Ajouter(
-            $montant,
             $date_t,
-            $client,
-            $tel_cli,
-            $destinataire,
-            $tel_dest,
+            $type,
+            $tel_cli,     
+            $montant,
             $dt,
             $dt,
             $us,
@@ -94,13 +72,13 @@ if (isset($_POST['bt_enregistrer'])) {
             $pc,
 
         )) {
-            $message = "Modification de la transaction  éffectué avec succès.";
+            $message = "enregistrement de la transaction  éffectué avec succès.";
             echo json_encode([
                 'success' => 'true',
                 'message' => $message
             ]);
         } else {
-            $message = "Erreur lors de la modification de la transaction.";
+            $message = "Erreur lors de l\'enregistrement de la transaction.";
             echo json_encode([
                 'success' => 'false',
                 'message' => $message
@@ -110,12 +88,9 @@ if (isset($_POST['bt_enregistrer'])) {
         echo json_encode([
             'success' => 'false',
             'message' => "Vérifier les champs",
-            'montant' => $e_montant,
-            'client' => $e_client,
-            'date' => $e_date_t,
-            'destinataire' => $e_destinataire,
+            'montant' => $e_montant,           
             'telephone_client' => $e_tel_cli,
-            'telephone_destinataire' => $e_tel_dest,
+            
 
         ]);
     }
@@ -132,46 +107,32 @@ if (isset($_POST['bt_modifier'])) {
 
     // Récupération des données postés dépuis le formulaire dans les variables respectives
 
-    $client = strSecur($_POST["client_modif"]);
+     
     $montant = strSecur($_POST["montant_modif"]);
-    $destinataire = strSecur($_POST["destinataire_modif"]);
+
+    $type = strSecur($_POST["radio_type_modif"]);
+ 
     $tel_cli = strSecur($_POST["tel_cli_modif"]);
-    $tel_dest = strSecur($_POST["tel_dest_modif"]);
+ 
     $date_t = strSecur($_POST["date_t_modif"]);
 
     $idModif = strSecur($_POST["idModif"]);
 
-    $e_montant = $e_date_t = $e_client = $e_tel_cli   = $e_destinataire  = $e_tel_dest = " ";
+    $e_montant  = $e_tel_cli   =  " ";
+
     $succes = true;
     // Vérifications
+
     if (empty($montant)) {
         $e_montant = "Ce champ ne doit pas être vide.";
         $succes = false;
     }
-    if (empty($date_t)) {
-        $e_date_t = "Ce champ ne doit pas être vide.";
-        $succes = false;
-    }
-    if (empty($client)) {
-        $e_client = "Ce champ ne doit pas être vide.";
-        $succes = false;
-    }
-
+  
     if (empty($tel_cli)) {
         $e_tel_cli = "Ce champ ne doit pas être vide.";
         $succes = false;
     }
-
-    if (empty($destinataire)) {
-        $e_destinataire = "Ce champ ne doit pas être vide.";
-        $succes = false;
-    }
-
-    if (empty($tel_dest)) {
-        $e_tel_dest = "Ce champ ne doit pas être vide.";
-        $succes = false;
-    }
-
+      
     // Cas ou tout est ok
     if ($succes) {
         $ip = getIp();
