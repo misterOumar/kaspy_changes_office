@@ -7,20 +7,20 @@
 
 
 /**
- * Class money_gram - Représente un(e) money_gram
+ * Classmoneygram - Représente un(e)moneygram
  */
-class money_gram
+class moneygram
 {
     public $id;
-    public $Heure_et_date;
-    public $Num_Ref;
-    public $Identifiant_utilisateur;
-    public $ID_point_vente;
-    public $Montant;
-    public $Frais;
-    public $Total;
-    public $ajouter_par;
-
+    public $date_heure;	
+    public $num_ref;	
+    public $code_aut;	
+    public $id_user;	
+    public $id_pvente;	
+    public $montant;	
+    public $frais;	
+    public $total;	
+     
     public $date_creation;
     public $user_creation;
     public $navigateur_creation;
@@ -33,7 +33,7 @@ class money_gram
     public $ip_modif;
 
     /**
-     * money_gram constructor.
+     *moneygram constructor.
      *
      * @param $id
      */
@@ -42,20 +42,21 @@ class money_gram
         global $db;
         $id = strSecur($id);
 
-        $req = $db->prepare('SELECT * FROM transaction_money_gram WHERE id = ?');
+        $req = $db->prepare('SELECT * FROM moneygram WHERE id = ?');
         $req->execute([$id]);
         $data = $req->fetch();
 
         $this->id = $id;
-        $this->Heure_et_date = $data['Heure_et_date'];
-        $this->Num_Ref = $data['Num_Ref'];
-        $this->Identifiant_utilisateur = $data['Identifiant_utilisateur'];
-        $this->ID_point_vente = $data['ID_point_vente'];
-        $this->Montant = $data['Montant'];
-        $this->Frais = $data['Frais'];
-        $this->Total = $data['Total'];
-        $this->ajouter_par = $data['ajouter_par'];
-
+        $this->date_heure = $data['date_heure'];
+        $this->num_ref = $data['num_ref'];
+        $this->code_aut = $data['code_aut'];
+        $this->id_user = $data['id_user'];
+        $this->id_pvente = $data['id_pvente'];
+        $this->montant = $data['montant'];
+        $this->frais = $data['frais'];
+        $this->total = $data['total'];
+      
+        
         $this->date_creation = $data['date_creation'];
         $this->user_creation = $data['user_creation'];
         $this->navigateur_creation = $data['navigateur_creation'];
@@ -74,41 +75,48 @@ class money_gram
     }
 
     /**
-     * Renvoi la liste des transaction_money_gram.
+     * Renvoi la liste desmoneygram.
      *
      * @return array
      */
     static function getAll()
     {
         global $db;
-        $req = $db->prepare("select transaction_money_gram.*,
-        login.nom_prenom as nom_prenom from transaction_money_gram 
-        left join login on transaction_money_gram.ajouter_par = login.id
-       	where transaction_money_gram.Num_Ref != 'Num_Ref' order by transaction_money_gram.id");
+        $req = $db->prepare("SELECT * from moneygram");
         $req->execute([]);
         return $req->fetchAll();
     }
-    /**
-     * Renvoi la la somme des montant, frais et total de transaction de la journee
-     *
-     * @return array
-     */
-    static function getStatByDay()
+    static function getFraisDepot()
     {
         global $db;
-        $req = $db->prepare("SELECT 
-        SUM(Montant) AS somme_montant,
-        SUM(Frais) AS somme_frais,
-        SUM(Total) AS somme_total
-    FROM transaction_money_gram
-    WHERE DATE(date_creation) = CURDATE();
-    ");
+        $req = $db->prepare("SELECT SUM(frais) FROM moneygram");
         $req->execute([]);
-        return $req->fetchAll();
+        return $req->fetchColumn();
     }
+     /**
+     * Méthode pour comptes les transations.
+     *
+     * @param $code_aut
+     * @return mixed
+     */
+    static function getRetrait()
+    {
+        global $db;
+        $req = $db->prepare("SELECT SUM(montant) FROM moneygram ");
+        $req->execute([]);
+        return $req->fetchColumn();
+    }
+    
 
+    // static function getDepot()
+    // {
+    //     global $db;
+    //     $req = $db->prepare("SELECT SUM(montant_envoye) FROM money_gram where code_pays_origine ='CI' ");
+    //     $req->execute([]);
+    //     return $req->fetchColumn();
+    // } 
     /**
-     * Méthode pour récupérer un(e) transaction_money_gram en fonction de son id.
+     * Méthode pour récupérer un(e)moneygram en fonction de son id.
      *
      * @param $id
      * @return mixed
@@ -116,29 +124,26 @@ class money_gram
     static function getByID($id)
     {
         global $db;
-        $req = $db->prepare("select transaction_money_gram.*,
-        login.nom_prenom as nom_prenom from transaction_money_gram 
-        left join login on transaction_money_gram.ajouter_par = login.id
-       	where transaction_money_gram.id = ? order by transaction_money_gram.id");
+        $req = $db->prepare("SELECT * FROM moneygram WHERE id = ?");
         $req->execute([$id]);
         return $req->fetch();
     }
 
     /**
-     * Méthode de récupération du dernier element de la table transaction_money_gram.
+     * Méthode de récupération du dernier element de la tablemoneygram.
      *
      * @return mixed
      */
     static function getLast()
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM transaction_money_gram  ORDER BY ID DESC LIMIT 1");
+        $req = $db->prepare("SELECT * FROM moneygram  ORDER BY ID DESC LIMIT 1");
         $req->execute([]);
         return $req->fetch();
     }
 
     /**
-     * Méthode de récupération du nombre d'enregistrement de la table transaction_money_gram.
+     * Méthode de récupération du nombre d'enregistrement de la tablemoneygram.
      *
      * @param $
      * @return mixed
@@ -146,23 +151,7 @@ class money_gram
     static function getCount()
     {
         global $db;
-        $req = $db->prepare("SELECT COUNT(*) FROM transaction_money_gram ");
-        $req->execute([]);
-        return $req->fetch()[0];
-    }
-    /**
-     * Méthode de récupération du nombre de transaction transaction_money_gram par jour.
-     *
-     * @param $
-     * @return mixed
-     */
-    static function getCountByDay()
-    {
-        global $db;
-        $req = $db->prepare("SELECT COUNT(*) AS nombre_transaction
-        FROM transaction_money_gram
-        WHERE DATE(date_creation) = CURDATE();
-        ");
+        $req = $db->prepare("SELECT COUNT(*) FROM moneygram ");
         $req->execute([]);
         return $req->fetch()[0];
     }
@@ -171,17 +160,16 @@ class money_gram
     //||------------ INSERTIONS ------------||
     //||**********************************||
     /**
-     * Méthode pour insérer un(e) transaction_money_gram en base de données.
+     * Méthode pour insérer un(e)moneygram en base de données.
      *
-     * @param $Heure_et_date
-     * @param $Num_Ref
-     * @param $Identifiant_utilisateur
-     * @param $ID_point_vente
-     * @param $Montant
-     * @param $Frais
-     * @param $Total
-     * @param $ajouter_par
-     
+     * @param $date_heure
+     * @param $num_ref
+     * @param $id_user
+     * @param $id_pvente
+     * @param $montant
+     * @param $frais
+     * @param $total
+          
      * @param $date_creation
      * @param $user_creation
      * @param $navigateur_creation
@@ -194,23 +182,21 @@ class money_gram
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter($id, $Heure_et_date, $Num_Ref, $Identifiant_utilisateur, $ID_point_vente, $Montant, $Frais, $Total, $ajouter_par, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
+    static function Ajouter( $date_heure, $num_ref,$code_aut,  $id_user, $id_pvente, $montant, $frais, $total,   $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
     {
         global $db;
-
         $req = $db->prepare('
-            INSERT INTO transaction_money_gram(id, Heure_et_date, Num_Ref, Identifiant_utilisateur, ID_point_vente, Montant, Frais, Total, ajouter_par,  date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO moneygram(date_heure, num_ref,code_aut, id_user, id_pvente,montant, frais, total,   date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ');
-        return $req->execute([$id, $Heure_et_date, $Num_Ref, $Identifiant_utilisateur, $ID_point_vente, $Montant, $Frais, $Total, $ajouter_par, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$date_heure, $num_ref,$code_aut, $id_user, $id_pvente, $montant, $frais, $total, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
-
 
     //||**********************************||
     //||---------- MODIFICATIONS ----------||
     //||**********************************||
     /**
-     * Méthode pour modifier un(e) transaction_money_gram en base de données.
+     * Méthode pour modifier un(e)moneygram en base de données.
      *
      * @param $libelle
      * @param $type_batiment
@@ -231,14 +217,14 @@ class money_gram
      * @param $ip_modif
      * @return bool
      */
-    static function Modifier($libelle, $type_batiment, $nombre_appartement, $parking, $jardin, $ascenseur, $proprietaire, $cout_construction, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id)
-    {
-        global $db;
-        $req = $db->prepare('
-            UPDATE transaction_money_gram SET libelle = ?, type_batiment = ?, nombre_appartement = ?, parking = ?, jardin = ?, ascenseur = ?, proprietaire= ?, cout_construction= ?,  date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
-        ');
-        return $req->execute([$libelle, $type_batiment, $nombre_appartement, $parking, $jardin, $ascenseur, $proprietaire, $cout_construction, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
-    }
+    // static function Modifier($libelle, $type_batiment, $nombre_appartement, $parking, $jardin, $ascenseur, $proprietaire, $cout_construction, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id)
+    // {
+    //     global $db;
+    //     $req = $db->prepare('
+    //         UPDAT Emoneygram SET libelle = ?, type_batiment = ?, nombre_appartement = ?, parking = ?, jardin = ?, ascenseur = ?, proprietaire= ?, cout_construction= ?,  date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
+    //     ');
+    //     return $req->execute([$libelle, $type_batiment, $nombre_appartement, $parking, $jardin, $ascenseur, $proprietaire, $cout_construction, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
+    // }
 
 
     //||**********************************||
@@ -246,7 +232,7 @@ class money_gram
     //||**********************************||
 
     /**
-     * Méthode pour supprimer un(e) transaction_money_gram
+     * Méthode pour supprimer un(e)moneygram
      *
      * @param $id
      * @return bool
@@ -254,7 +240,7 @@ class money_gram
     static function Supprimer($id)
     {
         global $db;
-        $req = $db->prepare('DELETE FROM transaction_money_gram WHERE id= ?');
+        $req = $db->prepare('DELETE FROM moneygram WHERE id= ?');
         return $req->execute([$id]);
     }
 }

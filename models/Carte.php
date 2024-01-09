@@ -175,6 +175,34 @@ class cartes
 
 
     /**
+     * Méthode de récupération du nombre d'enregistrement vendu de la table cartes.
+     *
+     * @return mixed
+     */
+    static function getCountTypeCarte()
+    {
+        global $db;
+        $req = $db->prepare("SELECT type_carte as libelle, COUNT(*) as nombre_total, SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as nombre_vendu FROM cartes GROUP BY type_carte");
+        $req->execute([]);
+        return $req->fetchAll();
+    }
+
+
+    /**
+     * Méthode de récupération du nombre d'enregistrement vendu de la table cartes.
+     *
+     * @return mixed
+     */
+    static function getCountVendu()
+    {
+        global $db;
+        $req = $db->prepare("SELECT COUNT(*) FROM cartes WHERE status = 1");
+        $req->execute([]);
+        return $req->fetch()[0];
+    }
+
+
+    /**
      * Méthode de récupération de cartes en fonction du cartes.
      *
      * @param $cartes

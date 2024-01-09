@@ -1,71 +1,69 @@
 <?php
 
-include('./../vendor/autoload.php');
-
-use PhpOffice\PhpSpreadsheet\IOFactory;
-
-// header('Content-Type: application/json');
-if (isset($_POST['bt_enregistrer'])) {
 
 
-    include('./../functions/functions.php');
-    include('./../config/config.php');
-    include('./../config/db.php');
-    include('./../models/Type_carte.php');
+// IMPORTATION DES DONNEES
+if (isset($_POST['upload_ria_file'])) {
+    // inclusion des fichiers ressources
+    include('../functions/functions.php');
+    include('../config/config.php');
+    include('../config/db.php'); 
+    include('../models/Ria.php');
 
+    // recuperrer les données postées
+    $tableData = $_POST['data'];
+    // recuperation des informations sur l'utilisateur
+    $ip = getIp();
+    $navigateur = getNavigateur();
+    $us = $_SESSION["KaspyISS_user"]['users'];
+    $magasin = $_SESSION["KaspyISS_bureau"];
+    $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+    $dt = date("Y-m-d H:i:s");
 
-    if (isset($_FILES['fiche'])) {
+    foreach ($tableData as $rowData) {
+        // var_dump($rowData);
+        ria::Ajouter(
+            $rowData[1],
+            $rowData[2],
+            $rowData[3],
+            $rowData[4],
+            $rowData[5],
+            $rowData[6],
+            $rowData[7],
+            $rowData[8],
+            $rowData[9],
+            $rowData[10],
+            $rowData[11],
+            $rowData[12],
+            $rowData[13],
+            $rowData[14],
+            $rowData[15],
+            $rowData[16],
+            $rowData[17],
+            $rowData[18],
+            $rowData[19],
+            $rowData[20],
+            $rowData[21],
+            $rowData[22],
+            $magasin,                
+            $dt,
+            $us,
+            $navigateur,
+            $pc,
+            $ip,
+            $dt,
+            $us,
+            $navigateur,
+            $pc,
+            $ip
+        );
 
-
-        $fileName = $_FILES['fiche']['name'];
-        $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-
-        $validExtensions = ['xls', 'csv', 'xlsx'];
-
-        if (in_array($fileExtension, $validExtensions)) {
-            $tempFilePath = $_FILES['fiche']['tmp_name'];
-            // Déplacez le fichier téléchargé vers le dossier assets
-            $uploadDir = './../assets/';
-            $newFilePath = $uploadDir . $fileName;
-            // Début des traitements
-            if (move_uploaded_file($tempFilePath, $newFilePath)) {
-
-                // chargement du fichier
-                $spreadsheet = IOFactory::load($newFilePath);
-                $worksheet = $spreadsheet->getActiveSheet();
-                $data = $worksheet->toArray();
-                // Tableau pour afficher dans un premier temps les données
-                echo json_encode([
-                    'success' => 'true',
-                    'data' => $data,
-                ]);
-
-        
-            } else {
-
-                echo json_encode([
-                    'success' => 'false',
-                    'message' => 'Erreur lors du téléchargement du fichier.',
-                ]);
-            }
-        } else {
-
-
-            echo json_encode([
-                'success' => 'false',
-                'message' => 'Extension de fichier invalide. Veuillez sélectionner un fichier XLS, CSV ou XLSX.',
-            ]);
-        }
-    } else {
-        echo json_encode([
-            'success' => 'false',
-            'message' => 'Un problème',
-        ]);
-    }
-
+    }    
+    // Réponse JSON
+    $message = "Enregistrement réussi avec succès.";
     echo json_encode([
-        'success' => 'yes',
-        'message' => 'Good',
+        'success' => 'true',
+        'message' => $message
     ]);
-
+   
 }

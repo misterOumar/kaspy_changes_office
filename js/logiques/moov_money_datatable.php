@@ -99,6 +99,13 @@
                             var $user_img = full['avatar'],
                                 $libelle = full['date'],
                                 $duree = full['date'];
+                                var bg;
+                              if ($type == "Dépot") {
+                                  bg = 'bg-success'
+                              } else {
+                                  bg = 'bg-info'
+
+                              }
                             if ($user_img) {
                                 // For Avatar image
                                 var $output =
@@ -111,7 +118,7 @@
                                     $libelle = full['date'],
                                     $initials = $libelle.match(/\b\w/g) || [];
                                 $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-                                $output = '<span class="avatar-content">' + $initials + '</span>';
+                                $output = '<span class="avatar-content '+ bg+'">' + $initials + '</span>';
                             }
 
                             var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';

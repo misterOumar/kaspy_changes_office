@@ -8,12 +8,11 @@ if (isset($_POST['upload_western_file'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
-    include('../models/carte.php');
+    include('../models/Carte.php');
     include('../models/Western_union.php');
 
     // recuperrer les données postées
     $tableData = $_POST['data'];
-
     // recuperation des informations sur l'utilisateur
     $ip = getIp();
     $navigateur = getNavigateur();
@@ -58,63 +57,12 @@ if (isset($_POST['upload_western_file'])) {
             $ip
         );
 
-    }
-    
+    }    
     // Réponse JSON
     $message = "Enregistrement réussi avec succès.";
     echo json_encode([
         'success' => 'true',
         'message' => $message
     ]);
-
-
-
-
-    // if (western_union::Ajouter(
-    //     $code_pays_origine,
-    //     $code_devise_pays_origine,
-    //     $identifiant_terminal,
-    //     $identité_opérateur,
-    //     $super_op_identifiant,
-    //     $nom_utilisateur,
-    //     $mtncn,
-    //     $receveur,
-    //     $expediteur,
-    //     $code_pays_destination,
-    //     $code_devise_pays_destination,
-    //     $type_de_transaction,
-    //     $date,
-    //     $heure,
-    //     $montant_envoye,
-    //     $frais_de_transfert,
-    //     $montant_total_recueilli,
-    //     $taux_de_change,
-    //     $montant_paye_attendu,
-    //     $destinataire,
-    //     $total_frais,
-    //     $total_taxes,
-    //     $type_paiement,
-    //     $dt,
-    //     $us,
-    //     $navigateur,
-    //     $pc,
-    //     $ip,
-    //     $dt,
-    //     $us,
-    //     $navigateur,
-    //     $pc,
-    //     $ip
-    // )) {
-    //     $message = "Enregsitrement  éffectué avec succès.";
-    //     echo json_encode([
-    //         'success' => 'true',
-    //         'message' => $message
-    //     ]);
-    // } else {
-    //     $message = "Erreur lors de la de l'enregistrement";
-    //     echo json_encode([
-    //         'success' => 'false',
-    //         'message' => $message
-    //     ]);
-    // }
+   
 }

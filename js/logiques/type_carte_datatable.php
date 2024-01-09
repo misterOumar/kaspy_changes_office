@@ -266,20 +266,7 @@
                     },
 
 
-                    {
-                        text: feather.icons['download'].toSvg({
-                            class: 'me-50 font-small-4'
-                        }) + 'importer un fichier',
-                        className: 'create-new btn btn-success',
-                        attr: {
-                            'id': 'bt_importer',
-                            'data-bs-toggle': 'modal',
-                            'data-bs-target': '#modal-import'
-                        },
-                        init: function(api, node, config) {
-                            $(node).removeClass('btn-success');
-                        }
-                    },
+            
                 ],
                 // RESPONSIVE - Sur téléphone
                 responsive: {

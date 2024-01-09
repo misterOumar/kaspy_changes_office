@@ -3,18 +3,23 @@
         'use strict';
 
         // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
-        $.get('http://localhost/kaspy_changes_office/index.php?page=api_type_carte', function(rep) {
+        $.get('http://localhost/k2s/kaspy_changes_office/index.php?page=api_ria', function(rep) {
             let data = JSON.parse(rep)
             data.map((champ_bd) => {
                 var imageUrl = champ_bd.logo;
                 dt_basic.row
                     .add({
                         responsive_id: champ_bd.id,
-                        id: champ_bd.id,
-                        libelle: champ_bd.libelle,
-                        duree: champ_bd.duree,
-                        //logo :champ_bd.logo,
-                        //logo: '<img src="assets/images/template/moov.png" alt="Image" width="50" height="50">'
+                        id: champ_bd.id,            
+                        date: champ_bd.date,          
+                        num_transfert: champ_bd.num_transfert,
+                        montant_envoye: champ_bd.montant_envoye,
+                        pays_destination:champ_bd.pays_destination,
+                        montant_paye:champ_bd.montant_paye,
+                        devise_paiement:champ_bd.devise_paiement,
+                        taux:champ_bd.taux,                     
+                        actions:champ_bd.actions                       
+                        
                     })
 
                     .draw();
@@ -39,13 +44,29 @@
                     },
                     {
                         data: 'id'
-                    }, // used for sorting so will hide this column
+                    }, 
                     {
-                        data: 'libelle'
+                        data: 'date'
+                    },                     
+                    {
+                        data: 'num_transfert'
                     },
                     {
-                        data: 'duree'
+                        data: 'montant_envoye'
                     },
+                    {
+                        data: 'pays_destination'
+                    },
+                    {
+                        data: 'montant_paye'
+                    },
+                    {
+                        data: 'devise_paiement'
+                    },
+                    {
+                        data: 'taux'
+                    },                   
+                                     
 
                     {
                         data: ''
@@ -91,7 +112,16 @@
                         render: function(data, type, full, meta) {
                             var $user_img = full['avatar'],
                                 $libelle = full['libelle'],
-                                $duree = full['duree'];
+                                $duree = full['date'],
+                                $type = full['actions'];
+                                var bg;
+                                if ($type == "Envoi") {
+                                    bg = 'bg-success'
+                                }else{
+                                    bg = 'bg-info'
+
+                                }
+                               
                             if ($user_img) {
                                 // For Avatar image
                                 var $output =
@@ -100,11 +130,11 @@
                                 // For Avatar badge
                                 var stateNum = full['status'];
                                 var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
-                                var $state = states[stateNum],
-                                    $libelle = full['libelle'],
+                                var $state = states[1],
+                                    $libelle = full['date'],
                                     $initials = $libelle.match(/\b\w/g) || [];
                                 $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-                                $output = '<span class="avatar-content">' + $initials + '</span>';
+                                $output = '<span class="avatar-content '+ bg+'">' + $initials + '</span>';
                             }
 
                             var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
@@ -119,7 +149,10 @@
                                 '<div class="d-flex flex-column">' +
                                 '<span class="emp_nom text-truncate fw-bold">' +
                                 $libelle +
-                                '</span>' +
+                                '</span>' +                                
+                                '<small class="emp_nom_pop text-truncate text-muted">' +
+                                $type +
+                                '</small>' +
                                 '</div>' +
                                 '</div>';
                             return $row_output;
@@ -141,12 +174,7 @@
                                 }) +
                                 '</a>' +
                                 '<div class="dropdown-menu dropdown-menu-end">' +
-                                //Supprimer
-                                '<a  href="javascript:;" class="dropdown-item delete-record">' +
-                                feather.icons['trash-2'].toSvg({
-                                    class: 'font-small-4 me-50'
-                                }) +
-                                'Supprimer</a>' +
+                            
 
                                 //Détails
                                 '<a href="javascript:;" class="dropdown-item">' +
@@ -164,7 +192,7 @@
                                 '</div>' +
                                 '</div>' +
                                 '<a href="javascript:;" class="item-edit bt_modifier" data-bs-target="#modal-modif" data-bs-toggle="modal">' +
-                                feather.icons['edit'].toSvg({
+                                feather.icons['eye'].toSvg({
                                     class: 'font-small-4'
                                 }) +
                                 '</a>'
@@ -409,8 +437,6 @@
                 }
             }
         });
-
-
         // MODIFIER UN ELEMENT
         var that
         $('.datatables-basic tbody').on('click', '.item-edit', function() {
@@ -433,8 +459,6 @@
                 }
             })
         });
-
-
         // SUPPRIMER UNE LIGNE
         $('.datatables-basic tbody').on('click', '.delete-record', function() {
             // Suppression Front

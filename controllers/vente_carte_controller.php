@@ -6,6 +6,11 @@
         include("models/Carte.php");
         $List_cartes = cartes::Carte_Nvendues();
         $stock = cartes::Nb_carte();
+    
+        // statistiques
+        $nbre_cartes = cartes::getCount();
+        $nbre_cartes_vendu = cartes::getCountVendu();
+        $stat_carte = cartes::getCountTypeCarte();
     }
 
     // ENREGISTRER (AJOUTER) UN NOUVELLE ENREGISTREMENT FISCAL DE BAIL

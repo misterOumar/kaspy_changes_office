@@ -10,7 +10,6 @@
                 <li class="nav-item"><a class="nav-link menu-toggle" href="#"><i class="ficon" data-feather="menu"></i></a></li>
             </ul>
         </div>
-
         <div class="navbar-nav align-items-center navbar-expand">
             <div class="">
                 <a class="btn btn-flat-primary dropdown-toggl d-sm-inline-block d-none" id="dropdownMenuButton100" data-bs-toggle="dropdown" aria-expanded="false" style="left:-5px">
@@ -40,20 +39,14 @@
                                 Liste des ventes de cartes</a> </li>
                         <li><a class="dropdown-item" href="etats/EtatListeChange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
                                 Liste des échanges</a> </li>
-                                <li><a class="dropdown-item" href="etats/EtatListeCarte.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                        <li><a class="dropdown-item" href="etats/EtatListeCarte.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
                                 Liste des cartes</a> </li>
-
+                                <li><a class="dropdown-item" href="etats/EtatListeOperation.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Liste des opérations</a> </li>
+                                <li><a class="dropdown-item" href="etats/EtatListeOperationRIA.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Liste des opérations RIA</a> </li>
                         <div class="dropdown-divider"></div>
-
-                        <!-- <li class="nav-item dropdown drop-down02">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                Etats listes <i class="fas fa-chevron-right"> </i>
-                            </a>
-                            <ul class="dropdown-menu sub-menu02" aria-labelledby="navbarDropdown"> -->
-                                <!-- <li><a class="dropdown-item" href="etats/EtatListeChange.php" data-bs-target="#batitmentParproprietaire" data-bs-toggle="modal" class="stretched-link text-nowrap add-new-role"><i class="fas fa-file-alt mr-2" style="color: #7367f0;"> </i></a></li> -->
-                                <!-- <li><a class="dropdown-item" href="javascript:void(0)" data-bs-target="#Reporting" data-bs-toggle="modal" class="stretched-link text-nowrap add-new-role"><i class="fas fa-file-alt mr-2" style="color: #7367f0;"> </i>Liste des appartements par locataire</a></li> -->
-                            <!-- </ul> -->
-                        <!-- </li> -->
+                    
                     </ul>
                 </li>
             </div>

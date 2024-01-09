@@ -88,54 +88,45 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 <div class="card-header">
                                     <h4 class="card-title">Téléversé le point du jour</h4>
                                     <!--- DATE --->
-                                    <div class="d-flex align-items-center gap-1">
+                                       <div class="d-flex align-items-center gap-1 justify-content-end">
                                         <label class='form-label' for='dates'>Date</label>
-                                        <input type="datetime" id="dates" name="dates" class="form-control flatpickr-date-time" placeholder="YYYY-MM-DD HH:MM" />
+                                        <div class="col-5">
 
+                                            <input type="datetime" id="dates" name="dates" class="form-control flatpickr-date-time" placeholder="YYYY-MM-DD HH:MM" />
+
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
-
                                     <form action="#" class="dropzone dropzone-area" id="dpz-single-file">
-                                        <div class="dz-message">Déposez les fichiers Western Union ici ou cliquez pour les télécharger.</div>
+                                        <div class="dz-message">Déposez les fichiers Ria ici ou cliquez pour les télécharger.</div>
                                         <div class="fallback">
-                                            <input type='file' class='form-control dt-montant_payermodif me-1' name="inputFile" id="inputFile" accept=".xls, .xlsx, .csv" style="width: 350px;" />
+                                            <input type='file' class='form-control me-1' name="fileInput" id="fileInput" style="width: 350px;" />
                                         </div>
                                     </form>
-
-                                    <!-- <form action="/upload" class="dropzone needsclick" id="dropzone-basic" style="border: 2px dashed #d9dee3">
-                                        <div class="dz-message needsclick">
-                                            Déposez les fichiers Western Union ici ou cliquez pour les télécharger.
-                                            <span class="note needsclick">(This is just a demo dropzone. Selected files are
-                                                <span class="fw-medium">not</span> actually
-                                                uploaded.)</span>
-                                        </div>
-                                        <div class="fallback"> 
-                                            <input type='file' class='form-control dt-montant_payermodif me-1' name="inputFile" id="inputFile" accept=".xls, .xlsx, .csv" style="width: 350px;" />
-                                            <input type="file" name="inputFile" id="inputFile" accept=".xls, .xlsx, .csv" /> 
-                                        </div>
-                                    </form> -->
                                 </div>
-
-
                                 <div class="d-flex align-items-end justify-content-end me-2 mb-2">
-                                    <!-- <input type='file' class='form-control dt-montant_payermodif me-1' name="inputFile" id="inputFile" accept=".xls, .xlsx, .csv" style="width: 350px;" /> -->
-                                    <button type='reset' id="clear-dropzone" name='annuler' class='btn btn-outline-secondary me-1' data-bs-dismiss='modal'>Annuler</button>
-                                    <button id='btnEnregistrer' name='btnEnregistrer' class='btn btn-primary enregistrer '>Enregistrer</button>
+                                    <a id='btnEnregistrer' href="index.php?page=western_union" class=' btn btn-outline-primary '>
+                                        
+                                        <span>
+                                            Voir la liste
+                                        </span>
+                                        <i data-feather="eye" class="me-25"></i>
+                                    </a>
+                           
+                                 
                                 </div>
+                          
                             </div>
                         </div>
                     </div>
                     <!-- single file upload ends -->
-
-
-
                     <!-- Modal large -->
                     <div class="modal fade text-start" id="excelModal" tabindex="-1" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel16">Point du jour RIA</h4>
+                                    <h4 class="modal-title" id="myModalLabel16">Point du jour Western Union</h4>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -144,22 +135,17 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-secondary me-1" data-bs-dismiss="modal">Annuler</button>
+                                    <button type="button" class="btn btn-outline-secondary me-1" data-bs-dismiss="modal" >Annuler</button>
                                     <button id='btnValider' name='btnValider' class='btn btn-primary enregistrer '>Valider</button>
 
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
                     <!-- Modal large -->
-
-
-
-
-
-
-
                     <?php include 'components/modal_proprietes.php' ?>
+                    <?php include 'components/modal_excel.php' ?>
 
                 </section>
                 <!--/ Basic table -->
@@ -227,361 +213,131 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
     <!-- <?php include 'js/flatpick_fr.js' ?>
      -->
-
+    <?php include 'js/logiques/type_carte_datatable.php' ?>
+    <?php include 'js/logiques/type_carte_logiques.php' ?>
     <?php include 'js/logiques/upload_western_union_logique.php' ?>
     <?php include("views/components/alerts.php") ?>
+    <script>
+        // rechargercher la page quand on clique sur annuler dans le modal
+        $("#close_modal").click(function (e) { 
+            e.preventDefault();
+            alert(1)
+            location.reload;
+            
+        });
 
 
+        let jsonData;
 
-    <!-- <script>
-        // Configuration de Dropzone
         Dropzone.options.dpzSingleFile = {
-            paramName: "file", // Le nom du paramètre qui contient le fichier dans la requête HTTP
-            maxFilesize: 10, // Taille maximale du fichier en mégaoctets
-            acceptedFiles: ".xls, .xlsx, .csv", // Types de fichiers acceptés
+            paramName: "file",
+            maxFilesize: 10,
+            acceptedFiles: ".xls, .xlsx, .csv",
             success: function(file, response) {
-                // La fonction success est appelée lorsque le téléchargement est réussi
-                // console.log("Fichier téléchargé avec succès!", file, response);
-
                 var inputFile = file;
-
                 var reader = new FileReader();
                 reader.onload = function(e) {
-                    var data = e.target.result;
-
-                    var workbook;
-                    if (inputFile.name.endsWith('.csv')) {
-                        workbook = XLSX.read(data, {
-                            type: 'binary',
-                            header: 3,
-                            delimiter: ','
-                        });
-                    } else {
-                        workbook = XLSX.read(data, {
-                            type: 'binary',
-                            header: 3
-                        });
-                    }
-
-                    var sheetName = workbook.SheetNames[0];
-
-                    // Définissez le range pour le premier tableau (de la 4e ligne à la dernière cellule non vide)
-                    var range1 = {
-                        s: {
-                            c: 0,
-                            r: 3
-                        }, // 4th row
-                        e: {
-                            // c: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.c,
-                            // r: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.r
-                            
-                            c: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.c,
-                            r:9
+                    try {
+                        var data = e.target.result;
+                        var workbook;
+                        if (inputFile.name.endsWith('.csv')) {
+                            workbook = XLSX.read(data, {
+                                type: 'binary',
+                                header: 3,
+                                delimiter: ','
+                            });
+                        } else {
+                            workbook = XLSX.read(data, {
+                                type: 'binary',
+                                header: 3
+                            });
                         }
-                    };
-
-                    // Déterminez la dernière ligne du premier tableau
-                    // var lastRowTable1 = XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.r;
-                    var lastRowTable1 = 10;
-
-                    console.log(lastRowTable1);
-
-                    // Calculez le point de départ pour le deuxième tableau (5 lignes après la dernière ligne du premier tableau)
-                    var startRowTable2 = lastRowTable1 + 17;
-
-                    // Définissez le range pour le second tableau (à partir de la 16e ligne après le 1er)
-                    var range2 = {
-                        s: {
-                            c: 0,
-                            // r: startRowTable2
-                            r:27
-                        }, // 16th row
-                        e: {
-                            c: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.c,
-                            // r: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.r
-                            r:37
-                        }
-                    };
-                    var excelData1 = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
-                        range: range1
-                    });
-                    var excelData2 = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
-                        range: range2
-                    });
-
-                    // // Ajoutez la colonne "Type" avec la valeur "envoyée" pour le premier tableau
-                    excelData1.forEach(function(row) {
-                        row.Type = "envoyée";
-                    });
-
-                    // // Ajoutez la colonne "Type" avec la valeur "payée" pour le second tableau
-                    excelData2.forEach(function(row) {
-                        // Vérifiez si la colonne "Type" existe déjà
-                        if (!row.hasOwnProperty("Type")) {
-                            row.Type = "payée";
-                        }
-
-
-
-                        // Remplacez les valeurs vides par 0 pour toutes les colonnes
-                        Object.keys(row).forEach(function(col) {
-                            if (row[col] === undefined || row[col] === "") {
-                                row[col] = 0;
+                        var sheetName = workbook.SheetNames[0];
+                        var sheet = workbook.Sheets[sheetName];
+                        const nonEmptyZRows = XLSX.utils.sheet_to_json(sheet, {
+                            header: 1
+                        }).filter(row =>
+                            row[25] !== undefined && row[25] !== null && row[25] !== ''
+                        );
+                        const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0].map((value, index) => index + 1) : [];
+                        const dataRows = nonEmptyZRows.slice(1);
+                        jsonData = dataRows.map(row =>
+                            keys.reduce((obj, key, index) => {
+                                obj[key] = row[index];
+                                return obj;
+                            }, {})
+                        );
+                        console.log(JSON.stringify(jsonData, null, 2));
+                        const table = document.createElement('table');
+                        table.classList.add('table', 'table-bordered', 'table-striped');
+                        for (let i = 0; i < nonEmptyZRows.length; i++) {
+                            const rowData = nonEmptyZRows[i];
+                            const tableRow = document.createElement('tr');
+                            for (let j = 0; j < rowData.length; j++) {
+                                const cellData = rowData[j];
+                                const cell = document.createElement('td');
+                                cell.textContent = cellData;
+                                tableRow.appendChild(cell);
                             }
-                        });
-
-                        // Remplacez les valeurs vides dans la colonne "Taux de change" par 0
-                        // if (row.hasOwnProperty("Taux de change") && (row["Taux de change"] === undefined || row["Taux de change"] === "")) {
-                        //     row["Taux de change"] = 0;
-                        // }
-                        // if ( (row[19] === undefined || row[19] === "")) {
-                        //     row[19] = 0;
-                        // }
-                    });
-
-                    // Fusionnez les deux tableaux
-                    // var excelData = excelData1.map(function(row) {
-                    //     row.Type = "envoyée";
-                    //     return row;
-                    // }).concat(excelData2.map(function(row) {
-                    //     row.Type = "payée";
-                    //     return row;
-                    // }));
-
-                    // Fusionnez les deux tableaux
-                    var excelData = excelData1.concat(excelData2);
-                    // var excelData = excelData1
-                    console.log(excelData);
-
-                    // Affichez les données dans un DataTable
-                    $("#excelDataTable").DataTable({
-                        data: excelData,
-                        columns: Object.keys(excelData[0]).map(function(col) {
-                            return {
-                                data: col,
-                                title: col
-                            };
-                        })
-                    });
-
-                    // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
-                    if ($.fn.DataTable.isDataTable("#excelDataTable")) {
-                        $("#excelDataTable").DataTable().destroy();
+                            table.appendChild(tableRow);
+                        }
+                        const tableContainer = document.getElementById('tableContainer');
+                        tableContainer.innerHTML = '';
+                        tableContainer.appendChild(table);
+                        const dataModal = new bootstrap.Modal(document.getElementById('dataModal'));
+                        dataModal.show();
+                    } catch (error) {
+                        console.error('Erreur lors de la lecture du fichier Excel :', error);
                     }
-
-                    // (Re)initialisez la DataTable
-                    dataTable = $("#excelDataTable").DataTable({
-                        data: excelData,
-                        columns: Object.keys(excelData[0]).map(function(col) {
-                            return {
-                                data: col,
-                                title: col
-                            };
-                        }),
-                        scrollX: true, // Activer le défilement horizontal
-                    });
-
-                    // Affichez le modal
-                    $("#excelModal").modal("show");
                 };
                 reader.readAsBinaryString(inputFile);
             },
             error: function(file, errorMessage) {
-                // La fonction error est appelée en cas d'échec du téléchargement
                 console.error("Erreur lors du téléchargement du fichier", file, errorMessage);
             }
         };
 
-
-        $("#btnValider").click(function(e) {
+        // Fonction au clic du bouton "Enregistrer"
+        $("#btn_save").click(function(e) {
             e.preventDefault();
-            // alert('ok')
-            // recuperer les données de la dataTable
-            var tableData = dataTable.rows().data().toArray();
 
-            // Convertissez les données en un tableau simple
-            var formattedData = tableData.map(function(row) {
-                return Object.values(row);
-            });
+            // ... (votre code existant)
 
-            // console.log(formattedData);
+            // Appel de la fonction pour envoyer les données au contrôleur
+            sendDataToController(jsonData);
+        });
 
-            // Envoyez les données au contrôleur via une requête Ajax
+        // Fonction pour envoyer les données au contrôleur via AJAX
+        function sendDataToController(jsonData) {
             $.ajax({
                 url: 'controllers/upload_western_union_controller.php', // Remplacez par le chemin réel vers votre contrôleur
                 method: 'POST',
                 data: {
                     upload_western_file: true,
-                    // Ajoutez d'autres données si nécessaire
-                    data: formattedData
+                    data: jsonData
                 },
                 dataType: 'json',
                 success: function(response) {
-                    // Affichez la réponse du contrôleur (message de succès ou d'erreur)
-                    // console.log(response);
                     if (response.success === 'true') {
-                        $("#excelModal").modal("hide");
+                        $("#dataModal").modal("hide");
 
                         // Réinitialisez Dropzone
                         var myDropzone = Dropzone.forElement("#dpz-single-file");
                         if (myDropzone) {
                             myDropzone.removeAllFiles();
                         }
-
                         // MESSAGE ALERT
-                        swal_Alert_Sucess(response.message)
+                        swal_Alert_Sucess(response.message);
                     } else {
-                        alert('Erreur : ' + response.message);
+                        console.error('Erreur : ' + response.message);
                     }
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
                 }
             });
-
-        });
-    </script> -->
-
-    <script>
-        $(document).ready(function() {
-
-            // Dropzone.options.dpzRemoveAllThumb = {
-            //     init: function() {
-            //         this.on("success", function(file, response) {
-            //             // Mettez à jour la valeur de l'input avec le nom du fichier téléchargé
-
-            //             $("#inputFile").val(file.name);
-            //         });
-            //     }
-            // };
-            var dataTable;
-            $("#btnEnregistrer").click(function() {
-                // Lorsque le bouton est cliqué, récupérez le fichier sélectionné
-                var inputFile = $("#inputFile")[0].files[0];
-
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    var data = e.target.result;
-
-                    // Utilisez SheetJS pour lire le fichier Excel ou CSV
-                    var workbook;
-                    if (inputFile.name.endsWith('.csv')) {
-
-                        workbook = XLSX.read(data, {
-                            type: 'binary',
-                            header: 3,
-                            delimiter: ','
-                        });
-                        // header: 3 pour commencer à partir de la 4e ligne
-                    } else {
-                        workbook = XLSX.read(data, {
-                            type: 'binary',
-                            header: 3
-                        }); // header: 3 pour commencer à partir de la 4e ligne
-                    }
-
-                    // Récupérez la première feuille du classeur Excel
-                    var sheetName = workbook.SheetNames[0];
-
-                    // Définissez le range à partir de la 4e ligne
-                    var range = {
-                        s: {
-                            c: 0,
-                            r: 3
-                        }, // start from 4th row
-                        e: {
-                            c: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.c,
-                            r: XLSX.utils.decode_range(workbook.Sheets[sheetName]['!ref']).e.r
-                        } // jusqu'à la dernière cellule non vide
-                    };
-
-                    var excelData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
-                        range: range
-                    });
-
-                    // Affichez les données dans un DataTable
-                    $("#excelDataTable").DataTable({
-                        data: excelData,
-                        columns: Object.keys(excelData[0]).map(function(col) {
-                            return {
-                                data: col,
-                                title: col
-                            };
-                        })
-                    });
-
-                    // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
-                    if ($.fn.DataTable.isDataTable("#excelDataTable")) {
-                        $("#excelDataTable").DataTable().destroy();
-                    }
-
-                    // (Re)initialisez la DataTable
-                    dataTable = $("#excelDataTable").DataTable({
-                        data: excelData,
-                        columns: Object.keys(excelData[0]).map(function(col) {
-                            return {
-                                data: col,
-                                title: col
-                            };
-                        })
-                    });
-
-                    // Affichez le modal
-                    $("#excelModal").modal("show");
-                };
-                reader.readAsBinaryString(inputFile);
-
-
-
-
-            });
-
-
-            // $("#btnValider").click(function(e) {
-            //     e.preventDefault();
-            //     alert('ok')
-            //     // recuperer les données de la dataTable
-            //     var tableData = dataTable.rows().data().toArray();
-
-            //     // Convertissez les données en un tableau simple
-            //     var formattedData = tableData.map(function(row) {
-            //         return Object.values(row);
-            //     });
-
-            //     // console.log(formattedData);
-
-            //     // Envoyez les données au contrôleur via une requête Ajax
-            //     $.ajax({
-            //         url: 'controllers/upload_western_union_controller.php', // Remplacez par le chemin réel vers votre contrôleur
-            //         method: 'POST',
-            //         data: {
-            //             upload_western_file: true,
-            //             // Ajoutez d'autres données si nécessaire
-            //             data: formattedData
-            //         },
-            //         dataType: 'json',
-            //         success: function(response) {
-            //             // Affichez la réponse du contrôleur (message de succès ou d'erreur)
-            //             console.log(response);
-            //             aler
-            //             if (response.success === 'true') {
-            //                 alert('Enregistrement réussi : ' + response.message);
-            //                 // MESSAGE ALERT
-            //                 swal_Alert_Sucess(donnee['message'])
-            //                 $('#form_ajouter')[0].reset();
-            //             } else {
-            //                 alert('Erreur : ' + response.message);
-            //             }
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(xhr.responseText);
-            //         }
-            //     });
-
-            // });
-        });
-    </script>
-
+        }
+    </script>   
 
 
     <script>
@@ -595,5 +351,11 @@ if (!isset($_SESSION["KaspyISS_user"])) {
         })
     </script>
 </body>
+<style>
+    .modal-custom-width {
+        max-width: 100%;
+        /* Ajustez cette valeur selon vos besoins */
+    }
+</style>
 
 </html>

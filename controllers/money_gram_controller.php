@@ -3,7 +3,7 @@
 $Liste_Money_gram = null;
 if (isset($_GET['page']) and !empty($_GET['page']) and $_GET['page'] === "money_gram") {
     include("models/Money_gram.php");
-    $Liste_Money_gram = money_gram::getAll();
+    $Liste_Money_gram = moneygram::getAll();
 
 }
 ;

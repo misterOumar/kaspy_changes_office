@@ -69,7 +69,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="#">Structures</a>
+                                    <li class="breadcrumb-item"><a href="#">Transactions</a>
                                     </li>
                                     <li class="breadcrumb-item active">Money Gram
                                     </li>
@@ -96,11 +96,14 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                             <th></th>
                                             <th></th>
                                             <th>id</th>
-                                            <th>Date</th>
-                                            <th>Ajouter par</th>
+                                            <th>Date</th>                                
                                             <th>Numero de reference</th>
-                                            <th>Total</th>
+                                            <th>code autorisation</th>
+                                            <th>Id Utilisateur</th>                                        
+                                             <th>id point vente </th>
+                                            <th>Montant</th>
                                             <th>Frais</th>
+                                            <th>Total</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -311,7 +314,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <?php include 'js/logiques/money_gram_datatable.php' ?>
     <?php include 'js/logiques/money_gram_logiques.php' ?>
     <?php include 'js/droits_access/gestion_DroitsAccess_Batiment.php' ?>
-    <?php include 'js/logiques/reporting_logiques.php' ?>
+  
 
     <script>
         $(window).on('load', function () {

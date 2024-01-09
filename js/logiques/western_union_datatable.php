@@ -5,6 +5,7 @@
         // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
         $.get('http://localhost/kaspy_changes_office/index.php?page=api_western_union', function(rep) {
             let data = JSON.parse(rep)
+           
             data.map((champ_bd) => {
                 var imageUrl = champ_bd.logo;
                 dt_basic.row

@@ -11,7 +11,7 @@
 
        <!-- Incluez le JS de SlickGrid et de jQuery -->
        <!-- Incluez également le CSS de Bootstrap si vous utilisez les modales Bootstrap -->
-       <title><?= APP_NAME ?> -Moov money</title>
+       <title><?= APP_NAME ?> - Mtn money</title>
        <!-- Fichiers CSS par défaut (TEMPLATE) -->
        <?php include_once 'includes/head.php' ?>
        <!-- Fichiers CSS spécifiques a la page (TEMPLATE) -->
@@ -45,14 +45,14 @@
                    <div class="content-header-left col-md-9 col-12 mb-2">
                        <div class="row breadcrumbs-top">
                            <div class="col-12">
-                               <h2 class="content-header-title float-start mb-0">Gestion des transactions</h2>
+                               <h2 class="content-header-title float-start mb-0">Mobile Money</h2>
                                <div class="breadcrumb-wrapper">
                                    <ol class="breadcrumb">
                                        <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
                                        </li>
                                        <li class="breadcrumb-item"><a href="#">Structures</a>
                                        </li>
-                                       <li class="breadcrumb-item active">Moov money
+                                       <li class="breadcrumb-item active">Mtn money
                                        </li>
                                    </ol>
                                </div>

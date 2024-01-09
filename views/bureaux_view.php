@@ -211,7 +211,7 @@
                                             <!--- SLOGAN --->
                                             <div class='mb-1'>
                                                 <label class='form-label' for='slogan'>Slogan</label>
-                                                <input type='text' class='form-control dt-slogan' id='slogan' name='slogan' value="<?= $info_bureau["slogan"] ?>" placeholder='Veuillez saisir le Slogan' aria - Label='slogan' maxlength='45' />
+                                                <input type='text' class='form-control dt-slogan' id='slogan' name='slogan' value="<?= $info_bureau["slogan"] ?>" placeholder='Veuillez saisir le Slogan' aria - Label='slogan' />
                                             </div>
                                             <div class='mb-1'><small id='sloganHelp' class='text-danger invisible'></small></div>
                                         </div>

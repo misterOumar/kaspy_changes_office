@@ -1,28 +1,30 @@
 <script>
-  $(function () {
+  $(function() {
     'use strict';
 
     // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
-    $.get('http://localhost/kaspy_changes_office/index.php?page=api_money_gram', function (rep) {
+    $.get('http://localhost/kaspy_changes_office/index.php?page=api_money_gram', function(rep) {
       let data = JSON.parse(rep)
-      data.map((champ_bd) => {
 
+      data.map((champ_bd) => {
+        var imageUrl = champ_bd.logo;
         dt_basic.row
           .add({
             responsive_id: champ_bd.id,
             id: champ_bd.id,
-            Date: champ_bd.Heure_et_date,
-            ajouter_par: champ_bd.nom_prenom,
-            Num_Ref: champ_bd.Num_Ref,
-            Total: champ_bd.Total,
-            Frais: champ_bd.Frais,
+            Date: champ_bd.date_heure,
+            Numero: champ_bd.num_ref,
+            code_aut: champ_bd.code_aut,
+            id_user: champ_bd.id_user,
+            id_pvente: champ_bd.id_pvente,
+            Montant: champ_bd.montant,
+            frais: champ_bd.frais,
+            total: champ_bd.total,
           })
+
           .draw();
       })
     })
-
-
-
     // CONSTRUCTION DE LA DATATABLE
     var dt_basic_table = $('.datatables-basic'),
       dt_date_table = $('.dt-date'),
@@ -31,10 +33,7 @@
     if ($('body').attr('data-framework') === 'laravel') {
       assetPath = $('body').attr('data-asset-path');
     }
-
-    // DataTable with buttons
-    // --------------------------------------------------------------------
-
+    //Construction des colonnes de la datatable
     if (dt_basic_table.length) {
       var dt_basic = dt_basic_table.DataTable({
         columns: [{
@@ -49,111 +48,165 @@
         {
           data: 'Date'
         },
+       
         {
-          data: 'ajouter_par'
+          data: 'Numero',
+          // render: function (data, type, row) {
+          //   // Assurez-vous que la colonne "Num_Ref" contient du texte
+          //   if (type === 'display' && data) {
+          //     // Ajout d'un gestionnaire d'événements click avec une alerte
+          //     return '<a href="#" data-id="' + row['id'] + '" class="clickable-link" style="font-weight:bolder">' + data + '</a>';
+          //   } else {
+          //     return data; // Si la colonne est vide ou si le type n'est pas 'display', renvoyer simplement la valeur existante
+          //   }
+          // }
         },
         {
-          data: 'Num_Ref',
-          render: function (data, type, row) {
-            // Assurez-vous que la colonne "Num_Ref" contient du texte
-            if (type === 'display' && data) {
-              // Ajout d'un gestionnaire d'événements click avec une alerte
-              return '<a href="#" data-id="' + row['id'] + '" class="clickable-link" style="font-weight:bolder">' + data + '</a>';
-            } else {
-              return data; // Si la colonne est vide ou si le type n'est pas 'display', renvoyer simplement la valeur existante
-            }
-          }
+          data: 'code_aut'
+        },
+        {
+          data: 'id_user'
+        },
+        {
+          data: 'id_pvente'
         },
 
         {
-          data: 'Total'
+          data: 'Montant'
         },
         {
-          data: 'Frais'
+          data: 'frais'
+        },
+        {
+          data: 'total'
         },
         {
           data: ''
         }
         ],
         columnDefs: [{
-          // For Responsive
-          className: 'control',
-          orderable: false,
-          responsivePriority: 2,
-          targets: 0
-        },
-        {
-          // For Checkboxes
-          targets: 1,
-          orderable: false,
-          responsivePriority: 3,
-          render: function (data, type, full, meta) {
-            return (
-              '<div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox' +
-              data +
-              '" /><label class="form-check-label" for="checkbox' +
-              data +
-              '"></label></div>'
-            );
+            // For Responsive
+            className: 'control',
+            orderable: false,
+            responsivePriority: 4,
+            targets: 0
           },
-          checkboxes: {
-            selectAllRender: '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
+          {
+            // For Checkboxes
+            targets: 1,
+            orderable: false,
+            responsivePriority: 3,
+            render: function(data, type, full, meta) {
+              return (
+                "<div class='form-check'> <input class='form-check-input dt-checkboxes' type='checkbox' value='' id='checkbox" +
+                data +
+                "' /><label class='form-check-label' for='checkbox" +
+                data +
+                "'></label></div>"
+              );
+            },
+            checkboxes: {
+              selectAllRender: "<div class='form-check'> <input class='form-check-input' type='checkbox' value='' id='checkboxSelectAll' /><label class='form-check-label' for='checkboxSelectAll'></label></div>"
+            }
+          },
+
+          {
+            //ID
+            targets: 2,
+            visible: false
+          },
+
+          // Le badge ou l'image rond
+          {
+            // Avatar image/badge, libelle and nom_pop
+            targets: 3,
+            responsivePriority: 1,
+            render: function(data, type, full, meta) {
+              var $user_img = full['avatar'],
+                $libelle = full['libelle'],
+                $duree = full['Date'];
+              if ($user_img) {
+                // For Avatar image
+                var $output =
+                  '<img src="' + assetPath + 'images/avatars/' + $user_img + '" alt="Avatar" width="32" height="32">';
+              } else {
+                // For Avatar badge
+                var stateNum = full['status'];
+                var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
+                var $state = states[stateNum],
+                  $expediteur = full['Date'],
+                  $initials = $expediteur.match(/\b\w/g) || [];
+                $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
+                $output = '<span class="avatar-content">' + $initials + '</span>';
+              }
+
+              var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
+              // Creates full output for row
+              var $row_output =
+                '<div class="d-flex justify-content-left align-items-center">' +
+                '<div class="avatar ' +
+                colorClass +
+                ' me-1">' +
+                $output +
+                '</div>' +
+                '<div class="d-flex flex-column">' +
+                '<span class="emp_nom text-truncate fw-bold">' +
+                $expediteur +
+                '</span>' +
+                '</div>' +
+                '</div>';
+              return $row_output;
+            }
+          },
+          // fin du badge ou de l'image rond
+
+          // ActionsVoulez vous vraiment supprimer ?
+          {
+            targets: -1,
+            title: 'Actions',
+            orderable: false,
+            render: function(data, type, full, meta) {
+              return (
+                '<div class="d-inline-flex">' +
+                '<a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown">' +
+                feather.icons['more-vertical'].toSvg({
+                  class: 'font-small-4'
+                }) +
+                '</a>' +
+                '<div class="dropdown-menu dropdown-menu-end">' +
+                //Supprimer
+                '<a  href="javascript:;" class="dropdown-item delete-record">' +
+                feather.icons['trash-2'].toSvg({
+                  class: 'font-small-4 me-50'
+                }) +
+                'Supprimer</a>' +
+
+                //Détails
+                '<a href="javascript:;" class="dropdown-item">' +
+                feather.icons['file-text'].toSvg({
+                  class: 'font-small-4 me-50'
+                }) +
+                'Détails</a>' +
+                //Propriétés
+                '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
+                feather.icons['info'].toSvg({
+                  class: 'font-small-4 me-50'
+                }) +
+                'Propriétés</a>' +
+
+                '</div>' +
+                '</div>' +
+                '<a href="javascript:;" class="item-edit bt_modifier" data-bs-target="#modal-modif" data-bs-toggle="modal">' +
+                feather.icons['edit'].toSvg({
+                  class: 'font-small-4'
+                }) +
+                '</a>'
+              );
+            }
           }
-        },
-        {
-          //ID
-          targets: 2,
-          visible: false
-        },
-        {
-          responsivePriority: 1,
-          targets: 4
-        },
 
-        {
-          // Actions
-          targets: -1,
-          title: 'Actions',
-          orderable: false,
-          render: function (data, type, full, meta) {
-            return (
-              '<div class="d-inline-flex">' +
-              '<a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown">' +
-              feather.icons['more-vertical'].toSvg({
-                class: 'font-small-4'
-              }) +
-              '</a>' +
-              '<div class="dropdown-menu dropdown-menu-end">' +
-              //Supprimer
-              '<a  href="javascript:;" class="dropdown-item delete-record">' +
-              feather.icons['trash-2'].toSvg({
-                class: 'font-small-4 me-50'
-              }) +
-              'Supprimer</a>' +
 
-              //Détails
-              '<a href="javascript:;" class="dropdown-item">' +
-              feather.icons['file-text'].toSvg({
-                class: 'font-small-4 me-50'
-              }) +
-              'Détails</a>' +
-              //Propriétés
-              '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
-              feather.icons['info'].toSvg({
-                class: 'font-small-4 me-50'
-              }) +
-              'Propriétés</a>' +
 
-              '</div>' +
-              '</div>' +
-              '<a href="javascript:;" class="item-edit" data-bs-target="#modal-modif" data-bs-toggle="modal">' +
-              feather.icons['edit'].toSvg({
-                class: 'font-small-4'
-              }) +
-              '</a>'
-            );
-          }
-        }
         ],
         order: [
           [2, 'desc']
@@ -161,103 +214,104 @@
 
 
         // Les boutons d'action
-        dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+        dom: "<'card-header border-bottom p-1'<'head-label'><'dt-action-buttons text-end'B>><'d-flex justify-content-between align-items-center mx-0 row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>t<'d-flex justify-content-between mx-0 row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
         displayLength: 7,
         lengthMenu: [7, 10, 25, 50, 75, 100],
         buttons: [{
-          extend: 'collection',
-          className: 'btn btn-outline-secondary dropdown-toggle me-2',
-          text: feather.icons['share'].toSvg({
-            class: 'font-small-4 me-50'
-          }) + 'Exporter',
-          buttons: [{
-            extend: 'print',
-            text: feather.icons['printer'].toSvg({
+            extend: 'collection',
+            className: 'btn btn-outline-secondary dropdown-toggle me-2 export',
+            text: feather.icons['share'].toSvg({
               class: 'font-small-4 me-50'
-            }) + 'Imprimer',
-            className: 'dropdown-item',
-            exportOptions: {
-              columns: [3, 4, 5, 6, 7]
+            }) + 'Exporter',
+            buttons: [{
+                extend: 'print',
+                text: feather.icons['printer'].toSvg({
+                  class: 'font-small-4 me-50'
+                }) + 'Imprimer',
+                className: 'dropdown-item',
+                exportOptions: {
+                  columns: [3, 4, 5, 6, 7]
+                }
+              },
+              {
+                extend: 'csv',
+                text: feather.icons['file-text'].toSvg({
+                  class: 'font-small-4 me-50'
+                }) + 'Csv',
+                className: 'dropdown-item',
+                exportOptions: {
+                  columns: [3, 4, 5, 6, 7]
+                }
+              },
+              {
+                extend: 'excel',
+                text: feather.icons['file'].toSvg({
+                  class: 'font-small-4 me-50'
+                }) + 'Excel',
+                className: 'dropdown-item',
+                exportOptions: {
+                  columns: [3, 4, 5, 6, 7]
+                }
+              },
+              {
+                extend: 'pdf',
+                text: feather.icons['clipboard'].toSvg({
+                  class: 'font-small-4 me-50'
+                }) + 'Pdf',
+                className: 'dropdown-item',
+                exportOptions: {
+                  columns: [3, 4, 5, 6, 7]
+                }
+              },
+              {
+                extend: 'copy',
+                text: feather.icons['copy'].toSvg({
+                  class: 'font-small-4 me-50'
+                }) + 'Copier',
+                className: 'dropdown-item',
+                exportOptions: {
+                  columns: [3, 4, 5, 6, 7]
+                }
+              }
+            ],
+            init: function(api, node, config) {
+              $(node).removeClass('btn-secondary');
+              $(node).parent().removeClass('btn-group');
+              setTimeout(function() {
+                $(node).closest('.dt-buttons').removeClass('btn-group').addClass('d-inline-flex');
+              }, 50);
             }
           },
+
           {
-            extend: 'csv',
-            text: feather.icons['file-text'].toSvg({
-              class: 'font-small-4 me-50'
-            }) + 'Csv',
-            className: 'dropdown-item',
-            exportOptions: {
-              columns: [3, 4, 5, 6, 7]
+            text: feather.icons['download'].toSvg({
+              class: 'me-50 font-small-4'
+            }) + 'Importer un fichier',
+            className: 'create-new btn btn-primary',
+            attr: {
+              'id': 'bt_importer',
+              'onclick': 'window.location.href = "index.php?page=upload_moneygram"',
+            },
+            init: function(api, node, config) {
+              $(node).removeClass('btn-secondary');
             }
           },
-          {
-            extend: 'excel',
-            text: feather.icons['file'].toSvg({
-              class: 'font-small-4 me-50'
-            }) + 'Excel',
-            className: 'dropdown-item',
-            exportOptions: {
-              columns: [3, 4, 5, 6, 7]
-            }
-          },
-          {
-            extend: 'pdf',
-            text: feather.icons['clipboard'].toSvg({
-              class: 'font-small-4 me-50'
-            }) + 'Pdf',
-            className: 'dropdown-item',
-            exportOptions: {
-              columns: [3, 4, 5, 6, 7]
-            }
-          },
-          {
-            extend: 'copy',
-            text: feather.icons['copy'].toSvg({
-              class: 'font-small-4 me-50'
-            }) + 'Copier',
-            className: 'dropdown-item',
-            exportOptions: {
-              columns: [3, 4, 5, 6, 7]
-            }
-          }
-          ],
-          init: function (api, node, config) {
-            $(node).removeClass('btn-secondary');
-            $(node).parent().removeClass('btn-group');
-            setTimeout(function () {
-              $(node).closest('.dt-buttons').removeClass('btn-group').addClass('d-inline-flex');
-            }, 50);
-          }
-        },
-        {
-          text: feather.icons['plus'].toSvg({
-            class: 'me-50 font-small-4'
-          }) + 'Importer',
-          className: 'create-new btn btn-primary',
-          attr: {
-            'id': 'bt_ajouter',
-            'data-bs-toggle': 'modal',
-            'data-bs-target': '#importationModal'
-          },
-          init: function (api, node, config) {
-            $(node).removeClass('btn-secondary');
-          }
-        }
+
+
+
         ],
-
-
         // RESPONSIVE - Sur téléphone
         responsive: {
           details: {
             display: $.fn.dataTable.Responsive.display.modal({
-              header: function (row) {
+              header: function(row) {
                 var data = row.data();
-                return 'Détails de ' + data['champ1'];
+                return 'Détails de ' + data['nom_prenom'];
               }
             }),
             type: 'column',
-            renderer: function (api, rowIdx, columns) {
-              var data = $.map(columns, function (col, i) {
+            renderer: function(api, rowIdx, columns) {
+              var data = $.map(columns, function(col, i) {
                 return col.title !== '' // ? Do not show row in modal popup if title is blank (for check box)
                   ?
                   '<tr data-dt-row="' +
@@ -287,223 +341,109 @@
             previous: '&nbsp;',
             next: '&nbsp;'
           }
-        },
-
-        // // Ajouter un événement de survol pour chaque ligne
-        // rowCallback: function (row, data) {
-        //   // Ajouter la classe 'datatable-clickable-row' uniquement à la ligne cliquée
-        //   $(row).addClass('datatable-clickable-row');
-
-        //   // Ajouter un événement de clic à la ligne
-        //   $(row).on('click', function () {
-        //     // Récupérer l'ID de la ligne
-        //     var ligneID = data.id;
-
-        //     // Rediriger vers la nouvelle page avec l'ID en paramètre
-        //     $.ajax({
-        //       type: "GET",
-        //       data: "idInfonsTrans=" + ligneID,
-        //       url: "controllers/infos_transactions_money_gram_controller.php",
-        //       success: function (result) {
-        //         // alert(result);
-        //         var donnees = JSON.parse(result);
-
-        //         if (donnees['success'] === true) {
-        //           var infos_transactions_money_gram = donnees['infos_trans'];  
-
-        //           // alert("Données bien arrivées");
-        //           $('#id').html(infos_transactions_money_gram['id']);
-        //           $('#Heure_et_date').html(infos_transactions_money_gram['Heure_et_date']);
-        //           $('#Num_Ref').html(infos_transactions_money_gram['Num_Ref']);
-        //           $('#Identifiant_utilisateur').html(infos_transactions_money_gram['Identifiant_utilisateur']);
-        //           $('#ID_point_vente').html(infos_transactions_money_gram['ID_point_vente']);
-        //           $('#Montant').html(infos_transactions_money_gram['Montant']);
-        //           $('#Frais').html(infos_transactions_money_gram['Frais']);
-        //           $('#Total').html(infos_transactions_money_gram['Total']);
-        //           $('#ajouter_par').html(infos_transactions_money_gram['ajouter_par']);
-        //           $('#date_creation').html(infos_transactions_money_gram['date_creation']);
-        //           $('#user_creation').html(infos_transactions_money_gram['user_creation']);
-        //           $('#navigateur_creation').html(infos_transactions_money_gram['navigateur_creation']);
-        //           $('#ordinateur_creation').html(infos_transactions_money_gram['ordinateur_creation']);
-        //           $('#ip_creation').html(infos_transactions_money_gram['ip_creation']);
-        //           $('#date_modif').html(infos_transactions_money_gram['date_modif']);
-        //           $('#user_modif').html(infos_transactions_money_gram['user_modif']);
-        //           $('#navigateur_modif').html(infos_transactions_money_gram['navigateur_modif']);
-        //           $('#ordinateur_modif').html(infos_transactions_money_gram['ordinateur_modif']);
-        //           $('#ip_modif').html(infos_transactions_money_gram['ip_modif']);
-
-        //           window.location.href = 'index.php?page=infos_transactions_money_gram';
-        //         }
-        //       }
-        //     });
-        //   });
-        // }
-
+        }
       });
       $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
-    };
+    }
 
-
-
-
-
-    // DRAG AND DROP POUR LE CHARGEMENT DES FICHIERS CSV
-    $(document).ready(function () {
-
-      //survole avec le fichier 
-      // $('#importation').on('dragenter', function (e) {
-      //   e.preventDefault();
-      //   $('#importation').addClass('dragover');
-      // });
-
-      // //non survole avec le fichier 
-      // $('#importation').on('dragleave', function (e) {
-      //   e.preventDefault();
-      //   $('#importation').removeClass('dragover');
-      // });
-
-      $('#importation').on('drop', function (e) {
-        e.preventDefault();
-        const file = e.originalEvent.dataTransfer.files[0];
-
-        if (file) {
-          $('#importation').addClass('dragover');
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            const csv = e.target.result;
-            const rows = csv.split("\n");
-
-            // Process rows (you can send them to the server using AJAX)
-            for (let i = 0; i < rows.length; i++) {
-              const cells = rows[i].split(",");
-              // Do something with the cells, like sending them to the server
-              // console.log(cells);
-              // sendDataToServer(cells);
-              $("#ChangerImport").on('click', function () {
-                // console.log(cells);
-                sendDataToServer(cells);
-
-              })
-            }
-            // Afficher le nom du fichier
-            $('#importation').addClass('dragover');
-            document.getElementById('file-name').innerText = 'Nom du fichier : ' + file.name;
-
-            // alert("Fichier CSV traité avec succès!");
-          };
-          reader.readAsText(file);
-        }
+    // Flat Date picker
+    if (dt_date_table.length) {
+      dt_date_table.flatpickr({
+        monthSelectorType: 'static',
+        dateFormat: 'm/d/Y'
       });
-    });
+    }
 
-    // FONCTION POUR ENVOYER LES DONNEES CSV AU CONTROLLER 
-    function sendDataToServer(data) {
-      // Envoi des données au serveur via AJAX
-      $.ajax({
-        type: "POST",
-        url: "controllers/money_gram_controller.php",
-        data: { data: data },
-        success: function (result) {
-          // console.log(result);
-          // Vous pouvez traiter la réponse du serveur ici
 
-          var donnees = JSON.parse(result);
-          if (donnees['success'] === true) {
-            $('#importationModal').modal('hide');
-            
-            // MESSAGE ALERT      
-            window.location.reload();
-            swal_Alert_Sucess("Données chargées avec succès");
-
-          }
+    // SUPPRIMER UNE LIGNE
+    $('.datatables-basic tbody').on('click', '.delete-record', function() {
+      // Suppression Front
+      var that = this
+      //--------------- Confirm Options SWEET ALERT ---------------
+      Swal.fire({
+        title: 'Voulez vous vraiment supprimer cette transaction ?',
+        text: '< ' + (dt_basic.row($(this).parents('tr')).data().montant) + ' > sera supprimé définitivement',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Oui, Supprimer !',
+        cancelButtonText: 'Annuler',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ms-1'
         },
-        error: function (error) {
-          console.error(error);
+        buttonsStyling: false,
+      }).then(function(result) {
+        if (result.value) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Suppression éffectuée !',
+            text: "' " + (dt_basic.row($(that).parents('tr')).data().id_user) + " ' a été supprimée avec succès.",
+            showConfirmButton: false,
+            timer: 1300,
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
         }
       });
-    };
+      $('.swal2-confirm').on('click', function() {
 
-    // Réinitialiser tout lorsqu'on clique sur le bouton "Fermer"
-    $('#fermerBtn').on('click', function () {
-      // Réinitialiser la zone de glisser-déposer
-      $('#importation').removeClass('dragover');
+        //Suppression Back
+        $.ajax({
+          type: "GET",
+          data: "idSuppr=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+          url: "controllers/money_gram_controller.php",
+          success: function(result) {
+            var donneee = JSON.parse(result);
+            if (donneee['success'] === 'true') {
+              dt_basic.row($(that).parents('tr')).remove().draw() //Suppression de la ligne selectionnée
 
-      // Réinitialiser le nom du fichier
-      document.getElementById('file-name').innerText = '';
-      // Réinitialiser d'autres états si nécessaire
-      // Fermer la modal
-      $('#importationModal').modal('hide');
+            } else if (donneee['success'] === 'false') {
+              initializeFlash();
+              $('.flash').addClass('alert-danger');
+              $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donneee['message'])
+                .fadeIn(300).delay(2500).fadeOut(300);
+            } else {
+              initializeFlash();
+              $('.flash').addClass('alert-danger');
+              $('.flash').html('<i class="fas fa-exclamation-circle"></i> Erreur inconnue')
+                .fadeIn(300).delay(2500).fadeOut(300);
+            }
+          }
+        })
+
+      });
     });
 
 
 
-
-
-
-    // Gestionnaire d'événements click pour les liens avec la classe 'clickable-link'
-    $(document).on('click', '.clickable-link', function () {
-      showAlert($(this).attr('data-id'), $(this).text());
-    });
-
-    // Fonction showAlert
-    function showAlert(id, data) {
-      // alert('Vous avez cliqué sur l\'élément avec l\'ID : ' + id + ' et la valeur : ' + data);
+    // Propriété
+    $('.datatables-basic tbody').on('click', '.proprietes', function() {
+      var that = this
       $.ajax({
         type: "GET",
-        data: "idInfonsTrans=" + id,
-        url: "controllers/infos_transactions_money_gram_controller.php",
-        success: function (result) {
-          // alert(result);
+        data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+        url: "controllers/type_carte_controller.php",
+        success: function(result) {
           var donnees = JSON.parse(result);
-          if (donnees['success'] === true) {
-            var infos_transactions_money_gram = donnees['infos_trans'];
-            // alert("Données bien arrivées");
+          if (donnees['carte'] !== 'null') {
 
-            // $('#id').html(infos_transactions_money_gram['id']);
-            // $('#Heure_et_date').html(infos_transactions_money_gram['Heure_et_date']);
-            // $('#Num_Ref').html(infos_transactions_money_gram['Num_Ref']);
-            // $('#Identifiant_utilisateur').html(infos_transactions_money_gram['Identifiant_utilisateur']);
-            // $('#ID_point_vente').html(infos_transactions_money_gram['ID_point_vente']);
-            // $('#Montant').html(infos_transactions_money_gram['Montant']);
-            // $('#Frais').html(infos_transactions_money_gram['Frais']);
-            // $('#Total').html(infos_transactions_money_gram['Total']);
-            // $('#ajouter_par').html(infos_transactions_money_gram['ajouter_par']);
-            // $('#date_creation').html(infos_transactions_money_gram['date_creation']);
-            // $('#user_creation').html(infos_transactions_money_gram['user_creation']);
-            // $('#navigateur_creation').html(infos_transactions_money_gram['navigateur_creation']);
-            // $('#ordinateur_creation').html(infos_transactions_money_gram['ordinateur_creation']);
-            // $('#ip_creation').html(infos_transactions_money_gram['ip_creation']);
-            // $('#date_modif').html(infos_transactions_money_gram['date_modif']);
-            // $('#user_modif').html(infos_transactions_money_gram['user_modif']);
-            // $('#navigateur_modif').html(infos_transactions_money_gram['navigateur_modif']);
-            // $('#ordinateur_modif').html(infos_transactions_money_gram['ordinateur_modif']);
-            // $('#ip_modif').html(infos_transactions_money_gram['ip_modif']);
-            // window.location.href = 'index.php?page=infos_transactions_money_gram';
+            let proprietes = donnees['locataire']
 
-            // Construction de l'URL avec les données
-            var url = 'index.php?page=infos_transactions_money_gram&';
-            for (var key in infos_transactions_money_gram) {
-              if (infos_transactions_money_gram.hasOwnProperty(key)) {
-                url += encodeURIComponent(key) + '=' + encodeURIComponent(infos_transactions_money_gram[key]) + '&';
-              }
-            }
-
-            // Supprimer le dernier '&'
-            url = url.slice(0, -1);
-
-            // Redirection avec les données dans l'URL
-            window.location.href = url;
+            let libelle = proprietes['libelle'];
+            let duree = proprietes['duree'];
+            let date_creation = proprietes['date_creation'];
+            $("#offcanvasBottomLabel").html("Propriété de « " + titre + " »");
+            $("#date_creation").html(date_creation);
+            $("#user_creation").html(user_creation);
+            $("#navigateur_creation").html(navigateur_creation);
+            $("#ordinateur_creation").html(ordinateur_creation);
+            $("#ip_creation").html(ip_creation);
+            $("#annee_academique").html(annee_academique);
+            $("#ecole").html(ecole);
           }
         }
-      });
-
-    };
-
-    // Ajoutez un gestionnaire d'événements clic à l'élément de menu
-    document.getElementById('retourArriere').addEventListener('click', function () {
-      // Effectue le retour en arrière
-      history.back();
+      })
     });
-
   });
 </script>

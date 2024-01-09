@@ -309,9 +309,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <?php include 'js/logiques/type_carte_logiques.php' ?>
     <?php include 'js/logiques/reporting_logiques.php' ?>
 
-
-
-
     <script>
         $(window).on('load', function() {
             if (feather) {

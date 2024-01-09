@@ -1,11 +1,14 @@
 <?php
 
 // SUPPRESSION D'UNE TRANSACTION
+
+
+
 if (isset($_GET['idSuppr'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
-    include('../models/Western_union.php');
+    include('../models/transaction_wu.php');
 
     $id = strSecur($_GET['idSuppr']);
     if (western_union::Supprimer($id)) {

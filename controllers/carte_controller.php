@@ -4,7 +4,16 @@
 $List_types_cartes = null;
 if (isset($_GET['page']) and !empty($_GET['page']) and $_GET['page'] === "carte") {
     include("models/Type_carte.php");
+    include('models/Carte.php');
+
     $List_types_cartes = type_carte::getAll();
+
+    // statistiques
+    $nbre_cartes = cartes::getCount();
+    $nbre_cartes_vendu = cartes::getCountVendu();
+    $stat_carte = cartes::getCountTypeCarte();
+   
+
 }
 
 // ENREGISTRER (AJOUTER) UN NOUVELLE ENREGISTREMENT FISCAL DE BAIL
@@ -16,6 +25,8 @@ if (isset($_POST['bt_enregistrer'])) {
     include('../config/db.php');
     include('../models/Carte.php');
     include('../models/Type_carte.php');
+
+ 
 
     $type = strSecur($_POST['type']);
     $customer_id = strSecur($_POST['customer_id']);
@@ -36,15 +47,13 @@ if (isset($_POST['bt_enregistrer'])) {
     $duree = $activation->diff($expiration);
     $format_duree = $duree->format('%a jours %h heures %i minutes');
 
+    $quantite = cartes::Nb_carte();
+
     // Déclaration et initialisation des variables d'erreur (e)
     $e_type = $e_customer_id = $e_date_activation = $e_date_expiration = "";
     $succes = true;
 
-    // Vérifications
-    // if (empty($libelle)) {
-    //     $e_libelle = "Ce champ ne doit pas être vide.";
-    //     $succes = false;
-    // }
+     
 
     if ($type === "Choisir le type de carte...") {
         $e_type = "Ce champ est requis !";
@@ -65,8 +74,8 @@ if (isset($_POST['bt_enregistrer'])) {
     }
 
     // Cas ou tout est ok
-    if ($succes) {
 
+      if ($succes) {
         $recouvreur = cartes::getByNum($customer_id);
         if ($recouvreur['customer_id'] == $customer_id) {
             $message = "Cette carte   existe déjà";
@@ -88,6 +97,7 @@ if (isset($_POST['bt_enregistrer'])) {
                 $date_expiration,
                 $type,
                 $format_duree,
+                0,
                 $dt,
                 $us,
                 $navigateur,
@@ -124,7 +134,7 @@ if (isset($_POST['bt_enregistrer'])) {
         ]);
     }
 }
-
+ 
 // MODIFIER UNE TRANSACTION
 if (isset($_POST['bt_modifier'])) {
 
@@ -175,7 +185,7 @@ if (isset($_POST['bt_modifier'])) {
         $us = $_SESSION["KaspyISS_user"]['users'];
         $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         $dt = date("Y-m-d H:i:s");
-
+        $status="en stock";
         // Appel de la fonction Modifier de la classe Carte
         if (cartes::Modifier(
             $customer_id,
@@ -183,6 +193,7 @@ if (isset($_POST['bt_modifier'])) {
             $date_expiration,
             $type,
             $format_duree,
+            $status,
             $dt,
             $us,
             $navigateur,

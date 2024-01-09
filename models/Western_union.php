@@ -110,11 +110,12 @@ class western_union
     static function getAll()
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM western_union ORDER BY id");
+        $req = $db->prepare("SELECT  * FROM western_union ORDER BY id");
         $req->execute([]);
         return $req->fetchAll();
     }
-
+   
+    
     /**
      * Méthode pour récupérer un(e) western_union en fonction de son id.
      *

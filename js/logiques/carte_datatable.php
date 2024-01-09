@@ -16,6 +16,9 @@
                         type_carte: champ_bd.type_carte,
                         duree: champ_bd.duree,
 
+                        status: champ_bd.status==1 ? "vendue" :"en stock",
+
+
                     })
 
                     .draw();
@@ -55,6 +58,10 @@
                     {
                         data: 'duree'
                     },
+                    {
+                        data: 'status'
+                    },
+
 
                     {
                         data: ''

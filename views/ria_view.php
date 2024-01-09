@@ -87,10 +87,20 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                             <th></th>
                                             <th></th>
                                             <th>id</th>
-                                            <th>Libellé</th>
-                                            <th>Durée</th>
+                                            <th> Date</th>
+                                            <th> Numero Transfert </th>
 
-                                            <th>Actions</th>
+                                            <th> Montant Envoye </th>
+
+                                            <th> Pays destination </th>
+
+                                            <th> Montant payé </th>
+
+                                            <th> Devise paiement </th>
+
+                                            <th> taux </th>
+
+                                            <th> Actions </th>
                                         </tr>
                                     </thead>
                                 </table>

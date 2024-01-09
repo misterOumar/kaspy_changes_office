@@ -1,57 +1,263 @@
 <?php
-// AFFICHER LA LISTE DES BATIMENTS
-$Liste_Money_gram = null;
-if (isset($_GET['page']) and !empty($_GET['page']) and $_GET['page'] === "changes") {
-    include("models/Changes.php");
-    $Listes_changes = changes::getAll();
 
-}
-;
+// AFFICHER LA LISTE DES CONTRATS DE BAILS
+ 
+// ENREGISTRER (AJOUTER) UN NOUVELLE ENREGISTREMENT FISCAL DE BAIL
+if (isset($_POST['bt_enregistrer'])) {
 
-
-// RECUPERATION DES INFO POUR PROPRIETE D'UN ELEMENT 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // inclusion des fichiers ressources
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
-    include("../models/Changes.php");
-    // Récupérer les données envoyées depuis JavaScript
-    $data = $_POST['data'];
+    include('../models/Change.php');
+   
 
-    // Traiter les données comme nécessaire
-    foreach ($data as $row) {
-        // Faire quelque chose avec chaque ligne ($row)
-        $colonnes = explode(';', $row);
-        // print_r($colonnes[0]);
-        // print_r($colonnes[1]);
-        // print_r($colonnes[2]);
-        // print_r($colonnes[3]);
-        // print_r($colonnes[4]);
-        // print_r($colonnes[4]);
+    // Récupération des données postés dépuis le formulaire dans les variables respectives
+    $client = strSecur($_POST["client"]);
 
-        // Connexion à la base de données avec PDO
+    $taux = ($_POST["taux"]);
+    $telephone = strSecur($_POST["telephone"]);
+    $montant_envoye = ($_POST["montant"]);
+    
+    // $date_t = strSecur($_POST["date_t"]);
+    $date_v = strSecur($_POST["date_v"]);
+
+    $date_v = date('Y-m-d', strtotime($date_v));
+
+    $montant_r = $montant_envoye * $taux;
+
+    // Déclaration et initialisation des variables d'erreur (e)
+    $e_client  =  $e_taux = $e_telephone =  $e_montant_envoye= $e_date_v =  "";
+    $succes = true;
+
+    // Vérifications   
+
+    if (empty($client)) {
+        $e_client = "Ce champ ne doit pas être vide.";
+        $succes = false;
+    }
+    if (empty($montant_envoye)) {
+        $e_montant_envoye = "Ce champ ne doit pas être vide.";
+        $succes = false;
+    }
+
+      if (empty($taux)) {
+        $e_taux = "Ce champ ne doit pas être vide.";
+        $succes = false;
+    }
+
+    if (empty($telephone)) {
+        $e_telephone = "Ce champ ne doit pas être vide.";
+        $succes = false;
+    }
+
+    if ($succes) {
+        $ip_creation = getIp();
+        $navigateur_creation = getNavigateur();
+        $user_creation = $_SESSION["KaspyISS_user"]['users'];
+        $ordinateur_creation = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        $date_creation = date("Y-m-d H:i:s");
+        if (changes::Ajouter(
+            $montant_envoye,           
+            $taux,
+            $montant_r,   
+            $client,
+            $telephone,         
+            $date_v,
+            $date_creation,
+            $user_creation,
+            $navigateur_creation,
+            $ordinateur_creation,
+            $ip_creation,          
+            $date_creation,
+            $user_creation,
+            $navigateur_creation,
+            $ordinateur_creation,
+            $ip_creation,          
+        )) {
+            $message = "Enregistrement de l\'échange  éffectué avec succès.";
+            echo json_encode([
+                'success' => 'true',
+                'message' => $message
+            ]);
+        } else {
+            $message = "Erreur lors de l\'enregistrement de l\'échange.";
+            echo json_encode([
+                'success' => 'false',
+                'message' => $message
+            ]);
+        }
+    } else {
+        echo json_encode([
+            'success' => 'false',
+            'message' => "Vérifier les champs",
+            'montant_envoye' => $e_montant_envoye,
+            'client' => $e_client,
+            'telephone' => $e_telephone,
+            'taux' => $e_taux,            
+            'date' => $e_date_v,
+        ]);
+    }
+}
+// MODIFIER UNE TRANSACTION
+if (isset($_POST['bt_modifier'])) {
+    // inclusion des fichiers ressources
+    include('../functions/functions.php');
+    include('../config/config.php');
+    include('../config/db.php');
+    include('../models/Change.php');
+    // Récupération des données postés dépuis le formulaire dans les variables respectives
+    $client = strSecur($_POST["client_modif"]);
+    $taux = ($_POST["taux_modif"]);
+    $montant_envoye = ($_POST["montant_modif"]);
+    $telephone = strSecur($_POST["telephone_modif"]);
+    $date_v = strSecur($_POST["date_vmodif"]);
+    $montant_reçu= $montant_envoye * $taux;
+    $idModif = strSecur($_POST["idModif"]);
+    $e_client = $e_taux  = $e_montant = $e_date_v = " ";
+    $succes = true;
+    // Vérifications
+
+    if ($client === '') {
+        $e_client = "Ce champ ne doit pas être vide.";
+        $succes = false;
+    }
+    if ($taux === '') {
+        $e_taux = "Ce champ ne doit pas être vide.";
+        $succes = false;
+    }
+
+    if ($montant === '') {
+        $e_montant = "Ce champ ne doit pas être vide.";
+        $succes = false;
+    }
+
+
+    // Cas ou tout est ok
+    if ($succes) {
         $ip = getIp();
         $navigateur = getNavigateur();
         $us = $_SESSION["KaspyISS_user"]['users'];
         $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         $dt = date("Y-m-d H:i:s");
-        $dateC = date('Y-m-d H:i:s', strtotime(str_replace('/', '-', $colonnes[0])));
+      if (changes::Modifier(
+            $montant_envoye,          
+            $taux,
+            $montant_reçu,    
+            $client,
+            $telephone,        
+            $date_v,
+            $dt,
+            $us,
+            $navigateur,
+            $pc,
+            $ip,
+            $idModif
 
-        // Préparer la requête d'insertion
-        // Exécuter la requête avec les valeurs échappées
-        if (changes::Ajouter($id, $dateC, $colonnes[1], $colonnes[2], $colonnes[3], $colonnes[4], $colonnes[5], $colonnes[6], $colonnes[7], $colonnes[8], $colonnes[9], $colonnes[10], $colonnes[11], $_SESSION['KaspyISS_user']['id'], $dt, $us, $navigateur, $pc, $ip, $dt, $us, $navigateur, $pc, $ip)) {
-            // Ajouter($id, $dateC, $colonnes[1], $colonnes[2], $colonnes[3], $colonnes[4], $colonnes[5], $colonnes[6], $colonnes[7], $colonnes[8], $colonnes[9], $colonnes[10], $colonnes[11], $_SESSION['KaspyISS_user']['id'], $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
-            // Afficher un message de succès
-            // echo "Ligne insérée avec succès.";
-
+        )) 
+        {
+            $message = "Mise à jour de l\'échange  éffectué avec succès.";
+            echo json_encode([
+                'success' => 'true',
+                'message' => $message
+            ]);
+        } else {
+            $message = "Erreur lors de la mise à jour de l\' échange.";
+            echo json_encode([
+                'success' => 'false',
+                'message' => $message
+            ]);
         }
-
-        // Vous pouvez insérer ces données dans la base de données ici
+    } else {
+        echo json_encode([
+            'success' => 'false',
+            'message' => "Vérifier les champs",
+            'montant_envoye' => $e_montant_envoye,   
+            'client' => $e_client,
+            'telephone' => $e_telephone,
+            'taux' => $e_taux,
+            'date' => $e_date_v,
+                    
+        ]);
     }
+}
 
-    // Répondre à JavaScript avec un message (facultatif)
-    echo json_encode(['success' => true, 'message' => 'Données traitées avec succès.']);
-} else {
-    // Répondre avec une erreur si la requête n'est pas une requête POST
-    http_response_code(405); // Méthode non autorisée
+// RECUPERATION DES INFO DE LA DERNIERE LIGNE
+if (isset($_GET['idLast'])) {
+    include('../functions/functions.php');
+    include('../config/config.php');
+    include('../config/db.php');
+    include('../models/Change.php');
+
+    $echange = changes::getLast();
+
+    if ($echange) {
+        $total = changes::getCount();
+        echo json_encode([
+            'last_change' => $echange,
+            'total' => $total
+        ]);
+    } else {
+        echo json_encode([
+            'last_change' => 'null'
+        ]);
+    }
+}
+// RECUPERATION DES INFO POUR LA MODIFICATION
+if (isset($_GET['idChange'])) {
+    include('../functions/functions.php');
+    include('../config/config.php');
+    include('../config/db.php');
+    include('../models/Change.php');
+
+    $id = $_GET['idChange'];
+    $proprietes = changes::getByID($id);
+    if ($proprietes) {
+        echo json_encode([
+            'change' => $proprietes,
+        ]);
+    } else {
+        echo json_encode([
+            'change' => 'null'
+        ]);
+    }
+}
+
+
+// RECUPERATION DES INFO POUR PROPRIETE D'UN ELEMENT 
+if (isset($_GET['idProprietes'])) {
+    include('../functions/functions.php');
+    include('../config/config.php');
+    include('../config/db.php');
+    include('../models/Change.php');
+    $id = $_GET['idProprietes'];
+    $echange = changes::getByID($id);
+    if ($echange) {
+        echo json_encode([
+            'changes' => $echange,
+        ]);
+    } else {
+        echo json_encode([
+            'changes' => 'null'
+        ]);
+    }
+}
+
+
+if (isset($_GET['idSuppr'])) {
+    include('../functions/functions.php');
+    include('../config/config.php');
+    include('../config/db.php');
+    include('../models/Change.php');
+
+    $id = strSecur($_GET['idSuppr']);
+    if (changes::Supprimer($id)) {
+       
+    } else {
+        $message = "Erreur impossible de supprimer cette échange.";
+        echo json_encode([
+            'success' => 'false',
+            'message' => $message
+        ]);
+    }
 }

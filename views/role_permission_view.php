@@ -221,7 +221,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                     </tr>
 
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="contrat"><i data-feather="folder-plus"  style="width: 20px;"></i>Contrat de bail</td>
+                                                        <td class="text-nowrap fw-bolder" id="contrat"><i data-feather="folder-plus"  style="width: 20px;"></i>Ria</td>
                                                         <input type="text" name="role1" id="contrat" hidden value="Contrat de bail">
                                                         <td>
                                                             <div class="d-flex">
@@ -258,7 +258,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="enregistrement" name="role2"><i data-feather="credit-card"  style="width: 20px;"></i>Enregistrement fiscal</td>
+                                                        <td class="text-nowrap fw-bolder" id="enregistrement" name="role2"><i data-feather="credit-card"  style="width: 20px;"></i>Wersten Union</td>
                                                         <input type="text" name="role2" id="contrat" hidden value="Enregistrement fiscal">
                                                         <td>
                                                             <div class="d-flex">
@@ -295,7 +295,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="recouvrements" name="role3"><i data-feather="check-circle"  style="width: 20px;"></i>Recouvrements</td>
+                                                        <td class="text-nowrap fw-bolder" id="recouvrements" name="role3"><i data-feather="check-circle"  style="width: 20px;"></i>Money Gramme</td>
                                                         <input type="text" name="role3" id="contrat" hidden value="Recouvrements">
                                                         <td>
                                                             <div class="d-flex">
@@ -331,82 +331,11 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                             </div>
                                                         </td>
                                                     </tr>
+                                                 
+                                                    
+                                                    
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="proprietaires" name="role4"><i data-feather="user"  style="width: 20px;"></i>Proprietaires</td>
-                                                        <input type="text" name="role4" id="contrat" hidden value="Proprietaires">
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="lecture4" name="lecture4" />
-                                                                    <label class="form-check-label" for="lecture4"> Lecture </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="creation4" name="creation4" />
-                                                                    <label class="form-check-label" for="creation4"> Creation </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="modification4" name="modification4" />
-                                                                    <label class="form-check-label" for="modification4"> Modification </label>
-                                                                </div>
-
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="suppression4" name="suppression4" />
-                                                                    <label class="form-check-label" for="suppression4"> Suppression </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="duplicata4" name="duplicata4" />
-                                                                    <label class="form-check-label" for="duplicata4"> Duplicata </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="visualisation4" name="visualisation4" />
-                                                                    <label class="form-check-label" for="visualisation4"> Visualisation </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="exportation4" name="exportation4" />
-                                                                    <label class="form-check-label" for="exportation4"> Exportation </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-bolder" id="batiments" name="role5"><i data-feather="folder-plus"  style="width: 20px;"></i>Batiments</td>
-                                                        <input type="text" name="role5" id="contrat" hidden value="Batiments">
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="lecture5" name="lecture5" />
-                                                                    <label class="form-check-label" for="lecture5"> Lecture </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="creation5" name="creation5" />
-                                                                    <label class="form-check-label" for="creation5"> Creation </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="modification5" name="modification5" />
-                                                                    <label class="form-check-label" for="modification5"> Modification </label>
-                                                                </div>
-
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="suppression5" name="suppression5" />
-                                                                    <label class="form-check-label" for="suppression5"> Suppression </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="duplicata5" name="duplicata5" />
-                                                                    <label class="form-check-label" for="duplicata5"> Duplicata </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="visualisation5" name="visualisation5" />
-                                                                    <label class="form-check-label" for="visualisation5"> Visualisation </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="exportation5" name="exportation5" />
-                                                                    <label class="form-check-label" for="exportation5"> Exportation </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-bolder" id="appartements" name="role6"><i data-feather="folder-plus"  style="width: 20px;"></i>Appartements</td>
+                                                        <td class="text-nowrap fw-bolder" id="appartements" name="role6"><i data-feather="folder-plus"  style="width: 20px;"></i>Orange money</td>
                                                         <input type="text" name="role6" id="contrat" hidden value="Appartements">
                                                         <td>
                                                             <div class="d-flex">
@@ -443,7 +372,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="locataires" name="role7"><i data-feather="folder-plus"  style="width: 20px;"></i>Locataires</td>
+                                                        <td class="text-nowrap fw-bolder" id="locataires" name="role7"><i data-feather="folder-plus"  style="width: 20px;"></i>Moov money</td>
                                                         <input type="text" name="role7" id="contrat" hidden value="Locataires">
                                                         <td>
                                                             <div class="d-flex">
@@ -480,7 +409,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="recouvreurs" name="role8"><i data-feather="folder-plus"  style="width: 20px;"></i>Recouvreurs</td>
+                                                        <td class="text-nowrap fw-bolder" id="recouvreurs" name="role8"><i data-feather="folder-plus"  style="width: 20px;"></i>Mtn money</td>
                                                         <input type="text" name="role8" id="contrat" hidden value="Recouvreurs">
                                                         <td>
                                                             <div class="d-flex">
@@ -517,7 +446,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="type_batiment" name="role9"><i data-feather="folder-plus"  style="width: 20px;"></i>Type de batiment</td>
+                                                        <td class="text-nowrap fw-bolder" id="type_batiment" name="role9"><i data-feather="folder-plus"  style="width: 20px;"></i>Carte Visa</td>
                                                         <input type="text" name="role9" id="contrat" hidden value="Type de batiment">
                                                         <td>
                                                             <div class="d-flex">
@@ -554,7 +483,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="type_appartement" name="role10"><i data-feather="folder-plus"  style="width: 20px;"></i>Type d'appartement</td>
+                                                        <td class="text-nowrap fw-bolder" id="type_appartement" name="role10"><i data-feather="folder-plus"  style="width: 20px;"></i>Changes</td>
                                                         <input type="text" name="role10" id="contrat" hidden value="Type d'appartement">
                                                         <td>
                                                             <div class="d-flex">
@@ -591,44 +520,46 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="type_locataire" name="role11"><i data-feather="folder-plus"  style="width: 20px;"></i>Type de locataire</td>
-                                                        <input type="text" name="role11" id="contrat" hidden value="Type de locataire">
+                                                        <td class="text-nowrap fw-bolder" id="batiments" name="role5"><i data-feather="folder-plus"  style="width: 20px;"></i>Cartes</td>
+                                                        <input type="text" name="role5" id="contrat" hidden value="Batiments">
                                                         <td>
                                                             <div class="d-flex">
                                                                 <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="lecture11" name="lecture11" />
-                                                                    <label class="form-check-label" for="lecture11"> Lecture </label>
+                                                                    <input class="form-check-input" type="checkbox" id="lecture5" name="lecture5" />
+                                                                    <label class="form-check-label" for="lecture5"> Lecture </label>
                                                                 </div>
                                                                 <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="creation11" name="creation11" />
-                                                                    <label class="form-check-label" for="creation11"> Creation </label>
+                                                                    <input class="form-check-input" type="checkbox" id="creation5" name="creation5" />
+                                                                    <label class="form-check-label" for="creation5"> Creation </label>
                                                                 </div>
                                                                 <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="modification11" name="modification11" />
-                                                                    <label class="form-check-label" for="modification11"> Modification </label>
+                                                                    <input class="form-check-input" type="checkbox" id="modification5" name="modification5" />
+                                                                    <label class="form-check-label" for="modification5"> Modification </label>
                                                                 </div>
 
                                                                 <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="suppression11" name="suppression11" />
-                                                                    <label class="form-check-label" for="suppression11"> Suppression </label>
+                                                                    <input class="form-check-input" type="checkbox" id="suppression5" name="suppression5" />
+                                                                    <label class="form-check-label" for="suppression5"> Suppression </label>
                                                                 </div>
                                                                 <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="duplicata11" name="duplicata11" />
-                                                                    <label class="form-check-label" for="duplicata11"> Duplicata </label>
+                                                                    <input class="form-check-input" type="checkbox" id="duplicata5" name="duplicata5" />
+                                                                    <label class="form-check-label" for="duplicata5"> Duplicata </label>
                                                                 </div>
                                                                 <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="visualisation11" name="visualisation11" />
-                                                                    <label class="form-check-label" for="visualisation11"> Visualisation </label>
+                                                                    <input class="form-check-input" type="checkbox" id="visualisation5" name="visualisation5" />
+                                                                    <label class="form-check-label" for="visualisation5"> Visualisation </label>
                                                                 </div>
                                                                 <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="exportation11" name="exportation11" />
-                                                                    <label class="form-check-label" for="exportation11"> Exportation </label>
+                                                                    <input class="form-check-input" type="checkbox" id="exportation5" name="exportation5" />
+                                                                    <label class="form-check-label" for="exportation5"> Exportation </label>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-bolder" id="type_piece" name="role12"><i data-feather="folder-plus"  style="width: 20px;"></i>Type de piece</td>
+
+
+                                                    <!-- <tr>
+                                                        <td class="text-nowrap fw-bolder" id="type_piece" name="role12"><i data-feather="folder-plus"  style="width: 20px;"></i>Point journalier</td>
                                                         <input type="text" name="role12" id="contrat" hidden value="Type de piece">
                                                         <td>
                                                             <div class="d-flex">
@@ -663,9 +594,9 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                    </tr>
+                                                    </tr> -->
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="gestion_utilisateurs" name="role13"><i data-feather="tool"  style="width: 20px;"></i>Gestion utilisateurs</td>
+                                                        <td class="text-nowrap fw-bolder" id="gestion_utilisateurs" name="role13"><i data-feather="tool"  style="width: 20px;"></i>Ria</td>
                                                         <input type="text" name="role13" id="contrat" hidden value="Gestion utilisateurs">
                                                         <td>
                                                             <div class="d-flex">
@@ -699,7 +630,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                                     <label class="form-check-label" for="exportation13"> Exportation </label>
                                                                 </div>
                                                             </div>
-                                                        </td>
+                                                        </td> 
                                                     </tr>
                                                     <tr>
                                                         <td class="text-nowrap fw-bolder" id="Role et permission" name="role14"><i data-feather="shield"  style="width: 20px;"></i>Droit d'accès</td>
@@ -908,6 +839,16 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 <!--/ Add Role Modal -->
 
 
+
+
+
+
+
+
+
+
+
+
                 <!-- Add Role Modal Modifs-->
                 <div class="modal fade" id="addRoleModalModifs" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-xl modal-dialog-centered modal-add-new-role">
@@ -982,7 +923,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                     </tr>
 
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="contrat">Contrat de bail</td>
+                                                        <td class="text-nowrap fw-bolder" id="contrat">Ria</td>
                                                         <input type="text" name="role_modif1" id="contrat" hidden value="Contrat de bail">
                                                         <td>
                                                             <div class="d-flex">
@@ -1019,7 +960,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="enregistrement" name="role_modif2">Enregistrement fiscal</td>
+                                                        <td class="text-nowrap fw-bolder" id="enregistrement" name="role_modif2">Western Union</td>
                                                         <input type="text" name="role_modif2" id="contrat" hidden value="Enregistrement fiscal">
                                                         <td>
                                                             <div class="d-flex">
@@ -1056,7 +997,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="recouvrements" name="role_modif3">Recouvrements</td>
+                                                        <td class="text-nowrap fw-bolder" id="recouvrements" name="role_modif3">Money Gramme</td>
                                                         <input type="text" name="role_modif3" id="contrat" hidden value="Recouvrements">
                                                         <td>
                                                             <div class="d-flex">
@@ -1092,45 +1033,9 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                             </div>
                                                         </td>
                                                     </tr>
+                                                    
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="proprietaires" name="role_modif4">Proprietaires</td>
-                                                        <input type="text" name="role_modif4" id="contrat" hidden value="Proprietaires">
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="lecture_modif4" name="lecture_modif4" />
-                                                                    <label class="form-check-label" for="lecture4"> Lecture </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="creation_modif4" name="creation_modif4" />
-                                                                    <label class="form-check-label" for="creation4"> Creation </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="modification_modif4" name="modification_modif4" />
-                                                                    <label class="form-check-label" for="modification4"> Modification </label>
-                                                                </div>
-
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="suppression_modif4" name="suppression_modif4" />
-                                                                    <label class="form-check-label" for="suppression4"> Suppression </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="duplicata_modif4" name="duplicata_modif4" />
-                                                                    <label class="form-check-label" for="duplicata4"> Duplicata </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="visualisation_modif4" name="visualisation_modif4" />
-                                                                    <label class="form-check-label" for="visualisation4"> Visualisation </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="exportation_modif4" name="exportation_modif4" />
-                                                                    <label class="form-check-label" for="exportation4"> Exportation </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-bolder" id="batiments" name="role_modif5">Batiments</td>
+                                                        <td class="text-nowrap fw-bolder" id="batiments" name="role_modif5">Orange money</td>
                                                         <input type="text" name="role_modif5" id="contrat" hidden value="Batiments">
                                                         <td>
                                                             <div class="d-flex">
@@ -1167,7 +1072,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="appartements" name="role_modif6">Appartements</td>
+                                                        <td class="text-nowrap fw-bolder" id="appartements" name="role_modif6">Moov money</td>
                                                         <input type="text" name="role_modif6" id="contrat" hidden value="Appartements">
                                                         <td>
                                                             <div class="d-flex">
@@ -1204,7 +1109,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="locataires" name="role_modif7">Locataires</td>
+                                                        <td class="text-nowrap fw-bolder" id="locataires" name="role_modif7">Mtn money</td>
                                                         <input type="text" name="role_modif7" id="contrat" hidden value="Locataires">
                                                         <td>
                                                             <div class="d-flex">
@@ -1241,7 +1146,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="recouvreurs" name="role_modif8">Recouvreurs</td>
+                                                        <td class="text-nowrap fw-bolder" id="recouvreurs" name="role_modif8">cartes Visa </td>
                                                         <input type="text" name="role_modif8" id="contrat" hidden value="Recouvreurs">
                                                         <td>
                                                             <div class="d-flex">
@@ -1278,7 +1183,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="type_batiment" name="role_modif9">Type de batiment</td>
+                                                        <td class="text-nowrap fw-bolder" id="type_batiment" name="role_modif9">Changes</td>
                                                         <input type="text" name="role_modif9" id="contrat" hidden value="Type de batiment">
                                                         <td>
                                                             <div class="d-flex">
@@ -1315,7 +1220,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap fw-bolder" id="type_appartement" name="role_modif10">Type d'appartement</td>
+                                                        <td class="text-nowrap fw-bolder" id="type_appartement" name="role_modif10">cartes</td>
                                                         <input type="text" name="role_modif10" id="contrat" hidden value="Type d'appartement">
                                                         <td>
                                                             <div class="d-flex">
@@ -1351,80 +1256,8 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-bolder" id="type_locataire" name="role_modif11">Type de locataire</td>
-                                                        <input type="text" name="role_modif11" id="contrat" hidden value="Type de locataire">
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="lecture_modif11" name="lecture_modif11" />
-                                                                    <label class="form-check-label" for="lecture11"> Lecture </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="creation_modif11" name="creation_modif11" />
-                                                                    <label class="form-check-label" for="creation11"> Creation </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="modification_modif11" name="modification_modif11" />
-                                                                    <label class="form-check-label" for="modification11"> Modification </label>
-                                                                </div>
-
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="suppression_modif11" name="suppression_modif11" />
-                                                                    <label class="form-check-label" for="suppression11"> Suppression </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="duplicata_modif11" name="duplicata_modif11" />
-                                                                    <label class="form-check-label" for="duplicata11"> Duplicata </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="visualisation_modif11" name="visualisation_modif11" />
-                                                                    <label class="form-check-label" for="visualisation11"> Visualisation </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="exportation_modif11" name="exportation_modif11" />
-                                                                    <label class="form-check-label" for="exportation11"> Exportation </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-bolder" id="type_piece" name="role_modif12">Type de piece</td>
-                                                        <input type="text" name="role_modif12" id="contrat" hidden value="Type de piece">
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="lecture_modif12" name="lecture_modif12" />
-                                                                    <label class="form-check-label" for="lecture12"> Lecture </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="creation_modif12" name="creation_modif12" />
-                                                                    <label class="form-check-label" for="creation12"> Creation </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="modification_modif12" name="modification_modif12" />
-                                                                    <label class="form-check-label" for="modification12"> Modification </label>
-                                                                </div>
-
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="suppression_modif12" name="suppression_modif12" />
-                                                                    <label class="form-check-label" for="suppression12"> Suppression </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="duplicata_modif12" name="duplicata_modif12" />
-                                                                    <label class="form-check-label" for="duplicata12"> Duplicata </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="visualisation_modif12" name="visualisation_modif12" />
-                                                                    <label class="form-check-label" for="visualisation12"> Visualisation </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="exportation_modif12" name="exportation_modif12" />
-                                                                    <label class="form-check-label" for="exportation12"> Exportation </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                    
+                                                   
                                                     <tr>
                                                         <td class="text-nowrap fw-bolder" id="gestion_utilisateurs" name="role_modif13">Gestion utilisateurs</td>
                                                         <input type="text" name="role_modif13" id="contrat" hidden value="Gestion utilisateurs">

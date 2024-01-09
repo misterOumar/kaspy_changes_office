@@ -30,27 +30,21 @@
 
      <link rel="stylesheet" type="text/css" href="css/template/forms/pickers/flatpickr/flatpickr.min.css">
      <link rel="stylesheet" type="text/css" href="css/template/forms/pickers/form-flat-pickr.css">
-
      <link rel="stylesheet" type="text/css" href="css/core/menu/menu-types/vertical-menu.css">
 
      <!-- Mes fichiers style CSS -->
      <link rel="stylesheet" type="text/css" href="css/style.css">
  </head>
  <!-- END: Head-->
-
-
  <!-- BEGIN: Body-->
 
  <body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
      <!-- BEGIN: Main Menu-->
      <?php include 'includes/main_menu.php' ?>
      <!-- END: Main Menu-->
-
      <!-- BEGIN: Header-->
      <?php include 'includes/header.php' ?>
      <!-- END: Header-->
-
-
      <!-- BEGIN: Content-->
      <div class="app-content content ">
          <div class="content-overlay"></div>
@@ -60,14 +54,14 @@
                  <div class="content-header-left col-md-9 col-12 mb-2">
                      <div class="row breadcrumbs-top">
                          <div class="col-12">
-                             <h2 class="content-header-title float-start mb-0">Gestion des transactions</h2>
+                             <h2 class="content-header-title float-start mb-0">Gestion des cartes</h2>
                              <div class="breadcrumb-wrapper">
                                  <ol class="breadcrumb">
                                      <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
                                      </li>
-                                     <li class="breadcrumb-item"><a href="#">Configuration</a>
+                                     <li class="breadcrumb-item"><a href="#">Comptabilité</a>
                                      </li>
-                                     <li class="breadcrumb-item active">Cartes
+                                     <li class="breadcrumb-item active">Achats de Cartes
                                      </li>
                                  </ol>
                              </div>
@@ -78,6 +72,46 @@
                  <?php include 'components/menu_toggle_droit.php' ?>
              </div>
              <div class="content-body">
+                 <div class="row">
+                     <div class="col-lg-3 col-sm-6">
+                         <div class="card">
+                             <div class="card-body d-flex align-items-center justify-content-between">
+                                 <div>
+                                     <h3 class="fw-bolder mb-75"><?= $nbre_cartes_vendu ?>/<?= $nbre_cartes ?></h3>
+                                     <span>Nombre total des cartes</span>
+                                 </div>
+                                 <div class="avatar bg-light-success p-50">
+                                     <span class="avatar-content">
+                                         <i data-feather='target'></i>
+                                     </span>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     <?php
+                        foreach ($stat_carte as $carte) {
+                        ?>
+                         <div class="col-lg-3 col-sm-6">
+                             <div class="card">
+                                 <div class="card-body d-flex align-items-center justify-content-between">
+                                     <div>
+                                         <h3 class="fw-bolder mb-75"><?= $carte['nombre_vendu'] ?>/<?= $carte['nombre_total'] ?></h3>
+                                         <span>Carte <?= $carte['libelle'] ?></span>
+                                     </div>
+                                     <div class="avatar bg-light-info p-50">
+                                         <span class="avatar-content">
+                                             <i data-feather='credit-card'></i>
+                                         </span>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     <?php
+                        }
+                        ?>
+
+
+                 </div>
                  <section id="basic-datatable">
                      <div class="row">
                          <div class="col-12">
@@ -93,7 +127,8 @@
                                              <th>DATE D'ACTIVATION</th>
                                              <th>DATE D'EXPIRATION</th>
                                              <th>TYPE DE CARTE </th>
-                                             <th>DUREE </th>
+                                             <th>DUREE (jours)</th>
+                                             <th>STATUS</th>
                                              <th>ACTIONS</th>
                                          </tr>
                                      </thead>
@@ -102,7 +137,6 @@
 
                          </div>
                      </div>
-
                      <!-- Modal to add new record -->
                      <div class="modal modal-slide-in fade" id="modals-slide-in">
                          <div class="modal-dialog sidebar-sm">
@@ -226,12 +260,9 @@
          </div>
      </div>
 
-
      <!-- END: Content-->
-
      <div class="sidenav-overlay"></div>
      <div class="drag-target"></div>
-
      <!-- END: Content-->
 
      <?php include 'includes/toast.php' ?>
@@ -239,7 +270,6 @@
      <!-- ***************************************** FICHIERS JS ************************************************************** -->
      <!-- BEGIN: FICHIERS JS DU TEMPLATE -->
      <script src="js/template/vendors.min.js"></script>
-
 
      <!-- jQuery -->
      <script src="plugins/jquery/jquery.min.js"></script>

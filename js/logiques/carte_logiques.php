@@ -137,117 +137,119 @@
 
     // MODIFICATION
     //      Les événements en déhors du click du boutton de validation
-    // $('#libellemodif').on('keydown', function() {
-    //     $('#libellemodif').removeClass('is-invalid');
-    //     $('#libellemodifHelp').html('');
-    // });
+    $('#libellemodif').on('keydown', function() {
+        $('#libellemodif').removeClass('is-invalid');
+        $('#libellemodifHelp').html('');
+    });
 
-    //      Au click du boutton
-    // $('#bt_modifier').on('click', function(e) {
+        //  Au click du boutton
+    $('#bt_modifier').on('click', function(e) {
 
-    //     var customer_id = $('#customer_idmodif').val();
-    //     var type = $('#typemodif').val();
-    //     var date_expiration = $('#date_expirationmodif').val();
-    //     var date_enregistrement = $('#date_enregistrementmodif').val();
+        var customer_id = $('#customer_idmodif').val();
+        var type = $('#typemodif').val();
+        var date_expiration = $('#date_expirationmodif').val();
+        var date_enregistrement = $('#date_enregistrementmodif').val();
 
-    //     if (customer_id === '' && type === '' && date_enregistrement === '', date_expiration == '') {
-    //         formValide = false;
-    //         $('#customer_idmodif').addClass('is-invalid');
-    //         $('#customer_idmodifHelp').html('Veillez saisir le customer_id.');
-    //         $('#customer_idmodifHelp').removeClass('invisible');
+        if (customer_id === '' && type === '' && date_enregistrement === '', date_expiration == '') {
+            formValide = false;
+            $('#customer_idmodif').addClass('is-invalid');
+            $('#customer_idmodifHelp').html('Veillez saisir le customer_id.');
+            $('#customer_idmodifHelp').removeClass('invisible');
 
-    //         $('#typemodif').addClass('is-invalid');
-    //         $('#typemodifHelp').html('Veillez sélectionner le type de carte.');
-    //         $('#typemodifHelp').removeClass('invisible');
+            $('#typemodif').addClass('is-invalid');
+            $('#typemodifHelp').html('Veillez sélectionner le type de carte.');
+            $('#typemodifHelp').removeClass('invisible');
 
-    //         $('#date_expirationmodif').addClass('is-invalid');
-    //         $('#date_expirationmodifHelp').html('Veillez selectionner la date d\'expiration.');
-    //         $('#date_expirationmodifHelp').removeClass('invisible');
+            $('#date_expirationmodif').addClass('is-invalid');
+            $('#date_expirationmodifHelp').html('Veillez selectionner la date d\'expiration.');
+            $('#date_expirationmodifHelp').removeClass('invisible');
 
-    //         $('#date_enregistrementmodif').addClass('is-invalid');
-    //         $('#date_enregistrementmodifHelp').html('Veillez selectionner la date d\'enregistrement.');
-    //         $('#date_enregistrementmodifHelp').removeClass('invisible');
-    //         e.preventDefault()
-    //     } else {
-    //         formValide = true;
-    //         $('#customer_idmodif').removeClass('is-invalid');
-    //         $('#customer_idmodifHelp').html('');
-    //         $('#customer_idmodifHelp').addClass('invisible');
+            $('#date_enregistrementmodif').addClass('is-invalid');
+            $('#date_enregistrementmodifHelp').html('Veillez selectionner la date d\'enregistrement.');
+            $('#date_enregistrementmodifHelp').removeClass('invisible');
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#customer_idmodif').removeClass('is-invalid');
+            $('#customer_idmodifHelp').html('');
+            $('#customer_idmodifHelp').addClass('invisible');
 
-    //         $('#date_expirationmodif').removeClass('is-invalid');
-    //         $('#date_expirationmodifHelp').html('');
-    //         $('#date_expirationmodifHelp').addClass('invisible');
+            $('#date_expirationmodif').removeClass('is-invalid');
+            $('#date_expirationmodifHelp').html('');
+            $('#date_expirationmodifHelp').addClass('invisible');
 
-    //         $('#typemodif').removeClass('is-invalid');
-    //         $('#typemodifHelp').html('');
-    //         $('#typemodifHelp').addClass('invisible');
+            $('#typemodif').removeClass('is-invalid');
+            $('#typemodifHelp').html('');
+            $('#typemodifHelp').addClass('invisible');
 
-    //         $('#date_enregistrementmodif').removeClass('is-invalid');
-    //         $('#date_enregistrementmodifHelp').html('');
-    //         $('#date_enregistrementmodifHelp').addClass('invisible');
-    //     }
+            $('#date_enregistrementmodif').removeClass('is-invalid');
+            $('#date_enregistrementmodifHelp').html('');
+            $('#date_enregistrementmodifHelp').addClass('invisible');
+        }
 
-    //     if (formValide) {
-    //         e.preventDefault();
+        if (formValide) {
+            e.preventDefault();
 
-    //         initializeFlash();
-    //         $('.flash').addClass('alert-info');
-    //         $('.flash').html('<i class="fas fa-cog fa-spin"></i> Modification...').fadeIn(300);
+            initializeFlash();
+            $('.flash').addClass('alert-info');
+            $('.flash').html('<i class="fas fa-cog fa-spin"></i> Modification...').fadeIn(300);
 
-    //         var form = $('#form_modif');
-    //         var method = form.prop('method');
-    //         var url = form.prop('action');
+            var form = $('#form_modif');
+            var method = form.prop('method');
+            var url = form.prop('action');
 
-    //         $.ajax({
-    //             type: method,
-    //             data: form.serialize() + "&bt_modifier=" + true,
-    //             url: url,
-    //             success: function(result) {
-    //                 donnee = JSON.parse(result);
-    //                 // if (donnee['success'] === 'existe') {
-    //                 //     $('#customer_idmodif').addClass('is-invalid');
-    //                 //     $('#customer_idmodifHelp').html(donnee['message']);
-    //                 //     $('#customer_idmodifHelp').removeClass('invisible');
+            $.ajax({
+                type: method,
+                data: form.serialize() + "&bt_modifier=" + true,
+                url: url,
+                success: function(result) {
+                    donnee = JSON.parse(result);
+                    if (donnee['success'] === 'existe') {
+                        $('#customer_idmodif').addClass('is-invalid');
+                        $('#customer_idmodifHelp').html(donnee['message']);
+                        $('#customer_idmodifHelp').removeClass('invisible');
 
-    //                 //     $('#typemodif').addClass('is-invalid');
-    //                 //     $('#typemodifHelp').html(donnee['message']);
-    //                 //     $('#typemodifHelp').removeClass('invisible');
-
-
-    //                 //     initializeFlash();
-    //                 //     $('.flash').addClass('alert-info');
-    //                 //     $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
-    //                 //         .fadeIn(300).delay(2500).fadeOut(300);
-    //                 // }
+                        $('#typemodif').addClass('is-invalid');
+                        $('#typemodifHelp').html(donnee['message']);
+                        $('#typemodifHelp').removeClass('invisible');
 
 
-    //                 if (donnee['success'] === 'true') {
-    //                     initializeFlash();
-    //                     $('.flash').addClass('alert-success');
-    //                     $('.flash').html('<i class="fas fa-check"></i> ' + donnee['message'])
-    //                         .fadeIn(300).delay(2500).fadeOut(300);
-    //                     swal_Alert_Sucess(donnee['message']);
-    //                     $('.modal').modal('hide')
+                        initializeFlash();
+                        $('.flash').addClass('alert-info');
+                        $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
+                            .fadeIn(300).delay(2500).fadeOut(300);
+                    }
 
-    //                     window.location.reload();
-    //                 }
+                    if (donnee['success'] === 'true') {
+                        initializeFlash();
+                        $('.flash').addClass('alert-success');
+                        $('.flash').html('<i class="fas fa-check"></i> ' + donnee['message'])
+                            .fadeIn(300).delay(2500).fadeOut(300);
+                        swal_Alert_Sucess(donnee['message']);
+                        $('.modal').modal('hide')
 
-    //                 if (donnee['success'] === 'non') {
-    //                     initializeFlash();
-    //                     $('.flash').addClass('alert-danger');
-    //                     $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
-    //                         .fadeIn(300).delay(2500).fadeOut(300);
-    //                 }
-    //                 if (donnee['success'] === 'false') {
+                        // window.location.reload();
+                    }
 
-    //                     initializeFlash();
-    //                     $('.flash').addClass('alert-danger');
-    //                     $('.flash').html('<i class="fas fa-exclamation-circle"></i> Vérifiez les champs')
-    //                         .fadeIn(300).delay(2500).fadeOut(300);
-    //                 }
-    //             }
-    //         });
-    //     }
+                    if (donnee['success'] === 'non') {
+                        initializeFlash();
+                        $('.flash').addClass('alert-danger');
+                        $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
+                            .fadeIn(300).delay(2500).fadeOut(300);
+                    }
+                    if (donnee['success'] === 'false') {
 
-    // });
+                        initializeFlash();
+                        $('.flash').addClass('alert-danger');
+                        $('.flash').html('<i class="fas fa-exclamation-circle"></i> Vérifiez les champs')
+                            .fadeIn(300).delay(2500).fadeOut(300);
+                    }
+                }
+            });
+        }
+
+    });
+
+
+   
 </script>
