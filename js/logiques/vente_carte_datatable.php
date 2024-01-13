@@ -17,8 +17,8 @@
 						 telephone: champ_bd.telephone,					 
 						 carte: champ_bd.carte,
                          numero_carte: champ_bd.numero_carte,
-						 prix_unitaire: champ_bd.prix_unitaire,
 						 quantite: champ_bd.quantite,						                
+						 prix_unitaire: champ_bd.prix_unitaire,
                          montant: champ_bd.montant,                   
                                          
                     })
@@ -61,12 +61,13 @@
                     {
                         data: 'numero_carte'
                     },
+                    {
+                        data: 'quantite'
+                    },
 					 {
                         data: 'prix_unitaire'
                     },
-					 {
-                        data: 'quantite'
-                    },
+				
                     {
                         data: 'montant'
                     },
@@ -350,7 +351,7 @@
             var  $new_client = $('#client').val(),
                 $new_date_v = $('#date_v').val(),
                 $new_quantite = $('#quantite').val(),
-				 $new_quantite = $('#quantite').val(),
+				 $new_montant = $('#montant').val(),
 				  $new_telephone = $('#telephone').val(),				  
 				$new_prix_u = $('#prix_u').val(),          
                 $new_carte = $('#carte').val(), 
@@ -413,10 +414,12 @@
                                                 id: last_id,                                               
                                                 date: $new_date_v,
                                                 client: $new_client,
+                                                telephone: $new_telephone,
                                                 carte: $new_carte,
                                                 numero_carte: $new_num_carte,
                                                 prix_unitaire: $new_prix_u, 
 												quantite: $new_quantite,					
+                                                montant: $new_prix_u, 
 											 												
                                                 status: 5
 

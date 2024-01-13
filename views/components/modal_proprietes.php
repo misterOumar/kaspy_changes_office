@@ -1,5 +1,5 @@
-<div class="offcanvas-bottom-example">
-    <div class="offcanvas offcanvas-bottom m-auto col-10 " tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel" style="height:40%">
+<div class="offcanvas-bottom-example " >
+    <div class="offcanvas offcanvas-bottom m-auto col-10 " tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel" >
         <div class="offcanvas-header">
             <h5 id="offcanvasBottomLabel" class="offcanvas-title">Propriétés de...
             </h5>
@@ -9,14 +9,7 @@
             <!-- Tableau propriété d'une salle-->
             <div class="table-responsive mb-1">
                 <table class="table table-bordered text-nowrap text-center">
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-
-                        </tr>
-                    </thead>
+             
                     <tbody class="propietes">
                         <tr>
                             <th scope="row" class="text-start">Crée le</th>
@@ -49,14 +42,9 @@
                             <td id="ip_creation" class="text-start"></td>
 
                         </tr>
+                
                         <tr>
-                            <th scope="row" class="text-start">Année de gestion</th>
-                            <td><i data-feather="check" class="text-success font-medium-5"></i></td>
-                            <td id="annee_academique" class="text-start"></td>
-
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-start">Ecole</th>
+                            <th scope="row" class="text-start">Siège</th>
                             <td><i data-feather="check" class="text-success font-medium-5"></i></td>
                             <td id="ecole" class="text-start"></td>
 
@@ -69,6 +57,3 @@
     </div>
 </div>
 
-<div id="pdf-modal">
-    <iframe id="pdf-viewer" width="100%" height="500px"></iframe>
-</div>

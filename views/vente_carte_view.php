@@ -62,7 +62,7 @@
                    <div class="content-header-left col-md-9 col-12 mb-2">
                        <div class="row breadcrumbs-top">
                            <div class="col-12">
-                               <h2 class="content-header-title float-start mb-0">Gestion des cartes</h2>
+                               <h2 class="content-header-title float-start mb-0">Gestion des cartes - Ventes</h2>
                                <div class="breadcrumb-wrapper">
                                    <ol class="breadcrumb">
                                        <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
@@ -76,7 +76,7 @@
                            </div>
                        </div>
                    </div>
-                   <!-- Include Menu toogle droit-->
+                   <!-- Include Menu toggle droit vraie-->
                    <?php include 'components/menu_toggle_droit.php' ?>
                </div>
                <div class="content-body">
@@ -135,9 +135,9 @@
                                                <th>Client</th>
                                                <th>Telephone</th>
                                                <th>Carte</th>
-                                               <th>Numero </th>
-                                               <th>Prix Unitaire</th>
+                                               <th>N° CARTE </th>
                                                <th>Quantité</th>
+                                               <th>Prix Unitaire</th>
                                                <th>Montant</th>
                                                <th>Actions</th>
                                            </tr>
@@ -174,7 +174,7 @@
                                            <select name='carte' id='carte' data-placeholder="Choisir la carte..." Class='select2-icons form-select'>
                                                <option selected data-icon='facebook'>Choisir la carte</Option>
                                                <?php
-                                                foreach ($List_cartes as $cartes) {
+                                                foreach ($liste_type_cartes as $cartes) {
                                                 ?>
                                                    <option value="<?= $cartes['type_carte'] ?>">
                                                        <?= $cartes['type_carte'] ?>

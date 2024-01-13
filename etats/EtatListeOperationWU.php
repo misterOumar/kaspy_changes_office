@@ -3,7 +3,7 @@ require_once('../plugins/fpdf184/fpdf.php');
 include_once('../config/config.php');
 include_once('../config/db.php');
 require_once("../models/Bureaux.php");
-require_once("../models/RIA.php");
+require_once("../models/Western_Union.php");
 
  
  
@@ -51,7 +51,7 @@ class EtatListeOperation extends FPDF
             $this->Ln(12);
             $this->Cell(45);
             $this->SetFont('Helvetica', 'B', 15);
-            $titre = '   RAPPORT DE SUIVI DES OPERATIONS RIA   ';
+            $titre = '   RAPPORT DE SUIVI DES OPERATIONS WESTERN UNION   ';
             $largeurTitre = $this->GetStringWidth($titre);
             $positionX = ($this->GetPageWidth() - $largeurTitre) / 2;
             // Définir la position X pour centrer le texte
@@ -112,29 +112,31 @@ class EtatListeOperation extends FPDF
 
         foreach ($data as $transaction) {
 
-           // Supposons que $transaction['date'] contienne la date au format "21/08/2023 14:20"
-            $date = DateTime::createFromFormat('d/m/Y H:i', $transaction['date']);
+            $date = DateTime::createFromFormat('d-m-Y', $transaction['date']);
 
-            // Définissez un tableau de traduction pour les mois en français
-            $moisEnFrancais = [
-                'January' => 'Janvier',
-                'February' => 'Février',
-                'March' => 'Mars',
-                'April' => 'Avril',
-                'May' => 'Mai',
-                'June' => 'Juin',
-                'July' => 'Juillet',
-                'August' => 'Août',
-                'September' => 'Septembre',
-                'October' => 'Octobre',
-                'November' => 'Novembre',
-                'December' => 'Décembre',
-            ];
-
-            // Formatez la date avec le mois en français
-            $dateFormatee = $date->format('d F');
-            $dateFormatee = strtr($dateFormatee, $moisEnFrancais);
-
+            // Vérifiez si la création de l'objet DateTime a réussi
+            if ($date !== false) {
+                // Définissez un tableau de traduction pour les mois en français
+                $moisEnFrancais = [
+                    'January' => 'Janvier',
+                    'February' => 'Février',
+                    'March' => 'Mars',
+                    'April' => 'Avril',
+                    'May' => 'Mai',
+                    'June' => 'Juin',
+                    'July' => 'Juillet',
+                    'August' => 'Août',
+                    'September' => 'Septembre',
+                    'October' => 'Octobre',
+                    'November' => 'Novembre',
+                    'December' => 'Décembre',
+                ];
+            
+                // Formatez la date avec le mois en français
+                $dateFormatee = $date->format('d F Y');
+                $dateFormatee = strtr($dateFormatee, $moisEnFrancais);
+            }
+            
             $this->Cell(30, 6,$dateFormatee , 1, 0, 'C');
 
             $this->SetFont('Helvetica', 'B', 6.6);
@@ -143,14 +145,14 @@ class EtatListeOperation extends FPDF
             $this->SetFont('Helvetica', 'B', 10);
 
             // // SOUS EN-TETE  ENVOIS
-            $this->Cell(29, 6,$transaction['operation_envoi'], 1, 0, 'C');
+            $this->Cell(29, 6,$transaction['nbre_operation_envoi'], 1, 0, 'C');
             $this->Cell(22, 6,$transaction['montant_envoye'], 1, 0, 'C');
             $this->Cell(21, 6,$transaction['frais_envoi'], 1, 0, 'C');
             $this->Cell(22, 6,$transaction['taxe_envoi'], 1, 0, 'C');
             $this->Cell(20, 6,$transaction['total_envoi'], 1, 0, 'C');
 
             // // SOUS EN-TETE  PAIEMENTS
-            $this->Cell(28, 6,$transaction['operation_payer'], 1, 0, 'C');
+            $this->Cell(28, 6,$transaction['nbre_operation_payer'], 1, 0, 'C');
             $this->Cell(28, 6,$transaction['montant_paye'], 1, 0, 'C');
             $this->Cell(20, 6,$transaction['montant_paye'], 1, 0, 'C');
             
@@ -177,11 +179,11 @@ class EtatListeOperation extends FPDF
 }
 
 $data = array();
-$transactions_ria = ria::getAllRapport();
-for ($num = 0; $num < count($transactions_ria); $num++) {
+$transactions_wu = western_union::getAllRapport();
+for ($num = 0; $num < count($transactions_wu); $num++) {
     array_push(
         $data,
-        $transactions_ria[$num]
+        $transactions_wu[$num]
     );
 }
 // Instanciation de la classe dérivée

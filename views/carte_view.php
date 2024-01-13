@@ -54,7 +54,7 @@
                  <div class="content-header-left col-md-9 col-12 mb-2">
                      <div class="row breadcrumbs-top">
                          <div class="col-12">
-                             <h2 class="content-header-title float-start mb-0">Gestion des cartes</h2>
+                             <h2 class="content-header-title float-start mb-0">Gestion des cartes - Achats  </h2>
                              <div class="breadcrumb-wrapper">
                                  <ol class="breadcrumb">
                                      <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
@@ -127,7 +127,6 @@
                                              <th>DATE D'ACTIVATION</th>
                                              <th>DATE D'EXPIRATION</th>
                                              <th>TYPE DE CARTE </th>
-                                             <th>DUREE (jours)</th>
                                              <th>STATUS</th>
                                              <th>ACTIONS</th>
                                          </tr>
@@ -150,26 +149,30 @@
                                      <i data-feather='refresh-ccw'></i></button>
 
                                  <div class="modal-body flex-grow-1">
-                                     <!--- ANNEES --->
-                                     <div class='mb-1'>
+                                     <!--- Customer Id --->
+                                     <div>
                                          <label class='form-label' for='annees'>Customer Id</label>
                                          <input type='text' id='customer_id' class='form-control dt-full-annees' name='customer_id' placeholder="Veuillez saisir le customer id" aria - Label='annees' maxlength='75' />
                                      </div>
                                      <div class='mb-1'><small id='customer_idHelp' class='text-danger invisible'></small></div>
-                                     <div class='mb-1'>
+
+                                     <!--- DATE ACTIVATION --->
+                                     <div>
                                          <label class='form-label' for='date_fin'>Date d'activation</label>
                                          <input type='text' id='date_enregistrement' class='form-control dt-full-date_fin flatpickr-basic' name='date_enregistrement' placeholder="YYYY-MM-DD" aria - Label='date_fin' maxlength='75' />
                                      </div>
                                      <div class='mb-1'><small id='date_enregistrementHelp' class='text-danger invisible'></small></div>
-                                     <!--- DATE DEBUT --->
-                                     <div class='mb-1'>
+
+                                     <!--- DATE EXPIRATION --->
+                                     <div>
                                          <label class='form-label' for='date_debut'>Date d'expiration</label>
                                          <input type='text' id='date_expiration' class='form-control dt-full-date_debut flatpickr-basic' name='date_expiration' placeholder="YYYY-MM-DD" aria - Label='date_debut' maxlength='75' />
                                      </div>
                                      <div class='mb-1'><small id='date_expirationHelp' class='text-danger invisible'></small></div>
-                                     <!--- CONTRAT DE BAIL --->
-                                     <div class='mb-1'>
-                                         <label class='form-label' for='contrat_bail'>Choisir le type de carte</label>
+
+                                     <!--- TYPE DE CARTE --->
+                                     <div>
+                                         <label class='form-label' for='contrat_bail'>Type de carte</label>
 
                                          <select name='type' id='type' data-placeholder="Choisir le type de carte..." Class='select2-icons form-select'>
                                              <option selected data-icon='facebook'>Choisir le type de carte</Option>
@@ -186,6 +189,8 @@
 
                                      </div>
                                      <div class='mb-1'><small id='typeHelp' class='text-danger invisible'></small></div>
+
+                                     <!--- ENREGISTREMENT --->
                                      <button type="submit" id='bt_enregistrer' name='bt_enregistrer' class='btn btn-primary enregistrer me-1'>Enregistrer</button>
                                      <button type='reset' id='bt_annuler' name='annuler' class='btn btn-outline-secondary' data-bs-dismiss='modal'>Annuler</button>
                                  </div>

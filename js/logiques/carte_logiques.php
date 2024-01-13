@@ -50,21 +50,21 @@
 
     $('#customer_id').on('change', function() {
         $('#customer_id').removeClass('is-invalid');
-        $('#customer_idHelp').html('Veuillez saisir le customer id ...');
+        $('#customer_idHelp').html('');
     });
     $('#date_expiration').on('change', function() {
         $('#date_expiration').removeClass('is-invalid');
-        $('#date_expirationHelp').html('Veuillez selectionner la date d\'expiration ...');
+        $('#date_expirationHelp').html('');
     });
 
     $('#date_enregistrement').on('change', function() {
         $('#date_enregistrement').removeClass('is-invalid');
-        $('#date_enregistrementHelp').html('Veuillez selectionner la date d\'enregistrement ...');
+        $('#date_enregistrementHelp').html('');
     });
 
     $('#type').on('change', function() {
         $('#type').removeClass('is-invalid');
-        $('#typeHelp').html('Veuillez selectionner le type ...');
+        $('#typeHelp').html('');
     });
 
 

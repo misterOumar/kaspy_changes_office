@@ -85,7 +85,7 @@ class cartes
         $req->execute([]);
         return $req->fetchAll();
     }
-    
+
     static function Carte_Nvendues()
     {
         global $db;
@@ -217,6 +217,41 @@ class cartes
     }
 
 
+    /**
+     * Méthode de récupération des types de cartes unique.
+     *
+     * @param $cartes
+     * @return mixed
+     */
+    static function getTypesCarte()
+    {
+        global $db;
+        $req = $db->prepare("SELECT DISTINCT type_carte FROM cartes WHERE status = 0 ");
+        $req->execute();
+        return $req->fetchAll();
+    }
+
+    /**
+     * Renvoi la liste des STOCKS DISPONIBLE.
+     *
+     * @return array
+     */
+    static function getStockDisponible()
+    {
+        global $db;
+        $req = $db->prepare("SELECT type_carte, 
+        COUNT(*) as entree,
+        SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as sortie,
+        COUNT(*) - SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as stock
+        FROM cartes 
+        GROUP BY type_carte 
+        ORDER BY id
+        ");
+        $req->execute([]);
+        return $req->fetchAll();
+    }
+
+
     //||**********************************||
     //||----------- INSERTIONS -----------||
     //||**********************************||
@@ -262,7 +297,7 @@ class cartes
             INSERT INTO cartes(customer_id,date_activation,date_expiration, type_carte , duree, status ,   date_creation,user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
             VALUES(?, ?,?,?,?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([$customer_id, $date_activation, $date_expiration, $type_carte, $duree, $status , $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$customer_id, $date_activation, $date_expiration, $type_carte, $duree, $status, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 
@@ -295,7 +330,7 @@ class cartes
         $date_expiration,
         $type_carte,
         $duree,
-        $status , 
+        $status,
         $date_modif,
         $user_modif,
         $navigateur_modif,
@@ -311,7 +346,7 @@ class cartes
               ordinateur_modif = ?,
                ip_modif = ? WHERE id= ?
         ');
-        return $req->execute([$customer_id, $date_activation, $date_expiration, $type_carte, $duree, $status , $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
+        return $req->execute([$customer_id, $date_activation, $date_expiration, $type_carte, $duree, $status, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     }
 
 
@@ -330,7 +365,7 @@ class cartes
               ordinateur_modif = ?,
                ip_modif = ? WHERE customer_id= ?
         ');
-        return $req->execute([1, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $customer_id ]);
+        return $req->execute([1, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $customer_id]);
     }
 
     //||**********************************||

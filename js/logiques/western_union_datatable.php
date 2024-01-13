@@ -12,11 +12,12 @@
                     .add({
                         responsive_id: champ_bd.id,
                         id: champ_bd.id,
+                        date: champ_bd.date,
                         expediteur: champ_bd.expediteur,
                         receveur: champ_bd.receveur,
                         montant_envoye: champ_bd.montant_envoye,
                         total_frais: champ_bd.total_frais,
-                        date: champ_bd.date,
+                        type_transaction : champ_bd.type_transaction ,
                     })
 
                     .draw();
@@ -43,6 +44,9 @@
                         data: 'id'
                     }, // used for sorting so will hide this column
                     {
+                        data: 'date'
+                    },
+                    {
                         data: 'expediteur'
                     },
                     {
@@ -54,9 +58,7 @@
                     {
                         data: 'total_frais'
                     },
-                    {
-                        data: 'date'
-                    },
+                 
 
                     {
                         data: ''
@@ -102,7 +104,15 @@
                         render: function(data, type, full, meta) {
                             var $user_img = full['avatar'],
                                 $libelle = full['libelle'],
-                                $duree = full['duree'];
+                                $duree = full['duree'],
+                                $type = full['type_transaction'];
+                            var bg;
+                            if ($type == "envoi") {
+                                bg = 'bg-success'
+                            } else {
+                                bg = 'bg-info'
+
+                            }
                             if ($user_img) {
                                 // For Avatar image
                                 var $output =
@@ -112,10 +122,10 @@
                                 var stateNum = full['status'];
                                 var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
                                 var $state = states[stateNum],
-                                    $expediteur = full['expediteur'],
+                                    $expediteur = full['date'],
                                     $initials = $expediteur.match(/\b\w/g) || [];
                                 $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-                                $output = '<span class="avatar-content">' + $initials + '</span>';
+                                $output = '<span class="avatar-content ' + bg + '" >' + $initials + '</span>';
                             }
 
                             var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
@@ -131,6 +141,9 @@
                                 '<span class="emp_nom text-truncate fw-bold">' +
                                 $expediteur +
                                 '</span>' +
+                                '<small class="emp_nom_pop text-truncate text-muted">' +
+                                $type +
+                                '</small>' +
                                 '</div>' +
                                 '</div>';
                             return $row_output;
@@ -146,36 +159,15 @@
                         render: function(data, type, full, meta) {
                             return (
                                 '<div class="d-inline-flex">' +
-                                '<a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown">' +
-                                feather.icons['more-vertical'].toSvg({
+                                '<a href="javascript:;" class="text-info me-1 proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
+                                feather.icons['info'].toSvg({
                                     class: 'font-small-4'
                                 }) +
                                 '</a>' +
-                                '<div class="dropdown-menu dropdown-menu-end">' +
-                                //Supprimer
-                                '<a  href="javascript:;" class="dropdown-item delete-record">' +
-                                feather.icons['trash-2'].toSvg({
-                                    class: 'font-small-4 me-50'
-                                }) +
-                                'Supprimer</a>' +
-
-                                //Détails
-                                '<a href="javascript:;" class="dropdown-item">' +
-                                feather.icons['file-text'].toSvg({
-                                    class: 'font-small-4 me-50'
-                                }) +
-                                'Détails</a>' +
-                                //Propriétés
-                                '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
-                                feather.icons['info'].toSvg({
-                                    class: 'font-small-4 me-50'
-                                }) +
-                                'Propriétés</a>' +
 
                                 '</div>' +
-                                '</div>' +
-                                '<a href="javascript:;" class="item-edit bt_modifier" data-bs-target="#modal-modif" data-bs-toggle="modal">' +
-                                feather.icons['edit'].toSvg({
+                                '<a href="javascript:;" class="details"  title="Détail transaction">' +
+                                feather.icons['eye'].toSvg({
                                     class: 'font-small-4'
                                 }) +
                                 '</a>'
@@ -335,7 +327,7 @@
 
 
 
-        // MODIFIER / AJOUTER UN ELEMENT
+        // AJOUTER UN ELEMENT
         $('#form_ajouter').on('submit', function(e) {
             var $new_libelle = $('#libelle').val(),
                 $new_duree = $('#duree').val();
@@ -421,91 +413,6 @@
         });
 
 
-        // MODIFIER UN ELEMENT
-        var that
-        $('.datatables-basic tbody').on('click', '.item-edit', function() {
-            that = this
-            $.ajax({
-                type: "GET",
-                data: "idTypeCarte=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
-                url: "controllers/type_carte_controller.php",
-                success: function(result) {
-                    var donnees = JSON.parse(result);
-                    if (donnees['type_carte'] !== 'null') {
-
-                        // Remplir le formulaire
-                        let carteType = donnees['type_carte'];
-                        $('#idModif').val(carteType['id']);
-                        $('#libellemodif').val(carteType['libelle']);
-                        $('#dureemodif').val(carteType['duree']);
-
-                    }
-                }
-            })
-        });
-
-
-        // SUPPRIMER UNE LIGNE
-        $('.datatables-basic tbody').on('click', '.delete-record', function() {
-            // Suppression Front
-            var that = this
-            //--------------- Confirm Options SWEET ALERT ---------------
-            Swal.fire({
-                title: 'Voulez vous vraiment supprimer cette transaction ?',
-                text: '< ' + (dt_basic.row($(this).parents('tr')).data().expediteur) + ' > sera supprimé définitivement',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Oui, Supprimer !',
-                cancelButtonText: 'Annuler',
-                customClass: {
-                    confirmButton: 'btn btn-primary',
-                    cancelButton: 'btn btn-outline-danger ms-1'
-                },
-                buttonsStyling: false,
-            }).then(function(result) {
-                if (result.value) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Suppression éffectuée !',
-                        text: "' " + (dt_basic.row($(that).parents('tr')).data().libelle) + " ' a été supprimée avec succès.",
-                        showConfirmButton: false,
-                        timer: 1300,
-                        customClass: {
-                            confirmButton: 'btn btn-success'
-                        }
-                    });
-                }
-            });
-            $('.swal2-confirm').on('click', function() {
-
-                //Suppression Back
-                $.ajax({
-                    type: "GET",
-                    data: "idSuppr=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
-                    url: "controllers/western_union_controller.php",
-                    success: function(result) {
-                        var donneee = JSON.parse(result);
-                        if (donneee['success'] === 'true') {
-                            dt_basic.row($(that).parents('tr')).remove().draw() //Suppression de la ligne selectionnée
-
-                        } else if (donneee['success'] === 'false') {
-                            initializeFlash();
-                            $('.flash').addClass('alert-danger');
-                            $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donneee['message'])
-                                .fadeIn(300).delay(2500).fadeOut(300);
-                        } else {
-                            initializeFlash();
-                            $('.flash').addClass('alert-danger');
-                            $('.flash').html('<i class="fas fa-exclamation-circle"></i> Erreur inconnue')
-                                .fadeIn(300).delay(2500).fadeOut(300);
-                        }
-                    }
-                })
-
-            });
-        });
-
-
 
         // Propriété
         $('.datatables-basic tbody').on('click', '.proprietes', function() {
@@ -513,24 +420,162 @@
             $.ajax({
                 type: "GET",
                 data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
-                url: "controllers/type_carte_controller.php",
+                url: "controllers/western_union_controller.php",
                 success: function(result) {
                     var donnees = JSON.parse(result);
-                    if (donnees['carte'] !== 'null') {
+                    if (donnees['proprietes_western_union'] !== 'null') {
 
-                        let proprietes = donnees['locataire']
+                        let proprietes = donnees['proprietes_western_union']
 
-                        let libelle = proprietes['libelle'];
-                        let duree = proprietes['duree'];
-                        let date_creation = proprietes['date_creation'];
-                        $("#offcanvasBottomLabel").html("Propriété de « " + titre + " »");
-                        $("#date_creation").html(date_creation);
-                        $("#user_creation").html(user_creation);
-                        $("#navigateur_creation").html(navigateur_creation);
-                        $("#ordinateur_creation").html(ordinateur_creation);
-                        $("#ip_creation").html(ip_creation);
-                        $("#annee_academique").html(annee_academique);
-                        $("#ecole").html(ecole);
+                       
+                        $("#offcanvasBottomLabel").html("Propriété de « " + proprietes['nom_utilisateur'] + " »");
+                        $("#date_creation").html(proprietes['date_creation']);
+                        $("#user_creation").html(proprietes['user_creation']);
+                        $("#navigateur_creation").html(proprietes['navigateur_creation']);
+                        $("#ordinateur_creation").html(proprietes['ordinateur_creation']);
+                        $("#ip_creation").html(proprietes['ip_creation']);
+                        $("#annee_academique").html(proprietes['annee_academique']);
+                        $("#ecole").html(proprietes['magasin']);
+
+
+                    }
+                }
+            })
+        });
+
+           // Details
+           $('.datatables-basic tbody').on('click', '.details', function() {
+            var that = this
+            $.ajax({
+                type: "GET",
+                data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+                url: "controllers/western_union_controller.php",
+                success: function(result) {
+                    var donnees = JSON.parse(result);
+                    if (donnees['proprietes_western_union'] !== 'null') {
+
+                        let wu = donnees['proprietes_western_union']
+
+                        $('#titre_modal').text('Détail de la transaction WU')
+
+                        // le tableau de la transaction
+                        $('.modal_details .modal-body').html(`
+                            <table class="table table-bordered text-nowrap text-center">             
+                                <tbody class="details">
+                                    <tr>
+                                        <th scope="row" class="text-start">Type de transaction</th>                                      
+                                        <td  class="text-start">${wu.type_transaction}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Code du Pays d'Origine</th>                                      
+                                        <td  class="text-start">${wu.code_pays_origine}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Code de la Devise d'Origine</th>                                        
+                                        <td  class="text-start">${wu.code_devise_pays_origine}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Identifiant du terminal</th>                                        
+                                        <td  class="text-start">${wu.identifiant_terminal}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Identité de l'opérateur</th>                                        
+                                        <td  class="text-start">${wu.identite_operateur}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Superv. Op. Identifiant</th>                                        
+                                        <td  class="text-start">${wu.super_op_identifiant}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Nom d'utilisateur</th>                                        
+                                        <td  class="text-start">${wu.nom_utilisateur}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">MTCN</th>                                      
+                                        <td  class="text-start">${wu.mtn_cn}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Receveur</th>
+                                        <td  class="text-start">${wu.receveur}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Expéditeur</th>
+                                        <td  class="text-start">${wu.expediteur}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Code du Pays de Destination</th>
+                                        <td  class="text-start">${wu.code_pays_destination}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Code de la Devise de Destination</th>
+                                        <td  class="text-start">${wu.code_devise_pays_destination}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Type de Transaction</th>
+                                        <td  class="text-start">${wu.type_de_transaction}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Date</th>
+                                        <td  class="text-start">${wu.date}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Heure</th>
+                                        <td  class="text-start">${wu.heure}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Montant envoyé</th>
+                                        <td  class="text-start">${wu.montant_envoye}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Frais de Transfert</th>
+                                        <td  class="text-start">${wu.frais_de_transfert}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Frais de livraison</th>
+                                        <td  class="text-start">${wu.taux}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Frais du message</th>
+                                        <td  class="text-start">${wu.tob}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Descuento Promoción</th>
+                                        <td  class="text-start">${wu.tthu}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Montant total recueilli</th>
+                                        <td  class="text-start">${wu.montant_total_recueilli}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Taux de change</th>
+                                        <td  class="text-start">${wu.taux_de_change}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Montant payé attendu</th>
+                                        <td  class="text-start">${wu.montant_paye_attendu}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Total des frais</th>
+                                        <td  class="text-start">${wu.total_frais}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Total des taxes</th>
+                                        <td  class="text-start">${wu.total_taxes}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Type de paiement</th>
+                                        <td  class="text-start">${wu.type_de_paiement}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        `);
+
+
+                        // afficher le modal
+                        $('.modal_details').modal('show')
+
+
+
                     }
                 }
             })

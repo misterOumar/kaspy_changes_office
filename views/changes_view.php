@@ -60,14 +60,14 @@
                   <div class="content-header-left col-md-9 col-12 mb-2">
                       <div class="row breadcrumbs-top">
                           <div class="col-12">
-                              <h2 class="content-header-title float-start mb-0">Gestion des transactions</h2>
+                              <h2 class="content-header-title float-start mb-0">Gestion des opérations changes</h2>
                               <div class="breadcrumb-wrapper">
                                   <ol class="breadcrumb">
                                       <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
                                       </li>
-                                      <li class="breadcrumb-item"><a href="#">Changes</a>
+                                      <li class="breadcrumb-item"><a href="#">Transactions</a>
                                       </li>
-                                      <li class="breadcrumb-item active">Enregistrement des échanges 
+                                      <li class="breadcrumb-item active">Changes 
                                       </li>
                                   </ol>
                               </div>
@@ -89,12 +89,12 @@
                                               <th></th>
                                               <th></th>
                                               <th>id</th>
+                                              <th>Date</th>
                                               <th>Montant Apporté</th>
                                               <th>Taux de change </th>
                                               <th>Montant Perçu</th>                                             
                                               <th>Client</th>
                                               <th>Telephone</th>                                               
-                                              <th>Date</th>
                                               <th>Actions</th>
                                           </tr>
                                       </thead>

@@ -100,15 +100,15 @@
                              var $user_img = full['avatar'],
                                  $libelle = full['date'],
                                  $type = full['type_operation'],
-                                 
-                                 $duree = full['date'];
-                                 var bg;
-                              if ($type == "Dépot") {
-                                  bg = 'bg-success'
-                              } else {
-                                  bg = 'bg-info'
 
-                              }
+                                 $duree = full['date'];
+                             var bg;
+                             if ($type == "Dépot") {
+                                 bg = 'bg-success'
+                             } else {
+                                 bg = 'bg-info'
+
+                             }
                              if ($user_img) {
                                  // For Avatar image
                                  var $output =
@@ -121,7 +121,7 @@
                                      $libelle = full['date'],
                                      $initials = $libelle.match(/\b\w/g) || [];
                                  $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-                                 $output = '<span class="avatar-content '+ bg+'">' + $initials + '</span>';
+                                 $output = '<span class="avatar-content ' + bg + '">' + $initials + '</span>';
                              }
 
                              var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
@@ -165,12 +165,6 @@
                                  }) +
                                  'Supprimer</a>' +
 
-                                 //Détails
-                                 '<a href="javascript:;" class="dropdown-item">' +
-                                 feather.icons['file-text'].toSvg({
-                                     class: 'font-small-4 me-50'
-                                 }) +
-                                 'Détails</a>' +
                                  //Propriétés
                                  '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
                                  feather.icons['info'].toSvg({
@@ -334,7 +328,7 @@
          }
          // MODIFIER UN ELEMENT
          $('#form_ajouter').on('submit', function(e) {
-             var new_type_op = $("input[name='radio_type']:checked").val();
+             var $new_type_op = $("input[name='radio_type']:checked").val();
 
              var $new_montant = $('#montant').val(),
                  // $new_type_op = $('#client').val(),
@@ -431,6 +425,36 @@
                          $('#date_t_modif').val(transaction['date']);
                          $('#radio_type_modif').val(transaction['type_operation']);
                          $('#tel_cli_modif').val(transaction['telephone_client']);
+
+                     }
+                 }
+             })
+         });
+
+         // PROPRIETE D'UNE LIGNE
+         $('.datatables-basic tbody').on('click', '.proprietes', function() {
+             var that = this
+             $.ajax({
+                 type: "GET",
+                 data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+                 url: "controllers/mtn_money_controller.php",
+                 success: function(result) {
+
+                     var donnees = JSON.parse(result);
+                     if (donnees['proprietes_mtn'] !== 'null') {
+
+                         let proprietes = donnees['proprietes_mtn']
+
+
+                         $("#offcanvasBottomLabel").html("Propriété de la transaction MTN Money « " + proprietes['date_creation'] + " »");
+                         $("#date_creation").html(proprietes['date_creation']);
+                         $("#user_creation").html(proprietes['user_creation']);
+                         $("#navigateur_creation").html(proprietes['navigateur_creation']);
+                         $("#ordinateur_creation").html(proprietes['ordinateur_creation']);
+                         $("#ip_creation").html(proprietes['ip_creation']);
+                         $("#annee_academique").html(proprietes['annee_academique']);
+                         $("#ecole").html(proprietes['magasin']);
+
 
                      }
                  }

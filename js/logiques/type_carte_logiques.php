@@ -43,7 +43,7 @@
  
     $('#duree').on('change', function() {
         $('#duree').removeClass('is-invalid');
-        $('#dureeHelp').html('Veuillez saisir la duree...');
+        $('#dureeHelp').html('');
     });
     $('#libelle').on('change', function() {
         $('#libelle').removeClass('is-invalid');

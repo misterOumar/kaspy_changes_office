@@ -41,12 +41,15 @@
                                 Liste des échanges</a> </li>
                         <li><a class="dropdown-item" href="etats/EtatListeCarte.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
                                 Liste des cartes</a> </li>
-                                <li><a class="dropdown-item" href="etats/EtatListeOperation.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Liste des opérations</a> </li>
-                                <li><a class="dropdown-item" href="etats/EtatListeOperationRIA.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                     
+                        <li><a class="dropdown-item" href="etats/EtatListeOperationRIA.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
                                 Liste des opérations RIA</a> </li>
+                        <li><a class="dropdown-item" href="etats/EtatListeOperationWU.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Liste des opérations WU</a> </li>
+                        <li><a class="dropdown-item" href="etats/EtatStockDisponible.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Stock Disponible</a> </li>
                         <div class="dropdown-divider"></div>
-                    
+
                     </ul>
                 </li>
             </div>

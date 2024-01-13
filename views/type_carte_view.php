@@ -125,11 +125,14 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                         <input type='text' class='form-control dt-montant_payer' id='duree' name='duree' aria - Label='annee' maxlength='75' />
                                     </div>
                                     <div class='mb-1'><small id=' dureeHelp' class='text-danger invisible'></small></div>
+
+                                    <!---  
                                     <div>
                                         <label class='form-label' for='appartement'>Choisir le logo</label>
                                         <input type='file' class='form-control dt-montant_payer' id='photo_2' name='photo_2' aria - Label='annee' maxlength='75' />
                                     </div>
                                     <div class='mb-1'><small id=' logoHelp' class='text-danger invisible'></small></div>
+                                    --->
 
 
                                     <!--- ENREGISTREMENT --->
@@ -214,33 +217,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                     </div>
                     <!--- formulaire d importation des fichiers csv , excel  --->
 
-                    <div class="modal modal-slide-in fade" id="modal-import">
-                        <div class="modal-dialog sidebar-sm">
-                            <form id="form_modif" name="form_modif" class="add-new-record modal-content pt-0" action="type_carte_import_controller.php" enctype="multipart/form-data" method="POST">
-
-                                <button type="button" class="btn-close" data-bs-disminomss="modal" aria-label="Close">×</button>
-                                <div class="modal-header mb-1">
-                                    <h5 class="modal-title" id="exampleModalLabel">Importez ici vos données</h5>
-                                </div>
-                                <button type="button" id="bt_vider" name="bt_vider" class="btn" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" class="avatar pull-up my-0" title="Vider les champs" style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
-                                    <i data-feather='refresh-ccw'></i></button>
-
-                                <div class="modal-body flex-grow-1">
-                                    <div class="row">
-
-                                        <div class=''>
-                                            <label class='form-label' for='montant_payermodif'>Importer ici</label>
-                                            <input type='file' class='form-control dt-montant_payermodif' name="fiche" id="fiche" accept=".xls, .xlsx, .csv" aria - Label='montant_payermodif' maxlength='75' />
-                                        </div>
-                                        <div class='mb-1'><small id='ficheHelp' class='text-danger invisible'></small></div>
-                                    </div>
-                                    <!--- Modification --->
-                                    <button type="submit" id='bt_import' name='bt_import' class='btn btn-primary enregistrer me-5'>Importer</button>
-                                    <button type='reset' id='bt_annuler' name='annuler' class='btn btn-outline-secondary' data-bs-dismiss='modal'>Annuler</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                  
 
 
 

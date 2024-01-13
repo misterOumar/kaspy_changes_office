@@ -171,6 +171,29 @@ class western_union
         return $req->fetch();
     }
 
+     /**
+     * Renvoi la liste des ria pour le rapport.
+     *
+     * @return array
+     */
+    static function getAllRapport()
+    {
+        global $db;
+        $req = $db->prepare("SELECT  *, 
+        SUM(CASE WHEN type_transaction = 'envoi' THEN 1 ELSE 0 END) as nbre_operation_envoi, 
+        SUM(CASE WHEN type_transaction != 'envoi' THEN 1 ELSE 0 END) as nbre_operation_payer,
+        SUM(CASE WHEN type_transaction = 'envoi' THEN total_frais ELSE 0 END) as frais_envoi,
+        SUM(CASE WHEN type_transaction = 'envoi' THEN total_taxes ELSE 0 END) as taxe_envoi,
+        SUM(CASE WHEN type_transaction = 'envoi' THEN montant_envoye ELSE 0 END) as montant_envoye,
+        SUM(CASE WHEN type_transaction = 'envoi' THEN total_taxes +  montant_envoye ELSE 0 END) as total_envoi,
+        SUM(CASE WHEN type_transaction != 'envoi' THEN  montant_envoye ELSE 0 END) as montant_paye,
+        SUM(CASE WHEN type_transaction = 'envoi' THEN montant_envoye ELSE 0 END) as montant_payer_envoi
+        FROM western_union GROUP BY magasin, date
+        ORDER BY id");
+        $req->execute([]);
+        return $req->fetchAll();
+    }
+
     //||**********************************||
     //||------------ INSERTIONS ------------||
     //||**********************************||
@@ -198,15 +221,15 @@ class western_union
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter($code_pays_origine, $code_devise_pays_origine, $identifiant_terminal, $identité_opérateur, $super_op_identifiant, $nom_utilisateur, $mtncn, $receveur, $expediteur, $code_pays_destination, $code_devise_pays_destination, $type_de_transaction, $date, $heure, $montant_envoye, $frais_de_transfert, $montant_total_recueilli, $taux_de_change, $montant_paye_attendu, $total_frais,  $total_taxes, $type_de_paiement, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
+    static function Ajouter($code_pays_origine, $code_devise_pays_origine, $identifiant_terminal, $identité_opérateur, $super_op_identifiant, $nom_utilisateur, $mtncn, $receveur, $expediteur, $code_pays_destination, $code_devise_pays_destination, $type_de_transaction, $date, $heure, $montant_envoye, $frais_de_transfert, $montant_total_recueilli, $taux_de_change, $montant_paye_attendu, $total_frais,  $total_taxes, $type_de_paiement, $type_transaction, $magasin, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
     {
         global $db;
 
         $req = $db->prepare('
-            INSERT INTO western_union(code_pays_origine,code_devise_pays_origine,identifiant_terminal, identite_operateur,super_op_identifiant,nom_utilisateur,mtn_cn,receveur,expediteur,code_pays_destination,code_devise_pays_destination,type_de_transaction,date,heure,montant_envoye,frais_de_transfert,  montant_total_recueilli,taux_de_change, montant_paye_attendu, total_frais,total_taxes, type_de_paiement, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+            INSERT INTO western_union(code_pays_origine,code_devise_pays_origine,identifiant_terminal, identite_operateur,super_op_identifiant,nom_utilisateur,mtn_cn,receveur,expediteur,code_pays_destination,code_devise_pays_destination,type_de_transaction,date,heure,montant_envoye,frais_de_transfert,  montant_total_recueilli,taux_de_change, montant_paye_attendu, total_frais,total_taxes, type_de_paiement, type_transaction, magasin, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([$code_pays_origine, $code_devise_pays_origine, $identifiant_terminal, $identité_opérateur, $super_op_identifiant, $nom_utilisateur, $mtncn, $receveur, $expediteur, $code_pays_destination, $code_devise_pays_destination, $type_de_transaction, $date, $heure, $montant_envoye, $frais_de_transfert, $montant_total_recueilli, $taux_de_change, $montant_paye_attendu , $total_frais, $total_taxes, $type_de_paiement, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$code_pays_origine, $code_devise_pays_origine, $identifiant_terminal, $identité_opérateur, $super_op_identifiant, $nom_utilisateur, $mtncn, $receveur, $expediteur, $code_pays_destination, $code_devise_pays_destination, $type_de_transaction, $date, $heure, $montant_envoye, $frais_de_transfert, $montant_total_recueilli, $taux_de_change, $montant_paye_attendu , $total_frais, $total_taxes, $type_de_paiement,$type_transaction, $magasin, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 

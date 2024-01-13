@@ -97,10 +97,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                             <th></th>
                                             <th>id</th>
                                             <th>Date</th>                                
-                                            <th>Numero de reference</th>
-                                            <th>code autorisation</th>
-                                            <th>Id Utilisateur</th>                                        
-                                             <th>id point vente </th>
+                                            <th>N° reference</th>
                                             <th>Montant</th>
                                             <th>Frais</th>
                                             <th>Total</th>
@@ -113,125 +110,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                         </div>
                     </div>
 
-                    <!-- Modal to add new record -->
-                    <!-- <div class="modal modal-slide-in fade" id="modals-slide-in">
-                        <div class="modal-dialog sidebar-sm">
-                            <form id="form_ajouter" name="form_ajouter" class="add-new-record modal-content pt-0"
-                                action="controllers/batiments_controller.php" method="POST">
-
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close">×</button>
-                                <div class="modal-header mb-1">
-                                    <h5 class="modal-title" id="exampleModalLabel">Nouvelle transaction</h5>
-                                </div>
-                                <button type="button" id="bt_vider" name="bt_vider" class="btn" data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom" data-bs-placement="bottom" class="avatar pull-up my-0"
-                                    title="Vider les champs"
-                                    style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
-                                    <i data-feather='refresh-ccw'></i></button>
-
-
-                                <div class="modal-body flex-grow-1"> -->
-                    <!--- MONTANT --->
-                    <!-- <div class=''>
-                                        <label class='form-label' for='montant'>Montant transaction</label>
-                                        <input type='text' class='form-control dt-montant' id='montant' name='montant'
-                                            aria - Label='montant' maxlength='75' />
-                                    </div>
-                                    <div class='mb-1'><small id='montantHelp' class='text-danger invisible'></small>
-                                    </div> -->
-
-                    <!--- DATE TRANSACTION --->
-                    <!-- <div class=''>
-                                        <label class='form-label' for='date_transaction'>Date transaction</label>
-                                        <input type='text' class='form-control dt-full-libelle' id='date_transaction'
-                                            name='date_transaction' placeholder='Veuillez saisir le date_transaction'
-                                            aria - Label='date_transaction' maxlength='75' />
-                                    </div>
-                                    <div class='mb-1'><small id='date_transactionHelp'
-                                            class='text-danger invisible'></small></div> -->
-
-                    <!--- NATURE --->
-                    <!-- <div class=''>
-                                        <label class='form-label' for='nature'>Nature de la transaction</label>
-                                        <input type='text' class='form-control dt-nature' id='nature' name='nature' aria
-                                            - Label='nature' maxlength='75' value="Money gram" readonly />
-                                    </div>
-                                    <div class='mb-1'><small id='natureHelp' class='text-danger invisible'></small>
-                                    </div>
- -->
-
-                    <!--- ENREGISTREMENT --->
-                    <!-- <button type="submit" id='bt_enregistrer' name='bt_enregistrer'
-                                        class='btn btn-primary enregistrer me-5'>Enregistrer</button>
-                                    <button type='reset' id='bt_annuler' name='annuler'
-                                        class='btn btn-outline-secondary' data-bs-dismiss='modal'>Annuler</button>
-
-                                </div>
-                            </form>
-                        </div>
-                    </div>  -->
-
-
-                    <!-- Modal to update new record -->
-                    <!-- <div class="modal modal-slide-in fade" id="modal-modif">
-                        <div class="modal-dialog sidebar-sm">
-                            <form id="form_modif" name="form_modif" class="add-new-record modal-content pt-0"
-                                action="controllers/batiments_controller.php" method="POST">
-
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close">×</button>
-                                <div class="modal-header mb-1">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modifier une transaction
-                                    </h5>
-                                </div>
-                                <button type="button" id="btn_vider" name="btn_vider" class="btn"
-                                    data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
-                                    class="avatar pull-up my-0" title="Vider les champs"
-                                    style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
-                                    <i data-feather='refresh-ccw'></i></button>
-
-
-                                <div class="modal-body flex-grow-1"> -->
-                    <!--- MONTANT --->
-                    <!-- <div class=''>
-                                        <label class='form-label' for='montant_modif'>Montant transaction</label>
-                                        <input type='text' class='form-control dt-montant_modif' id='montant_modif' name='montant_modif'
-                                            aria - Label='montant_modif' maxlength='75' />
-                                    </div>
-                                    <div class='mb-1'><small id='montant_modifHelp' class='text-danger invisible'></small>
-                                    </div> -->
-
-                    <!--- DATE TRANSACTION --->
-                    <!-- <div class=''>
-                                        <label class='form-label' for='date_transaction_modif'>Date transaction</label>
-                                        <input type='text' class='form-control dt-full-libelle' id='date_transaction_modif'
-                                            name='date_transaction_modif' placeholder='Veuillez saisir le date_transaction_modif'
-                                            aria - Label='date_transaction_modif' maxlength='75' />
-                                    </div>
-                                    <div class='mb-1'><small id='date_transaction_modifHelp'
-                                            class='text-danger invisible'></small></div> -->
-
-                    <!--- NATURE --->
-                    <!-- <div class=''>
-                                        <label class='form-label' for='nature_modif'>Nature de la transaction</label>
-                                        <input type='text' class='form-control dt-nature_modif' id='nature_modif' name='nature_modif' aria
-                                            - Label='nature_modif' maxlength='75' value="Money gram" readonly />
-                                    </div>
-                                    <div class='mb-1'><small id='nature_modifHelp' class='text-danger invisible'></small>
-                                    </div>
-     -->
-
-                    <!--- ENREGISTREMENT --->
-                    <!-- <button type="submit" id='bt_modifier' name='bt_modifier'
-                                        class='btn btn-primary enregistrer me-5 '>Modifier</button>
-                                    <button type='reset' id='bt_annuler' name='annuler'
-                                        class='btn btn-outline-secondary' data-bs-dismiss='modal'>Annuler</button>
-
-                                </div>
-                            </form>
-                        </div>
-                    </div> -->
 
                     <!-- Modal pour IMPORTATION-->
                     <div class="modal fade" id="importationModal" tabindex="-1" aria-labelledby="importationLabel"
@@ -260,7 +138,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                     </div>
                     <!-- Modal pour les propriétés -->
                     <?php include 'components/modal_proprietes.php' ?>
-                    <?php include 'components/modal_details_batiments.php' ?>
+                    <?php include 'components/modal_details.php' ?>
                 </section>
                 <!--/ Basic table -->
             </div>

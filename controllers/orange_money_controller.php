@@ -1,4 +1,4 @@
-  <!--  <?php
+<?php
 //||******************************************************||
 //||----------------- Kaspy Web Framework ----------------||
 //||--- kaspy corporation, We're developing the future ---||
@@ -53,7 +53,6 @@ if (isset($_POST['bt_enregistrer'])) {
             $tel_cli,     
             $montant,
             $dt,
-            $dt,
             $us,
             $navigateur,
             $pc,
@@ -62,6 +61,8 @@ if (isset($_POST['bt_enregistrer'])) {
             $us,
             $navigateur,
             $pc,
+            $ip,
+            
 
         )) {
             $message = "Enregistrement de la transaction  éffectué avec succès.";
@@ -87,12 +88,6 @@ if (isset($_POST['bt_enregistrer'])) {
         ]);
     }
 }
-
-
-
-
-
-
 
 
 // MODIFIER UNE TRANSACTION
@@ -178,8 +173,6 @@ if (isset($_POST['bt_modifier'])) {
 }
 
 
-
-
 // RECUPERATION DES INFO DE LA DERNIERE LIGNE
 if (isset($_GET['idLast'])) {
     include('../functions/functions.php');
@@ -204,7 +197,6 @@ if (isset($_GET['idLast'])) {
 
 
 // RECUPERATION DES INFO POUR LA MODIFICATION
-
 if (isset($_GET['idOrange'])) {
     include('../functions/functions.php');
     include('../config/config.php');
@@ -231,15 +223,17 @@ if (isset($_GET['idProprietes'])) {
     include('../config/config.php');
     include('../config/db.php');
     include('../models/Orange.php');
+
     $id = $_GET['idProprietes'];
-    $transactions = orange::getByID($id);
-    if ($transactions) {
+    $proprietes = orange::getByID($id);
+
+    if ($proprietes) {
         echo json_encode([
-            'transactions' => $transactions,
+            'proprietes_orange' => $proprietes,
         ]);
     } else {
         echo json_encode([
-            'transaction' => 'null'
+            'proprietes_orange' => 'null'
         ]);
     }
 }

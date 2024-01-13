@@ -10,16 +10,16 @@
                 dt_basic.row
                     .add({
                         responsive_id: champ_bd.id,
-                        id: champ_bd.id,            
-                        date: champ_bd.date,          
+                        id: champ_bd.id,
+                        date: champ_bd.date,
                         num_transfert: champ_bd.num_transfert,
                         montant_envoye: champ_bd.montant_envoye,
-                        pays_destination:champ_bd.pays_destination,
-                        montant_paye:champ_bd.montant_paye,
-                        devise_paiement:champ_bd.devise_paiement,
-                        taux:champ_bd.taux,                     
-                        actions:champ_bd.actions                       
-                        
+                        pays_destination: champ_bd.pays_destination,
+                        montant_paye: champ_bd.montant_paye,
+                        devise_paiement: champ_bd.devise_paiement,
+                        taux: champ_bd.taux,
+                        actions: champ_bd.actions
+
                     })
 
                     .draw();
@@ -44,10 +44,10 @@
                     },
                     {
                         data: 'id'
-                    }, 
+                    },
                     {
                         data: 'date'
-                    },                     
+                    },
                     {
                         data: 'num_transfert'
                     },
@@ -65,8 +65,8 @@
                     },
                     {
                         data: 'taux'
-                    },                   
-                                     
+                    },
+
 
                     {
                         data: ''
@@ -114,14 +114,14 @@
                                 $libelle = full['libelle'],
                                 $duree = full['date'],
                                 $type = full['actions'];
-                                var bg;
-                                if ($type == "Envoi") {
-                                    bg = 'bg-success'
-                                }else{
-                                    bg = 'bg-info'
+                            var bg;
+                            if ($type == "Envoi") {
+                                bg = 'bg-success'
+                            } else {
+                                bg = 'bg-info'
 
-                                }
-                               
+                            }
+
                             if ($user_img) {
                                 // For Avatar image
                                 var $output =
@@ -134,7 +134,7 @@
                                     $libelle = full['date'],
                                     $initials = $libelle.match(/\b\w/g) || [];
                                 $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-                                $output = '<span class="avatar-content '+ bg+'">' + $initials + '</span>';
+                                $output = '<span class="avatar-content ' + bg + '">' + $initials + '</span>';
                             }
 
                             var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
@@ -149,7 +149,7 @@
                                 '<div class="d-flex flex-column">' +
                                 '<span class="emp_nom text-truncate fw-bold">' +
                                 $libelle +
-                                '</span>' +                                
+                                '</span>' +
                                 '<small class="emp_nom_pop text-truncate text-muted">' +
                                 $type +
                                 '</small>' +
@@ -168,30 +168,14 @@
                         render: function(data, type, full, meta) {
                             return (
                                 '<div class="d-inline-flex">' +
-                                '<a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown">' +
-                                feather.icons['more-vertical'].toSvg({
+                                '<a href="javascript:;" class="text-info me-1 proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
+                                feather.icons['info'].toSvg({
                                     class: 'font-small-4'
                                 }) +
                                 '</a>' +
-                                '<div class="dropdown-menu dropdown-menu-end">' +
-                            
-
-                                //Détails
-                                '<a href="javascript:;" class="dropdown-item">' +
-                                feather.icons['file-text'].toSvg({
-                                    class: 'font-small-4 me-50'
-                                }) +
-                                'Détails</a>' +
-                                //Propriétés
-                                '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
-                                feather.icons['info'].toSvg({
-                                    class: 'font-small-4 me-50'
-                                }) +
-                                'Propriétés</a>' +
 
                                 '</div>' +
-                                '</div>' +
-                                '<a href="javascript:;" class="item-edit bt_modifier" data-bs-target="#modal-modif" data-bs-toggle="modal">' +
+                                '<a href="javascript:;" class="details"  title="Détail transaction">' +
                                 feather.icons['eye'].toSvg({
                                     class: 'font-small-4'
                                 }) +
@@ -294,7 +278,7 @@
                     },
 
 
-                  
+
                 ],
                 // RESPONSIVE - Sur téléphone
                 responsive: {
@@ -437,6 +421,8 @@
                 }
             }
         });
+
+
         // MODIFIER UN ELEMENT
         var that
         $('.datatables-basic tbody').on('click', '.item-edit', function() {
@@ -459,6 +445,8 @@
                 }
             })
         });
+
+
         // SUPPRIMER UNE LIGNE
         $('.datatables-basic tbody').on('click', '.delete-record', function() {
             // Suppression Front
@@ -520,31 +508,151 @@
         });
 
 
-
         // Propriété
         $('.datatables-basic tbody').on('click', '.proprietes', function() {
             var that = this
             $.ajax({
                 type: "GET",
                 data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
-                url: "controllers/type_carte_controller.php",
+                url: "controllers/ria_controller.php",
                 success: function(result) {
                     var donnees = JSON.parse(result);
-                    if (donnees['carte'] !== 'null') {
+                    if (donnees['proprietes_ria'] !== 'null') {
 
-                        let proprietes = donnees['locataire']
+                        let proprietes = donnees['proprietes_ria']
 
-                        let libelle = proprietes['libelle'];
+                        let titre = proprietes['num_transfert'];
                         let duree = proprietes['duree'];
                         let date_creation = proprietes['date_creation'];
-                        $("#offcanvasBottomLabel").html("Propriété de « " + titre + " »");
-                        $("#date_creation").html(date_creation);
-                        $("#user_creation").html(user_creation);
-                        $("#navigateur_creation").html(navigateur_creation);
-                        $("#ordinateur_creation").html(ordinateur_creation);
-                        $("#ip_creation").html(ip_creation);
-                        $("#annee_academique").html(annee_academique);
-                        $("#ecole").html(ecole);
+                        $("#offcanvasBottomLabel").html("Propriété de « " + proprietes['num_transfert'] + " »");
+                        $("#date_creation").html(proprietes['date_creation']);
+                        $("#user_creation").html(proprietes['user_creation']);
+                        $("#navigateur_creation").html(proprietes['navigateur_creation']);
+                        $("#ordinateur_creation").html(proprietes['ordinateur_creation']);
+                        $("#ip_creation").html(proprietes['ip_creation']);
+                        $("#annee_academique").html(proprietes['annee_academique']);
+                        $("#ecole").html(proprietes['magasin']);
+
+
+                    }
+                }
+            })
+        });
+
+
+        // Details
+        $('.datatables-basic tbody').on('click', '.details', function() {
+            var that = this
+            $.ajax({
+                type: "GET",
+                data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+                url: "controllers/ria_controller.php",
+                success: function(result) {
+                    var donnees = JSON.parse(result);
+                    if (donnees['proprietes_ria'] !== 'null') {
+
+                        let ria = donnees['proprietes_ria']
+
+                        $('#titre_modal').text('Détail de la transaction RIA')
+
+                        // le tableau de la transaction
+                        $('.modal_details .modal-body').html(`
+                            <table class="table table-bordered text-nowrap text-center">             
+                                <tbody class="details">
+                                    <tr>
+                                        <th scope="row" class="text-start">Type de transaction</th>                                      
+                                        <td  class="text-start">${ria.actions}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Numéro de transfert</th>                                      
+                                        <td  class="text-start">${ria.num_transfert}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">PIN</th>                                        
+                                        <td  class="text-start">${ria.pin}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Mode de livraison</th>                                        
+                                        <td  class="text-start">${ria.mode_livraison}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Caissier</th>                                        
+                                        <td  class="text-start">${ria.caissier}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Agence</th>                                        
+                                        <td  class="text-start">${ria.agence}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Code agence</th>                                        
+                                        <td  class="text-start">${ria.code_agence}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Agence Réconciliation</th>                                      
+                                        <td  class="text-start">${ria.agence_recon}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Code A. réconciliation</th>
+                                        <td  class="text-start">${ria.code_agence_recon}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Montant Envoye</th>
+                                        <td  class="text-start">${ria.montant_envoye}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Devise d'Envoi</th>
+                                        <td  class="text-start">${ria.devise_envoye}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Pays d'Envoi</th>
+                                        <td  class="text-start">${ria.pays_envoi}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Pays de destination</th>
+                                        <td  class="text-start">${ria.pays_destination}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Montant à Payer</th>
+                                        <td  class="text-start">${ria.montant_paye}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Devise de paiement</th>
+                                        <td  class="text-start">${ria.devise_paiement}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Montant de la commission SA</th>
+                                        <td  class="text-start">${ria.montant_commission}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Dévise de la commission SA</th>
+                                        <td  class="text-start">${ria.devise_commission}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Taux</th>
+                                        <td  class="text-start">${ria.taux}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">TOB</th>
+                                        <td  class="text-start">${ria.tob}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">TTHU</th>
+                                        <td  class="text-start">${ria.tthu}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Frais</th>
+                                        <td  class="text-start">${ria.frais}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        `);
+
+
+                        // afficher le modal
+                        $('.modal_details').modal('show')
+
+
+
                     }
                 }
             })

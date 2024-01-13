@@ -1,27 +1,22 @@
 <?php
 
-// SUPPRESSION D'UNE TRANSACTION
-
-
-
-if (isset($_GET['idSuppr'])) {
+// RECUPERATION DES INFO POUR PROPRIETE D'UN ELEMENT 
+if (isset($_GET['idProprietes'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
-    include('../models/transaction_wu.php');
+    include('../models/Western_union.php');
 
-    $id = strSecur($_GET['idSuppr']);
-    if (western_union::Supprimer($id)) {
-        $message = "Transaction western union supprimé avec succès.";
+    $id = $_GET['idProprietes'];
+    $proprietes = western_union::getByID($id);
+
+    if ($proprietes) {
         echo json_encode([
-            'success' => 'true',
-            'message' => $message
+            'proprietes_western_union' => $proprietes,
         ]);
     } else {
-        $message = "Erreur impossible de supprimer cette transaction.";
         echo json_encode([
-            'success' => 'false',
-            'message' => $message
+            'proprietes_western_union' => 'null'
         ]);
     }
 }

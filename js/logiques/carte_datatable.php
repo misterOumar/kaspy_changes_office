@@ -14,9 +14,8 @@
                         date_activation: champ_bd.date_activation,
                         date_expiration: champ_bd.date_expiration,
                         type_carte: champ_bd.type_carte,
-                        duree: champ_bd.duree,
 
-                        status: champ_bd.status==1 ? "vendue" :"en stock",
+                        status: champ_bd.status,
 
 
                     })
@@ -55,9 +54,7 @@
                     {
                         data: 'type_carte'
                     },
-                    {
-                        data: 'duree'
-                    },
+                 
                     {
                         data: 'status'
                     },
@@ -142,6 +139,36 @@
                         }
                     },
                     // fin du badge ou de l'image rond
+
+                    {
+
+                        // Label
+                        targets: -2,
+                        render: function(data, type, full, meta) {
+                            var $status_number = full['status'];
+                            var $status = {
+                                0: {
+                                    title: 'En stock',
+                                    class: 'badge-light-info'
+                                },
+                                1: {
+                                    title: 'Vendu',
+                                    class: 'badge-light-success'
+                                },
+                            
+                            };
+                            if (typeof $status[$status_number] === 'undefined') {
+                                return data;
+                            }
+                            return (
+                                '<span class="badge rounded-pill ' +
+                                $status[$status_number].class +
+                                '">' +
+                                $status[$status_number].title +
+                                '</span>'
+                            );
+                        }
+                    },
 
                     // ActionsVoulez vous vraiment supprimer ?
                     {

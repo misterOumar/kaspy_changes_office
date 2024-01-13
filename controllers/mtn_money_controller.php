@@ -1,4 +1,4 @@
- <!--  <?php
+<?php
 //||******************************************************||
 //||----------------- Kaspy Web Framework ----------------||
 //||--- kaspy corporation, We're developing the future ---||
@@ -59,7 +59,6 @@ if (isset($_POST['bt_enregistrer'])) {
             $tel_cli,     
             $montant,
             $dt,
-            $dt,
             $us,
             $navigateur,
             $pc,
@@ -68,6 +67,8 @@ if (isset($_POST['bt_enregistrer'])) {
             $us,
             $navigateur,
             $pc,
+            $ip,
+        
 
         )) {
             $message = "enregistrement de la transaction  éffectué avec succès.";
@@ -205,7 +206,6 @@ if (isset($_GET['idLast'])) {
 
 
 // RECUPERATION DES INFO POUR LA MODIFICATION
-
 if (isset($_GET['idMtn'])) {
     include('../functions/functions.php');
     include('../config/config.php');
@@ -236,11 +236,11 @@ if (isset($_GET['idProprietes'])) {
     $transactions = mtn::getByID($id);
     if ($transactions) {
         echo json_encode([
-            'transactions' => $transactions,
+            'proprietes_mtn' => $transactions,
         ]);
     } else {
         echo json_encode([
-            'transaction' => 'null'
+            'proprietes_mtn' => 'null'
         ]);
     }
 }

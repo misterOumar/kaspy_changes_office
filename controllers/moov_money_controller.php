@@ -61,7 +61,6 @@ if (isset($_POST['bt_enregistrer'])) {
             $tel_cli,     
             $montant,
             $dt,
-            $dt,
             $us,
             $navigateur,
             $pc,
@@ -70,6 +69,8 @@ if (isset($_POST['bt_enregistrer'])) {
             $us,
             $navigateur,
             $pc,
+            $ip,
+            
 
         )) {
             $message = "enregistrement de la transaction  éffectué avec succès.";
@@ -209,7 +210,6 @@ if (isset($_GET['idLast'])) {
 
 
 // RECUPERATION DES INFO POUR LA MODIFICATION
-
 if (isset($_GET['idMoov'])) {
     include('../functions/functions.php');
     include('../config/config.php');
@@ -236,15 +236,17 @@ if (isset($_GET['idProprietes'])) {
     include('../config/config.php');
     include('../config/db.php');
     include('../models/Moov.php');
+
     $id = $_GET['idProprietes'];
-    $transactions = moov::getByID($id);
-    if ($transactions) {
+    $proprietes = moov::getByID($id);
+
+    if ($proprietes) {
         echo json_encode([
-            'transactions' => $transactions,
+            'proprietes_moov' => $proprietes,
         ]);
     } else {
         echo json_encode([
-            'transaction' => 'null'
+            'proprietes_moov' => 'null'
         ]);
     }
 }

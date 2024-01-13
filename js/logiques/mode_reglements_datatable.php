@@ -3,7 +3,7 @@
         'use strict';
 
         // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
-        $.get('http://localhost/kaspy_iss/index.php?page=api_mode_reglements', function(rep) {
+        $.get('http://localhost/kaspy_changes_office/index.php?page=api_mode_reglements', function(rep) {
             let data = JSON.parse(rep)
             data.map((champ_bd) => {
 

@@ -81,7 +81,7 @@
 
     $('#montant').on('change', function() {
         $('#montant').removeClass('is-invalid');
-        $('#montantHelp').html('Veuillez saisir le montant...');
+        $('#montantHelp').html('');
     });
     $('#type').on('change', function() {
         $('#type').removeClass('is-invalid');
@@ -91,12 +91,12 @@
 
     $('#tel_cli').on('change', function() {
         $('#tel_cli').removeClass('is-invalid');
-        $('#tel_cliHelp').html('Veillez saisir le telephone du client ');
+        $('#tel_cliHelp').html('');
     });
   
     $('#date_t').on('change', function() {
         $('#date_t').removeClass('is-invalid');
-        $('#date_tHelp').html('Veillez selectionner  la date ');
+        $('#date_tHelp').html('');
     });
     // Champ de la duree ne doit contenir des letters
     $('#montant').on('keyup', function() {

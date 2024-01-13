@@ -58,7 +58,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">RIA</h2>
+                            <h2 class="content-header-title float-start mb-0">Transactions RIA</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
@@ -255,7 +255,9 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
 
 
+                    <!--/ modals -->
                     <?php include 'components/modal_proprietes.php' ?>
+                    <?php include 'components/modal_details.php' ?>
 
                 </section>
                 <!--/ Basic table -->
@@ -290,13 +292,15 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <script src="js/plugins/tables/datatable/datatables.checkboxes.min.js"></script>
     <script src="js/plugins/tables/datatable/datatables.buttons.min.js"></script>
     <script src="js/plugins/tables/datatable/jszip.min.js"></script>
-
+    
     <script src="js/plugins/tables/datatable/pdfmake.min.js"></script>
     <script src="js/plugins/tables/datatable/vfs_fonts.js"></script>
     <script src="js/plugins/tables/datatable/buttons.html5.min.js"></script>
     <script src="js/plugins/tables/datatable/buttons.print.min.js"></script>
     <script src="js/plugins/pickers/flatpickr/flatpickr.min.js"></script>
-
+    
+    <script src="js/template/components/components-tooltips.js"></script>
+    
     <!--<script src="js/template/ui/jquery.sticky.js"></script> -->
     <script src="js/template/forms/spinner/jquery.bootstrap-touchspin.js"></script>
     <script src="js/template/forms/form-number-input.js"></script>

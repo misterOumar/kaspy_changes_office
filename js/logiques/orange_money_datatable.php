@@ -166,12 +166,7 @@
                                 }) +
                                 'Supprimer</a>' +
 
-                                //Détails
-                                '<a href="javascript:;" class="dropdown-item">' +
-                                feather.icons['file-text'].toSvg({
-                                    class: 'font-small-4 me-50'
-                                }) +
-                                'Détails</a>' +
+                             
                                 //Propriétés
                                 '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
                                 feather.icons['info'].toSvg({
@@ -335,7 +330,7 @@
         }
         // MODIFIER UN ELEMENT
         $('#form_ajouter').on('submit', function(e) {
-            var new_type_op = $("input[name='radio_type']:checked").val();
+            var $new_type_op = $("input[name='radio_type']:checked").val();
            
             var $new_montant = $('#montant').val(),
                 // $new_type_op = $('#client').val(),
@@ -416,6 +411,8 @@
                 }
             }
         });
+
+
         var that
         $('.datatables-basic tbody').on('click', '.item-edit', function() {
             that = this
@@ -433,6 +430,36 @@
                         $('#date_t_modif').val(transaction['date']);
                         $('#radio_type_modif').val(transaction['type_operation']);
                         $('#tel_cli_modif').val(transaction['telephone_client']);                       
+
+                    }
+                }
+            })
+        });
+
+        // PROPRIETE D'UNE LIGNE
+         $('.datatables-basic tbody').on('click', '.proprietes', function() {
+            var that = this
+            $.ajax({
+                type: "GET",
+                data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+                url: "controllers/orange_money_controller.php",
+                success: function(result) {
+                  
+                    var donnees = JSON.parse(result);
+                    if (donnees['proprietes_orange'] !== 'null') {
+
+                        let proprietes = donnees['proprietes_orange']
+
+                       
+                        $("#offcanvasBottomLabel").html("Propriété de la transaction Orange Money« " + proprietes['date_creation'] + " »");
+                        $("#date_creation").html(proprietes['date_creation']);
+                        $("#user_creation").html(proprietes['user_creation']);
+                        $("#navigateur_creation").html(proprietes['navigateur_creation']);
+                        $("#ordinateur_creation").html(proprietes['ordinateur_creation']);
+                        $("#ip_creation").html(proprietes['ip_creation']);
+                        $("#annee_academique").html(proprietes['annee_academique']);
+                        $("#ecole").html(proprietes['magasin']);
+
 
                     }
                 }

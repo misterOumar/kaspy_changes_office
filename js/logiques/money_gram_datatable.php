@@ -14,9 +14,6 @@
             id: champ_bd.id,
             Date: champ_bd.date_heure,
             Numero: champ_bd.num_ref,
-            code_aut: champ_bd.code_aut,
-            id_user: champ_bd.id_user,
-            id_pvente: champ_bd.id_pvente,
             Montant: champ_bd.montant,
             frais: champ_bd.frais,
             total: champ_bd.total,
@@ -37,52 +34,35 @@
     if (dt_basic_table.length) {
       var dt_basic = dt_basic_table.DataTable({
         columns: [{
-          data: 'responsive_id'
-        },
-        {
-          data: 'id'
-        },
-        {
-          data: 'id'
-        }, // used for sorting so will hide this column
-        {
-          data: 'Date'
-        },
-       
-        {
-          data: 'Numero',
-          // render: function (data, type, row) {
-          //   // Assurez-vous que la colonne "Num_Ref" contient du texte
-          //   if (type === 'display' && data) {
-          //     // Ajout d'un gestionnaire d'événements click avec une alerte
-          //     return '<a href="#" data-id="' + row['id'] + '" class="clickable-link" style="font-weight:bolder">' + data + '</a>';
-          //   } else {
-          //     return data; // Si la colonne est vide ou si le type n'est pas 'display', renvoyer simplement la valeur existante
-          //   }
-          // }
-        },
-        {
-          data: 'code_aut'
-        },
-        {
-          data: 'id_user'
-        },
-        {
-          data: 'id_pvente'
-        },
+            data: 'responsive_id'
+          },
+          {
+            data: 'id'
+          },
+          {
+            data: 'id'
+          }, // used for sorting so will hide this column
+          {
+            data: 'Date'
+          },
 
-        {
-          data: 'Montant'
-        },
-        {
-          data: 'frais'
-        },
-        {
-          data: 'total'
-        },
-        {
-          data: ''
-        }
+          {
+            data: 'Numero',
+
+          },
+
+          {
+            data: 'Montant'
+          },
+          {
+            data: 'frais'
+          },
+          {
+            data: 'total'
+          },
+          {
+            data: ''
+          }
         ],
         columnDefs: [{
             // For Responsive
@@ -168,36 +148,15 @@
             render: function(data, type, full, meta) {
               return (
                 '<div class="d-inline-flex">' +
-                '<a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown">' +
-                feather.icons['more-vertical'].toSvg({
+                '<a href="javascript:;" class="text-info me-1 proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
+                feather.icons['info'].toSvg({
                   class: 'font-small-4'
                 }) +
                 '</a>' +
-                '<div class="dropdown-menu dropdown-menu-end">' +
-                //Supprimer
-                '<a  href="javascript:;" class="dropdown-item delete-record">' +
-                feather.icons['trash-2'].toSvg({
-                  class: 'font-small-4 me-50'
-                }) +
-                'Supprimer</a>' +
-
-                //Détails
-                '<a href="javascript:;" class="dropdown-item">' +
-                feather.icons['file-text'].toSvg({
-                  class: 'font-small-4 me-50'
-                }) +
-                'Détails</a>' +
-                //Propriétés
-                '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
-                feather.icons['info'].toSvg({
-                  class: 'font-small-4 me-50'
-                }) +
-                'Propriétés</a>' +
 
                 '</div>' +
-                '</div>' +
-                '<a href="javascript:;" class="item-edit bt_modifier" data-bs-target="#modal-modif" data-bs-toggle="modal">' +
-                feather.icons['edit'].toSvg({
+                '<a href="javascript:;" class="details"  title="Détail transaction">' +
+                feather.icons['eye'].toSvg({
                   class: 'font-small-4'
                 }) +
                 '</a>'
@@ -415,35 +374,103 @@
       });
     });
 
-
-
     // Propriété
     $('.datatables-basic tbody').on('click', '.proprietes', function() {
       var that = this
       $.ajax({
         type: "GET",
         data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
-        url: "controllers/type_carte_controller.php",
+        url: "controllers/money_gram_controller.php",
         success: function(result) {
           var donnees = JSON.parse(result);
-          if (donnees['carte'] !== 'null') {
+          if (donnees['proprietes_moneygram'] !== 'null') {
 
-            let proprietes = donnees['locataire']
+            let proprietes = donnees['proprietes_moneygram']
 
-            let libelle = proprietes['libelle'];
-            let duree = proprietes['duree'];
-            let date_creation = proprietes['date_creation'];
-            $("#offcanvasBottomLabel").html("Propriété de « " + titre + " »");
-            $("#date_creation").html(date_creation);
-            $("#user_creation").html(user_creation);
-            $("#navigateur_creation").html(navigateur_creation);
-            $("#ordinateur_creation").html(ordinateur_creation);
-            $("#ip_creation").html(ip_creation);
-            $("#annee_academique").html(annee_academique);
-            $("#ecole").html(ecole);
+
+            $("#offcanvasBottomLabel").html("Propriété de « " + proprietes['num_ref'] + " »");
+            $("#date_creation").html(proprietes['date_creation']);
+            $("#user_creation").html(proprietes['user_creation']);
+            $("#navigateur_creation").html(proprietes['navigateur_creation']);
+            $("#ordinateur_creation").html(proprietes['ordinateur_creation']);
+            $("#ip_creation").html(proprietes['ip_creation']);
+            $("#annee_academique").html(proprietes['annee_academique']);
+            $("#ecole").html(proprietes['magasin']);
+
+
           }
-        }
+        },
       })
     });
+
+    // Details
+  $('.datatables-basic tbody').on('click', '.details', function() {
+    var that = this
+    $.ajax({
+      type: "GET",
+      data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+      url: "controllers/money_gram_controller.php",
+      success: function(result) {
+        var donnees = JSON.parse(result);
+        if (donnees['proprietes_moneygram'] !== 'null') {
+
+          let moneygram = donnees['proprietes_moneygram']
+
+          $('#titre_modal').text('Détail de la transaction MoneyGram')
+
+          // le tableau de la transaction
+          $('.modal_details .modal-body').html(`
+                            <table class="table table-bordered text-nowrap text-center">             
+                                <tbody class="details">
+                                    <tr>
+                                        <th scope="row" class="text-start">Type de transaction</th>                                      
+                                        <td  class="text-start">${moneygram.actions}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Heure et date (locales)</th>                                      
+                                        <td  class="text-start">${moneygram.date_heure}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Num Réf</th>                                        
+                                        <td  class="text-start">${moneygram.num_ref}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Identifiant d'utilisateur</th>                                        
+                                        <td  class="text-start">${moneygram.id_user}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">ID de point de vente</th>                                        
+                                        <td  class="text-start">${moneygram.id_pvente}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Montant</th>                                        
+                                        <td  class="text-start">${moneygram.montant}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Frais</th>                                        
+                                        <td  class="text-start">${moneygram.frais}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Total</th>                                      
+                                        <td  class="text-start">${moneygram.total}</td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        `);
+
+
+          // afficher le modal
+          $('.modal_details').modal('show')
+
+
+
+        }
+      }
+    })
   });
+
+  });
+
+  
 </script>

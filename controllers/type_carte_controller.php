@@ -54,42 +54,53 @@ if (isset($_POST['bt_enregistrer'])) {
 
 
     if ($succes) {
-        $ip = getIp();
-        $navigateur = getNavigateur();
-        $us = $_SESSION["KaspyISS_user"]['users'];
-        $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-        $dt = date("Y-m-d H:i:s");
-        if (type_carte::Ajouter($libelle, $duree, $filename_2, $dt, $us, $navigateur, $pc, $ip, $dt, $us, $navigateur, $pc, $ip)) {
+        $type_carte = type_carte::getByNom($libelle);
+        if ($type_carte['libelle'] == $libelle) {
+            $message = "Ce type de carte existe déjà";
+            echo json_encode([
+                'message' => $message,
+                'success' => "existe"
+            ]);
+        } else {
+
+
+            $ip = getIp();
+            $navigateur = getNavigateur();
+            $us = $_SESSION["KaspyISS_user"]['users'];
+            $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+            $dt = date("Y-m-d H:i:s");
+            if (type_carte::Ajouter($libelle, $duree, $filename_2, $dt, $us, $navigateur, $pc, $ip, $dt, $us, $navigateur, $pc, $ip)) {
 
 
 
-            if (isset($file_2)) {
-                if ($file_error_2 == 0) {
-                    if (in_array($file_ext_check_2, $valid_file_ext_2)) {
-                        move_uploaded_file($path_fichier_2, $destfile_2);
-                        $liens_photo_user_2 = $filename_2;
+                if (isset($file_2)) {
+                    if ($file_error_2 == 0) {
+                        if (in_array($file_ext_check_2, $valid_file_ext_2)) {
+                            move_uploaded_file($path_fichier_2, $destfile_2);
+                            $liens_photo_user_2 = $filename_2;
+                        } else {
+                            $liens_photo_user_2 = $photo_chemin_defaut_2;
+                        }
                     } else {
                         $liens_photo_user_2 = $photo_chemin_defaut_2;
                     }
                 } else {
                     $liens_photo_user_2 = $photo_chemin_defaut_2;
                 }
+
+
+                $message = "Création du type de carte  éffectué avec succès.";
+                echo json_encode([
+                    'success' => 'true',
+                    'message' => $message
+                ]);
             } else {
-                $liens_photo_user_2 = $photo_chemin_defaut_2;
+                $message = "Erreur lors de la création du type de carte.";
+                echo json_encode([
+                    'success' => 'false',
+                    'message' => $message
+                ]);
             }
-
-
-            $message = "Création du type de carte  éffectué avec succès.";
-            echo json_encode([
-                'success' => 'true',
-                'message' => $message
-            ]);
-        } else {
-            $message = "Erreur lors de la création du type de carte.";
-            echo json_encode([
-                'success' => 'false',
-                'message' => $message
-            ]);
         }
         // }
     } else {
@@ -178,25 +189,16 @@ if (isset($_GET['idLast'])) {
     include('../config/config.php');
     include('../config/db.php');
     include('../models/Type_carte.php');
-    require_once("../plugins/fpdf184/fpdf.php");
 
 
-    $cartes = type_carte::getLast();
-    $pdf = new FPDF();
-    $pdf->AddPage();
-    $pdf->SetFont('Arial', 'B', 16);
-    $pdf->Cell(40, 10, 'Hello');
-
-    $fichier = 'recu' . time() . '.pdf';
-    $pdf->Output($fichier, 'F');
+    $type_carte = type_carte::getLast();
 
 
-    if ($cartes) {
+    if ($type_carte) {
         $total = type_carte::getCount();
         echo json_encode([
-            'last_libelle' => $cartes,
+            'last_libelle' => $type_carte,
             'total' => $total,
-            'fichier' =>  $fichier,
         ]);
     } else {
         echo json_encode([

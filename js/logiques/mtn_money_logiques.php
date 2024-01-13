@@ -1,10 +1,3 @@
- 
-
-
- 
- 
-
-
 <?php include("views/components/alerts.php") ?>
 
 
@@ -15,23 +8,23 @@
         // dates
         $('#montant').val('');
         $('#montant').removeClass('is-invalid');
-        $('#montantHelp').html('Veuillez saisir le montant...');
+        $('#montantHelp').html('');
         $('#montantHelp').addClass('invisible');
 
         $('#type').val('');
         $('#type').removeClass('is-invalid');
-        $('#typeHelp').html('Veuillez sélectionner  le  type...');
+        $('#typeHelp').html('');
         $('#typeHelp').addClass('invisible');
 
  
         $('#date_t').val('');
         $('#date_t').removeClass('is-invalid');
-        $('#date_tHelp').html('Veuillez sélectionner la date ...');
+        $('#date_tHelp').html('');
         $('#date_tHelp').addClass('invisible');
 
         $('#tel_cli').val('');
         $('#tel_cli').removeClass('is-invalid');
-        $('#tel_cliHelp').html('Veuillez saisir le telephone du client...');
+        $('#tel_cliHelp').html('');
         $('#tel_cliHelp').addClass('invisible');
  
 
@@ -86,7 +79,7 @@
 
     $('#montant').on('change', function() {
         $('#montant').removeClass('is-invalid');
-        $('#montantHelp').html('Veuillez saisir le montant...');
+        $('#montantHelp').html('');
     });
     $('#type').on('change', function() {
         $('#type').removeClass('is-invalid');
@@ -96,14 +89,14 @@
 
     $('#tel_cli').on('change', function() {
         $('#tel_cli').removeClass('is-invalid');
-        $('#tel_cliHelp').html('Veillez saisir le telephone du client ');
+        $('#tel_cliHelp').html('');
     });
 
   
 
     $('#date_t').on('change', function() {
         $('#date_t').removeClass('is-invalid');
-        $('#date_tHelp').html('Veillez selectionner  la date ');
+        $('#date_tHelp').html('');
     });
     // Champ de la duree ne doit contenir des letters
     $('#montant').on('keyup', function() {

@@ -12,7 +12,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 <!-- BEGIN: Head-->
 
 <head>
-    <title><?= APP_NAME ?> -Type de carte</title>
+    <title><?= APP_NAME ?> - WU</title>
 
     <!-- Fichiers CSS par défaut (TEMPLATE) -->
     <?php include_once 'includes/head.php' ?>
@@ -58,7 +58,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Western Union</h2>
+                            <h2 class="content-header-title float-start mb-0">Transactions Western Union</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
@@ -87,11 +87,11 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                             <th></th>
                                             <th></th>
                                             <th>id</th>
+                                            <th>Date</th>
                                             <th>Expéditeur</th>
                                             <th>Receveur</th>
                                             <th>Montant envoyé</th>
                                             <th>Total frais</th>
-                                            <th>Date</th>
 
                                             <th>Actions</th>
                                         </tr>
@@ -249,6 +249,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
 
                     <?php include 'components/modal_proprietes.php' ?>
+                    <?php include 'components/modal_details.php' ?>
 
                 </section>
                 <!--/ Basic table -->

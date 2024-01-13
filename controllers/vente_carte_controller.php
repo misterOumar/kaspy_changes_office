@@ -6,7 +6,7 @@
         include("models/Carte.php");
         $List_cartes = cartes::Carte_Nvendues();
         $stock = cartes::Nb_carte();
-    
+        $liste_type_cartes = cartes::getTypesCarte();
         // statistiques
         $nbre_cartes = cartes::getCount();
         $nbre_cartes_vendu = cartes::getCountVendu();
@@ -29,11 +29,9 @@
         $email = strSecur($_POST["email"]);
         $prix_u = ($_POST["prix_u"]);
         $carte = strSecur($_POST["carte"]);
-        $num_carte = strSecur($_POST["num_carte"]);
-        // $date_t = strSecur($_POST["date_t"]);
-        // $date_v = strSecur($_POST["date_v"]);
+        $num_carte = strSecur($_POST["num_carte"]);        
         $date_v = date('Y-m-d H:i:s');
-         
+        
         $montant = $quantite * $prix_u;
 
         // Déclaration et initialisation des variables d'erreur (e)

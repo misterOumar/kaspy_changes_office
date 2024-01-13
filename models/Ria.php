@@ -129,8 +129,12 @@ class ria
         SUM(CASE WHEN actions = 'Envoi' THEN 1 ELSE 0 END) as operation_envoi, 
         SUM(CASE WHEN actions != 'Envoi' THEN 1 ELSE 0 END) as operation_payer,
         SUM(CASE WHEN actions = 'Envoi' THEN frais ELSE 0 END) as frais_envoi,
+        SUM(CASE WHEN actions = 'Envoi' THEN tob + tthu ELSE 0 END) as taxe_envoi,
+        SUM(CASE WHEN actions = 'Envoi' THEN - montant_envoye ELSE 0 END) as montant_envoye,
+        SUM(CASE WHEN actions = 'Envoi' THEN (tob + tthu) - montant_envoye ELSE 0 END) as total_envoi,
+        SUM(CASE WHEN actions != 'Envoi' THEN  montant_paye ELSE 0 END) as montant_paye,
         SUM(CASE WHEN actions = 'Envoi' THEN montant_paye ELSE 0 END) as montant_payer_envoi
-        FROM ria GROUP BY magasin, date_creation 
+        FROM ria GROUP BY magasin, DATE(date) 
         ORDER BY id");
         $req->execute([]);
         return $req->fetchAll();

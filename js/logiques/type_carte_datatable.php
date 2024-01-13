@@ -384,7 +384,6 @@
                                                 id: last_id,
                                                 libelle: $new_libelle,
                                                 duree: $new_duree,
-                                                logo: $newlogo,
                                                 status: 5
 
                                             })

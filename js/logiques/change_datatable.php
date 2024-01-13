@@ -10,26 +10,29 @@
                 dt_basic.row
                     .add({
                         responsive_id: champ_bd.id,
-                         id: champ_bd.id,
+                        id: champ_bd.id,
 
-                           //MONTANT APPORTE
-						 montant1: champ_bd.montant1,   
-                         
-                           //TAUX DE L 'ECHANGE
-                         taux: champ_bd.taux,
 
-                           //MONTANT FINAL DONNE AU CLIENT
-                         montant2: champ_bd.montant2,
+                        date: champ_bd.date,
 
-                           //NOM && PRENOM DU CLIENT DU CLIENT B
-                         client: champ_bd.client,
+                        //MONTANT APPORTE
+                        montant1: champ_bd.montant1 + ' F-CFA',
 
-                       //TELEPHONE  DU CLIENT  
-						 telephone: champ_bd.telephone,	
+                        //TAUX DE L 'ECHANGE
+                        taux: champ_bd.taux,
 
-						 date: champ_bd.date,                                  
-                                              
-                                         
+                        //MONTANT FINAL DONNE AU CLIENT
+                        montant2: champ_bd.montant2,
+
+                        //NOM && PRENOM DU CLIENT DU CLIENT B
+                        client: champ_bd.client,
+
+                        //TELEPHONE  DU CLIENT  
+                        telephone: champ_bd.telephone,
+
+                        
+
+
                     })
                     .draw();
             })
@@ -54,24 +57,25 @@
                         data: 'id'
                     },
                     // used for sorting so will hide this column
-					{
-                        data: 'montant1'
-                    },                                     					
-					 {
-                        data: 'taux'
-                    },
-					 {
-                        data: 'montant2'
-                    },                    
-                    {
-                        data: 'client'
-                    }, 
-					{
-						data :'telephone'
-					},
                     {
                         data: 'date'
                     },
+                    {
+                        data: 'montant1'
+                    },
+                    {
+                        data: 'taux'
+                    },
+                    {
+                        data: 'montant2'
+                    },
+                    {
+                        data: 'client'
+                    },
+                    {
+                        data: 'telephone'
+                    },
+                    
 
                     {
                         data: ''
@@ -116,7 +120,7 @@
                         responsivePriority: 1,
                         render: function(data, type, full, meta) {
                             var $user_img = full['avatar'],
-                                $libelle = full['montant1'],
+                                $libelle = full['date'],
                                 $duree = full['montant1'];
                             if ($user_img) {
                                 // For Avatar image
@@ -127,7 +131,7 @@
                                 var stateNum = full['status'];
                                 var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
                                 var $state = states[stateNum],
-                                    $libelle = full['montant1'],
+                                    $libelle = full['date'],
                                     $initials = $libelle.match(/\b\w/g) || [];
                                 $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
                                 $output = '<span class="avatar-content">' + $initials + '</span>';
@@ -144,7 +148,7 @@
                                 '</div>' +
                                 '<div class="d-flex flex-column">' +
                                 '<span class="emp_nom text-truncate fw-bold">' +
-                                $libelle + ' ' + 'F CFA' +
+                                $libelle + ' ' +
                                 '</span>' +
                                 '</div>' +
                                 '</div>';
@@ -174,12 +178,6 @@
                                 }) +
                                 'Supprimer</a>' +
 
-                                //Détails
-                                '<a href="javascript:;" class="dropdown-item">' +
-                                feather.icons['file-text'].toSvg({
-                                    class: 'font-small-4 me-50'
-                                }) +
-                                'Détails</a>' +
                                 //Propriétés
                                 '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
                                 feather.icons['info'].toSvg({
@@ -205,7 +203,7 @@
                 dom: "<'card-header border-bottom p-1'<'head-label'><'dt-action-buttons text-end'B>><'d-flex justify-content-between align-items-center mx-0 row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>t<'d-flex justify-content-between mx-0 row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
                 displayLength: 7,
                 lengthMenu: [7, 10, 25, 50, 75, 100],
-                buttons:  [{
+                buttons: [{
                         extend: 'collection',
                         className: 'btn btn-outline-secondary dropdown-toggle me-2 export',
                         text: feather.icons['share'].toSvg({
@@ -274,7 +272,7 @@
                     {
                         text: feather.icons['plus'].toSvg({
                             class: 'me-50 font-small-4'
-                        }) + 'Enregistrer un échange',
+                        }) + 'Ajouter nouveau',
                         className: 'create-new btn btn-primary',
                         attr: {
                             'id': 'bt_ajouter',
@@ -285,7 +283,7 @@
                             $(node).removeClass('btn-secondary');
                         }
                     },
-                     
+
                 ],
                 // RESPONSIVE - Sur téléphone
                 responsive: {
@@ -342,11 +340,11 @@
         }
         // MODIFIER UN ELEMENT
         $('#form_ajouter').on('submit', function(e) {
-            var  $new_client = $('#client').val(),
+            var $new_client = $('#client').val(),
                 $new_date_v = $('#date_v').val(),
                 $new_taux = $('#taux').val(),
-				 $new_montant = $('#montant').val(),
-				  $new_telephone = $('#telephone').val();				                 
+                $new_montant = $('#montant').val(),
+                $new_telephone = $('#telephone').val();
             e.preventDefault()
 
             if ($new_montant != '') {
@@ -364,21 +362,21 @@
                     success: function(result) {
                         //console.log(result);
                         var donnee = JSON.parse(result);
-                        
+
                         if (donnee['success'] === 'true') {
-                           
-							   $('#client').val("");
-							      $('#taux').val("");
-								     $('#montant').val("");
-									   $('#date_v').val("");
-									    $('#carte').val("");
-                                        $('#telephone').val("");
+
+                            $('#client').val("");
+                            $('#taux').val("");
+                            $('#montant').val("");
+                            $('#date_v').val("");
+                            $('#carte').val("");
+                            $('#telephone').val("");
                             $('#montantHelp').html("").addClass('invisible');
-							 $('#clientHelp').html("").addClass('invisible');
-                             $('#telephoneHelp').html("").addClass('invisible');                             
-							   $('#montantHelp').html("").addClass('invisible');
-							   $('#tauxHelp').html("").addClass('invisible');							   
-								 $('#date_vHelp').html("").addClass('invisible');
+                            $('#clientHelp').html("").addClass('invisible');
+                            $('#telephoneHelp').html("").addClass('invisible');
+                            $('#montantHelp').html("").addClass('invisible');
+                            $('#tauxHelp').html("").addClass('invisible');
+                            $('#date_vHelp').html("").addClass('invisible');
 
                             // MESSAGE ALERT
                             swal_Alert_Sucess(donnee['message'])
@@ -399,13 +397,13 @@
                                         dt_basic.row
                                             .add({
                                                 responsive_id: last_id,
-                                                id: last_id,      
-                                                montant1: $new_montant,	 
-                                                client: $new_client,   
-                                                telephone: $new_telephone,                                          
-                                                date: $new_date_v,                                            
-                                                taux: $new_taux,                                 
-												status: 5
+                                                id: last_id,
+                                                montant1: $new_montant,
+                                                client: $new_client,
+                                                telephone: $new_telephone,
+                                                date: $new_date_v,
+                                                taux: $new_taux,
+                                                status: 5
 
                                             })
                                             .draw();
@@ -441,12 +439,42 @@
                     if (donnees['change'] !== 'null') {
                         // Remplir le formulaire
                         let vente = donnees['change'];
-                        $('#idModif').val(vente['id']); 
-                        $('#montant_modif').val(vente['montant1']);                       
+                        $('#idModif').val(vente['id']);
+                        $('#montant_modif').val(vente['montant1']);
                         $('#date_vmodif').val(vente['date']);
                         $('#client_modif').val(vente['client']);
                         $('#taux_modif').val(vente['taux']);
-                        $('#telephone_modif').val(vente['telephone']);                      
+                        $('#telephone_modif').val(vente['telephone']);
+
+                    }
+                }
+            })
+        });
+
+        // PROPRIETE D'UNE LIGNE
+        $('.datatables-basic tbody').on('click', '.proprietes', function() {
+            var that = this
+            $.ajax({
+                type: "GET",
+                data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+                url: "controllers/changes_controller.php",
+                success: function(result) {
+
+                    var donnees = JSON.parse(result);
+                    if (donnees['changes'] !== 'null') {
+
+                        let proprietes = donnees['changes']
+
+
+                        $("#offcanvasBottomLabel").html("Propriété de la transaction MTN Money « " + proprietes['date_creation'] + " »");
+                        $("#date_creation").html(proprietes['date_creation']);
+                        $("#user_creation").html(proprietes['user_creation']);
+                        $("#navigateur_creation").html(proprietes['navigateur_creation']);
+                        $("#ordinateur_creation").html(proprietes['ordinateur_creation']);
+                        $("#ip_creation").html(proprietes['ip_creation']);
+                        $("#annee_academique").html(proprietes['annee_academique']);
+                        $("#ecole").html(proprietes['magasin']);
+
 
                     }
                 }

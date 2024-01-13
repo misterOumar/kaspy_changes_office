@@ -1,3 +1,4 @@
+  
 <script>
     $(function() {
         'use strict';
@@ -15,6 +16,7 @@
                         type_operation: champ_bd.type_operation,
                         telephone_client: champ_bd.telephone_client,
                         montant: champ_bd.montant,
+                         
                     })
                     .draw();
             })
@@ -29,7 +31,7 @@
         //Construction des colonnes de la datatable
         if (dt_basic_table.length) {
             var dt_basic = dt_basic_table.DataTable({
-                columns: [ {
+                columns: [{
                         data: 'responsive_id'
                     },
                     {
@@ -98,14 +100,15 @@
                         render: function(data, type, full, meta) {
                             var $user_img = full['avatar'],
                                 $libelle = full['date'],
+                                $type = full['type_operation'],
                                 $duree = full['date'];
                                 var bg;
-                              if ($type == "Dépot") {
-                                  bg = 'bg-success'
-                              } else {
-                                  bg = 'bg-info'
+                                if ($type == "Dépot") {
+                                    bg = 'bg-success'
+                                }else{
+                                    bg = 'bg-info'
 
-                              }
+                                }
                             if ($user_img) {
                                 // For Avatar image
                                 var $output =
@@ -132,8 +135,9 @@
                                 '</div>' +
                                 '<div class="d-flex flex-column">' +
                                 '<span class="emp_nom text-truncate fw-bold">' +
-                                $libelle + ' ' +  
+                                $libelle +  
                                 '</span>' +
+                             
                                 '</div>' +
                                 '</div>';
                             return $row_output;
@@ -162,12 +166,7 @@
                                 }) +
                                 'Supprimer</a>' +
 
-                                //Détails
-                                '<a href="javascript:;" class="dropdown-item">' +
-                                feather.icons['file-text'].toSvg({
-                                    class: 'font-small-4 me-50'
-                                }) +
-                                'Détails</a>' +
+                           
                                 //Propriétés
                                 '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
                                 feather.icons['info'].toSvg({
@@ -192,8 +191,6 @@
                 order: [
                     [2, 'desc']
                 ],
-
-
                 // Les boutons d'action
                 dom: "<'card-header border-bottom p-1'<'head-label'><'dt-action-buttons text-end'B>><'d-flex justify-content-between align-items-center mx-0 row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>t<'d-flex justify-content-between mx-0 row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
                 displayLength: 7,
@@ -309,8 +306,8 @@
                             }).join('');
 
                             return data ? $('<table class="table"/>').append('<tbody>' + data + '</tbody>') : false;
-                        }
-                    }
+                     }
+                   }
                 },
                 language: {
                     url: 'js/plugins/tables/language.french.json',
@@ -333,12 +330,14 @@
         }
         // MODIFIER UN ELEMENT
         $('#form_ajouter').on('submit', function(e) {
-            var $new_montant = $('#montant').val(),
-         new_type_op = $("input[name='radio_type']:checked").val(),
-                $new_date_t = $('#date_t').val(),
+            var $new_type_op = $("input[name='radio_type']:checked").val();
             
+            var $new_montant = $('#montant').val(),
+                // $new_type_op = $('#client').val(),
+                $new_date_t = $('#date_t').val(),
+                // $new_destinataire = $('#destinataire').val(),
                 $new_tel_cli = $('#tel_cli').val();
-                 
+                // $new_tel_dest = $('#tel_dest').val();
             e.preventDefault()
 
             if ($new_montant != '') {
@@ -356,20 +355,18 @@
                     success: function(result) {
                         //console.log(result);
                         var donnee = JSON.parse(result);
-                        if (donnee['success'] === 'existe') {
-                            $('#montant').addClass('is-invalid');
-                            $('#montantHelp').html(donnee['message']);
-                            $('#montantHelp').removeClass('invisible');
+                        // if (donnee['success'] === 'existe') {
+                        //     $('#montant').addClass('is-invalid');
+                        //     $('#montantHelp').html(donnee['message']);
+                        //     $('#montantHelp').removeClass('invisible');
 
-                            $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
-                                .fadeIn(300).delay(2500).fadeOut(300);
-                        }
+                        //     $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
+                        //         .fadeIn(300).delay(2500).fadeOut(300);
+                        // }
                         if (donnee['success'] === 'true') {
                             $('#montant').val("");
-                            $('#montantHelp').html("").addClass('invisible');
                             $('#tel_cli').val("");
-                            $('#tel_cliHelp').html("").addClass('invisible');
-                           
+                            $('#montantHelp').html("").addClass('invisible');
 
                             // MESSAGE ALERT
                             swal_Alert_Sucess(donnee['message'])
@@ -385,18 +382,16 @@
                                         let transactions = donnees['last_transaction'];
                                         let last_id = transactions['id'];
                                         let total = donnees['total'];
-
                                         // Ajout Front et ajout de l'id de la dernière ligne crée
                                         dt_basic.row
                                             .add({
                                                 responsive_id: last_id,
                                                 id: last_id,
-                                                montant: $new_montant,
                                                 date: $new_date_t,
                                                 type_operation: $new_type_op,
-                                                telephone_client: $new_tel_cli,                                             
+                                                telephone_client: $new_tel_cli,
+                                                montant: $new_montant,                                            
                                                 status: 5
-
                                             })
                                             .draw();
                                         $('.modal').modal('hide');
@@ -406,19 +401,18 @@
                         }
                     }
                 });
-
                 if (donnee['success'] === 'false') {
                     $('#montantHelp').html(donnee['montant']).removeClass('invisible');
-
                     initializeFlash();
                     $('.flash').addClass('alert-danger');
                     $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
                         .fadeIn(300).delay(2500).fadeOut(300);
-
                     e.preventDefault()
                 }
             }
         });
+
+
         var that
         $('.datatables-basic tbody').on('click', '.item-edit', function() {
             that = this
@@ -435,8 +429,37 @@
                         $('#montant_modif').val(transaction['montant']);
                         $('#date_t_modif').val(transaction['date']);
                         $('#radio_type_modif').val(transaction['type_operation']);
-                        $('#tel_cli_modif').val(transaction['telephone_client']);
-                      
+                        $('#tel_cli_modif').val(transaction['telephone_client']);                       
+
+                    }
+                }
+            })
+        });
+
+        // PROPRIETE D'UNE LIGNE
+         $('.datatables-basic tbody').on('click', '.proprietes', function() {
+            var that = this
+            $.ajax({
+                type: "GET",
+                data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+                url: "controllers/moov_money_controller.php",
+                success: function(result) {
+                  
+                    var donnees = JSON.parse(result);
+                    if (donnees['proprietes_moov'] !== 'null') {
+
+                        let proprietes = donnees['proprietes_moov']
+
+                       
+                        $("#offcanvasBottomLabel").html("Propriété de la transaction moov Money« " + proprietes['date_creation'] + " »");
+                        $("#date_creation").html(proprietes['date_creation']);
+                        $("#user_creation").html(proprietes['user_creation']);
+                        $("#navigateur_creation").html(proprietes['navigateur_creation']);
+                        $("#ordinateur_creation").html(proprietes['ordinateur_creation']);
+                        $("#ip_creation").html(proprietes['ip_creation']);
+                        $("#annee_academique").html(proprietes['annee_academique']);
+                        $("#ecole").html(proprietes['magasin']);
+
 
                     }
                 }

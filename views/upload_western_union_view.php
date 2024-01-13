@@ -88,7 +88,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 <div class="card-header">
                                     <h4 class="card-title">Téléversé le point du jour</h4>
                                     <!--- DATE --->
-                                       <div class="d-flex align-items-center gap-1 justify-content-end">
+                                    <div class="d-flex align-items-center gap-1 justify-content-end">
                                         <label class='form-label' for='dates'>Date</label>
                                         <div class="col-5">
 
@@ -99,7 +99,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 </div>
                                 <div class="card-body">
                                     <form action="#" class="dropzone dropzone-area" id="dpz-single-file">
-                                        <div class="dz-message">Déposez les fichiers Ria ici ou cliquez pour les télécharger.</div>
+                                        <div class="dz-message">Déposez les fichiers WU ici ou cliquez pour les télécharger.</div>
                                         <div class="fallback">
                                             <input type='file' class='form-control me-1' name="fileInput" id="fileInput" style="width: 350px;" />
                                         </div>
@@ -107,20 +107,21 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 </div>
                                 <div class="d-flex align-items-end justify-content-end me-2 mb-2">
                                     <a id='btnEnregistrer' href="index.php?page=western_union" class=' btn btn-outline-primary '>
-                                        
+
                                         <span>
                                             Voir la liste
                                         </span>
                                         <i data-feather="eye" class="me-25"></i>
                                     </a>
-                           
-                                 
+
+
                                 </div>
-                          
+
                             </div>
                         </div>
                     </div>
                     <!-- single file upload ends -->
+
                     <!-- Modal large -->
                     <div class="modal fade text-start" id="excelModal" tabindex="-1" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -130,16 +131,21 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Total : </p>
+                                    <span class="me-4">Montant Total Envoyé : <span id="montant_envoye" class="fw-bold"></span> </span>
+                                    <span class="me-4">Frais Total Envoyé : <span id="frais_envoye" class="fw-bold"></span> </span>
+
+                                    <!-- payer -->
+                                    <span class="me-4">Montant Total Payé : <span id="montant_paye" class="fw-bold"></span> </span>
+                                    <span class="me-4">Frais Total Payé : <span id="frais_paye" class="fw-bold"></span> </span>
                                     <table id="excelDataTable" class="display datatables-basic table"></table>
 
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-secondary me-1" data-bs-dismiss="modal" >Annuler</button>
+                                    <button id="btnAnnuler" type="button" class="btn btn-outline-secondary me-1" data-bs-dismiss="modal">Annuler</button>
                                     <button id='btnValider' name='btnValider' class='btn btn-primary enregistrer '>Valider</button>
 
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -219,11 +225,11 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <?php include("views/components/alerts.php") ?>
     <script>
         // rechargercher la page quand on clique sur annuler dans le modal
-        $("#close_modal").click(function (e) { 
+        $("#close_modal").click(function(e) {
             e.preventDefault();
             alert(1)
             location.reload;
-            
+
         });
 
 
@@ -259,7 +265,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                         }).filter(row =>
                             row[25] !== undefined && row[25] !== null && row[25] !== ''
                         );
-                        const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0].map((value, index) => index + 1) : [];
+                        const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0] : [];
                         const dataRows = nonEmptyZRows.slice(1);
                         jsonData = dataRows.map(row =>
                             keys.reduce((obj, key, index) => {
@@ -267,25 +273,89 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 return obj;
                             }, {})
                         );
-                        console.log(JSON.stringify(jsonData, null, 2));
-                        const table = document.createElement('table');
-                        table.classList.add('table', 'table-bordered', 'table-striped');
-                        for (let i = 0; i < nonEmptyZRows.length; i++) {
-                            const rowData = nonEmptyZRows[i];
-                            const tableRow = document.createElement('tr');
-                            for (let j = 0; j < rowData.length; j++) {
-                                const cellData = rowData[j];
-                                const cell = document.createElement('td');
-                                cell.textContent = cellData;
-                                tableRow.appendChild(cell);
+                        // Parcourir toutes les données
+                        jsonData.forEach(function(item) {
+                            // Vérifier si la propriété "Type de paiement" est égale à "CASH"
+                            if (item["Type de paiement"] === "CASH") {
+                                // Si c'est le cas, remplacer la valeur de la propriété "null" par "envoi"
+                                item["Type de transaction"] = "envoi";
+                                // Supprimer la propriété "null" si nécessaire
+                                delete item["null"];
+                            } else {
+                                // Sinon, remplacer la valeur de la propriété "null" par "payer"
+                                item["Type de transaction"] = "payer";
+                                // Supprimer la propriété "null" si nécessaire
+                                delete item["null"];
                             }
-                            table.appendChild(tableRow);
+
+                            if (item["Taux de change"] == null) {
+                                item["Taux de change"] = 0;
+                            }
+
+                            if (item["Type de paiement"] == null) {
+                                item["Type de paiement"] = 'Inconnu';
+                            }
+
+                            delete item["Superv. Op. Identifiant"];
+                        });
+
+                        // STATS
+                        var montant_envoyer = 0;
+                        var montant_payer = 0;
+                        var frais_envoyer = 0;
+                        var frais_payer = 0;
+                        jsonData.forEach(function(item) {
+                            if (item["Type de transaction"] === "envoi") {
+                                montant_envoyer += item["Montant envoyé"];
+                                frais_envoyer += item["Frais de Transfert"];
+
+                            } else {
+                                montant_payer += item["Montant envoyé"];
+                                frais_payer += item["Frais de Transfert"];
+
+                            }
+                        });
+
+                        console.log(JSON.stringify(jsonData, null, 2));
+
+                        // Affichez les données dans un DataTable
+                        $("#excelDataTable").DataTable({
+                            data: jsonData,
+                            columns: Object.keys(jsonData[0]).map(function(col) {
+                                return {
+                                    data: col,
+                                    title: col
+                                };
+                            })
+                        });
+
+                        // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
+                        if ($.fn.DataTable.isDataTable("#excelDataTable")) {
+                            $("#excelDataTable").DataTable().destroy();
                         }
-                        const tableContainer = document.getElementById('tableContainer');
-                        tableContainer.innerHTML = '';
-                        tableContainer.appendChild(table);
-                        const dataModal = new bootstrap.Modal(document.getElementById('dataModal'));
-                        dataModal.show();
+
+                        // (Re)initialisez la DataTable
+                        dataTable = $("#excelDataTable").DataTable({
+                            data: jsonData,
+                            columns: Object.keys(jsonData[0]).map(function(col) {
+                                return {
+                                    data: col,
+                                    title: col
+                                };
+                            }),
+                            scrollX: true, // Activer le défilement horizontal
+                        });
+
+                        $('#montant_envoye').text(montant_envoyer);
+                        $('#frais_envoye').text(frais_envoyer);
+                        $('#montant_paye').text(montant_payer);
+                        $('#frais_paye').text(frais_payer);
+
+                        // Affichez le modal
+                        $("#excelModal").modal("show");
+
+
+
                     } catch (error) {
                         console.error('Erreur lors de la lecture du fichier Excel :', error);
                     }
@@ -298,13 +368,27 @@ if (!isset($_SESSION["KaspyISS_user"])) {
         };
 
         // Fonction au clic du bouton "Enregistrer"
-        $("#btn_save").click(function(e) {
+        $("#btnValider").click(function(e) {
             e.preventDefault();
 
             // ... (votre code existant)
 
             // Appel de la fonction pour envoyer les données au contrôleur
             sendDataToController(jsonData);
+        });
+
+        // Fonction au clic du bouton "Annuler"
+        $("#btnAnnuler").click(function(e) {
+            e.preventDefault();
+            // Réinitialisez Dropzone
+            var myDropzone = Dropzone.forElement("#dpz-single-file");
+            if (myDropzone) {
+                myDropzone.removeAllFiles();
+            }
+            // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
+            if ($.fn.DataTable.isDataTable("#excelDataTable")) {
+                $("#excelDataTable").DataTable().destroy();
+            }
         });
 
         // Fonction pour envoyer les données au contrôleur via AJAX
@@ -319,7 +403,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 dataType: 'json',
                 success: function(response) {
                     if (response.success === 'true') {
-                        $("#dataModal").modal("hide");
+                        $("#excelModal").modal("hide");
 
                         // Réinitialisez Dropzone
                         var myDropzone = Dropzone.forElement("#dpz-single-file");
@@ -337,7 +421,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 }
             });
         }
-    </script>   
+    </script>
 
 
     <script>

@@ -118,11 +118,11 @@
                                                     <div class="demo-inline-spacing">
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" name="radio_type" id="radio_depot" checked  value="Dépot" />
-                                                            <label class="form-check-label" for="radio_homme">Dépot</label>
+                                                            <label class="form-check-label" for="radio_depot">Dépot</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" name="radio_type" id="radio_retrait" value="Retrait" />
-                                                            <label class="form-check-label" for="radio_femme">Retrait</label>
+                                                            <label class="form-check-label" for="radio_retrait">Retrait</label>
                                                         </div>
                                                     </div>
                                                     <div class='mb-1'><small id='typeHelp' class='text-danger invisible'></small></div>
