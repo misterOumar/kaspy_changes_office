@@ -403,34 +403,10 @@
 
                             // MESSAGE ALERT
                             swal_Alert_Sucess(donnee['message'])
-                            // Récupération de l'id de la ligne ajoutée
-                            $.ajax({
-                                type: "GET",
-                                data: "idLast=" + true,
-                                url: "controllers/carte_controller.php",
-                                success: function(result) {
-                                    var donnees = JSON.parse(result)
-                                    if (donnees['last_customer'] !== 'null') {
-                                        let last_carte = donnees['last_customer'];
-                                        let last_id = last_carte['id'];
-                                        let total = donnees['total'];
-                                        // Ajout Front et ajout de l'id de la dernière ligne crée
-                                        dt_basic.row
-                                            .add({
-                                                responsive_id: last_id,
-                                                id: last_id,
-                                                customer_id: $new_customer_id,
-                                                type: $new_type,
-                                                date_activation: $new_date_activation,
-                                                date_expiration: $new_date_expiration,
-                                                status: 5
 
-                                            })
-                                            .draw();
-                                        $('.modal').modal('hide');
-                                    }
-                                }
-                            });
+                            // Récharger la page
+                            location.reload();
+                  
                         }
                     }
                 });

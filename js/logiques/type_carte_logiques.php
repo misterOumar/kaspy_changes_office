@@ -56,7 +56,7 @@
         if ($.isNumeric(loyer) === false) {
             formValide = false;
             $('#duree').addClass('is-invalid');
-            $('#dureeHelp').html('Veuillez saisir une durée correcte');
+            $('#dureeHelp').html('Veuillez saisir une durée correcte en année');
             $('#dureeHelp').removeClass('invisible');
             $('#duree').val('')
             e.preventDefault()
@@ -65,6 +65,42 @@
             $('#duree').removeClass('is-invalid');
             $('#dureeHelp').html('');
             $('#dureeHelp').addClass('invisible');
+        }
+    });
+
+    // Champ du prix vente detail ne doit contenir des letters
+    $('#prix_vente_detail').on('keyup', function() {
+        var prix_vente_detail = $('#prix_vente_detail').val();
+        if ($.isNumeric(prix_vente_detail) === false) {
+            formValide = false;
+            $('#prix_vente_detail').addClass('is-invalid');
+            $('#prix_vente_detailHelp').html('Veuillez saisir un montant correcte');
+            $('#prix_vente_detailHelp').removeClass('invisible');
+            $('#prix_vente_detail').val('')
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#prix_vente_detail').removeClass('is-invalid');
+            $('#prix_vente_detailHelp').html('');
+            $('#prix_vente_detailHelp').addClass('invisible');
+        }
+    });
+
+    // Champ du prix vente detail ne doit contenir des letters
+    $('#prix_vente_gros').on('keyup', function() {
+        var prix_vente_gros = $('#prix_vente_gros').val();
+        if ($.isNumeric(prix_vente_gros) === false) {
+            formValide = false;
+            $('#prix_vente_gros').addClass('is-invalid');
+            $('#prix_vente_grosHelp').html('Veuillez saisir un montant correcte');
+            $('#prix_vente_grosHelp').removeClass('invisible');
+            $('#prix_vente_gros').val('')
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#prix_vente_gros').removeClass('is-invalid');
+            $('#prix_vente_grosHelp').html('');
+            $('#prix_vente_grosHelp').addClass('invisible');
         }
     });
 

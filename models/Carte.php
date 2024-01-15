@@ -231,6 +231,21 @@ class cartes
         return $req->fetchAll();
     }
 
+
+    /**
+     * Méthode de récupération des types de cartes unique en fonction du type de carte.
+     *
+     * @param $cartes
+     * @return mixed
+     */
+    static function getByTypesCarte($type_carte)
+    {
+        global $db;
+        $req = $db->prepare("SELECT DISTINCT customer_id  FROM cartes WHERE type_carte = ? AND status = 0 ");
+        $req->execute([$type_carte]);
+        return $req->fetchAll();
+    }
+
     /**
      * Renvoi la liste des STOCKS DISPONIBLE.
      *

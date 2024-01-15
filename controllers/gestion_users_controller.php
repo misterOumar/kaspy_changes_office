@@ -7,7 +7,6 @@ if (isset($_GET['page']) and !empty($_GET['page'])) {
     $Liste_Role_permission = role_permission::getAll();
     $Liste_Role_permission_details = role_permission_details::getAll();
     $users = Users::getAll();
-
 }
 
 
@@ -15,7 +14,7 @@ if (isset($_GET['page']) and !empty($_GET['page'])) {
 if (isset($_GET['idBloquerActiver'])) {
     $id = $_GET['idBloquerActiver'];
     $user = Users::getById($id);
-    
+
     if ($user['user'] === $_SESSION["user"]['username']) {
         $alerteType = "alert-danger";
         $display = "block";
@@ -35,29 +34,6 @@ if (isset($_GET['idBloquerActiver'])) {
     }
 }
 
-
-//SUPPRESSION DES UTILISATEURS
-if (isset($_GET['idSupprim'])) {
-    $id = $_GET['idSupprim'];
-    $user = Users::getById($id);
-    if ($user['user'] === $_SESSION["user"]['username']) {
-        $alerteType = "alert-danger";
-        $display = "block";
-        $alerteMessage = "Vous avez tenté de supprimer l'utilisateur actuellement connecté sur cette machine !";
-    } else {
-        $actionOk = Users::supprimer($id);
-        if ($actionOk) {
-            $alerteType = "alert-success";
-            $display = "block";
-            $alerteMessage = "Utilisateur supprimé avec succès !";
-            $users = Users::getAll();
-        } else {
-            $alerteType = "alert-danger";
-            $display = "block";
-            $alerteMessage = "Erreur lors de la suppression de l'utilisateur !";
-        }
-    }
-}
 
 //SUPPRESSION DES UTILISATEURS
 if (isset($_GET['idSupprim'])) {
@@ -150,7 +126,7 @@ if (isset($_GET['idDisconnect'])) {
 }
 
 
-if (isset($_GET['id_modif_type_compte']) && isset($_GET['type_compte'])){
+if (isset($_GET['id_modif_type_compte']) && isset($_GET['type_compte'])) {
     $id = $_GET['id_modif_type_compte'];
     $type_compte = $_GET['type_compte'];
 

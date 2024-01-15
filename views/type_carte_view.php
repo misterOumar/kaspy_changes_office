@@ -88,7 +88,8 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                             <th></th>
                                             <th>id</th>
                                             <th>Libellé</th>
-                                            <th>Durée</th>
+                                            <th>Prix vente en détail </th>
+                                            <th>Prix vente en gros</th>
 
                                             <th>Actions</th>
                                         </tr>
@@ -113,26 +114,35 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
                                 <div class="modal-body flex-grow-1">
 
+                                    <!--- LIBELLE --->
                                     <div>
                                         <label class='form-label' for='recouvreur'>Libellé</label>
                                         <input type='text' class='form-control dt-loyer' id='libelle' name='libelle' aria - Label='annee' maxlength='75' />
                                     </div>
                                     <div class='mb-1'><small id='libelleHelp' class='text-danger invisible'></small></div>
 
-                                    <!--- APPARTEMENT --->
+                                    <!--- DUREE --->
                                     <div>
                                         <label class='form-label' for='appartement'>Durée</label>
                                         <input type='text' class='form-control dt-montant_payer' id='duree' name='duree' aria - Label='annee' maxlength='75' />
                                     </div>
-                                    <div class='mb-1'><small id=' dureeHelp' class='text-danger invisible'></small></div>
-
-                                    <!---  
+                                    <div class='mb-1'><small id='dureeHelp' class='text-danger invisible'></small></div>
+                                    
+                                    <!--- PRIX DE VENTE DETAIL --->
                                     <div>
-                                        <label class='form-label' for='appartement'>Choisir le logo</label>
-                                        <input type='file' class='form-control dt-montant_payer' id='photo_2' name='photo_2' aria - Label='annee' maxlength='75' />
+                                        <label class='form-label' for='prix_vente_detail'>Prix de vente détail</label>
+                                        <input type='text' class='form-control dt-montant_payer' id='prix_vente_detail' name='prix_vente_detail' />
                                     </div>
-                                    <div class='mb-1'><small id=' logoHelp' class='text-danger invisible'></small></div>
-                                    --->
+                                    <div class='mb-1'><small id='prix_vente_detailHelp' class='text-danger invisible'></small></div>
+
+
+                                    <!--- PRIX DE VENTE EN GROS --->
+                                    <div>
+                                        <label class='form-label' for='prix_vente_gros'>Prix de vente en gros</label>
+                                        <input type='text' class='form-control dt-montant_payer' id='prix_vente_gros' name='prix_vente_gros'/>
+                                    </div>
+                                    <div class='mb-1'><small id='prix_vente_grosHelp' class='text-danger invisible'></small></div>
+                                    
 
 
                                     <!--- ENREGISTREMENT --->
@@ -142,43 +152,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                             </form>
                         </div>
                     </div>
-                    <div class="modal modal-slide-in fade" id="modals-">
-                        <div class="modal-dialog sidebar-large">
-                            <form id="form_ajouter" name="form_ajouter" class="add-new-record modal-content pt-0" action="controllers/type_carte_controller.php" method="POST">
-
-                                <button type="button" class="btn-close" data-bs-disminomss="modal" aria-label="Close">×</button>
-                                <div class="modal-header mb-1">
-                                    <h5 class="modal-title" id="exampleModalLabel">Création d'un nouveau type de carte </h5>
-                                </div>
-                                <button type="button" id="bt_vider" name="bt_vider" class="btn" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" class="avatar pull-up my-0" title="Vider les champs" style=" position: relative; height: 30px; width:30px; left: 340pX; padding:5px; margin-top:-10px;">
-                                    <i data-feather='refresh-ccw'></i></button>
-
-                                <div class="modal-body flex-grow-1">
-
-                                    <div>
-                                        <label class='form-label' for='recouvreur'>Libellé</label>
-                                        <input type='text' class='form-control dt-loyer' id='libelle' name='libelle' aria - Label='annee' maxlength='75' />
-                                    </div>
-                                    <div class='mb-1'><small id='libelleHelp' class='text-danger invisible'></small></div>
-
-                                    <!--- APPARTEMENT --->
-                                    <div>
-                                        <label class='form-label' for='appartement'>Durée</label>
-                                        <input type='text' class='form-control dt-montant_payer' id='duree' name='duree' aria - Label='annee' maxlength='75' />
-                                    </div>
-                                    <div class='mb-1'><small id=' dureeHelp' class='text-danger invisible'></small></div>
-                                    <div>
-                                        <label class='form-label' for='appartement'>Choisir le logo</label>
-                                        <input type='file' class='form-control dt-montant_payer' id='photo_2' name='photo_2' aria - Label='annee' maxlength='75' />
-                                    </div>
-                                    <div class='mb-1'><small id=' logoHelp' class='text-danger invisible'></small></div>
-                                    <!--- ENREGISTREMENT --->
-                                    <button type="submit" id='bt_enregistrer' name='bt_enregistrer' class='btn btn-primary enregistrer me-5'>Enregistrer</button>
-                                    <button type='reset' id='bt_annuler' name='annuler' class='btn btn-outline-secondary' data-bs-dismiss='modal'>Annuler</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+              
 
                     <!--- Formulaire de modification --->
 
@@ -206,6 +180,23 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                             <input type='text' class='form-control dt-montant_payermodif' id='dureemodif' name='dureemodif' aria - Label='montant_payermodif' maxlength='75' />
                                         </div>
                                         <div class='mb-1'><small id='dureemodifHelp' class='text-danger invisible'></small></div>
+
+
+                                         <!--- PRIX DE VENTE DETAIL --->
+                                    <div>
+                                        <label class='form-label' for='prix_vente_detail_modif'>Prix de vente détail</label>
+                                        <input type='text' class='form-control dt-montant_payer' id='prix_vente_detail_modif' name='prix_vente_detail_modif' />
+                                    </div>
+                                    <div class='mb-1'><small id='prix_vente_detail_modifHelp' class='text-danger invisible'></small></div>
+
+
+                                    <!--- PRIX DE VENTE EN GROS --->
+                                    <div>
+                                        <label class='form-label' for='prix_vente_gros_modif'>Prix de vente en gros</label>
+                                        <input type='text' class='form-control dt-montant_payer' id='prix_vente_gros_modif' name='prix_vente_gros_modif'/>
+                                    </div>
+                                    <div class='mb-1'><small id='prix_vente_gros_modifHelp' class='text-danger invisible'></small></div>
+                                    
                                     </div>
                                     <input type="hidden" id="idModif" name="idModif">
                                     <!--- Modification --->

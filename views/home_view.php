@@ -223,10 +223,30 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 </a>
 
                             </div>
+                            <div class="col-xl-4 col-md-6 col-12">
+
+                                <a href="index.php?page=rechargement_uba">
+                                    <div class="card card-congratulation-medal">
+                                        <div class="card-body d-flex align-items-center justify-content-between">
+                                            <div>
+                                                <h5>Réchargements UBA</h5>
+                                                <p class="card-text font-small-3"> Gestion Réchargements UBA </p>
+                                            </div>
+
+                                            <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->
+
+                                            <img src="assets/images/template/rechargement_uba.png" class="img-fluid" alt="Medal Pic" style="max-width:145px;" />
+
+
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
 
                             <div class="col-xl-4 col-md-6 col-12">
 
-                                <a href="index.php?page=change">
+                                <a href="index.php?page=changes">
                                     <div class="card card-congratulation-medal">
                                         <div class="card-body d-flex align-items-center justify-content-between">
                                             <div>
@@ -236,7 +256,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
                                             <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->
 
-                                            <img src="assets/images/template/change.jpg" class="img-fluid" alt="Medal Pic" style="max-width:100px;" />
+                                            <img src="assets/images/template/changes.png" class="img-fluid" alt="Medal Pic" style="max-width:100px;" />
 
 
                                         </div>

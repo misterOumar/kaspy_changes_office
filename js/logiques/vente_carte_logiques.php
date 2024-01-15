@@ -8,36 +8,37 @@
         // dates
         $('#montant').val('');
         $('#montant').removeClass('is-invalid');
-        $('#montantHelp').html('Veuillez saisir le montant...');
+        $('#montantHelp').html('');
         $('#montantHelp').addClass('invisible');
 
         $('#client').val('');
         $('#client').removeClass('is-invalid');
-        $('#clientHelp').html('Veuillez saisir le client...');
+        $('#clientHelp').html('');
         $('#clientHelp').addClass('invisible');
 
 
         $('#carte').val('');
         $('#carte').removeClass('is-invalid');
-        $('#carteHelp').html('Veuillez sélectionner  la carte...');
+        $('#carteHelp').html('');
         $('#carteHelp').addClass('invisible');
 
         $('#date_v').val('');
         $('#date_v').removeClass('is-invalid');
-        $('#date_vHelp').html('Veuillez sélectionner la date ...');
+        $('#date_vHelp').html('');
         $('#date_vHelp').addClass('invisible');
 
         $('#prix_u').val('');
         $('#prix_u').removeClass('is-invalid');
-        $('#prix_uHelp').html('Veuillez saisir le prix unitaire...');
+        $('#prix_uHelp').html('');
         $('#prix_uHelp').addClass('invisible');
 
         $('#quantite').val('');
         $('#quantite').removeClass('is-invalid');
-        $('#quantiteHelp').html('Veuillez saisir la quantite...');
+        $('#quantiteHelp').html('');
         $('#quantiteHelp').addClass('invisible');
 
     }
+
 
     $('#bt_vider').on('click', function() {
         vider_les_champs()
@@ -88,48 +89,60 @@
 
     $('#montant').on('change', function() {
         $('#montant').removeClass('is-invalid');
-        $('#montantHelp').html('Veuillez saisir le montant...');
+        $('#montantHelp').html('');
     });
     $('#client').on('change', function() {
         $('#client').removeClass('is-invalid');
         $('#clientHelp').html('');
     });
+
+    // les options de carte en fonction de du type de carte
     $('#carte').on('change', function() {
-        $('#carte').removeClass('is-invalid');
-        $('#carteHelp').html('Veillez selectionner la carte');
+        var type_carte = $('#carte').val();
+        $.ajax({
+                type: "GET", 
+                data: "type_carte=" + type_carte + "&get_by_type_carte=" + true,
+                url: "controllers/vente_carte_controller.php",
+                success: function(result) {
+                    donnee = JSON.parse(result);
+                    if (donnee['success'] === 'true') {
+                        var types_cartes = donnee['types_cartes'];
+
+                        var options = '';
+                        for (var i = 0; i < types_cartes.length; i++) {
+                            options += '<option value="' + types_cartes[i]['customer_id'] + '">' + types_cartes[i]['customer_id'] + '</option>';
+                        }
+                        $('#num_carte').html(options);
+                    } else if (donnee['success'] === 'false') {
+
+                    } else {
+
+                    }
+                }
+            })
+    });
+    
+    $('#email').on('keydown', function() {
+        $('#email').removeClass('is-invalid');
+        $('#emailHelp').html('');
+        $('#emailHelp').addClass('invisible');
     });
 
     $('#prix_u').on('change', function() {
         $('#prix_u').removeClass('is-invalid');
-        $('#prix_uHelp').html('Veillez saisir le prix unitaire');
+        $('#prix_uHelp').html('');
     });
 
     $('#quantite').on('change', function() {
         $('#quantite').removeClass('is-invalid');
-        $('#quantiteHelp').html('Veillez saisir la quantité');
+        $('#quantiteHelp').html('');
     });
 
     $('#date_v').on('change', function() {
         $('#date_v').removeClass('is-invalid');
-        $('#date_vHelp').html('Veillez selectionner  la date ');
+        $('#date_vHelp').html('');
     });
-    // Champ du montant ne doit contenir des letters
-    // $('#montant').on('keyup', function() {
-    //     var loyer = $('#montant').val();
-    //     if ($.isNumeric(loyer) === false) {
-    //         formValide = false;
-    //         $('#montant').addClass('is-invalid');
-    //         $('#montantHelp').html('Veuillez saisir un  montant correcte');
-    //         $('#montantHelp').removeClass('invisible');
-    //         $('#montant').val('')
-    //         e.preventDefault()
-    //     } else {
-    //         formValide = true;
-    //         $('#montant').removeClass('is-invalid');
-    //         $('#montantHelp').html('');
-    //         $('#montantHelp').addClass('invisible');
-    //     }
-    // });
+
 
 
     $('#quantite').on('keyup', function() {
@@ -167,7 +180,6 @@
     });
 
     // Champ du libelle ne doit contenir des chiffres
-
     $('#client').on('keyup', function() {
         var loyer = $('#client').val();
 
@@ -200,8 +212,6 @@
     //      Au click du boutton
     $('#bt_enregistrer').on('click', function(e) {
 
-        // Cas de la duree
-        
         //cas du libelle
         let client = $('#client').val();
         if (client === '') {
@@ -230,6 +240,21 @@
             $('#telephone').removeClass('is-invalid');
             $('#telephoneHelp').html('');
             $('#telephoneHelp').addClass('invisible');
+        }
+
+        // Cas de - Email
+        var email = $('#email').val();
+        if (email != '' && isEmail(email) === false) {
+            formValide = false;
+            $('#email').addClass('is-invalid');
+            $('#emailHelp').html('Veillez saisir un email valide');
+            $('#emailHelp').removeClass('invisible');
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#email').removeClass('is-invalid');
+            $('#emailHelp').html('');
+            $('#emailHelp').addClass('invisible');
         }
 
 
@@ -261,7 +286,7 @@
             $('#quantite').removeClass('is-invalid');
             $('#quantiteHelp').html('');
             $('#quantiteHelp').addClass('invisible');
-        }    
+        }
         let carte = $('#carte').val();
         if (carte === 'Choisir la carte') {
             formValide = false;
@@ -274,9 +299,9 @@
             $('#carte').removeClass('is-invalid');
             $('#carteHelp').html('');
             $('#carteHelp').addClass('invisible');
-        }  
-        
-        
+        }
+
+
         let num_carte = $('#carte').val();
         if (num_carte === 'Choisir la carte') {
             formValide = false;
@@ -289,15 +314,15 @@
             $('#num_carte').removeClass('is-invalid');
             $('#num_carteHelp').html('');
             $('#num_carteHelp').addClass('invisible');
-        }   
-         
+        }
+
 
         // window.location.reload();
 
 
     });
     // MODIFICATION
- //Le prix unitaire ne doit contenir ds lettres
+    //Le prix unitaire ne doit contenir ds lettres
     $('#prix_u_modif').on('keyup', function() {
         var loyer = $('#prix_u').val();
         if ($.isNumeric(loyer) === false) {
@@ -363,7 +388,7 @@
             $('#client_modifHelp').addClass('invisible');
         }
 
-    }); 
+    });
 
     //      Au click du boutton
     $('#bt_modifier').on('click', function(e) {
@@ -376,7 +401,7 @@
         var date_t = $('#date_v_modif').val();
 
 
-        if (  client === ''   && quantite == '' && prix_u === '') {
+        if (client === '' && quantite == '' && prix_u === '') {
             formValide = false;
             // $('#montant_modif').addClass('is-invalid');
             // $('#montant_modifHelp').html('Veillez saisir le libellé.');

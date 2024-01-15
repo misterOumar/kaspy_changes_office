@@ -161,12 +161,7 @@
                 }) +
                 'Supprimer</a>' +
 
-                //Détails
-                '<a href="javascript:;" class="dropdown-item">' +
-                feather.icons['file-text'].toSvg({
-                  class: 'font-small-4 me-50'
-                }) +
-                'Détails</a>' +
+       
                 //Propriétés
                 '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
                 feather.icons['info'].toSvg({

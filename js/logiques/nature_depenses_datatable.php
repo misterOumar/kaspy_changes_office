@@ -252,7 +252,7 @@
                     {
                         text: feather.icons['plus'].toSvg({
                             class: 'me-50 font-small-4'
-                        }) + 'Ajouter nouvelle',
+                        }) + 'Ajouter nouveau',
                         className: 'create-new btn btn-primary',
                         attr: {
                             'id': 'bt_ajouter',

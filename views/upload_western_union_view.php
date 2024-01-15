@@ -131,12 +131,82 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <span class="me-4">Montant Total Envoyé : <span id="montant_envoye" class="fw-bold"></span> </span>
-                                    <span class="me-4">Frais Total Envoyé : <span id="frais_envoye" class="fw-bold"></span> </span>
+                                    <div class="d-flex mb-2">
+                                        <div class="col-6">
+                                            <table>
+                                                <thead>
+                                                    <tr class="text-center">
+                                                        <th colspan="2" class="bg-light-success">ENVOYEES</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                    <!-- payer -->
-                                    <span class="me-4">Montant Total Payé : <span id="montant_paye" class="fw-bold"></span> </span>
-                                    <span class="me-4">Frais Total Payé : <span id="frais_paye" class="fw-bold"></span> </span>
+                                                    <tr>
+                                                        <th>Nombre de transaction envoyées : </th>
+                                                        <td> <span id="nombre_transaction_envoyees"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Montant envoyé : </th>
+                                                        <td>XOF <span id="montant_envoyees"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Frais de transfert d'argent : </th>
+                                                        <td>XOF <span id="frais_envoyees"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Frais du message : </th>
+                                                        <td>XOF <span id="frais_message_envoyees"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Frais de livraison : </th>
+                                                        <td>XOF <span id="frais_livraison_envoyees"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Les impôts : </th>
+                                                        <td>XOF <span id="impots_envoyees"></span></td>
+                                                    </tr>
+
+                                                    <tr style="border-top: 2px solid;">
+                                                        <th>Total : </th>
+                                                        <td>XOF <span id="montant_total_envoye"></span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-6">
+                                            <table>
+                                                <thead>
+                                                    <tr class="text-center">
+                                                        <th colspan="2" class="bg-light-primary">PAYEES</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr>
+                                                        <th>Nombre de transaction payées : </th>
+                                                        <td> <span id="nombre_transaction_payees"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Montant à collecté : </th>
+                                                        <td>XOF <span id="montant_collecte"></span></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th>Les impôts : </th>
+                                                        <td>XOF <span id="impots_payees"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Traditionnel : </th>
+                                                        <td>XOF <span id="traditionnel"></span></td>
+                                                    </tr>
+                                                </tbody>
+
+
+                                            </table>
+                                        </div>
+                                    </div>
+
+
                                     <table id="excelDataTable" class="display datatables-basic table"></table>
 
                                 </div>
@@ -301,17 +371,31 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
                         // STATS
                         var montant_envoyer = 0;
-                        var montant_payer = 0;
+                        var nombre_transaction_envoyees = 0;
+                        var frais_envoyees = 0;
+                        var frais_message_envoyees = 0;
+                        var frais_livraison_envoyees = 0;
+                        var impots_envoyees = 0;
+
+                        var nombre_transaction_payees = 0;
+                        var montant_collecte = 0;
                         var frais_envoyer = 0;
                         var frais_payer = 0;
+                        var impots_payees = 0;
                         jsonData.forEach(function(item) {
                             if (item["Type de transaction"] === "envoi") {
+                                nombre_transaction_envoyees += 1;
                                 montant_envoyer += item["Montant envoyé"];
-                                frais_envoyer += item["Frais de Transfert"];
+                                frais_envoyees += item["Frais de Transfert"];
+                                frais_message_envoyees += item["Frais du message"];
+                                frais_livraison_envoyees += item["Frais de livraison"];
+                                impots_envoyees += item["Total des taxes"];
 
                             } else {
-                                montant_payer += item["Montant envoyé"];
+                                nombre_transaction_payees += 1;
+                                montant_collecte += item["Montant payé attendu"];
                                 frais_payer += item["Frais de Transfert"];
+                                impots_payees += item["Total des taxes"];
 
                             }
                         });
@@ -320,13 +404,17 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
                         // Affichez les données dans un DataTable
                         $("#excelDataTable").DataTable({
+
                             data: jsonData,
                             columns: Object.keys(jsonData[0]).map(function(col) {
                                 return {
                                     data: col,
                                     title: col
                                 };
-                            })
+                            }),
+
+
+
                         });
 
                         // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
@@ -344,11 +432,51 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 };
                             }),
                             scrollX: true, // Activer le défilement horizontal
+                            language: {
+                                // Textes pour la pagination
+                                paginate: {
+                                    first: 'Premier',
+                                    previous: 'Précédent',
+                                    next: 'Suivant',
+                                    last: 'Dernier'
+                                },
+                                // Textes pour l'affichage des informations
+                                info: 'Affichage de _START_ à _END_ sur _TOTAL_ entrées',
+                                // Texte pour le champ de recherche
+                                search: 'Rechercher :',
+                                // Textes pour la longueur de la page
+                                lengthMenu: 'Afficher _MENU_ ',
+                                // Texte lorsque la table est vide
+                                emptyTable: 'Aucune donnée disponible dans le tableau',
+                                // Texte lorsque les données sont en cours de chargement
+                                loadingRecords: 'Chargement...',
+                                // Texte lorsque la recherche ne trouve aucune correspondance
+                                zeroRecords: 'Aucun enregistrement trouvé',
+                                // Textes pour la sélection des colonnes
+                                select: {
+                                    rows: {
+                                        _: '%d lignes sélectionnées',
+                                        0: 'Aucune ligne sélectionnée',
+                                        1: '1 ligne sélectionnée'
+                                    }
+                                }
+                            }
                         });
-
+                        var total_envoyees = montant_envoyer + frais_envoyees + frais_message_envoyees + frais_livraison_envoyees + impots_envoyees;
+                        var total_payees = montant_collecte + impots_payees;
+                        $('#nombre_transaction_envoyees').text(nombre_transaction_envoyees);
+                        $('#montant_envoyees').text(montant_envoyer.toLocaleString());
+                        $('#frais_envoyees').text(frais_envoyees.toLocaleString());
+                        $('#frais_message_envoyees').text(frais_message_envoyees.toLocaleString());
+                        $('#frais_livraison_envoyees').text(frais_livraison_envoyees.toLocaleString());
+                        $('#impots_envoyees').text(impots_envoyees.toLocaleString());
+                        $('#montant_total_envoye').text(total_envoyees.toLocaleString());
                         $('#montant_envoye').text(montant_envoyer);
+                        $('#nombre_transaction_payees').text(nombre_transaction_payees);
                         $('#frais_envoye').text(frais_envoyer);
-                        $('#montant_paye').text(montant_payer);
+                        $('#montant_collecte').text(montant_collecte.toLocaleString());
+                        $('#impots_payees').text(impots_payees.toLocaleString());
+                        $('#traditionnel').text(total_payees.toLocaleString());
                         $('#frais_paye').text(frais_payer);
 
                         // Affichez le modal

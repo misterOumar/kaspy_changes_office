@@ -23,7 +23,7 @@
        <!-- Fichiers CSS spécifiques a la page (TEMPLATE) -->
        <link rel="stylesheet" type="text/css" href="css/template/vendors.min.css">
        <link rel="stylesheet" type="text/css" href="css/template/pages/vendors.min.css">
-    <link rel="stylesheet" type="text/css" href="css/template/forms/select2.min.css">
+       <link rel="stylesheet" type="text/css" href="css/template/forms/select2.min.css">
 
        <link rel="stylesheet" type="text/css" href="css/plugins/tables/datatable/dataTables.bootstrap5.min.css">
        <link rel="stylesheet" type="text/css" href="css/plugins/tables/datatable/responsive.bootstrap5.min.css">
@@ -170,29 +170,39 @@
                                        <!--- DOMICILE --->
                                        <!-- COMPTE -->
                                        <div>
-                                           <label class='form-label' for='contrat_bail'>Choisir la carte</label>
+                                           <label class='form-label' for='contrat_bail'>Choisir le type de carte</label>
                                            <select name='carte' id='carte' data-placeholder="Choisir la carte..." Class='select2-icons form-select'>
-                                               <option selected data-icon='facebook'>Choisir la carte</Option>
+                                               <option selected data-icon='facebook'>Choisir type de carte</Option>
                                                <?php
-                                                foreach ($liste_type_cartes as $cartes) {
+                                                if (count($liste_type_cartes)) {
+
+                                                    foreach ($liste_type_cartes as $cartes) {
                                                 ?>
-                                                   <option value="<?= $cartes['type_carte'] ?>">
-                                                       <?= $cartes['type_carte'] ?>
+                                                       <option value="<?= $cartes['type_carte'] ?>">
+                                                           <?= $cartes['type_carte'] ?>
+                                                       </option>
+                                                   <?php
+                                                    }
+                                                } else {
+                                                    ?>
+                                                   <option disabled>
+                                                       Aucune carte en stock
                                                    </option>
                                                <?php
                                                 }
                                                 ?>
+
                                            </select>
                                        </div>
                                        <div class='mb-1'><small id='carteHelp' class='text-danger invisible'></small></div>
 
 
                                        <div class="">
-                                            <label class="form-label" for="num_carte">Le numero de la carte</label>
-                                            <select class="select2 form-select select2-icons" name='num_carte' id='num_carte'>
+                                           <label class="form-label" for="num_carte">Le numero de la carte</label>
+                                           <select class="select2 form-select select2-icons" name='num_carte' id='num_carte'>
                                                <option selected disabled hidden data-icon='facebook'>Choisir le numero</Option>
 
-                                            <?php
+                                               <?php
                                                 foreach ($List_cartes as $cartes) {
                                                 ?>
                                                    <option value="<?= $cartes['customer_id'] ?>">
@@ -201,22 +211,32 @@
                                                <?php
                                                 }
                                                 ?>
-                                            </select>
-                                        </div>
+                                           </select>
+                                       </div>
                                        <div class='mb-1'><small id='num_carteHelp' class='text-danger invisible'></small></div>
 
 
-                                       <!--- EMAIL --->
+                                       <!--- NOM COMPLET DU CLIENT --->
                                        <div>
                                            <label class='form-label' for='numero_telephone'>Client</label>
                                            <input type='text' class='form-control dt-full-numero_telephone' id='client' name='client' placeholder='Nom complet du client' aria - Label='numero_telephone' maxlength='75' />
                                        </div>
                                        <div class='mb-1'><small id='clientHelp' class='text-danger invisible'></small></div>
+
+                                       <!--- N° TELEPHONE DU CLIENT --->
                                        <div>
                                            <label class='form-label' for='numero_telephone'>Téléphone</label>
                                            <input type='text' class='form-control dt-full-numero_telephone' id='telephone' name='telephone' placeholder='Telephone' aria - Label='numero_telephone' maxlength='75' />
                                        </div>
                                        <div class='mb-1'><small id='telephoneHelp' class='text-danger invisible'></small></div>
+
+                                       <!--- EMAIL DU CLIENT --->
+                                       <div>
+                                           <label class='form-label' for='email'>Email</label>
+                                           <input type='text' class='form-control ' id='telephone' name='email' placeholder='client@gmail.com' aria - Label='numero_email' />
+                                       </div>
+                                       <div class='mb-1'><small id='emailHelp' class='text-danger invisible'></small></div>
+
                                        <div>
                                            <label class='form-label' for='email'>Prix Unitaire</label>
                                            <input type='text' class='form-control dt-email' id='prix_u' name='prix_u' placeholder="Veuillez saisir le prix unitaire" aria - Label='email' maxlength='75' />

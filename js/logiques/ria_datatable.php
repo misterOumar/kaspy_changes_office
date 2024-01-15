@@ -530,7 +530,11 @@
                         $("#navigateur_creation").html(proprietes['navigateur_creation']);
                         $("#ordinateur_creation").html(proprietes['ordinateur_creation']);
                         $("#ip_creation").html(proprietes['ip_creation']);
-                        $("#annee_academique").html(proprietes['annee_academique']);
+                        $("#date_modification").html(proprietes['date_modif']);
+                        $("#user_modification").html(proprietes['user_modif']);
+                        $("#navigateur_modification").html(proprietes['navigateur_modif']);
+                        $("#ordinateur_modification").html(proprietes['ordinateur_modif']);
+                        $("#ip_modification").html(proprietes['ip_modif']);
                         $("#ecole").html(proprietes['magasin']);
 
 

@@ -13,8 +13,9 @@
                         id: champ_bd.id,
                         libelle: champ_bd.libelle,
                         duree: champ_bd.duree,
-                        //logo :champ_bd.logo,
-                        //logo: '<img src="assets/images/template/moov.png" alt="Image" width="50" height="50">'
+                        prix_vente_detail: champ_bd.prix_vente_detail + ' F-CFA',
+                        prix_vente_gros: champ_bd.prix_vente_gros + ' F-CFA',
+                       
                     })
 
                     .draw();
@@ -44,7 +45,10 @@
                         data: 'libelle'
                     },
                     {
-                        data: 'duree'
+                        data: 'prix_vente_detail'
+                    },
+                    {
+                        data: 'prix_vente_gros'
                     },
 
                     {
@@ -120,6 +124,9 @@
                                 '<span class="emp_nom text-truncate fw-bold">' +
                                 $libelle +
                                 '</span>' +
+                                '<small class="emp_nom_pop text-truncate text-muted">' +
+                                 $duree + ' ans'
+                                '</small>' +
                                 '</div>' +
                                 '</div>';
                             return $row_output;
@@ -427,6 +434,8 @@
                         $('#idModif').val(carteType['id']);
                         $('#libellemodif').val(carteType['libelle']);
                         $('#dureemodif').val(carteType['duree']);
+                        $('#prix_vente_detail_modif').val(carteType['prix_vente_detail']);
+                        $('#prix_vente_gros_modif').val(carteType['prix_vente_gros']);
 
                     }
                 }

@@ -10,36 +10,12 @@ if (isset($_POST['bt_enregistrer'])) {
 
 
 
-    $logo_pc = strSecur($_POST['photo_2']);
-
-    $file_2 = $_FILES['file_photo_2'];
-    $nom_fichier_2 = $logo_pc;
-    $path_fichier_2 = $file['tmp_name'];
-    $file_error_2 = $file_2['error'];
-
-    $file_ext_2 = explode('.', $nom_fichier_2);
-    $file_ext_check_2 = strtolower(end($file_ext_2));
-    $valid_file_ext_2 = array('png', 'jpg', 'jpeg');
-
-    $chemin_dossier_save_2 = "../assets/logo/";
-    $photo_chemin_defaut_2 = "image_defaut.jpg";
-    $liens_photo_user_2 =  $photo_chemin_defaut_2;
-
-    $filename_2 = "image_defaut.jpg";
-    $destfile_2 = "";
-
-
-
-    if (isset($_POST['photo_2']) and !empty($logo_pc) and  $logo_pc != "image_defaut.jpg") {
-        $date_2 = new DateTime();
-        $r_2 = $date_2->getTimestamp();
-        $filename_2 = "logo_" . $r_2 . "." . $file_ext_check_2;
-        $destfile_2 = $chemin_dossier_save_2 . $filename_2;
-    }
-
-
     $libelle = strSecur($_POST["libelle"]);
     $duree = strSecur($_POST["duree"]);
+    $prix_vente_detail = strSecur($_POST["prix_vente_detail"]);
+    $prix_vente_gros = strSecur($_POST["prix_vente_gros"]);
+
+
     $e_duree = $e_libelle = "";
     $succes = true;
     if ($libelle == "") {
@@ -69,25 +45,7 @@ if (isset($_POST['bt_enregistrer'])) {
             $us = $_SESSION["KaspyISS_user"]['users'];
             $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
             $dt = date("Y-m-d H:i:s");
-            if (type_carte::Ajouter($libelle, $duree, $filename_2, $dt, $us, $navigateur, $pc, $ip, $dt, $us, $navigateur, $pc, $ip)) {
-
-
-
-                if (isset($file_2)) {
-                    if ($file_error_2 == 0) {
-                        if (in_array($file_ext_check_2, $valid_file_ext_2)) {
-                            move_uploaded_file($path_fichier_2, $destfile_2);
-                            $liens_photo_user_2 = $filename_2;
-                        } else {
-                            $liens_photo_user_2 = $photo_chemin_defaut_2;
-                        }
-                    } else {
-                        $liens_photo_user_2 = $photo_chemin_defaut_2;
-                    }
-                } else {
-                    $liens_photo_user_2 = $photo_chemin_defaut_2;
-                }
-
+            if (type_carte::Ajouter($libelle, $duree, $prix_vente_detail, $prix_vente_gros, $dt, $us, $navigateur, $pc, $ip, $dt, $us, $navigateur, $pc, $ip)) {
 
                 $message = "Création du type de carte  éffectué avec succès.";
                 echo json_encode([
@@ -126,6 +84,8 @@ if (isset($_POST['bt_modifier'])) {
     $idModif = strSecur($_POST["idModif"]);
     $libelle = strSecur($_POST["libellemodif"]);
     $duree = strSecur($_POST["dureemodif"]);
+    $prix_vente_detail = strSecur($_POST["prix_vente_detail_modif"]);
+    $prix_vente_gros = strSecur($_POST["prix_vente_gros_modif"]);
 
     $e_duree = $e_libelle = "";
     $succes = true;
@@ -156,7 +116,7 @@ if (isset($_POST['bt_modifier'])) {
             $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
             $dt = date("Y-m-d H:i:s");
 
-            if (type_carte::Modifier($libelle, $duree, $dt, $us, $navigateur, $pc, $ip, $idModif)) {
+            if (type_carte::Modifier($libelle, $duree, $prix_vente_detail, $prix_vente_gros, $dt, $us, $navigateur, $pc, $ip, $idModif)) {
                 $message = "Modification du type de carte éffectuée avec succès.";
                 echo json_encode([
                     'success' => 'true',

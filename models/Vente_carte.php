@@ -15,6 +15,7 @@ class vente_carte
     public $montant;
     public $client;
     public $telephone;
+    public $email;
     public $carte;
     public $numero_carte;
     public $prix_unitaire;
@@ -49,6 +50,7 @@ class vente_carte
         $this->montant = $data['montant'];
         $this->client = $data['client'];
         $this->telephone = $data['telephone']; 
+        $this->email = $data['email']; 
         $this->carte = $data['carte'];
         $this->numero_carte = $data['numero_carte'];
         $this->prix_unitaire = $data['prix_unitaire'];
@@ -174,6 +176,7 @@ class vente_carte
         $montant,
         $client,
         $telephone,         
+        $email,         
         $carte,
         $numero_carte,
         $prix_unitaire,
@@ -193,17 +196,18 @@ class vente_carte
         global $db;
 
         $req = $db->prepare('
-            INSERT INTO vente_carte( montant,client,telephone,  carte, numero_carte,prix_unitaire,
+            INSERT INTO vente_carte( montant,client,telephone, email,  carte, numero_carte,prix_unitaire,
              quantite, date,  date_creation, user_creation,
               navigateur_creation, ordinateur_creation, ip_creation,
                date_modif, user_modif, navigateur_modif,
                 ordinateur_modif, ip_modif) 
-            VALUES( ?,?, ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+            VALUES( ?,?, ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
         return $req->execute([
             $montant,
             $client,
-            $telephone,         
+            $telephone,     
+            $email,    
             $carte,
             $numero_carte,
             $prix_unitaire, $quantite,  $date,
@@ -254,6 +258,7 @@ class vente_carte
         $montant,
         $client,
         $telephone,   
+        $email, 
         $carte,
         $numero_carte,
         $prix_unitaire,
@@ -272,6 +277,7 @@ class vente_carte
           montant = ?,        
         client = ?,
         telephone = ?,       
+        email = ?,       
         carte = ?, 
         numero_carte = ?,
         prix_unitaire = ?,
@@ -289,6 +295,7 @@ class vente_carte
             $montant,
             $client,
             $telephone,            
+            $email,            
             $carte, 
             $numero_carte, 
             $prix_unitaire,

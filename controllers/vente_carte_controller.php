@@ -29,9 +29,9 @@
         $email = strSecur($_POST["email"]);
         $prix_u = ($_POST["prix_u"]);
         $carte = strSecur($_POST["carte"]);
-        $num_carte = strSecur($_POST["num_carte"]);        
+        $num_carte = strSecur($_POST["num_carte"]);
         $date_v = date('Y-m-d H:i:s');
-        
+
         $montant = $quantite * $prix_u;
 
         // Déclaration et initialisation des variables d'erreur (e)
@@ -69,11 +69,12 @@
                 $navigateur = getNavigateur();
                 $us = $_SESSION["KaspyISS_user"]['users'];
                 $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-                $dt = date("Y-m-d H:i:s");              
+                $dt = date("Y-m-d H:i:s");
                 if (vente_carte::Ajouter(
                     $montant,
                     $client,
-                    $telephone,                    
+                    $telephone,
+                    $email,
                     $carte,
                     $num_carte,
                     $prix_u,
@@ -118,7 +119,7 @@
                     'message' => "Vérifier les champs",
                     'prix_u' => $e_prix_u,
                     'client' => $e_client,
-                    'telephone' => $e_telephone,                     
+                    'telephone' => $e_telephone,
                     'date' => $e_date_v,
                     'quantite' => $e_quantite,
                     'carte' => $e_carte,
@@ -127,8 +128,6 @@
             }
         } while ($vente);
     }
-
-
 
 
     // MODIFIER UNE TRANSACTION
@@ -144,6 +143,7 @@
         $quantite = ($_POST["quantite_modif"]);
         $prix_u = ($_POST["prix_u_modif"]);
         $telephone = strSecur($_POST["telephone_modif"]);
+        $email = strSecur($_POST["email_modif"]);
 
         $carte = strSecur($_POST["carte_modif"]);
 
@@ -183,7 +183,8 @@
             if (vente_carte::Modifier(
                 $montant,
                 $client,
-                $telephone,               
+                $telephone,
+                $email,
                 $carte,
                 $num_carte,
                 $prix_u,
@@ -246,7 +247,6 @@
 
 
     // RECUPERATION DES INFO POUR LA MODIFICATION
-
     if (isset($_GET['idVcarte'])) {
         include('../functions/functions.php');
         include('../config/config.php');
@@ -262,6 +262,28 @@
         } else {
             echo json_encode([
                 'vente' => 'null'
+            ]);
+        }
+    }
+
+
+    // RECUPERATION DES INFO EN FONCTION DU TYPE DE CARTE
+    if (isset($_GET['get_by_type_carte'])) {
+        include('../functions/functions.php');
+        include('../config/config.php');
+        include('../config/db.php');
+        include('../models/Carte.php');
+
+        $type_carte = $_GET['type_carte'];
+        $types_cartes = cartes::getByTypesCarte($type_carte);
+        if ($types_cartes) {
+            echo json_encode([
+                'types_cartes' => $types_cartes,
+                'success' => 'true',
+            ]);
+        } else {
+            echo json_encode([
+                'types_cartes' => 'null'
             ]);
         }
     }

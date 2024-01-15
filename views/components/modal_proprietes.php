@@ -1,5 +1,5 @@
-<div class="offcanvas-bottom-example " >
-    <div class="offcanvas offcanvas-bottom m-auto col-10 " tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel" >
+<div class="offcanvas-bottom-example ">
+    <div class="offcanvas offcanvas-bottom m-auto col-10 " tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
         <div class="offcanvas-header">
             <h5 id="offcanvasBottomLabel" class="offcanvas-title">Propriétés de...
             </h5>
@@ -9,8 +9,9 @@
             <!-- Tableau propriété d'une salle-->
             <div class="table-responsive mb-1">
                 <table class="table table-bordered text-nowrap text-center">
-             
+
                     <tbody class="propietes">
+                        <!-- Informations de création-->
                         <tr>
                             <th scope="row" class="text-start">Crée le</th>
                             <td><i data-feather="check" class="text-success font-medium-5"></i></td>
@@ -42,9 +43,42 @@
                             <td id="ip_creation" class="text-start"></td>
 
                         </tr>
-                
+
+                        <!-- Informations de modification-->
                         <tr>
-                            <th scope="row" class="text-start">Siège</th>
+                            <th scope="row" class="text-start">Modifié le</th>
+                            <td><i data-feather="check" class="text-success font-medium-5"></i></td>
+
+                            <td id="date_modification" class="text-start"></td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-start">Modifié par</th>
+                            <td><i data-feather="check" class="text-success font-medium-5"></i></td>
+                            <td id="user_modification" class="text-start"></td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-start">Modifié sur le navigateur</th>
+                            <td><i data-feather="check" class="text-success font-medium-5"></i></td>
+                            <td id="navigateur_modification" class="text-start"></td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-start">Modifié sur l'ordinateur</th>
+                            <td><i data-feather="check" class="text-success font-medium-5"></i></td>
+                            <td id="ordinateur_modification" class="text-start"></td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-start">Adresse ip du serveur à la modification</th>
+                            <td><i data-feather="check" class="text-success font-medium-5"></i></td>
+                            <td id="ip_modification" class="text-start"></td>
+
+                        </tr>
+
+                        <tr>
+                            <th scope="row" class="text-start">Magasin</th>
                             <td><i data-feather="check" class="text-success font-medium-5"></i></td>
                             <td id="ecole" class="text-start"></td>
 
@@ -56,4 +90,3 @@
         </div>
     </div>
 </div>
-
