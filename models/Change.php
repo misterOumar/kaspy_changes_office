@@ -18,6 +18,9 @@ class changes
     public $client;
     public $telephone;
     public $date;
+    public $devise;
+    public $adresse;
+    public $type_operation;
     public $date_creation;
     public $user_creation;
     public $navigateur_creation;
@@ -48,6 +51,9 @@ class changes
         $this->client = $data['client'];
         $this->telephone = $data['telephone'];
         $this->date = $data['date'];
+        $this->type_operation = $data['type_operation'];
+        $this->devise = $data['devise'];
+        $this->adresse = $data['adresse'];
         $this->date_creation = $data['date_creation'];
         $this->user_creation = $data['user_creation'];
         $this->navigateur_creation = $data['navigateur_creation'];
@@ -177,12 +183,17 @@ class changes
      * @return bool
      */
     static function Ajouter(
+        $date, 
+       
+        $devise,
+        $type_operation,
         $montant1,
         $taux,
         $montant2,
         $client,
         $telephone,
-        $date, 
+      
+        $adresse,
         $date_creation,
         $user_creation,
         $navigateur_creation,
@@ -196,10 +207,11 @@ class changes
     ) {
         global $db;
         $req = $db->prepare('
-            INSERT INTO changes(montant1,taux,montant2, client ,telephone, date ,date_creation,user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(?, ?, ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+            INSERT INTO changes(date ,devise,type,montant1,taux,montant2, client ,telephone, adresse,date_creation,user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(?, ?, ?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([$montant1, $taux, $montant2, $client, $telephone,$date, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$date,$devise, $type_operation,$montant1, $taux, $montant2, $client, $telephone,
+         $adresse, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 
@@ -228,12 +240,17 @@ class changes
 
 
     static function Modifier(
+        $date, 
+       
+        $devise,
+        $type_operation,
         $montant1,
         $taux,
         $montant2,
         $client,
         $telephone,
-        $date, 
+     
+        $adresse,
         $date_modif,
         $user_modif,
         $navigateur_modif,
@@ -243,13 +260,15 @@ class changes
     ) {
         global $db;
         $req = $db->prepare('
-            UPDATE changes SET   montant1=?,taux=?,
-            montant2=?,client=? ,telephone = ?,date =?,  date_modif = ?,
+            UPDATE changes SET date =?,devise=? ,type=?,  montant1=?,taux=?,
+            montant2=?,client=? ,telephone = ?, adresse =?, date_modif = ?,
              user_modif = ?, navigateur_modif = ?,
               ordinateur_modif = ?,
                ip_modif = ? WHERE id= ?
         ');
-        return $req->execute([$montant1, $taux, $montant2, $client, $telephone,$date,    $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
+        return $req->execute([$date, $devise,  $type_operation,
+       $montant1, $taux, $montant2, $client, $telephone,
+        $adresse,   $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     }
 
 

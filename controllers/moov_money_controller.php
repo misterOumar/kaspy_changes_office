@@ -6,21 +6,32 @@
 //||******************************************************||
 
 
-// AFFICHER LA LISTE DES PROPRIETAIRE
 
 
 // ENREGISTRER (AJOUTER) UN NOUVEAU Proprietaire
 if (isset($_POST['bt_enregistrer'])) {
-    // inclusion des fichiers ressources
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
     include('../models/Moov.php');
+  
+ 
+    // inclusion des fichiers ressources
+    
 
     // Récupération des données postés dépuis le formulaire dans les variables respectives
     $type = strSecur($_POST["radio_type"]);
+
     $montant = strSecur($_POST["montant"]);    
-    $tel_cli = strSecur($_POST["tel_cli"]);  
+
+    $solde_t = strSecur($_POST["solde_t"]);   
+
+    $id_transaction = strSecur($_POST["id_transaction"]);   
+
+    $magasin = $_SESSION["KaspyISS_bureau"];    // telephone du client 
+    
+    $tel_cli = $_POST["tel_cli"];
+
     // $date_t = strSecur($_POST["date_t"]);
     $date_t = strSecur($_POST["date_t"]);
     $date_t = date('Y-m-d', strtotime($date_t));
@@ -33,9 +44,7 @@ if (isset($_POST['bt_enregistrer'])) {
     if (empty($montant)) {
         $e_montant = "Ce champ ne doit pas être vide.";
         $succes = false;
-    }
-
-   
+    }   
  
 
     if (empty($tel_cli)) {
@@ -44,9 +53,6 @@ if (isset($_POST['bt_enregistrer'])) {
     }
 
   
-
-
-
     // Cas ou tout est ok
     if ($succes) {
 
@@ -60,6 +66,9 @@ if (isset($_POST['bt_enregistrer'])) {
             $type,
             $tel_cli,     
             $montant,
+            $solde_t, 
+            $id_transaction,
+            $magasin,
             $dt,
             $us,
             $navigateur,
@@ -111,6 +120,10 @@ if (isset($_POST['bt_modifier'])) {
      
     $montant = strSecur($_POST["montant_modif"]);
 
+    $solde_t = strSecur($_POST["solde_t_modif"]);
+
+    $id_transaction = strSecur($_POST["id_transaction_modif"]);
+
     $type = strSecur($_POST["radio_type_modif"]);
  
     $tel_cli = strSecur($_POST["tel_cli_modif"]);
@@ -142,12 +155,13 @@ if (isset($_POST['bt_modifier'])) {
         $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         $dt = date("Y-m-d H:i:s");
         if (moov::Modifier(
-            $montant,
+           
             $date_t,
-            $client,
+            $type,
             $tel_cli,
-            $destinataire,
-            $tel_dest,
+            $montant,
+            $solde_t,
+            $id_transaction,        
             $dt,
             $us,
             $navigateur,
@@ -210,14 +224,15 @@ if (isset($_GET['idLast'])) {
 
 
 // RECUPERATION DES INFO POUR LA MODIFICATION
-if (isset($_GET['idMoov'])) {
+if (isset($_GET['moov'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
     include('../models/Moov.php');
 
-    $id = $_GET['idMoov'];
+    $id = $_GET['moov'];
     $proprietes = moov::getByID($id);
+
     if ($proprietes) {
         echo json_encode([
             'transaction' => $proprietes,
@@ -228,7 +243,6 @@ if (isset($_GET['idMoov'])) {
         ]);
     }
 }
-
 
 // RECUPERATION DES INFO POUR PROPRIETE D'UN ELEMENT 
 if (isset($_GET['idProprietes'])) {

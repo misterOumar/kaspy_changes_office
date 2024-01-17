@@ -11,7 +11,7 @@
 
        <!-- Incluez le JS de SlickGrid et de jQuery -->
        <!-- Incluez également le CSS de Bootstrap si vous utilisez les modales Bootstrap -->
-       <title><?= APP_NAME ?> - Orange money</title>
+       <title><?= APP_NAME ?> - Transaction orange money</title>
        <!-- Fichiers CSS par défaut (TEMPLATE) -->
        <?php include_once 'includes/head.php' ?>
        <!-- Fichiers CSS spécifiques a la page (TEMPLATE) -->
@@ -45,14 +45,14 @@
                    <div class="content-header-left col-md-9 col-12 mb-2">
                        <div class="row breadcrumbs-top">
                            <div class="col-12">
-                               <h2 class="content-header-title float-start mb-0">Mobile money</h2>
+                               <h2 class="content-header-title float-start mb-0">Transactions Oranges Money</h2>
                                <div class="breadcrumb-wrapper">
                                    <ol class="breadcrumb">
                                        <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
                                        </li>
                                        <li class="breadcrumb-item"><a href="#">Structures</a>
                                        </li>
-                                       <li class="breadcrumb-item active">Orange money
+                                       <li class="breadcrumb-item active">orange money
                                        </li>
                                    </ol>
                                </div>
@@ -75,9 +75,11 @@
                                                <th></th>
                                                <th>id</th>                                              
                                                <th>Date</th>      
-                                               <th>Type Operation</th>                                       
+                                                                                   
                                                <th>téléphone Client</th>
-                                               <th>Montant</th>                                              
+                                               <th>Montant</th>   
+                                               <th> Nouveau Solde</th>
+                                               <th>ID TRANSACTION</th>                                           
                                                <th>Actions</th>
                                            </tr>
                                        </thead>
@@ -94,7 +96,7 @@
 
                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
                                    <div class="modal-header mb-1">
-                                       <h5 class="modal-title" id="exampleModalLabel">Enregistrmement d'une nouvelle transactions</h5>
+                                       <h5 class="modal-title" id="exampleModalLabel">Enregistrmement d'une nouvelle transaction orange money</h5>
                                    </div>
                                    <button type="button" id="bt_vider" name="bt_vider" class="btn" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" class="avatar pull-up my-0" title="Vider les champs" style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
                                        <i data-feather='refresh-ccw'></i></button>
@@ -137,6 +139,20 @@
                                        <!--- FONCTION --->
                                        
 
+                                       <div>
+                                           <label class='form-label' for='nom_prenom'>Nouveau Solde </label>
+                                           <input type='text' class='form-control dt-full-nom_prenom' id='solde_t' name='solde_t' placeholder='Solde Total' aria - Label='nom_prenom' maxlength='75' />
+                                       </div>
+                                       <div class='mb-1'><small id='solde_tHelp' class='text-danger invisible'></small></div>
+
+
+                                       <div>
+                                           <label class='form-label' for='nom_prenom'>ID Transaction  </label>
+                                           <input type='text' class='form-control dt-full-nom_prenom' id='id_transaction' name='id_transaction' placeholder='Id Transaction' aria - Label='nom_prenom' maxlength='75' />
+                                       </div>
+                                       <div class='mb-1'><small id='id_transactionHelp' class='text-danger invisible'></small></div>
+                                     
+
                                        <!--- ENREGISTREMENT --->
                                        <button type="submit" id='bt_enregistrer' name='bt_enregistrer' class='btn btn-primary enregistrer me-5'>Enregistrer</button>
                                        <button type='reset' id='bt_annuler' name='annuler' class='btn btn-outline-secondary' data-bs-dismiss='modal'>Annuler</button>
@@ -155,7 +171,7 @@
                                <form id="form_modif" name="form_modif" class="add-new-record modal-content pt-0" action="controllers/orange_money_controller.php" method="POST">
                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
                                    <div class="modal-header mb-1">
-                                       <h5 class="modal-title" id="exampleModalLabel">Modification de la transaction </h5>
+                                       <h5 class="modal-title" id="exampleModalLabel">Modification de la transaction orange money </h5>
                                    </div>
                                    <button type="button" id="bt_vider" name="bt_vider" class="btn" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" class="avatar pull-up my-0" title="Vider les champs" style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
                                        <i data-feather='refresh-ccw'></i></button>
@@ -196,7 +212,22 @@
                                        <div class='mb-1'><small id='montant_modifHelp' class='text-danger invisible'></small></div>
 
 
-                                       <!--- EMAIL --->
+                                  <!--- SOLDE--->
+                                  <div>
+                                           <label class='form-label' for='nom_prenom_modif'>Nouveau Solde</label>
+                                           <input type='text' class='form-control dt-full-nom_prenom' id='solde_t_modif' name='solde_t_modif' placeholder='Montant' aria - Label='nom_prenom_modif' maxlength='75' />
+                                       </div>
+                                       <div class='mb-1'><small id='solde_t_modifHelp' class='text-danger invisible'></small></div>
+
+
+                                       <!--- ID TRANSACTION--->
+                                       <div>
+                                           <label class='form-label' for='nom_prenom_modif'>Id Transaction</label>
+                                           <input type='text' class='form-control dt-full-nom_prenom' id='id_transaction_modif' name='id_transaction_modif' placeholder='Montant' aria - Label='nom_prenom_modif' maxlength='75' />
+                                       </div>
+                                       <div class='mb-1'><small id='id_transaction_modifHelp' class='text-danger invisible'></small></div>
+
+
 
 
                                        <!--- FONCTION --->

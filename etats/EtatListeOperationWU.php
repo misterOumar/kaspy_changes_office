@@ -22,7 +22,7 @@ class EtatListeOperation extends FPDF
     {
         if ($this->PageNo() == 1) {
             // Logo
-            $this->Image(API_HOST . '/assets/images/etats/' . $this->logoEtat, 10, 8, 20);
+            $this->Image(API_HOST . '/assets/images/etats/logo.png', 10, 8, 20);
 
             // ENTETE GAUCHE
             $this->Cell(22);

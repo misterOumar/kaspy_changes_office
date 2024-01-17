@@ -522,7 +522,6 @@ class Users
         return $req->execute([$type_compte, $id]);
     }
 
-
     /**
      * Méthode pour supprimer un utilisateur.
      *
@@ -532,11 +531,9 @@ class Users
     static function supprimer($id)
     {
         global $db;
-
         $req = $db->prepare('DELETE FROM login WHERE id = ?');
         return $req->execute([$id]);
     }
-
 
     // STATISTIQUES UTILISATEURS //
 

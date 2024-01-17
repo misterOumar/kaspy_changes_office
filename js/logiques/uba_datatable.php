@@ -230,22 +230,20 @@
           }
         },
         {
-          text: feather.icons['plus'].toSvg({
-            class: 'me-50 font-small-4'
-          }) + 'Importer',
-          className: 'create-new btn btn-primary',
-          attr: {
-            'id': 'bt_ajouter',
-            'data-bs-toggle': 'modal',
-            'data-bs-target': '#importationModal'
-          },
-          init: function (api, node, config) {
-            $(node).removeClass('btn-secondary');
-          }
-        }
+                        text: feather.icons['download'].toSvg({
+                            class: 'me-50 font-small-4'
+                        }) + 'Importer un fichier',
+                        className: 'create-new btn btn-primary',
+                        attr: {
+                            'id': 'bt_importer',
+                            'onclick': 'window.location.href = "index.php?page=rechargement_uba"',
+                        },
+                        init: function(api, node, config) {
+                            $(node).removeClass('btn-secondary');
+                        }
+            },
+         
         ],
-
-
         // RESPONSIVE - Sur téléphone
         responsive: {
           details: {

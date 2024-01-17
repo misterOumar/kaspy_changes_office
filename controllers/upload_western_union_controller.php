@@ -17,7 +17,9 @@ if (isset($_POST['upload_western_file'])) {
     $ip = getIp();
     $navigateur = getNavigateur();
     $us = $_SESSION["KaspyISS_user"]['users'];
+
     $magasin = $_SESSION["KaspyISS_bureau"];
+    
     $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
     $dt = date("Y-m-d H:i:s");
 

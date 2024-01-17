@@ -3,7 +3,7 @@
         'use strict';
 
         // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
-        $.get('http://localhost/kaspy_changes_office/index.php?page=api_change', function(rep) {
+        $.get('http://localhost/kaspy_changes_office/index.php?page=api_changes', function(rep) {
             let data = JSON.parse(rep)
             data.map((champ_bd) => {
                 var imageUrl = champ_bd.logo;
@@ -12,8 +12,16 @@
                         responsive_id: champ_bd.id,
                         id: champ_bd.id,
 
-
+                        // DATE
                         date: champ_bd.date,
+
+                        
+                         // DEVISE DE LA MONAIE
+                         devise: champ_bd.devise,
+
+                        // // TYPE DE L OPERATION
+                        type: champ_bd.type,
+
 
                         //MONTANT APPORTE
                         montant1: champ_bd.montant1 + ' F-CFA',
@@ -30,6 +38,9 @@
                         //TELEPHONE  DU CLIENT  
                         telephone: champ_bd.telephone,
 
+                        //ADRESSE DU CLIENT 
+                        adresse: champ_bd.adresse,
+                        status: 5
                         
 
 
@@ -60,6 +71,12 @@
                     {
                         data: 'date'
                     },
+                     
+                    {
+                        data: 'devise'
+                    },
+
+                     
                     {
                         data: 'montant1'
                     },
@@ -74,8 +91,10 @@
                     },
                     {
                         data: 'telephone'
+                    },                    
+                    {
+                        data: 'adresse'
                     },
-                    
 
                     {
                         data: ''
@@ -120,8 +139,16 @@
                         responsivePriority: 1,
                         render: function(data, type, full, meta) {
                             var $user_img = full['avatar'],
-                                $libelle = full['date'],
-                                $duree = full['montant1'];
+                                $libelle = full['libelle'],
+                                $duree = full['duree'],
+                                $type = full['type'];
+                            var bg;
+                            if ($type == "Dépot") {
+                                bg = 'bg-success'
+                            } else {
+                                bg = 'bg-info'
+
+                            }
                             if ($user_img) {
                                 // For Avatar image
                                 var $output =
@@ -131,10 +158,10 @@
                                 var stateNum = full['status'];
                                 var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
                                 var $state = states[stateNum],
-                                    $libelle = full['date'],
-                                    $initials = $libelle.match(/\b\w/g) || [];
+                                    $expediteur = full['date'],
+                                    $initials = $expediteur.match(/\b\w/g) || [];
                                 $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-                                $output = '<span class="avatar-content">' + $initials + '</span>';
+                                $output = '<span class="avatar-content ' + bg + '" >' + $initials + '</span>';
                             }
 
                             var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
@@ -148,13 +175,17 @@
                                 '</div>' +
                                 '<div class="d-flex flex-column">' +
                                 '<span class="emp_nom text-truncate fw-bold">' +
-                                $libelle + ' ' +
+                                $expediteur +
                                 '</span>' +
+                                '<small class="emp_nom_pop text-truncate text-muted">' +
+                                $type +
+                                '</small>' +
                                 '</div>' +
                                 '</div>';
                             return $row_output;
                         }
                     },
+                    // fin du badge ou de l'image rond
                     // fin du badge ou de l'image rond
 
                     // ActionsVoulez vous vraiment supprimer ?
@@ -340,8 +371,19 @@
         }
         // MODIFIER UN ELEMENT
         $('#form_ajouter').on('submit', function(e) {
+
             var $new_client = $('#client').val(),
+
                 $new_date_v = $('#date_v').val(),
+
+                $new_type= $("input[name='radio_type']:checked").val(),
+
+                $new_montant2= ($('#montant').val())*($('#taux').val()),
+
+                $new_devise = $('#devise').val(),
+
+                $new_adresse = $('#adresse').val(),
+
                 $new_taux = $('#taux').val(),
                 $new_montant = $('#montant').val(),
                 $new_telephone = $('#telephone').val();
@@ -369,7 +411,7 @@
                             $('#taux').val("");
                             $('#montant').val("");
                             $('#date_v').val("");
-                            $('#carte').val("");
+                            
                             $('#telephone').val("");
                             $('#montantHelp').html("").addClass('invisible');
                             $('#clientHelp').html("").addClass('invisible');
@@ -385,11 +427,11 @@
                             $.ajax({
                                 type: "GET",
                                 data: "idLast=" + true,
-                                url: "controllers/change_controller.php",
+                                url: "controllers/changes_controller.php",
                                 success: function(result) {
                                     var donnees = JSON.parse(result)
-                                    if (donnees['last_change'] !== 'null') {
-                                        let ventes = donnees['last_change'];
+                                    if (donnees['last_transaction'] !== 'null') {
+                                        let ventes = donnees['last_transaction'];
                                         let last_id = ventes['id'];
                                         let total = donnees['total'];
 
@@ -398,11 +440,17 @@
                                             .add({
                                                 responsive_id: last_id,
                                                 id: last_id,
-                                                montant1: $new_montant,
-                                                client: $new_client,
-                                                telephone: $new_telephone,
                                                 date: $new_date_v,
+                                                devise:$new_devise,
+                                                type: $new_type,                                                
+                                                montant1: $new_montant,
                                                 taux: $new_taux,
+                                                 montant2: $new_montant2,
+                                                client: $new_client,
+                                                telephone: $new_telephone,                              
+                                                                                         
+                                                adresse: $new_adresse,
+                                               
                                                 status: 5
 
                                             })
@@ -441,10 +489,24 @@
                         let vente = donnees['change'];
                         $('#idModif').val(vente['id']);
                         $('#montant_modif').val(vente['montant1']);
+                         $('#type_modif').val(vente['type']);
+                        $('#devise_modif').val(vente['devise']);
+                        $('#adresse_modif').val(vente['adresse']);
                         $('#date_vmodif').val(vente['date']);
                         $('#client_modif').val(vente['client']);
                         $('#taux_modif').val(vente['taux']);
                         $('#telephone_modif').val(vente['telephone']);
+
+                        var radioTypeModifValue = vente['type'];
+                        // console.log(vente['type']);
+                        // Vérifie si la valeur est égale à 'Dépot'
+                        if (radioTypeModifValue ==='Achat') {
+                            // Coche le radio bouton 'Dépot'
+                            $('#radio_achat_modif').prop('checked', true);
+                        } else {
+                            // Sinon, coche le radio bouton 'Retrait'
+                            $('#radio_vente_modif').prop('checked', true);
+                        }
 
                     }
                 }
@@ -464,8 +526,6 @@
                     if (donnees['changes'] !== 'null') {
 
                         let proprietes = donnees['changes']
-
-
                         $("#offcanvasBottomLabel").html("Propriété de la transaction MTN Money « " + proprietes['date_creation'] + " »");
                         $("#date_creation").html(proprietes['date_creation']);
                         $("#user_creation").html(proprietes['user_creation']);
@@ -488,7 +548,7 @@
             //--------------- Confirm Options SWEET ALERT ---------------
             Swal.fire({
                 title: 'Voulez vous vraiment supprimer ?',
-                text: 'l\'achat de < ' + (dt_basic.row($(this).parents('tr')).data().client) + ' :' + (dt_basic.row($(this).parents('tr')).data().montant) +
+                text: 'l\'achat de < ' + (dt_basic.row($(this).parents('tr')).data().client) + ' :' + (dt_basic.row($(this).parents('tr')).data().montant1) +
                     '> sera supprimé définitivement',
                 icon: 'warning',
                 showCancelButton: true,

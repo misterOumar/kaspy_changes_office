@@ -74,7 +74,6 @@
             }
         }
 
-
         // Tableau simple
         function BasicTable($data)
         {
@@ -85,6 +84,8 @@
             $this->Cell(25, 7, "Type operation", 1, 0, 'C');
             $this->Cell(40, 7, "Telephone", 1, 0, 'C');
             $this->Cell(25, 7, "Montant", 1, 0, 'C');
+            $this->Cell(25, 7, "Solde Total", 1, 0, 'C');
+            $this->Cell(25, 7, "TRANSACTION ID", 1, 0, 'C');
             $this->Ln();
 
             $i = 1;
@@ -95,11 +96,12 @@
                 $this->Cell(25, 6, $professeurs['type_operation'], 1, 0, 'C');
                 $this->Cell(40, 6, $professeurs['telephone_client'], 1, 0, 'C');
                 $this->Cell(25, 6, $professeurs['montant'], 1, 0, 'C');
+                $this->Cell(25, 6, $professeurs['solde_total'], 1, 0, 'C');
+                $this->Cell(25, 6, $professeurs['id_transaction'], 1, 0, 'C');
                 $this->Ln();
                 $i++;
             }
         }
-
 
         // Pied de page
         function Footer()
@@ -117,19 +119,15 @@
         }
     }
 
-
-
     $data = array();
-    $professeurs = orange::getAll();
+    $magasin = $_SESSION["KaspyISS_bureau"];
+    $professeurs = orange::getAll($magasin);
     for ($num = 0; $num < count($professeurs); $num++) {
         array_push(
             $data,
             $professeurs[$num]
         );
     }
-
-
-
     // Instanciation de la classe dérivée
     $pdf = new EtatListeOrange();
     $entreprise = bureaux::getByNom($_SESSION["KaspyISS_bureau"]);
@@ -144,7 +142,7 @@
 
 
     $pdf->AliasNbPages();
-    $pdf->AddPage('P');
+    $pdf->AddPage('L');
 
     $pdf->BasicTable($data);
 

@@ -22,6 +22,13 @@
         $('#tauxHelp').html('Veuillez saisir  la taux...');
         $('#tauxHelp').addClass('invisible');
 
+
+        
+        $('#adresse').val('');
+        $('#adresse').removeClass('is-invalid');
+        $('#adresseHelp').html('Veuillez saisir  l\'adresse...');
+        $('#adresseHelp').addClass('invisible');
+
         $('#date_v').val('');
         $('#date_v').removeClass('is-invalid');
         $('#date_vHelp').html('Veuillez sélectionner la date ...');
@@ -86,10 +93,17 @@
         $('#montant').removeClass('is-invalid');
         $('#montantHelp').html('Veuillez saisir le montant...');
     });
+
     $('#client').on('change', function() {
         $('#client').removeClass('is-invalid');
         $('#clientHelp').html('');
     });
+
+    $('#adresse').on('change', function() {
+        $('#adresse').removeClass('is-invalid');
+        $('#adresseHelp').html('');
+    });
+
     $('#carte').on('change', function() {
         $('#taux').removeClass('is-invalid');
         $('#tauxHelp').html('Veillez selectionner la taux');
@@ -228,6 +242,51 @@
             $('#client').removeClass('is-invalid');
             $('#clientHelp').html('');
             $('#clientHelp').addClass('invisible');
+        }
+
+
+        let adresse = $('#adresse').val();
+        if (client === '') {
+            formValide = false;
+            $('#adresse').addClass('is-invalid');
+            $('#adresseHelp').html('Veuillez saisir l\'adresse.');
+            $('#adresseHelp').removeClass('invisible');
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#adresse').removeClass('is-invalid');
+            $('#adresseHelp').html('');
+            $('#adresseHelp').addClass('invisible');
+        }
+
+
+        let devise = $('#devise').val();
+        if (devise =='Choisir la dévise') {
+            formValide = false;
+            $('#devise').addClass('is-invalid');
+            $('#deviseHelp').html('Veuillez saisir la devise.');
+            $('#deviseHelp').removeClass('invisible');
+            e.preventDefault()
+        } else if (devise !='Choisir la dévise') {
+            formValide = true;
+            $('#devise').removeClass('is-invalid');
+            $('#deviseHelp').html('');
+            $('#deviseHelp').addClass('invisible');
+        }
+        
+    if ($("#radio_achat").is(":checked") || $("#radio_vente").is(":checked")) {
+            formValide = true;
+            $('#radio_achat').removeClass('is-invalid');
+            $('#radio_vente').removeClass('is-invalid');
+            $('#typeHelp').html("");
+            $('#typeHelp').removeClass('invisible');
+        } else {
+            formValide = false;
+            $('#radio_achat').addClass('is-invalid');
+            $('#radio_vente').addClass('is-invalid');
+            $('#typeHelp').html("Veillez choisir la devise la transacion");
+            $('#typeHelp').removeClass('invisible');
+            e.preventDefault()
         }
 
         let prix_u = $('#taux').val();

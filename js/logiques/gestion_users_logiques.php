@@ -4,41 +4,122 @@
 
 <script>
   //--------------- Confirm Options SWEET ALERT ---------------
-  $('.link-delete-button').on('click', function() {
-    var that = this
+  $('.link-delete-button').on('click', function () {
+    var that = this;
+
+//     // POPUP de validation de suppression
+//     Swal.fire({
+//         title: 'Voulez vous vraiment supprimer ?',
+//         text: '< ' + $(that).attr('name') + ' > sera supprimé définitivement',
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonText: 'Oui, Supprimer !',
+//         cancelButtonText: 'Annuler',
+//         customClass: {
+//             confirmButton: 'btn btn-primary',
+//             cancelButton: 'btn btn-outline-danger ms-1'
+//         },
+//         buttonsStyling: false
+//     }).then(function (result) {
+//         if (result.value) {
+//             // Utilisez `that` au lieu de `$(this)`
+//             Swal.fire({
+//                 icon: 'success',
+//                 title: 'Suppression effectuée !',
+//                 text: "'" + ($(that).attr('name')) + "' a été supprimée avec succès.",
+//                 customClass: {
+//                     confirmButton: 'btn btn-success'
+//                 }
+//             });
+
+//             // Suppression Back
+//             $.ajax({
+//                 type: "GET",
+//                 data: "idSupprim=" + (dt_basic.row($(that).parents('tr')).data().id), // Envoi de l'id sélectionné
+//                 url: "controllers/gestions_users_controller.php",
+//                 success: function (result) {
+//                     var donnee = JSON.parse(result);
+//                     if (donnee['success'] === 'true') {
+//                         dt_basic.row($(that).parents('tr')).remove().draw(); // Suppression de la ligne sélectionnée
+//                     } else if (donnee['success'] === 'false') {
+//                         initializeFlash();
+//                         $('.flash').addClass('alert-danger');
+//                         $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
+//                             .fadeIn(300).delay(2500).fadeOut(300);
+//                     } else {
+//                         initializeFlash();
+//                         $('.flash').addClass('alert-danger');
+//                         $('.flash').html('<i class="fas fa-exclamation-circle"></i> Erreur inconnue')
+//                             .fadeIn(300).delay(2500).fadeOut(300);
+//                     }
+//                 }
+//             });
+//         }
+//     });
+// });
+
+  
+            //--------------- Confirm Options SWEET ALERT --------------
+    var that = this;
+    var userId = $(that).attr('id'); // Récupère l'ID de l'utilisateur
+
     // POPUP de validation de suppression
     Swal.fire({
-      title: 'Voulez vous vraiment supprimer ?',
-      text: '< ' + $(this).attr('name') + ' > sera supprimé définitivement',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Oui, Supprimer !',
-      cancelButtonText: 'Annuler',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-outline-danger ms-1'
-      },
-      buttonsStyling: false
-    }).then(function(result) {
-      if (result.value) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Suppression éffectuée !',
-          text: "' " + ($(this).attr('name')) + " ' a été supprimée avec succès.",
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
+        title: 'Voulez-vous vraiment supprimer ?',
+        text: '< ' + $(that).attr('name') + ' > sera supprimé définitivement',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Oui, Supprimer !',
+        cancelButtonText: 'Annuler',
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ms-1'
+        },
+        buttonsStyling: false,
+    }).then(function (result) {
+        if (result.value) {
+            // Utilisez userId au lieu de $(that).attr('id')
+            Swal.fire({
+                icon: 'success',
+                title: 'Suppression effectuée !',
+                text: "'" + ($(that).attr('name')) + "' a été supprimée avec succès.",
+                customClass: {
+                    confirmButton: 'btn btn-success'
+                }
+            });
+        }
+    });
+
+    $('.swal2-confirm').on('click', function () {
+        // Utilisez userId au lieu de $(that).attr('id') pour récupérer l'ID
+        $.ajax({
+            type: "GET",
+            data: "idSupprim=" + userId, // Envoi de l'ID sélectionné
+            url: "controllers/gestion_users_controller.php",
+            success: function (result) {
+                var donnee = JSON.parse(result);
+                if (donnee['success'] === 'true') {
+                    dt_basic.row($(that).parents('tr')).remove().draw(); // Suppression de la ligne sélectionnée
+                } else if (donnee['success'] === 'false') {
+                    initializeFlash();
+                    $('.flash').addClass('alert-danger');
+                    $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
+                        .fadeIn(300).delay(2500).fadeOut(300);
+                } else {
+                    initializeFlash();
+                    $('.flash').addClass('alert-danger');
+                    $('.flash').html('<i class="fas fa-exclamation-circle"></i> Erreur inconnue')
+                        .fadeIn(300).delay(2500).fadeOut(300);
+                }
+            }
         });
-      }
     });
-    $('.swal2-confirm').on('click', function() {
+});
 
-      //Suppression Back
-      location.href = "index.php?page=gestion_users&idSupprim=" + ($(that).attr('id'));
+        
 
-    });
-  });
 
+ 
 
   // MODIFICATION DU TYPE DE COMPTE
 

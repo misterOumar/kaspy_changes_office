@@ -67,8 +67,6 @@ class  EtatListeChange extends FPDF
             //Pages suivantes
         }
     }
-
-
     // Tableau simple
     function BasicTable($data)
     {
@@ -82,11 +80,9 @@ class  EtatListeChange extends FPDF
         $this->Cell(40, 7, "Telephone", 1, 0, 'C');  
         $this->Cell(30, 7, "Date", 1, 0, 'C');
         $this->Ln();
-
         $i = 1;
         $this->SetFont('Helvetica', '', 9);
         foreach ($data as $batiment) {
-
             $this->Cell(10, 6, $i, 1, 0, 'C');
             $this->Cell(50, 6,  $batiment['montant1'], 1, 0, '');
             $this->Cell(40, 6,  $batiment['taux'], 1, 0, 'C');
@@ -98,9 +94,7 @@ class  EtatListeChange extends FPDF
             $i++;
         }
     }
-
-
-    // Pied de page
+   // Pied de page
     function Footer()
     {
         // Positionnement à 1,5 cm du bas
@@ -110,48 +104,35 @@ class  EtatListeChange extends FPDF
         // Pied de page
         $this->Cell(0, 7, APP_NAME . ' ' . APP_VERSION, 0, 0, 'L');
         $this->Cell(0, 10, $this->piedDePage, 0, 0, 'C');
-
         $heure =  date("H") - 1 . ":";
         $this->Cell(0, 7, "Tiré le : " . date("d/m/Y") . ' à ' . $heure . date("i:s"), 0, 0, 'R');
     }
 }
+        $data = array();
+        $proprietaires = changes::getAll();
+        for ($num = 0; $num < count($proprietaires); $num++) {
+            array_push(
+                $data,
+                $proprietaires[$num]
+            );
+        }
 
+        // Instanciation de la classe dérivée
+        $pdf = new  EtatListeChange();
+        $entreprise = bureaux::getByNom($_SESSION["KaspyISS_bureau"]);
+        $pdf->logoEtat = $entreprise['logo_etats'];
+        $pdf->nom_entreprise = $entreprise['libelle'];
+        $pdf->sigle = $entreprise['sigle'];
+        $pdf->slogan = $entreprise['slogan'];
+        $pdf->annee = $_SESSION["KaspyISS_annee"];
+        // Param"trage de la difusion de l'état
+        $pdf->SetTitle('Liste des Proprietaires', 1);
+        $pdf->AliasNbPages();
+        $pdf->AddPage('L');
+        $pdf->BasicTable($data);
+        $pdf->Output();
 
-
-$data = array();
-$proprietaires = changes::getAll();
-for ($num = 0; $num < count($proprietaires); $num++) {
-    array_push(
-        $data,
-        $proprietaires[$num]
-    );
-}
-
-
-
-// Instanciation de la classe dérivée
-$pdf = new  EtatListeChange();
-$entreprise = bureaux::getByNom($_SESSION["KaspyISS_bureau"]);
-$pdf->logoEtat = $entreprise['logo_etats'];
-$pdf->nom_entreprise = $entreprise['libelle'];
-$pdf->sigle = $entreprise['sigle'];
-$pdf->slogan = $entreprise['slogan'];
-
-$pdf->annee = $_SESSION["KaspyISS_annee"];
-
-
-// Param"trage de la difusion de l'état
-$pdf->SetTitle('Liste des Proprietaires', 1);
-
-$pdf->AliasNbPages();
-$pdf->AddPage('L');
-
-$pdf->BasicTable($data);
-
-$pdf->Output();
-
-
-// Inclusion de la bibliothèque FPDF
+    // Inclusion de la bibliothèque FPDF
 
 
 // Fonction pour générer le PDF

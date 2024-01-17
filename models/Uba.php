@@ -201,15 +201,17 @@ class uba
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter($id, $Trans_ID, $Dates, $Amount, $Fees, $Running_Bal, $Description, $Reference, $Account_Id, $Last_Name, $ajouter_par, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
+    static function Ajouter($Trans_ID, $Dates, $Amount, $Fees, $Running_Bal, $Description, $Reference, 
+    $Account_Id, $Last_Name, $ajouter_par, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, 
+    $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
     {
         global $db;
 
         $req = $db->prepare('
-            INSERT INTO transaction_uba(id, Trans_ID, Dates, Amount, Fees, Running_Bal, Description, Reference, Account_Id, Last_Name, ajouter_par, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,?)
+            INSERT INTO transaction_uba( Trans_ID, Dates, Amount, Fees, Running_Bal, Description, Reference, Account_Id, Last_Name, ajouter_par, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,?)
         ');
-        return $req->execute([$id, $Trans_ID, $Dates, $Amount, $Fees, $Running_Bal, $Description, $Reference, $Account_Id, $Last_Name, $ajouter_par, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$Trans_ID, $Dates, $Amount, $Fees, $Running_Bal, $Description, $Reference, $Account_Id, $Last_Name, $ajouter_par, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 

@@ -85,6 +85,8 @@
             $this->Cell(25, 7, "Type operation", 1, 0, 'C');
             $this->Cell(40, 7, "Telephone", 1, 0, 'C');
             $this->Cell(25, 7, "Montant", 1, 0, 'C');
+            $this->Cell(25, 7, "Solde Total", 1, 0, 'C');
+            $this->Cell(25, 7, "TRANSACTION ID", 1, 0, 'C');
             $this->Ln();
 
             $i = 1;
@@ -95,6 +97,8 @@
                 $this->Cell(25, 6, $professeurs['type_operation'], 1, 0, 'C');
                 $this->Cell(40, 6, $professeurs['telephone_client'], 1, 0, 'C');
                 $this->Cell(25, 6, $professeurs['montant'], 1, 0, 'C');
+                $this->Cell(25, 6, $professeurs['solde_total'], 1, 0, 'C');
+                $this->Cell(25, 6, $professeurs['id_transaction'], 1, 0, 'C');
                 $this->Ln();
                 $i++;
             }
@@ -120,7 +124,8 @@
 
 
     $data = array();
-    $professeurs = moov::getAll();
+    $magasin = $_SESSION["KaspyISS_bureau"];
+    $professeurs = moov::getAll($magasin);
     for ($num = 0; $num < count($professeurs); $num++) {
         array_push(
             $data,
@@ -144,7 +149,7 @@
 
 
     $pdf->AliasNbPages();
-    $pdf->AddPage('P');
+    $pdf->AddPage('L');
 
     $pdf->BasicTable($data);
 

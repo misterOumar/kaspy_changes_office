@@ -14,10 +14,16 @@
         $('#montantHelp').html('Veuillez saisir le montant...');
         $('#montantHelp').addClass('invisible');
 
-        // $('#type').val('');
-        // $('#type').removeClass('is-invalid');
-        // $('#typeHelp').html('Veuillez sélectionner  le  type...');
-        // $('#typeHelp').addClass('invisible');
+        $('#solde_t').val('');
+        $('#solde_t').removeClass('is-invalid');
+        $('#solde_tHelp').html('Veuillez saisir  le  solde total...');
+        $('#solde_tHelp').addClass('invisible');
+ 
+
+        $('#id_transaction').val('');
+        $('#id_transaction').removeClass('is-invalid');
+        $('#id_transactionHelp').html('Veuillez saisir  la transaction id...');
+        $('#id_transactionHelp').addClass('invisible');
  
         $('#date_t').val('');
         $('#date_t').removeClass('is-invalid');
@@ -47,8 +53,6 @@
         // defaultDate : 'today'
     });
 
-
-
     jQuery(function($) {
         $('#date_t_modif').flatpickr({
             defaultDate: 'today',
@@ -60,8 +64,6 @@
         locale: 'fr',
         // defaultDate : 'today'
     });
-
-
 
     $('.touch_pin_input').TouchSpin({
         min: 1,
@@ -83,6 +85,8 @@
         $('#montant').removeClass('is-invalid');
         $('#montantHelp').html('');
     });
+
+
     $('#type').on('change', function() {
         $('#type').removeClass('is-invalid');
         $('#typeHelp').html('');
@@ -93,10 +97,21 @@
         $('#tel_cli').removeClass('is-invalid');
         $('#tel_cliHelp').html('');
     });
+
+    $('#solde_t').on('change', function() {
+        $('#solde_t').removeClass('is-invalid');
+        $('#solde_tHelp').html('');
+    });
   
-    $('#date_t').on('change', function() {
-        $('#date_t').removeClass('is-invalid');
-        $('#date_tHelp').html('');
+
+    $('#solde_t').on('change', function() {
+        $('#solde_t').removeClass('is-invalid');
+        $('#solde_tHelp').html('');
+    });
+  
+    $('#id_transaction').on('change', function() {
+        $('#id_transaction').removeClass('is-invalid');
+        $('#id_transactionHelp').html('');
     });
     // Champ de la duree ne doit contenir des letters
     $('#montant').on('keyup', function() {
@@ -116,6 +131,43 @@
         }
     });
 
+//GESTION DU SOLDE
+    $('#solde_t').on('keyup', function() {
+        var loyer = $('#solde_t').val();
+        if ($.isNumeric(loyer) === false) {
+            formValide = false;
+            $('#solde_t').addClass('is-invalid');
+            $('#solde_tHelp').html('Veuillez saisir un  solde  correcte');
+            $('#solde_tHelp').removeClass('invisible');
+            $('#solde_t').val('')
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#solde_t').removeClass('is-invalid');
+            $('#solde_tHelp').html('');
+            $('#solde_tHelp').addClass('invisible');
+        }
+    });
+
+//GESTION DE TRANSACTION ID
+$('#id_transaction').on('keyup', function() {
+        var loyer = $('#solde_t').val();
+        if ($.isNumeric(loyer) === false) {
+            formValide = false;
+            $('#id_transaction').addClass('is-invalid');
+            $('#id_transactionHelp').html('Veuillez saisir une transaction id   correcte');
+            $('#id_transactionHelp').removeClass('invisible');
+            $('#id_transaction').val('')
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#id_transaction').removeClass('is-invalid');
+            $('#id_transactionHelp').html('');
+            $('#id_transactionHelp').addClass('invisible');
+        }
+    });
+
+
 
     if ($("#radio_depot").is(":checked") || $("#radio_retrait").is(":checked")) {
             formValide = true;
@@ -131,6 +183,8 @@
             $('#typeHelp').removeClass('invisible');
             e.preventDefault()
         }
+
+        
 
     $('#tel_cli').on('keyup', function() {
         var loyer = $('#tel_cli').val();
@@ -151,7 +205,7 @@
         //      Au click du boutton
     $('#bt_enregistrer').on('click', function(e) {
 
-        // Cas de la duree
+        // Cas du montant
         let montant = $('#montant').val();
         if (montant === '') {
             formValide = false;
@@ -166,7 +220,40 @@
             $('#montantHelp').addClass('invisible');
         }
 
-        //cas du libelle
+
+
+
+         // Cas du solde total
+         let solde_t = $('#solde_t').val();
+        if (solde_t === '') {
+            formValide = false;
+            $('#solde_t').addClass('is-invalid');
+            $('#solde_tHelp').html('Veuillez saisir le solde total .');
+            $('#solde_tHelp').removeClass('invisible');
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#solde_t').removeClass('is-invalid');
+            $('#solde_tHelp').html('');
+            $('#solde_tHelp').addClass('invisible');
+        }
+       // Cas de la transaction id
+       let id_transaction = $('#id_transaction').val();
+        if (id_transaction === '') {
+            formValide = false;
+            $('#id_transaction').addClass('is-invalid');
+            $('#id_transactionHelp').html('Veuillez saisir la transaction  id .');
+            $('#id_transactionHelp').removeClass('invisible');
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#id_transaction').removeClass('is-invalid');
+            $('#id_transactionHelp').html('');
+            $('#id_transactionHelp').addClass('invisible');
+        }
+
+
+        //cas du telephone
        
 
         let tel_cli = $('#tel_cli').val();

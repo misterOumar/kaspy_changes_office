@@ -359,7 +359,7 @@
                             // MESSAGE ALERT
                             $('#addRoleModal').modal('hide');
                             swal_Alert_Sucess(donnee['message'])
-                            window.location.reload();
+                            // window.location.reload();
                             
 
                             // Récupération de l'id de la ligne ajoutée
@@ -505,7 +505,6 @@
 
         //     });
         // });
-
 
                 // Propriété
         //         $('.datatables-basic tbody').on('click', '.proprietes', function() {

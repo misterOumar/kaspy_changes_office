@@ -96,9 +96,10 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                         <th></th>
                                             <th></th>
                                             <th>id</th>
-                                            <th>Trans Id</th>
-                                            <th>Ajouter par</th>
                                             <th>Dates</th>
+                                          
+                                            <th>Ajouter par</th>
+                                            <th>Trans Id</th>
                                             <th>Amount</th>
                                             <th>Running Bal</th>
                                             <th>Actions</th>
@@ -126,8 +127,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     title="Vider les champs"
                                     style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
                                     <i data-feather='refresh-ccw'></i></button>
-
-
                                 <div class="modal-body flex-grow-1"> -->
                     <!--- MONTANT --->
                     <!-- <div class=''>
@@ -157,7 +156,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     <div class='mb-1'><small id='natureHelp' class='text-danger invisible'></small>
                                     </div>
  -->
-
                     <!--- ENREGISTREMENT --->
                     <!-- <button type="submit" id='bt_enregistrer' name='bt_enregistrer'
                                         class='btn btn-primary enregistrer me-5'>Enregistrer</button>
@@ -168,8 +166,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                             </form>
                         </div>
                     </div>  -->
-
-
                     <!-- Modal to update new record -->
                     <!-- <div class="modal modal-slide-in fade" id="modal-modif">
                         <div class="modal-dialog sidebar-sm">
@@ -187,8 +183,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     class="avatar pull-up my-0" title="Vider les champs"
                                     style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
                                     <i data-feather='refresh-ccw'></i></button>
-
-
                                 <div class="modal-body flex-grow-1"> -->
                     <!--- MONTANT --->
                     <!-- <div class=''>

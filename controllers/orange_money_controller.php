@@ -19,26 +19,40 @@ if (isset($_POST['bt_enregistrer'])) {
 
     // Récupération des données postés dépuis le formulaire dans les variables respectives
     $type = strSecur($_POST["radio_type"]);
+
     $montant = strSecur($_POST["montant"]);    
+
+    $solde_t = strSecur($_POST["solde_t"]);   
+
+    $id_transaction = strSecur($_POST["id_transaction"]);   
+
+    $magasin = $_SESSION["KaspyISS_bureau"];
+    // telephone du client 
     $tel_cli = strSecur($_POST["tel_cli"]);  
     // $date_t = strSecur($_POST["date_t"]);
     $date_t = strSecur($_POST["date_t"]);
     $date_t = date('Y-m-d', strtotime($date_t));
 
     // Déclaration et initialisation des variables d'erreur (e)
-    $e_montant = $e_client   = $e_date_t = $e_tel_cli = "";
+    $e_montant = $e_tel_cli = "";
     $succes = true;
 
     // Vérifications
-    if ($montant ==="") {
+    if (empty($montant)) {
         $e_montant = "Ce champ ne doit pas être vide.";
         $succes = false;
-    }  
+    }   
  
-    if ($tel_cli==="") {
+
+    if (empty($tel_cli)) {
         $e_tel_cli = "Ce champ ne doit pas être vide.";
         $succes = false;
     }
+
+  
+
+
+
     // Cas ou tout est ok
     if ($succes) {
 
@@ -52,6 +66,9 @@ if (isset($_POST['bt_enregistrer'])) {
             $type,
             $tel_cli,     
             $montant,
+            $solde_t, 
+            $id_transaction,
+            $magasin,
             $dt,
             $us,
             $navigateur,
@@ -65,30 +82,29 @@ if (isset($_POST['bt_enregistrer'])) {
             
 
         )) {
-            $message = "Enregistrement de la transaction  éffectué avec succès.";
+            $message = "enregistrement de la transaction  éffectué avec succès.";
             echo json_encode([
                 'success' => 'true',
                 'message' => $message
             ]);
         } else {
-            $message = "Erreur lors de l\'enregistrement  de la transaction.";
+            $message = "Erreur lors de l\'enregistrement de la transaction.";
             echo json_encode([
                 'success' => 'false',
                 'message' => $message
             ]);
         }
-    }
-     else {
+    } else {
         echo json_encode([
             'success' => 'false',
             'message' => "Vérifier les champs",
-            'montant' => $e_montant,                       
-            'telephone_client' => $e_tel_cli,            
+            'montant' => $e_montant,           
+            'telephone_client' => $e_tel_cli,
+            
 
         ]);
     }
 }
-
 
 // MODIFIER UNE TRANSACTION
 if (isset($_POST['bt_modifier'])) {
@@ -101,32 +117,36 @@ if (isset($_POST['bt_modifier'])) {
 
     // Récupération des données postés dépuis le formulaire dans les variables respectives
 
- 
+     
     $montant = strSecur($_POST["montant_modif"]);
+
+    $solde_t = strSecur($_POST["solde_t_modif"]);
+
+    $id_transaction = strSecur($_POST["id_transaction_modif"]);
+
+    $type = strSecur($_POST["radio_type_modif"]);
  
     $tel_cli = strSecur($_POST["tel_cli_modif"]);
-    $type = strSecur($_POST["radio_type_modif"]);
+ 
     $date_t = strSecur($_POST["date_t_modif"]);
 
     $idModif = strSecur($_POST["idModif"]);
 
-    $e_montant = $e_date_t = $e_client = $e_tel_cli   = $e_destinataire  = $e_tel_dest = " ";
+    $e_montant  = $e_tel_cli   =  " ";
+
     $succes = true;
     // Vérifications
+
     if (empty($montant)) {
         $e_montant = "Ce champ ne doit pas être vide.";
         $succes = false;
     }
- 
-
+  
     if (empty($tel_cli)) {
         $e_tel_cli = "Ce champ ne doit pas être vide.";
         $succes = false;
     }
-
-    
-
-   
+      
     // Cas ou tout est ok
     if ($succes) {
         $ip = getIp();
@@ -134,11 +154,14 @@ if (isset($_POST['bt_modifier'])) {
         $us = $_SESSION["KaspyISS_user"]['users'];
         $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         $dt = date("Y-m-d H:i:s");
-        if (orange::Modifier(            
-            $date_t, 
-            $type,            
-            $tel_cli,           
+        if (orange::Modifier(
+           
+            $date_t,
+            $type,
+            $tel_cli,
             $montant,
+            $solde_t,
+            $id_transaction,        
             $dt,
             $us,
             $navigateur,
@@ -163,14 +186,18 @@ if (isset($_POST['bt_modifier'])) {
         echo json_encode([
             'success' => 'false',
             'message' => "Vérifier les champs",
-            'date' => $e_date_t,            
-            'telephone_client' => $e_tel_cli,
             'montant' => $e_montant,
-           
+            'date' => $e_date_t,
+            'client' => $e_client,
+            'telephone_client' => $e_tel_cli,
+            'destinataire' => $e_destinataire,
+            'telephone_destinataire' => $e_tel_dest,
 
         ]);
     }
 }
+
+
 
 
 // RECUPERATION DES INFO DE LA DERNIERE LIGNE
@@ -197,19 +224,20 @@ if (isset($_GET['idLast'])) {
 
 
 // RECUPERATION DES INFO POUR LA MODIFICATION
-if (isset($_GET['idOrange'])) {
+if (isset($_GET['idorange'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
     include('../models/Orange.php');
 
-    $id = $_GET['idOrange'];
+    $id = $_GET['idorange'];
     $proprietes = orange::getByID($id);
     if ($proprietes) {
         echo json_encode([
             'transaction' => $proprietes,
         ]);
-    } else {
+    } 
+    else {
         echo json_encode([
             'transaction' => 'null'
         ]);

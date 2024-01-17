@@ -1,0 +1,53 @@
+<?php
+
+
+
+// IMPORTATION DES DONNEES
+if (isset($_POST['uba_file'])) {
+    // inclusion des fichiers ressources
+    include('../functions/functions.php');
+    include('../config/config.php');
+    include('../config/db.php');
+     include('../models/Uba.php');
+
+    // recuperrer les données postées
+    $tableData = $_POST['data'];
+    // recuperation des informations sur l'utilisateur
+    $ip = getIp();
+    $navigateur = getNavigateur();
+    $us = $_SESSION["KaspyISS_user"]['users'];
+    $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+    $dt = date("Y-m-d H:i:s");
+
+    foreach ($tableData as $rowData) {
+    uba::Ajouter(
+            $rowData[1],
+            $rowData[2],
+            $rowData[3],
+            $rowData[4],
+            $rowData[5],
+            $rowData[6],
+            $rowData[7],
+            $rowData[8],    
+            $rowData[9],  
+            $us,                 
+            $dt, 
+            $us,
+             $navigateur,
+              $pc,
+             $ip,
+             $dt, $us,
+              $navigateur,
+               $pc,
+                $ip
+        );
+
+    }    
+    // Réponse JSON
+    $message = "Enregistrement réussi avec succès.";
+    echo json_encode([
+        'success' => 'true',
+        'message' => $message
+    ]);
+   
+}

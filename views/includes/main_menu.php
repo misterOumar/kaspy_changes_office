@@ -90,7 +90,11 @@
 
                     <li class="<?= $_GET['page'] === 'changes' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=changes"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Changes</span></a>
                     </li>
-
+                    <?php if (intval($_SESSION['KaspyISS_user_details'][9]['lecture']) === 1) { ?>
+                        <li class="<?= $_GET['page'] === 'rechargement_uba' ? "active" : ($_GET['page'] === 'uba' ? "active" : "") ?>"><a class="d-flex align-items-center" href="index.php?page=rechargement_uba"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Rechargement UBA </span></a>
+                        </li>
+                    <?php
+                    }; ?>
 
 
                 </ul>

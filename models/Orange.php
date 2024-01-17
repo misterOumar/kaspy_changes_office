@@ -14,10 +14,14 @@ class orange
     public $id;
  
     public $date;
-    public $type_operation;
+
+    public $type_operation;   
+
     public $telephone_client;     
     public $montant;
-
+    public $solde_total;
+    public $id_transaction;
+    public $magasin;
     public $date_creation;
     public $user_creation;
     public $navigateur_creation;
@@ -45,9 +49,13 @@ class orange
 
         $this->id = $id;
         $this->montant = $data['montant'];
+       
         $this->date = $data['date'];
         $this->type_operation = $data['type_operation'];        
         $this->telephone_client = $data['telephone_client'];
+        $this->solde_total = $data['solde_total'];
+        $this->id_transaction = $data['id_transaction'];
+        $this->magasin = $data['magasin'];
      
 
 
@@ -67,17 +75,16 @@ class orange
         //||------------ LECTURE -------------||
         //||**********************************||
     }
-
     /**
      * Renvoi la liste des orange.
      *
      * @return array
      */
-    static function getAll()
+    static function getAll($magasin)
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM orange ORDER BY id");
-        $req->execute([]);
+        $req = $db->prepare("SELECT * FROM orange WHERE magasin =? ORDER BY id");
+        $req->execute([$magasin]);
         return $req->fetchAll();
     }
 
@@ -163,15 +170,17 @@ class orange
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter( $date, $type_operation, $telephone_client,  $montant, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
+    static function Ajouter( $date, $type_operation, $telephone_client, 
+     $montant,$solde_total, $id_transaction,$magasin,  $date_creation, $user_creation, $navigateur_creation, 
+     $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
     {
         global $db;
 
         $req = $db->prepare('
-            INSERT INTO orange( date,type_operation, telephone_client,   montant, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+            INSERT INTO orange( date,type_operation, telephone_client,montant,solde_total, id_transaction , magasin,  date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(  ?, ?, ?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([ $date, $type_operation, $telephone_client,   $montant, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([ $date, $type_operation, $telephone_client,$montant,$solde_total, $id_transaction, $magasin, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 
@@ -216,6 +225,8 @@ class orange
         $type_operation,
         $telephone_client,
         $montant,
+        $solde_total, 
+        $id_transaction,    
         $date_modif,
         $user_modif,
         $navigateur_modif,
@@ -231,6 +242,8 @@ class orange
         type_operation = ?,    
         telephone_client =?,
         montant = ?, 
+        solde_total =  ?,
+        id_transaction =?, 
         date_modif = ?,
         user_modif = ?, 
         navigateur_modif = ?,
@@ -241,7 +254,7 @@ class orange
 
         return $req->execute([
              $date, $type_operation,
-            $telephone_client,$montant,
+            $telephone_client,$montant,$solde_total, $id_transaction,
             $date_modif, $user_modif,
             $navigateur_modif, $ordinateur_modif, $ip_modif, $id
         ]);
