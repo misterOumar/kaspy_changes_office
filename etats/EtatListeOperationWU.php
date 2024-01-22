@@ -48,7 +48,7 @@ class EtatListeOperation extends FPDF
             $this->SetX($this->GetPageWidth() - $this->GetStringWidth("Année  : " . $this->annee) - 20);
             $this->Cell(0, 7, "Année  : " . $this->annee, 12, 12, 'L');
             // TITRE DE L'ETAT            
-            $this->Ln(12);
+            $this->Ln();
             $this->Cell(45);
             $this->SetFont('Helvetica', 'B', 15);
             $titre = '   RAPPORT DE SUIVI DES OPERATIONS WESTERN UNION   ';
@@ -65,7 +65,7 @@ class EtatListeOperation extends FPDF
             //$this->Cell(0,7,"Tiré le : " .date("d/m/Y") ,0, 0, 'L');
 
             // Saut de ligne
-            $this->Ln(15);
+            $this->Ln(5);
         } else {
             //Pages suivantes
 

@@ -13,10 +13,8 @@ class cartes
 {
     public $id;
     public $customer_id;
-    public $date_activation;
-    public $date_expiration;
+    public $date_achat;
     public $type_carte;
-    public $duree;
     public $status;
     public $date_creation;
     public $user_creation;
@@ -43,10 +41,8 @@ class cartes
         $data = $req->fetch();
         $this->id = $id;
         $this->customer_id = $data['customer_id'];
-        $this->date_activation = $data['date_activation'];
-        $this->date_expiration = $data['date_expiration'];
+        $this->date_achat = $data['date_achat'];
         $this->type_carte = $data['type_carte'];
-        $this->duree = $data['duree'];
         $this->status = $data['status'];
         $this->date_creation = $data['date_creation'];
         $this->user_creation = $data['user_creation'];
@@ -291,10 +287,8 @@ class cartes
      */
     static function Ajouter(
         $customer_id,
-        $date_activation,
-        $date_expiration,
+        $date_achat,
         $type_carte,
-        $duree,
         $status,
         $date_creation,
         $user_creation,
@@ -309,10 +303,10 @@ class cartes
     ) {
         global $db;
         $req = $db->prepare('
-            INSERT INTO cartes(customer_id,date_activation,date_expiration, type_carte , duree, status ,   date_creation,user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(?, ?,?,?,?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+            INSERT INTO cartes(customer_id,date_achat, type_carte ,  status ,   date_creation,user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([$customer_id, $date_activation, $date_expiration, $type_carte, $duree, $status, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$customer_id, $date_achat, $type_carte, $status, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 
@@ -341,10 +335,8 @@ class cartes
 
     static function Modifier(
         $customer_id,
-        $date_activation,
-        $date_expiration,
+        $date_achat,
         $type_carte,
-        $duree,
         $status,
         $date_modif,
         $user_modif,
@@ -355,13 +347,12 @@ class cartes
     ) {
         global $db;
         $req = $db->prepare('
-            UPDATE cartes SET   customer_id=?,date_activation=?,
-            date_expiration=?,type_carte=? ,duree = ?, status = ? ,  date_modif = ?,
+            UPDATE cartes SET   customer_id=?,date_achat=?,type_carte=? , status = ? ,  date_modif = ?,
              user_modif = ?, navigateur_modif = ?,
               ordinateur_modif = ?,
                ip_modif = ? WHERE id= ?
         ');
-        return $req->execute([$customer_id, $date_activation, $date_expiration, $type_carte, $duree, $status, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
+        return $req->execute([$customer_id, $date_achat, $type_carte, $status, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     }
 
 

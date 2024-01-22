@@ -1,9 +1,13 @@
+<?php
+include('../config/config.php');
+$api_url = API_HOST . 'index.php?page=api_fournisseurs';
+?>
 <script>
     $(function() {
         'use strict';
 
         // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
-        $.get('http://localhost/kaspy_iss/index.php?page=api_fournisseurs', function(rep) {
+        $.get('<?= $api_url; ?>', function(rep) {
             let data = JSON.parse(rep)
             data.map((champ_bd) => {
                 dt_basic.row

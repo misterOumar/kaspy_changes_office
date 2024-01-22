@@ -1,9 +1,13 @@
+<?php
+include('../config/config.php');
+$api_url = API_HOST . 'index.php?page=api_money_gram';
+?>
 <script>
   $(function() {
     'use strict';
 
     // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
-    $.get('http://localhost/kaspy_changes_office/index.php?page=api_money_gram', function(rep) {
+    $.get('<?= $api_url; ?>', function(rep) {
       let data = JSON.parse(rep)
 
       data.map((champ_bd) => {
@@ -12,10 +16,11 @@
           .add({
             responsive_id: champ_bd.id,
             id: champ_bd.id,
-            Date: champ_bd.date_heure,
+            Date: champ_bd.dates,
             Numero: champ_bd.num_ref,
             Montant: champ_bd.montant,
             frais: champ_bd.frais,
+            
             total: champ_bd.total,
           })
 

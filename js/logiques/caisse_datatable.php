@@ -1,6 +1,6 @@
 <?php
 include('../config/config.php');
-$api_url = API_HOST . 'index.php?page=api_mode_reglements';
+$api_url = API_HOST . 'index.php?page=api_caisse';
 ?>
 <script>
     $(function() {
@@ -10,31 +10,29 @@ $api_url = API_HOST . 'index.php?page=api_mode_reglements';
         $.get('<?= $api_url; ?>', function(rep) {
             let data = JSON.parse(rep)
             data.map((champ_bd) => {
-
+                var imageUrl = champ_bd.logo;
                 dt_basic.row
                     .add({
                         responsive_id: champ_bd.id,
                         id: champ_bd.id,
-                        nom: champ_bd.nom,
+                        date: champ_bd.date,
+                        type_operation: champ_bd.type_operation,
+                        libelle: champ_bd.libelle,
+                        montant: champ_bd.montant,
+                         
+                         
                     })
                     .draw();
             })
         })
-
-
-
         // CONSTRUCTION DE LA DATATABLE
         var dt_basic_table = $('.datatables-basic'),
             dt_date_table = $('.dt-date'),
             assetPath = '../../../js/';
-
         if ($('body').attr('data-framework') === 'laravel') {
             assetPath = $('body').attr('data-asset-path');
         }
-
-        // DataTable with buttons
-        // --------------------------------------------------------------------
-
+        //Construction des colonnes de la datatable
         if (dt_basic_table.length) {
             var dt_basic = dt_basic_table.DataTable({
                 columns: [{
@@ -45,10 +43,21 @@ $api_url = API_HOST . 'index.php?page=api_mode_reglements';
                     },
                     {
                         data: 'id'
-                    }, // used for sorting so will hide this column
-                    {
-                        data: 'nom'
                     },
+                    // used for sorting so will hide this column
+                   
+                    {
+                        data: 'date'
+                    },
+                    {
+                        data: 'libelle'
+                    },
+                    
+                    {
+                        data: 'montant'
+                    },
+                     
+
                     {
                         data: ''
                     }
@@ -57,9 +66,10 @@ $api_url = API_HOST . 'index.php?page=api_mode_reglements';
                         // For Responsive
                         className: 'control',
                         orderable: false,
-                        responsivePriority: 2,
+                        responsivePriority: 4,
                         targets: 0
                     },
+
                     {
                         // For Checkboxes
                         targets: 1,
@@ -67,30 +77,40 @@ $api_url = API_HOST . 'index.php?page=api_mode_reglements';
                         responsivePriority: 3,
                         render: function(data, type, full, meta) {
                             return (
-                                '<div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox' +
+                                "<div class='form-check'> <input class='form-check-input dt-checkboxes' type='checkbox' value='' id='checkbox" +
                                 data +
-                                '" /><label class="form-check-label" for="checkbox' +
+                                "' /><label class='form-check-label' for='checkbox" +
                                 data +
-                                '"></label></div>'
+                                "'></label></div>"
                             );
                         },
                         checkboxes: {
-                            selectAllRender: '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
+                            selectAllRender: "<div class='form-check'> <input class='form-check-input' type='checkbox' value='' id='checkboxSelectAll' /><label class='form-check-label' for='checkboxSelectAll'></label></div>"
                         }
                     },
+
                     {
                         //ID
                         targets: 2,
                         visible: false
                     },
+                    // Le badge ou l'image rond
                     {
-                        // Avatar image/badge, champ1 and champ1_pop
+                        // Avatar image/badge, libelle and nom_pop
                         targets: 3,
                         responsivePriority: 1,
                         render: function(data, type, full, meta) {
                             var $user_img = full['avatar'],
-                                $nom = full['nom'],
-                                $champ1_pop = full['champ1_pop'];
+                                $libelle = full['libelle'],
+                                $duree = full['duree'],
+                                $type = full['type_operation'];
+                            var bg;
+                            if ($type == "Sortie") {
+                                bg = 'bg-success'
+                            } else {
+                                bg = 'bg-info'
+
+                            }
                             if ($user_img) {
                                 // For Avatar image
                                 var $output =
@@ -100,12 +120,10 @@ $api_url = API_HOST . 'index.php?page=api_mode_reglements';
                                 var stateNum = full['status'];
                                 var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
                                 var $state = states[stateNum],
-                                    $nom = full['nom'],
-                                    $abreviation = full['abreviation'],
-                                    $code_matricule = full['code_matricule'],
-                                    $initials = $nom.match(/\b\w/g) || [];
+                                    $expediteur = full['date'],
+                                    $initials = $expediteur.match(/\b\w/g) || [];
                                 $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-                                $output = '<span class="avatar-content">' + $initials + '</span>';
+                                $output = '<span class="avatar-content ' + bg + '" >' + $initials + '</span>';
                             }
 
                             var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
@@ -118,24 +136,20 @@ $api_url = API_HOST . 'index.php?page=api_mode_reglements';
                                 $output +
                                 '</div>' +
                                 '<div class="d-flex flex-column">' +
-                                '<span class="emp_champ1 text-truncate fw-bold">' +
-                                $nom +
+                                '<span class="emp_nom text-truncate fw-bold">' +
+                                $expediteur +
                                 '</span>' +
-                                '<small class="emp_champ1_pop text-truncate text-muted">'
-                            $champ1_pop +
+                                '<small class="emp_nom_pop text-truncate text-muted">' +
+                                $type +
                                 '</small>' +
                                 '</div>' +
                                 '</div>';
                             return $row_output;
                         }
                     },
+                    // fin du badge ou de l'image rond
+                    // ActionsVoulez vous vraiment supprimer ?
                     {
-                        responsivePriority: 1,
-                        targets: 4
-                    },
-
-                    {
-                        // Actions
                         targets: -1,
                         title: 'Actions',
                         orderable: false,
@@ -154,8 +168,7 @@ $api_url = API_HOST . 'index.php?page=api_mode_reglements';
                                     class: 'font-small-4 me-50'
                                 }) +
                                 'Supprimer</a>' +
-
-
+                             
                                 //Propriétés
                                 '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
                                 feather.icons['info'].toSvg({
@@ -165,7 +178,7 @@ $api_url = API_HOST . 'index.php?page=api_mode_reglements';
 
                                 '</div>' +
                                 '</div>' +
-                                '<a href="javascript:;" class="item-edit" data-bs-target="#modal-modifier" data-bs-toggle="modal">' +
+                                '<a href="javascript:;" class="item-edit bt_modifier" data-bs-target="#modal-modif" data-bs-toggle="modal">' +
                                 feather.icons['edit'].toSvg({
                                     class: 'font-small-4'
                                 }) +
@@ -173,19 +186,20 @@ $api_url = API_HOST . 'index.php?page=api_mode_reglements';
                             );
                         }
                     }
+
+
+
                 ],
                 order: [
                     [2, 'desc']
                 ],
-
-
                 // Les boutons d'action
-                dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                dom: "<'card-header border-bottom p-1'<'head-label'><'dt-action-buttons text-end'B>><'d-flex justify-content-between align-items-center mx-0 row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>t<'d-flex justify-content-between mx-0 row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
                 displayLength: 7,
                 lengthMenu: [7, 10, 25, 50, 75, 100],
                 buttons: [{
                         extend: 'collection',
-                        className: 'btn btn-outline-secondary dropdown-toggle me-2',
+                        className: 'btn btn-outline-secondary dropdown-toggle me-2 export',
                         text: feather.icons['share'].toSvg({
                             class: 'font-small-4 me-50'
                         }) + 'Exporter',
@@ -263,15 +277,13 @@ $api_url = API_HOST . 'index.php?page=api_mode_reglements';
                         }
                     }
                 ],
-
-
                 // RESPONSIVE - Sur téléphone
                 responsive: {
                     details: {
                         display: $.fn.dataTable.Responsive.display.modal({
                             header: function(row) {
                                 var data = row.data();
-                                return 'Détails de ' + data['champ1'];
+                                return 'Détails de ' + data['nom_prenom'];
                             }
                         }),
                         type: 'column',
@@ -296,8 +308,8 @@ $api_url = API_HOST . 'index.php?page=api_mode_reglements';
                             }).join('');
 
                             return data ? $('<table class="table"/>').append('<tbody>' + data + '</tbody>') : false;
-                        }
-                    }
+                     }
+                   }
                 },
                 language: {
                     url: 'js/plugins/tables/language.french.json',
@@ -318,115 +330,178 @@ $api_url = API_HOST . 'index.php?page=api_mode_reglements';
                 dateFormat: 'm/d/Y'
             });
         }
+ 
 
 
-        // AJOUTER UN ELEMENT
-        $('#form_ajouter').on('submit', function(e) {
+ // MODIFIER UN ELEMENT
+ $('#form_ajouter').on('submit', function(e) {
 
-            var $new_nom = $('#nom').val();
+var $new_libelle = $('#libelle').val(),
 
-            e.preventDefault()
+    $new_date_v = $('#date_t').val(),
 
-            if ($new_nom != '') {
-                // Ajout Back
+    $new_type= $("input[name='radio_type']:checked").val(),
+ 
+    $new_montant = $('#montant').val();
+    
+     
+e.preventDefault()
 
-                var form = $('#form_ajouter');
-                var method = form.prop('method');
-                var url = form.prop('action');
+if ($new_montant != '') {
+    // Ajout Back
+    initializeFlash();
 
+    var form = $('#form_ajouter');
+    var method = form.prop('method');
+    var url = form.prop('action');
+
+    $.ajax({
+        type: method,
+        data: form.serialize() + "&bt_enregistrer=" + true,
+        url: url,
+        success: function(result) {
+            //console.log(result);
+            var donnee = JSON.parse(result);
+
+            if (donnee['success'] === 'true') {
+
+                $('#libelle').val("");
+                $('#montant').val("");
+                $('#date_t').val("");
+                
+                
+                $('#montantHelp').html("").addClass('invisible');
+                $('#libelleHelp').html("").addClass('invisible');
+                $('#montantHelp').html("").addClass('invisible');
+                $('#date_tHelp').html("").addClass('invisible');
+
+                // MESSAGE ALERT
+                swal_Alert_Sucess(donnee['message'])
+
+                // Récupération de l'id de la ligne ajoutée
                 $.ajax({
-                    type: method,
-                    data: form.serialize() + "&bt_enregistrer=" + true,
-                    url: url,
+                    type: "GET",
+                    data: "idLast=" + true,
+                    url: "controllers/caisse_controller.php",
                     success: function(result) {
-                        //console.log(result);
+                        var donnees = JSON.parse(result)
+                        if (donnees['last_transaction'] !== 'null') {
+                            let ventes = donnees['last_transaction'];
+                            let last_id = ventes['id'];
+                            let total = donnees['total'];
 
+                            // Ajout Front et ajout de l'id de la dernière ligne crée
+                            dt_basic.row
+                                .add({
+                                    responsive_id: last_id,
+                                    id: last_id,
+                                    date: $new_date_v,
+                                    libelle:$new_libelle,
+                                    type: $new_type,                                                
+                                    montant: $new_montant,
+                                              
+                                    status: 5
 
-                        var donnee = JSON.parse(result);
-                        if (donnee['success'] === 'existe') {
-                            $('#nom').addClass('is-invalid');
-                            $('#nomHelp').html(donnee['message']);
-                            $('#nomHelp').removeClass('invisible');
-
-                        }
-                        if (donnee['success'] === 'true') {
-                            $('#nom').val("");
-                            $('#nomHelp').html("").addClass('invisible');
-
-                            // MESSAGE ALERT
-                            swal_Alert_Sucess(donnee['message'])
-
-                            // Récupération de l'id de la ligne ajoutée
-                            $.ajax({
-                                type: "GET",
-                                data: "idLast=" + true,
-                                url: "controllers/mode_reglements_controller.php",
-                                success: function(result) {
-                                    var donnees = JSON.parse(result)
-                                    if (donnees['last_mode_reglements'] !== 'null') {
-                                        let last_mode_reglements = donnees['last_mode_reglements']
-                                        let last_id = last_mode_reglements['id'];
-                                        let total = donnees['total'];
-
-
-                                        // Ajout Front et ajout de l'id de la dernière ligne crée
-                                        dt_basic.row
-                                            .add({
-                                                responsive_id: last_id,
-                                                id: last_id,
-                                                nom: $new_nom,
-                                            })
-                                            .draw();
-                                        $('.modal').modal('hide');
-                                    }
-                                }
-                            });
+                                })
+                                .draw();
+                            $('.modal').modal('hide');
                         }
                     }
                 });
-
-                if (donnee['success'] === 'false') {
-                    $('#nomHelp').html(donnee['nom']).removeClass('invisible');
-
-                    initializeFlash();
-                    $('.flash').addClass('alert-danger');
-                    $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
-                        .fadeIn(300).delay(2500).fadeOut(300);
-
-                    e.preventDefault()
-                }
             }
+        }
+    });
+
+    if (donnee['success'] === 'false') {
+        $('#montantHelp').html(donnee['montant']).removeClass('invisible');
+
+        initializeFlash();
+        $('.flash').addClass('alert-danger');
+        $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
+            .fadeIn(300).delay(2500).fadeOut(300);
+
+        e.preventDefault()
+    }
+}
+});
+
+
+var that
+        $('.datatables-basic tbody').on('click', '.item-edit', function() {
+            that = this
+            $.ajax({
+                type: "GET",
+                data: "caisse=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+                url: "controllers/caisse_controller.php",
+                success: function(result) {
+                    var donnees = JSON.parse(result);
+                    if (donnees['transaction'] !== 'null') {
+                        // Remplir le formulaire
+                        let transaction = donnees['transaction'];
+                        $('#idModif').val(transaction['id']);
+                        $('#montant_modif').val(transaction['montant']);
+                        $('#libelle_modif').val(transaction['libelle']);
+                        $('#date_t_modif').val(transaction['date']);
+                         $('#radio_type_modif').val(transaction['type_operation']);
+ 
+
+                        var radioTypeModifValue = transaction['type_operation'];
+                        // Vérifie si la valeur est égale à 'Dépot'
+                        if (radioTypeModifValue ==='Sortie') {
+                            // Coche le radio bouton 'Dépot'
+                            $('#radio_sortie_modif').prop('checked', true);
+                        } else {
+                            // Sinon, coche le radio bouton 'Retrait'
+                            $('#radio_entree_modif').prop('checked', true);
+                        }
+
+
+                    }
+                }
+            })
         });
 
-        // MODIFIER UN ELEMENT
-        // au clique de la ligne selectionnée
-        // Propriété
-        $('.datatables-basic tbody').on('click', '.item-edit', function() {
+
+// PROPRIETE D'UNE LIGNE
+$('.datatables-basic tbody').on('click', '.proprietes', function() {
             var that = this
             $.ajax({
                 type: "GET",
                 data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
-                url: "controllers/mode_reglements_controller.php",
+                url: "controllers/caisse_controller.php",
                 success: function(result) {
+                  
                     var donnees = JSON.parse(result);
-                    if (donnees['mode_reglement'] !== 'null') {
-                        let mode_reglement = donnees['mode_reglement']
+                    if (donnees['proprietes_caisse'] !== 'null') {
 
-                        $("#idModif").val(mode_reglement['id']);
-                        $("#nom_modif").val(mode_reglement['nom']);
+                        let proprietes = donnees['proprietes_caisse']
+
+                       
+                        $("#offcanvasBottomLabel").html("Propriété de la transaction Orange Money« " + proprietes['date_creation'] + " »");
+                        $("#date_creation").html(proprietes['date_creation']);
+                        $("#user_creation").html(proprietes['user_creation']);
+                        $("#navigateur_creation").html(proprietes['navigateur_creation']);
+                        $("#ordinateur_creation").html(proprietes['ordinateur_creation']);
+                        $("#ip_creation").html(proprietes['ip_creation']);
+                        $("#annee_academique").html(proprietes['annee_academique']);
+                        $("#ecole").html(proprietes['magasin']);
+
+
                     }
                 }
             })
         });
 
         // SUPPRIMER UNE LIGNE
-        $('.datatables-basic tbody').on('click', '.delete-record', function() {
+        $('.datatables-basic tbody').on('click', '.delete-record', function()
+         {
             // Suppression Front
             var that = this
             //--------------- Confirm Options SWEET ALERT ---------------
             Swal.fire({
                 title: 'Voulez vous vraiment supprimer ?',
-                text: "' " + (dt_basic.row($(this).parents('tr')).data().nom) + " ' sera supprimé définitivement",
+                text: 'la transaction de < ' + (dt_basic.row($(this).parents('tr')).data().libelle) + ' :' + (dt_basic.row($(this).parents('tr')).data().montant) +
+                    '> sera supprimé définitivement',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Oui, Supprimer !',
@@ -435,93 +510,50 @@ $api_url = API_HOST . 'index.php?page=api_mode_reglements';
                     confirmButton: 'btn btn-primary',
                     cancelButton: 'btn btn-outline-danger ms-1'
                 },
-                buttonsStyling: false
+                buttonsStyling: false,
+            }).then(function(result) {
+                if (result.value) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Suppression éffectuée !',
+                        text: "'la transaction de  " + (dt_basic.row($(that).parents('tr')).data().libelle) + " ' a été supprimée avec succès.",
+                        showConfirmButton: false,
+                        timer: 1300,
+                        customClass: {
+                            confirmButton: 'btn btn-success'
+                        }
+                    });
+                }
             });
-
-
             $('.swal2-confirm').on('click', function() {
-                //Suppression Back
 
+                //Suppression Back
                 $.ajax({
                     type: "GET",
                     data: "idSuppr=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
-                    url: "controllers/mode_reglements_controller.php",
+                    url: "controllers/caisse_controller.php",
                     success: function(result) {
-                        var donnee = JSON.parse(result);
-                        if (donnee['success'] === 'true') {
-
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Suppression éffectuée !',
-                                text: "' " + (dt_basic.row($(that).parents('tr')).data().nom) + " ' a été supprimée avec succès.",
-                                showConfirmButton: false,
-                                timer: 1300,
-                                customClass: {
-                                    confirmButton: 'btn btn-success'
-                                }
-                            });
-
+                        var donneee = JSON.parse(result);
+                        if (donneee['success'] === 'true') {
                             dt_basic.row($(that).parents('tr')).remove().draw() //Suppression de la ligne selectionnée
 
-                        } else if (donnee['success'] === 'impossible_liens') {
-                            swal_Alert_Danger(donnee['message'])
-
-                        } else if (donnee['success'] === 'false') {
-                            swal_Alert_Danger(donnee['message'])
-
+                        } else if (donneee['success'] === 'false') {
+                            initializeFlash();
+                            $('.flash').addClass('alert-danger');
+                            $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donneee['message'])
+                                .fadeIn(300).delay(2500).fadeOut(300);
                         } else {
-                            swal_Alert_Danger("Erreur inconnue");
+                            initializeFlash();
+                            $('.flash').addClass('alert-danger');
+                            $('.flash').html('<i class="fas fa-exclamation-circle"></i> Erreur inconnue')
+                                .fadeIn(300).delay(2500).fadeOut(300);
                         }
                     }
                 })
+
             });
         });
 
-
-        // Propriété
-        $('.datatables-basic tbody').on('click', '.proprietes', function() {
-            var that = this
-            $.ajax({
-                type: "GET",
-                data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
-                url: "controllers/mode_reglements_controller.php",
-                success: function(result) {
-                    var donnees = JSON.parse(result);
-                    if (donnees['proprietes_mode_regl'] !== 'null') {
-
-                        let proprietes = donnees['proprietes_mode_regl']
-
-                        let titre = proprietes['nom'];
-                        let date_creation = proprietes['date_creation'];
-                        let user_creation = proprietes['user_creation'];
-                        let navigateur_creation = proprietes['navigateur_creation'];
-                        let ordinateur_creation = proprietes['ordinateur_creation'];
-                        let ip_creation = proprietes['ip_creation'];
-                        let date_modif = proprietes['date_modif'];
-                        let user_modif = proprietes['user_modif'];
-                        let navigateur_modif = proprietes['navigateur_modif'];
-                        let ordinateur_modif = proprietes['ordinateur_modif'];
-                        let ip_modif = proprietes['ip_modif'];
-                        let annee_academique = proprietes['annee_academique'];
-                        let ecole = proprietes['ecole'];
-
-                        $("#offcanvasBottomLabel").html("Propriété de « " + titre + " »");
-                        $("#date_creation").html(date_creation);
-                        $("#user_creation").html(user_creation);
-                        $("#navigateur_creation").html(navigateur_creation);
-                        $("#ordinateur_creation").html(ordinateur_creation);
-                        $("#ip_creation").html(ip_creation);
-                        $("#date_modif").html(date_modif);
-                        $("#user_modif").html(user_modif);
-                        $("#navigateur_modif").html(navigateur_modif);
-                        $("#ordinateur_modif").html(ordinateur_modif);
-                        $("#ip_modif").html(ip_modif);
-                        $("#annee_academique").html(annee_academique);
-                        $("#ecole").html(ecole);
-                    }
-                }
-            })
-        });
 
     });
 </script>

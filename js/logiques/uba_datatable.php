@@ -1,9 +1,13 @@
+<?php
+include('../config/config.php');
+$api_url = API_HOST . 'index.php?page=api_uba';
+?>
 <script>
   $(function () {
     'use strict';
 
     // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
-    $.get('http://localhost/kaspy_changes_office/index.php?page=api_uba', function (rep) {
+    $.get('<?= $api_url; ?>', function (rep) {
       let data = JSON.parse(rep)
       data.map((champ_bd) => {
 
@@ -12,10 +16,11 @@
             responsive_id: champ_bd.id,
             id: champ_bd.id,
             dates: champ_bd.Dates,
-            ajouter_par: champ_bd.nom_prenom,
             trans_id: champ_bd.Trans_ID,
-            amount: champ_bd.Amount,
             running_bal: champ_bd.Running_Bal,
+            amount: champ_bd.Amount,
+            ajouter_par: champ_bd.ajouter_par,
+            description: champ_bd.Description,
           })
           .draw();
       })
@@ -49,28 +54,19 @@
         {
           data: 'dates'
         },
-        {
-          data: 'ajouter_par'
-        },
+       
         {
           data: 'trans_id',
-          render: function (data, type, row) {
-            // Assurez-vous que la colonne "Num_Ref" contient du texte
-            if (type === 'display' && data) {
-              // Ajout d'un gestionnaire d'événements click avec une alerte
-              return '<a href="#" data-id="' + row['id'] + '" class="clickable-link" style="font-weight:bolder">' + data + '</a>';
-            } else {
-              return data; // Si la colonne est vide ou si le type n'est pas 'display', renvoyer simplement la valeur existante
-            }
-          }
-        },
-
-        {
-          data: 'amount'
+          
         },
         {
           data: 'running_bal'
         },
+        {
+          data: 'amount'
+        },
+      
+      
         {
           data: ''
         }
@@ -109,6 +105,58 @@
           responsivePriority: 1,
           targets: 4
         },
+        {
+                        // Avatar image/badge, libelle and nom_pop
+                        targets: 3,
+                        responsivePriority: 1,
+                        render: function(data, type, full, meta) {
+                            var $user_img = full['avatar'],
+                                $libelle = full['libelle'],
+                                $duree = full['duree'],
+                                $type = full['description'];
+                            var bg;
+                            if ($type ==='Commission Revenu') {
+                                bg = 'bg-success'
+                            } else {
+                                bg = 'bg-info'
+
+                            }
+                            if ($user_img) {
+                                // For Avatar image
+                                var $output =
+                                    '<img src="' + assetPath + 'images/avatars/' + $user_img + '" alt="Avatar" width="32" height="32">';
+                            } else {
+                                // For Avatar badge
+                                var stateNum = full['status'];
+                                var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
+                                var $state = states[stateNum],
+                                    $expediteur = full['dates'],
+                                    $initials = $expediteur.match(/\b\w/g) || [];
+                                $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
+                                $output = '<span class="avatar-content ' + bg + '" >' + $initials + '</span>';
+                            }
+
+                            var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
+                            // Creates full output for row
+                            var $row_output =
+                                '<div class="d-flex justify-content-left align-items-center">' +
+                                '<div class="avatar ' +
+                                colorClass +
+                                ' me-1">' +
+                                $output +
+                                '</div>' +
+                                '<div class="d-flex flex-column">' +
+                                '<span class="emp_nom text-truncate fw-bold">' +
+                                $expediteur +
+                                '</span>' +
+                                '<small class="emp_nom_pop text-truncate text-muted">' +
+                                $type +
+                                '</small>' +
+                                '</div>' +
+                                '</div>';
+                            return $row_output;
+                        }
+                    },
 
         {
           // Actions
@@ -230,22 +278,20 @@
           }
         },
         {
-          text: feather.icons['plus'].toSvg({
-            class: 'me-50 font-small-4'
-          }) + 'Importer',
-          className: 'create-new btn btn-primary',
-          attr: {
-            'id': 'bt_ajouter',
-            'data-bs-toggle': 'modal',
-            'data-bs-target': '#importationModal'
-          },
-          init: function (api, node, config) {
-            $(node).removeClass('btn-secondary');
-          }
-        }
+                        text: feather.icons['download'].toSvg({
+                            class: 'me-50 font-small-4'
+                        }) + 'Faire le point',
+                        className: 'create-new btn btn-primary',
+                        attr: {
+                            'id': 'bt_importer',
+                            'onclick': 'window.location.href = "index.php?page=rechargement_uba"',
+                        },
+                        init: function(api, node, config) {
+                            $(node).removeClass('btn-secondary');
+                        }
+            },
+         
         ],
-
-
         // RESPONSIVE - Sur téléphone
         responsive: {
           details: {

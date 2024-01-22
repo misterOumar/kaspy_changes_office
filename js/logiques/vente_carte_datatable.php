@@ -1,9 +1,14 @@
+<?php
+include('../config/config.php');
+$api_url = API_HOST . 'index.php?page=api_vente_carte';
+?>
+
 <script>
     $(function() {
         'use strict';
 
         // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
-        $.get('http://localhost/kaspy_changes_office/index.php?page=api_vente_carte', function(rep) {
+        $.get('<?= $api_url; ?>', function(rep) {
             let data = JSON.parse(rep)
             console.log(data);
             data.map((champ_bd) => {

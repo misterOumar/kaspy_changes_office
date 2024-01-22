@@ -16,7 +16,15 @@ if (isset($_POST['bt_enregistrer'])) {
     $client = strSecur($_POST["client"]);
 
     $taux = ($_POST["taux"]);
+
+    $adresse = ($_POST["adresse"]);
+
+    $type = strSecur($_POST["radio_type"]);
+
+    $devise = strSecur($_POST["devise"]);
+
     $telephone = strSecur($_POST["telephone"]);
+
     $montant_envoye = ($_POST["montant"]);
     
     // $date_t = strSecur($_POST["date_t"]);
@@ -31,7 +39,6 @@ if (isset($_POST['bt_enregistrer'])) {
     $succes = true;
 
     // Vérifications   
-
     if (empty($client)) {
         $e_client = "Ce champ ne doit pas être vide.";
         $succes = false;
@@ -50,7 +57,6 @@ if (isset($_POST['bt_enregistrer'])) {
         $e_telephone = "Ce champ ne doit pas être vide.";
         $succes = false;
     }
-
     if ($succes) {
         $ip_creation = getIp();
         $navigateur_creation = getNavigateur();
@@ -58,12 +64,17 @@ if (isset($_POST['bt_enregistrer'])) {
         $ordinateur_creation = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         $date_creation = date("Y-m-d H:i:s");
         if (changes::Ajouter(
+            $date_v,
+           
+            $devise,
+            $type,
             $montant_envoye,           
             $taux,
             $montant_r,   
             $client,
             $telephone,         
-            $date_v,
+           
+            $adresse,
             $date_creation,
             $user_creation,
             $navigateur_creation,
@@ -108,6 +119,11 @@ if (isset($_POST['bt_modifier'])) {
     include('../models/Change.php');
     // Récupération des données postés dépuis le formulaire dans les variables respectives
     $client = strSecur($_POST["client_modif"]);
+
+    $adresse = ($_POST["adresse_modif"]);
+    $type = strSecur($_POST["radio_type_modif"]);
+    $devise = ($_POST["devise_modif"]);
+
     $taux = ($_POST["taux_modif"]);
     $montant_envoye = ($_POST["montant_modif"]);
     $telephone = strSecur($_POST["telephone_modif"]);
@@ -141,12 +157,18 @@ if (isset($_POST['bt_modifier'])) {
         $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         $dt = date("Y-m-d H:i:s");
       if (changes::Modifier(
+
+            $date_v,
+          
+            $devise,
+            $type,
             $montant_envoye,          
             $taux,
             $montant_reçu,    
             $client,
-            $telephone,        
-            $date_v,
+            $telephone,       
+           
+            $adresse,
             $dt,
             $us,
             $navigateur,
@@ -183,26 +205,49 @@ if (isset($_POST['bt_modifier'])) {
 }
 
 // RECUPERATION DES INFO DE LA DERNIERE LIGNE
+// if (isset($_GET['idLast'])) {
+//     include('../functions/functions.php');
+//     include('../config/config.php');
+//     include('../config/db.php');
+//     include('../models/Change.php');
+
+//     $echange = changes::getLast();
+
+//     if ($echange) {
+//         $total = changes::getCount();
+//         echo json_encode([
+//             'last_change' => $echange,
+//             'total' => $total
+//         ]);
+//     } else {
+//         echo json_encode([
+//             'last_change' => 'null'
+//         ]);
+//     }
+// }
+
+// RECUPERATION DES INFO DE LA DERNIERE LIGNE
 if (isset($_GET['idLast'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
     include('../models/Change.php');
 
-    $echange = changes::getLast();
+    $transactions = changes::getLast();
 
-    if ($echange) {
+    if ($transactions) {
         $total = changes::getCount();
         echo json_encode([
-            'last_change' => $echange,
+            'last_transaction' => $transactions,
             'total' => $total
         ]);
     } else {
         echo json_encode([
-            'last_change' => 'null'
+            'last_transaction' => 'null'
         ]);
     }
 }
+
 // RECUPERATION DES INFO POUR LA MODIFICATION
 if (isset($_GET['idChange'])) {
     include('../functions/functions.php');
@@ -244,6 +289,24 @@ if (isset($_GET['idProprietes'])) {
 }
 
 
+// if (isset($_GET['idSuppr'])) {
+//     include('../functions/functions.php');
+//     include('../config/config.php');
+//     include('../config/db.php');
+//     include('../models/Change.php');
+//     $id = strSecur($_GET['idSuppr']);
+//     if (changes::Supprimer($id)) {       
+//     } else {
+//         $message = "Erreur impossible de supprimer cette échange.";
+//         echo json_encode([
+//             'success' => 'false',
+//             'message' => $message
+//         ]);
+//     }
+// }
+
+
+
 if (isset($_GET['idSuppr'])) {
     include('../functions/functions.php');
     include('../config/config.php');
@@ -252,9 +315,13 @@ if (isset($_GET['idSuppr'])) {
 
     $id = strSecur($_GET['idSuppr']);
     if (changes::Supprimer($id)) {
-       
+        $message = "transaction  supprimée avec succès.";
+        echo json_encode([
+            'success' => 'true',
+            'message' => $message
+        ]);
     } else {
-        $message = "Erreur impossible de supprimer cette échange.";
+        $message = "Erreur impossible de supprimer cette transaction.";
         echo json_encode([
             'success' => 'false',
             'message' => $message

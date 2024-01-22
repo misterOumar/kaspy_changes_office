@@ -75,12 +75,12 @@ class  EtatListeChange extends FPDF
         // En-tête
         $this->SetFont('Helvetica', 'B', 10);
         $this->Cell(10, 7, "Nº", 1, 0, 'C');
+        $this->Cell(30, 7, "Date", 1, 0, 'C');
         $this->Cell(50, 7, "Montant Apporté", 1, 0, 'C');
         $this->Cell(40, 7, "Taux d'échange ", 1, 0, 'C');
         $this->Cell(60, 7, "Montant reçu", 1, 0, 'C');
         $this->Cell(40, 7, "Client", 1, 0, 'C');
         $this->Cell(40, 7, "Telephone", 1, 0, 'C');  
-        $this->Cell(30, 7, "Date", 1, 0, 'C');
         $this->Ln();
 
         $i = 1;
@@ -88,12 +88,12 @@ class  EtatListeChange extends FPDF
         foreach ($data as $batiment) {
 
             $this->Cell(10, 6, $i, 1, 0, 'C');
+            $this->Cell(30, 6,  $batiment['date'], 1, 0, 'C');
             $this->Cell(50, 6,  $batiment['montant1'], 1, 0, '');
             $this->Cell(40, 6,  $batiment['taux'], 1, 0, 'C');
             $this->Cell(60, 6,  $batiment['montant2'], 1, 0, 'C');
             $this->Cell(40, 6,  $batiment['client'], 1, 0, 'C');
             $this->Cell(40, 6,  $batiment['telephone'], 1, 0, 'C');  
-            $this->Cell(30, 6,  $batiment['date'], 1, 0, 'C');
             $this->Ln();
             $i++;
         }
@@ -141,7 +141,7 @@ $pdf->annee = $_SESSION["KaspyISS_annee"];
 
 
 // Param"trage de la difusion de l'état
-$pdf->SetTitle('Liste des Proprietaires', 1);
+$pdf->SetTitle('Transactions changes', 1);
 
 $pdf->AliasNbPages();
 $pdf->AddPage('L');

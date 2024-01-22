@@ -1,9 +1,13 @@
+<?php
+include('../config/config.php');
+$api_url = API_HOST . 'index.php?page=api_ria';
+?>
 <script>
     $(function() {
         'use strict';
 
         // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
-        $.get('http://localhost/k2s/kaspy_changes_office/index.php?page=api_ria', function(rep) {
+        $.get('<?= $api_url; ?>', function(rep) {
             let data = JSON.parse(rep)
             data.map((champ_bd) => {
                 var imageUrl = champ_bd.logo;

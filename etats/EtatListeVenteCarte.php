@@ -49,7 +49,8 @@ class EtatListeProprietaires extends FPDF
             $this->Ln(12);
             $this->Cell(45);
             $this->SetFont('Helvetica', 'B', 15);
-            $this->Cell(200, 10, 'LISTE DES VENTES DE CARTES', 1, 0, 'C');
+            $this->Cell(100, 10, 'JOURNAL DES VENTES DE CARTES', 1, 0, 'C');
+
 
             // Décalage à droite
             $this->Cell(20);
@@ -75,28 +76,24 @@ class EtatListeProprietaires extends FPDF
         // En-tête
         $this->SetFont('Helvetica', 'B', 10);
         $this->Cell(10, 7, "Nº", 1, 0, 'C');
-        $this->Cell(30, 7, "Montant", 1, 0, 'C');
+        $this->Cell(20, 7, "Date", 1, 0, 'C');
+        $this->Cell(25, 7, "Carte", 1, 0, 'C');
+        $this->Cell(30, 7, "N° Carte", 1, 0, 'C');
         $this->Cell(40, 7, "Client", 1, 0, 'C');
         $this->Cell(30, 7, "Telephone", 1, 0, 'C');
-        $this->Cell(40, 7, "Email", 1, 0, 'C');
-        $this->Cell(25, 7, "Carte", 1, 0, 'C');
-        $this->Cell(45, 7, "Prix Unitaire", 1, 0, 'C');
-        $this->Cell(40, 7, "Quantité", 1, 0, 'C');
-        $this->Cell(20, 7, "Date", 1, 0, 'C');
+        $this->Cell(30, 7, "Montant", 1, 0, 'C');
         $this->Ln();
 
         $i = 1;
         $this->SetFont('Helvetica', '', 9);
-        foreach ($data as $batiment) {
+        foreach ($data as $carte) {
             $this->Cell(10, 6, $i, 1, 0, 'C');
-            $this->Cell(30, 6,  $batiment['montant'], 1, 0, '');
-            $this->Cell(40, 6,  $batiment['client'], 1, 0, 'C');
-            $this->Cell(30, 6,  $batiment['telephone'], 1, 0, 'C');
-            $this->Cell(40, 6,  $batiment['email'], 1, 0, 'C');
-            $this->Cell(25, 6,  $batiment['carte'], 1, 0, 'C');
-            $this->Cell(45, 6,  $batiment['prix_unitaire'], 1, 0, 'C');
-            $this->Cell(20, 6,  $batiment['quantite'], 1, 0, 'C');
-            $this->Cell(20, 6,  $batiment['date'], 1, 0, 'C');
+            $this->Cell(20, 6,  $carte['date'], 1, 0, 'C');
+            $this->Cell(25, 6,  $carte['carte'], 1, 0, 'C');
+            $this->Cell(30, 6,  $carte['numero_carte'], 1, 0, '');
+            $this->Cell(40, 6,  $carte['client'], 1, 0, 'C');
+            $this->Cell(30, 6,  $carte['telephone'], 1, 0, 'C');
+            $this->Cell(30, 6,  $carte['montant'], 1, 0, '');
             $this->Ln();
             $i++;
         }
@@ -144,10 +141,10 @@ $pdf->annee = $_SESSION["KaspyISS_annee"];
 
 
 // Param"trage de la difusion de l'état
-$pdf->SetTitle('Liste des Proprietaires', 1);
+$pdf->SetTitle('Liste des vente de cartes', 1);
 
 $pdf->AliasNbPages();
-$pdf->AddPage('L');
+$pdf->AddPage('P');
 
 $pdf->BasicTable($data);
 

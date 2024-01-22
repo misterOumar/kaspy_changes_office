@@ -41,6 +41,50 @@
         maxboostedstep: 10,
     });
 
+    $('#date_achat').flatpickr({
+        defaultDate: 'today',
+        dateFormat: "Y-m-d",
+    })
+
+    // logique pour la vente par lot
+    // Ecoutez l'événement de changement du radio bouton
+    var type_enregistrement = "individuel"
+    $('input[name="radio_type"]').change(function() {
+        // Vérifiez la valeur du radio bouton sélectionné
+        if ($(this).val() === 'individuel') {
+             type_enregistrement = "individuel"
+            // Si c'est individuel, affichez le bloc_vente_detail et masquez le bloc_vente_gros
+            $('#bloc_vente_detail').removeClass('d-none');
+            $('#bloc_vente_gros').addClass('d-none');
+        } else {
+             type_enregistrement = "lot"
+            // Sinon, affichez le bloc_vente_gros et masquez le bloc_vente_detail
+            $('#bloc_vente_gros').removeClass('d-none');
+            $('#bloc_vente_detail').addClass('d-none');
+        }
+    });
+
+
+    // Fonction pour calculer la différence entre les valeurs et afficher le résultat
+    function calculerDifference() {
+        // Récupérer les valeurs des champs
+        var customer_id_initial = parseInt($('#customer_id_initial').val()) || 0;
+        var customer_id_final = parseInt($('#customer_id_final').val()) || 0;
+
+        // Calculer la différence
+        var difference = customer_id_final - customer_id_initial + 1;
+
+        // Afficher la différence dans #nombre_carte
+        if (difference > 0) {
+            $('#nombre_carte').val(difference);
+        } else {
+            $('#nombre_carte').val(0);
+        }
+    }
+
+    // Attacher la fonction au changement des champs
+    $('#customer_id_initial, #customer_id_final').on('input', calculerDifference);
+
 
 
     // VERIFICATIONS DU FORMULAIRE 
@@ -52,10 +96,15 @@
         $('#customer_id').removeClass('is-invalid');
         $('#customer_idHelp').html('');
     });
-    $('#date_expiration').on('change', function() {
-        $('#date_expiration').removeClass('is-invalid');
-        $('#date_expirationHelp').html('');
+    $('#customer_id_initial').on('change', function() {
+        $('#customer_id_initial').removeClass('is-invalid');
+        $('#customer_id_initialHelp').html('');
     });
+    $('#customer_id_final').on('change', function() {
+        $('#customer_id_final').removeClass('is-invalid');
+        $('#customer_id_finalHelp').html('');
+    });
+
 
     $('#date_enregistrement').on('change', function() {
         $('#date_enregistrement').removeClass('is-invalid');
@@ -71,20 +120,7 @@
     //      Au click du boutton
     $('#bt_enregistrer').on('click', function(e) {
 
-        // Cas de la duree
-        let customer_id = $('#customer_id').val();
-        if (customer_id === '') {
-            formValide = false;
-            $('#customer_id').addClass('is-invalid');
-            $('#customer_idHelp').html('Veuillez saisir le customer id ...');
-            $('#customer_idHelp').removeClass('invisible');
-            e.preventDefault()
-        } else {
-            formValide = true;
-            $('#customer_id').removeClass('is-invalid');
-            $('#customer_idHelp').html('');
-            $('#customer_idHelp').addClass('invisible');
-        }
+
         let type = $('#type').val();
         if (type == 'Choisir le type de carte') {
             formValide = false;
@@ -100,34 +136,57 @@
             $('#typeHelp').addClass('invisible');
         }
 
-        //cas du libelle
-        let date_expiration = $('#date_expiration').val();
-        if (date_expiration === '') {
-            formValide = false;
-            $('#date_expiration').addClass('is-invalid');
-            $('#date_expirationHelp').html('Veuillez selectionner la date d\'expiration .');
-            $('#date_expirationHelp').removeClass('invisible');
-            e.preventDefault()
+        // vérifiaction par type d'enregistrement
+        if (type_enregistrement == 'individuel') {
+            
+            // Cas de customer id
+            let customer_id = $('#customer_id').val();
+            if (customer_id === '') {
+                formValide = false;
+                $('#customer_id').addClass('is-invalid');
+                $('#customer_idHelp').html('Veuillez saisir le customer id ...');
+                $('#customer_idHelp').removeClass('invisible');
+                e.preventDefault()
+            } else {
+                formValide = true;
+                $('#customer_id').removeClass('is-invalid');
+                $('#customer_idHelp').html('');
+                $('#customer_idHelp').addClass('invisible');
+            }
         } else {
-            formValide = true;
-            $('#date_expiration').removeClass('is-invalid');
-            $('#date_expirationHelp').html('');
-            $('#date_expirationelp').addClass('invisible');
+            // Cas de customer id initial
+            let customer_id_initial = $('#customer_id_initial').val();
+            if (customer_id_initial === '') {
+                formValide = false;
+                $('#customer_id_initial').addClass('is-invalid');
+                $('#customer_id_initialHelp').html('Veuillez saisir le customer id initial');
+                $('#customer_id_initialHelp').removeClass('invisible');
+                e.preventDefault()
+            } else {
+                formValide = true;
+                $('#customer_id_initial').removeClass('is-invalid');
+                $('#customer_id_initialHelp').html('');
+                $('#customer_id_initialHelp').addClass('invisible');
+            }
+
+            // Cas de customer id final
+            let customer_id_final = $('#customer_id_final').val();
+            if (customer_id_final === '') {
+                formValide = false;
+                $('#customer_id_final').addClass('is-invalid');
+                $('#customer_id_finalHelp').html('Veuillez saisir le customer id final');
+                $('#customer_id_finalHelp').removeClass('invisible');
+                e.preventDefault()
+            } else {
+                formValide = true;
+                $('#customer_id_final').removeClass('is-invalid');
+                $('#customer_id_finalHelp').html('');
+                $('#customer_id_finalHelp').addClass('invisible');
+            }
+
         }
 
-        let date_enregistrement = $('#date_enregistrement').val();
-        if (date_enregistrement === '') {
-            formValide = false;
-            $('#date_enregistrement').addClass('is-invalid');
-            $('#date_enregistrementHelp').html('Veuillez selectionner la date d\'enregistrement .');
-            $('#date_enregistrementHelp').removeClass('invisible');
-            e.preventDefault()
-        } else {
-            formValide = true;
-            $('#date_enregistrement').removeClass('is-invalid');
-            $('#date_nregistrementnHelp').html('');
-            $('#date_enregistrementHelp').addClass('invisible');
-        }
+
 
     });
 
@@ -142,7 +201,7 @@
         $('#libellemodifHelp').html('');
     });
 
-        //  Au click du boutton
+    //  Au click du boutton
     $('#bt_modifier').on('click', function(e) {
 
         var customer_id = $('#customer_idmodif').val();
@@ -249,7 +308,4 @@
         }
 
     });
-
-
-   
 </script>

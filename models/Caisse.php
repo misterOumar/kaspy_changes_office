@@ -7,20 +7,15 @@
 
 
 /**
- * Class orange - Représente un(e) orange
+ * Class caisse - Représente un(e) caisse
  */
-class orange
+class caisse
 {
     public $id;
- 
     public $date;
-
-    public $type_operation;   
-
-    public $telephone_client;     
+    public $type_operation;
+    public $libelle;     
     public $montant;
-    public $solde_total;
-    public $id_transaction;
     public $magasin;
     public $date_creation;
     public $user_creation;
@@ -34,7 +29,7 @@ class orange
     public $ip_modif;
 
     /**
-     * orange constructor.
+     * caisse constructor.
      *
      * @param $id
      */
@@ -43,18 +38,15 @@ class orange
         global $db;
         $id = strSecur($id);
 
-        $req = $db->prepare('SELECT * FROM orange WHERE id = ?');
+        $req = $db->prepare('SELECT * FROM caisse WHERE id = ?');
         $req->execute([$id]);
         $data = $req->fetch();
 
         $this->id = $id;
         $this->montant = $data['montant'];
-       
         $this->date = $data['date'];
         $this->type_operation = $data['type_operation'];        
-        $this->telephone_client = $data['telephone_client'];
-        $this->solde_total = $data['solde_total'];
-        $this->id_transaction = $data['id_transaction'];
+        $this->libelle= $data['libelle'];
         $this->magasin = $data['magasin'];
      
 
@@ -75,21 +67,22 @@ class orange
         //||------------ LECTURE -------------||
         //||**********************************||
     }
+
     /**
-     * Renvoi la liste des orange.
+     * Renvoi la liste des caisse.
      *
      * @return array
      */
     static function getAll($magasin)
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM orange WHERE magasin =? ORDER BY id");
+        $req = $db->prepare("SELECT * FROM caisse WHERE magasin =? ORDER BY id");
         $req->execute([$magasin]);
         return $req->fetchAll();
     }
 
     /**
-     * Méthode pour récupérer un(e) orange en fonction de son id.
+     * Méthode pour récupérer un(e) caisse en fonction de son id.
      *
      * @param $id
      * @return mixed
@@ -97,26 +90,26 @@ class orange
     static function getByID($id)
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM orange WHERE id = ?");
+        $req = $db->prepare("SELECT * FROM caisse WHERE id = ?");
         $req->execute([$id]);
         return $req->fetch();
     }
 
     /**
-     * Méthode de récupération du dernier element de la table orange.
+     * Méthode de récupération du dernier element de la table caisse.
      *
      * @return mixed
      */
     static function getLast()
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM orange  ORDER BY ID DESC LIMIT 1");
+        $req = $db->prepare("SELECT * FROM caisse  ORDER BY ID DESC LIMIT 1");
         $req->execute([]);
         return $req->fetch();
     }
 
     /**
-     * Méthode de récupération du nombre d'enregistrement de la table orange.
+     * Méthode de récupération du nombre d'enregistrement de la table caisse.
      *
      * @param $
      * @return mixed
@@ -124,13 +117,13 @@ class orange
     static function getCount()
     {
         global $db;
-        $req = $db->prepare("SELECT COUNT(*) FROM orange ");
+        $req = $db->prepare("SELECT COUNT(*) FROM caisse ");
         $req->execute([]);
         return $req->fetch()[0];
     }
 
     /**
-     * Méthode de récupération de orange en fonction du nom_prenom.
+     * Méthode de récupération de caisse en fonction du nom_prenom.
      *
      * @param $nom_prenom
      * @return mixed
@@ -138,7 +131,7 @@ class orange
     static function getByClient($client)
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM orange WHERE client = ?");
+        $req = $db->prepare("SELECT * FROM caisse WHERE client = ?");
         $req->execute([$client]);
         return $req->fetch();
     }
@@ -147,7 +140,7 @@ class orange
     //||------------ INSERTIONS ------------||
     //||**********************************||
     /**
-     * Méthode pour insérer un(e) orange en base de données.
+     * Méthode pour insérer un(e) caisse en base de données.
      *
      * @param $nom_prenom
      * @param $numero_telephone
@@ -170,17 +163,17 @@ class orange
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter( $date, $type_operation, $telephone_client, 
-     $montant,$solde_total, $id_transaction,$magasin,  $date_creation, $user_creation, $navigateur_creation, 
+    static function Ajouter( $date, $type_operation, $libelle, 
+     $montant,$magasin, $date_creation, $user_creation, $navigateur_creation, 
      $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
     {
         global $db;
 
         $req = $db->prepare('
-            INSERT INTO orange( date,type_operation, telephone_client,montant,solde_total, id_transaction , magasin,  date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(  ?, ?, ?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+            INSERT INTO caisse( date,type_operation, libelle,montant , magasin,  date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([ $date, $type_operation, $telephone_client,$montant,$solde_total, $id_transaction, $magasin, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([ $date, $type_operation, $libelle,$montant, $magasin, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 
@@ -188,7 +181,7 @@ class orange
     //||---------- MODIFICATIONS ----------||
     //||**********************************||
     /**
-     * Méthode pour modifier un(e) orange en base de données.
+     * Méthode pour modifier un(e) caisse en base de données.
      *
      * @param $nom_prenom
      * @param $numero_telephone
@@ -215,7 +208,7 @@ class orange
     // {
     //     global $db;
     //     $req = $db->prepare('
-    //         UPDATE orange SET montant = ?, client= ?, telephone_client = ?, destinataire = ?,telephone_destinataire =? date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
+    //         UPDATE caisse SET montant = ?, client= ?, libelle= ?, destinataire = ?,telephone_destinataire =? date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
     //     ');
     //     return $req->execute([$montant, $date, $client, $telephone_client, $destinataire, $telephone_destinataire,  $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     // }
@@ -223,10 +216,8 @@ class orange
        
         $date,
         $type_operation,
-        $telephone_client,
+        $libelle,
         $montant,
-        $solde_total, 
-        $id_transaction,    
         $date_modif,
         $user_modif,
         $navigateur_modif,
@@ -236,14 +227,13 @@ class orange
     ) {
         global $db;
         $req = $db->prepare('
-        UPDATE orange SET 
+        UPDATE caisse SET 
        
         date = ?,
         type_operation = ?,    
-        telephone_client =?,
+        libelle=?,
         montant = ?, 
-        solde_total =  ?,
-        id_transaction =?, 
+        
         date_modif = ?,
         user_modif = ?, 
         navigateur_modif = ?,
@@ -254,7 +244,7 @@ class orange
 
         return $req->execute([
              $date, $type_operation,
-            $telephone_client,$montant,$solde_total, $id_transaction,
+            $libelle,$montant, 
             $date_modif, $user_modif,
             $navigateur_modif, $ordinateur_modif, $ip_modif, $id
         ]);
@@ -266,7 +256,7 @@ class orange
     //||**********************************||
 
     /**
-     * Méthode pour supprimer un(e) orange
+     * Méthode pour supprimer un(e) caisse
      *
      * @param $id
      * @return bool
@@ -274,7 +264,7 @@ class orange
     static function Supprimer($id)
     {
         global $db;
-        $req = $db->prepare('DELETE FROM orange WHERE id= ?');
+        $req = $db->prepare('DELETE FROM caisse WHERE id= ?');
         return $req->execute([$id]);
     }
 }

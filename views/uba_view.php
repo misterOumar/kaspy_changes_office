@@ -64,7 +64,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Gestion UBA</h2>
+                            <h2 class="content-header-title float-start mb-0">Réchargements UBA</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
@@ -96,11 +96,11 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                         <th></th>
                                             <th></th>
                                             <th>id</th>
-                                            <th>Trans Id</th>
-                                            <th>Ajouter par</th>
                                             <th>Dates</th>
-                                            <th>Amount</th>
+                                          
+                                            <th>Id Transaction </th>
                                             <th>Running Bal</th>
+                                            <th>Montant</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -126,8 +126,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     title="Vider les champs"
                                     style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
                                     <i data-feather='refresh-ccw'></i></button>
-
-
                                 <div class="modal-body flex-grow-1"> -->
                     <!--- MONTANT --->
                     <!-- <div class=''>
@@ -157,7 +155,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     <div class='mb-1'><small id='natureHelp' class='text-danger invisible'></small>
                                     </div>
  -->
-
                     <!--- ENREGISTREMENT --->
                     <!-- <button type="submit" id='bt_enregistrer' name='bt_enregistrer'
                                         class='btn btn-primary enregistrer me-5'>Enregistrer</button>
@@ -168,8 +165,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                             </form>
                         </div>
                     </div>  -->
-
-
                     <!-- Modal to update new record -->
                     <!-- <div class="modal modal-slide-in fade" id="modal-modif">
                         <div class="modal-dialog sidebar-sm">
@@ -187,8 +182,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     class="avatar pull-up my-0" title="Vider les champs"
                                     style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
                                     <i data-feather='refresh-ccw'></i></button>
-
-
                                 <div class="modal-body flex-grow-1"> -->
                     <!--- MONTANT --->
                     <!-- <div class=''>

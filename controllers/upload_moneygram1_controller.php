@@ -18,17 +18,21 @@ if (isset($_POST['upload_moneygram_file'])) {
     $us = $_SESSION["KaspyISS_user"]['users'];
     $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
     $dt = date("Y-m-d H:i:s");
-    $code_aut =0;
+   
     foreach ($tableData as $rowData) {
         moneygram::Ajouter(
-            $rowData[1],
-            $rowData[2],
-            $code_aut,
-            $rowData[3],
-            $rowData[4],
-            $rowData[5],
-            $rowData[6],
-            $rowData[7],                                
+            $rowData["Heure et date (locales)"],
+            $rowData["Num Réf"],
+            $rowData["code d'autorisation"],
+            $rowData["Identifiant d'utilisateur"],
+            $rowData["ID de point de vente"],
+            $rowData["Montant"],
+            $rowData["Frais"],
+            $rowData["Total"], 
+            $rowData["Taxe"],
+             $rowData["Type"],       
+            $rowData["Dates"],   
+                                
             $dt,
             $us,
             $navigateur,

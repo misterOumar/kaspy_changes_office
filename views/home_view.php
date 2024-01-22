@@ -225,7 +225,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                             </div>
                             <div class="col-xl-4 col-md-6 col-12">
 
-                                <a href="index.php?page=rechargement_uba">
+                                <a href="index.php?page=uba">
                                     <div class="card card-congratulation-medal">
                                         <div class="card-body d-flex align-items-center justify-content-between">
                                             <div>

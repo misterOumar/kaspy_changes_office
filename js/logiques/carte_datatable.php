@@ -1,8 +1,12 @@
+<?php
+include('../config/config.php');
+$api_url = API_HOST . 'index.php?page=api_carte';
+?>
 <script>
     $(function() {
         'use strict';
         // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
-        $.get('http://localhost/kaspy_changes_office/index.php?page=api_carte', function(rep) {
+        $.get('<?= $api_url; ?>', function(rep) {
             let data = JSON.parse(rep)
             data.map((champ_bd) => {
                 var imageUrl = champ_bd.logo;
@@ -10,9 +14,8 @@
                     .add({
                         responsive_id: champ_bd.id,
                         id: champ_bd.id,
+                        date_achat: champ_bd.date_achat,
                         customer_id: champ_bd.customer_id,
-                        date_activation: champ_bd.date_activation,
-                        date_expiration: champ_bd.date_expiration,
                         type_carte: champ_bd.type_carte,
 
                         status: champ_bd.status,
@@ -44,17 +47,17 @@
                         data: 'id'
                     }, // used for sorting so will hide this column
                     {
-                        data: 'customer_id'
-                    }, {
-                        data: 'date_activation'
-                    },
-                    {
-                        data: 'date_expiration'
+                        data: 'date_achat'
                     },
                     {
                         data: 'type_carte'
                     },
-                 
+                    {
+                        data: 'customer_id'
+                    },
+
+
+
                     {
                         data: 'status'
                     },
@@ -114,7 +117,7 @@
                                 var stateNum = full['status'];
                                 var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
                                 var $state = states[stateNum],
-                                    $libelle = full['customer_id'],
+                                    $libelle = full['date_achat'],
                                     $initials = $libelle.match(/\b\w/g) || [];
                                 $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
                                 $output = '<span class="avatar-content">' + $initials + '</span>';
@@ -155,7 +158,7 @@
                                     title: 'Vendu',
                                     class: 'badge-light-success'
                                 },
-                            
+
                             };
                             if (typeof $status[$status_number] === 'undefined') {
                                 return data;
@@ -365,63 +368,60 @@
 
 
 
-        // MODIFIER / AJOUTER UN ELEMENT
+        // AJOUTER UN ELEMENT
         $('#form_ajouter').on('submit', function(e) {
             var $new_customer_id = $('#customer_id').val(),
-                $new_date_activation = $('#date_activation').val(),
-                $new_date_expiration = $('#date_expiration').val(),
                 $new_type = $('#type').val();
 
             e.preventDefault()
-            if ($new_customer_id != '') {
-                // Ajout Back
-                initializeFlash();
+            // Ajout Back
+            initializeFlash();
 
-                var form = $('#form_ajouter');
-                var method = form.prop('method');
-                var url = form.prop('action');
+            var form = $('#form_ajouter');
+            var method = form.prop('method');
+            var url = form.prop('action');
 
-                $.ajax({
-                    type: method,
-                    data: form.serialize() + "&bt_enregistrer=" + true,
-                    url: url,
-                    success: function(result) {
-                        //console.log(result);
-                        var donnee = JSON.parse(result);
-                        if (donnee['success'] === 'existe') {
-                            $('#customer_id').addClass('is-invalid');
-                            $('#customer_idHelp').html(donnee['message']);
-                            $('#customer_idHelp').removeClass('invisible');
+            $.ajax({
+                type: method,
+                data: form.serialize() + "&bt_enregistrer=" + true,
+                url: url,
+                success: function(result) {
+                    //console.log(result);
+                    var donnee = JSON.parse(result);
+                    if (donnee['success'] === 'existe') {
+                        $('#customer_id').addClass('is-invalid');
+                        $('#customer_idHelp').html(donnee['message']);
+                        $('#customer_idHelp').removeClass('invisible');
 
-                            $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
-                                .fadeIn(300).delay(2500).fadeOut(300);
-                        }
-                        if (donnee['success'] === 'true') {
-
-                            $('#customer_id').val("");
-                            $('#customer_idHelp').html("").addClass('invisible');
-
-                            // MESSAGE ALERT
-                            swal_Alert_Sucess(donnee['message'])
-
-                            // Récharger la page
-                            location.reload();
-                  
-                        }
+                        $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
+                            .fadeIn(300).delay(2500).fadeOut(300);
                     }
-                });
+                    if (donnee['success'] === 'true') {
 
-                if (donnee['success'] === 'false') {
-                    $('#customer_idHelp').html(donnee['libelle']).removeClass('invisible');
+                        $('#customer_id').val("");
+                        $('#customer_idHelp').html("").addClass('invisible');
 
-                    initializeFlash();
-                    $('.flash').addClass('alert-danger');
-                    $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
-                        .fadeIn(300).delay(2500).fadeOut(300);
-                    e.preventDefault()
+                        // MESSAGE ALERT
+                        swal_Alert_Sucess(donnee['message'])
+
+                        // Récharger la page
+                        // location.reload();
+
+                    }
                 }
+            });
+
+            if (donnee['success'] === 'false') {
+                $('#customer_idHelp').html(donnee['libelle']).removeClass('invisible');
+
+                initializeFlash();
+                $('.flash').addClass('alert-danger');
+                $('.flash').html('<i class="fas fa-exclamation-circle"></i> ' + donnee['message'])
+                    .fadeIn(300).delay(2500).fadeOut(300);
+                e.preventDefault()
             }
-            window.location.reload();
+
+            // window.location.reload();
         });
 
         // MODIFIER UN ELEMENT

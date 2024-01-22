@@ -20,6 +20,10 @@ class moneygram
     public $montant;	
     public $frais;	
     public $total;	
+    public $taxe;	
+    public $type_operation;	
+    public $dates;
+   	
      
     public $date_creation;
     public $user_creation;
@@ -55,6 +59,9 @@ class moneygram
         $this->montant = $data['montant'];
         $this->frais = $data['frais'];
         $this->total = $data['total'];
+        $this->taxe = $data['taxe'];
+        $this->type_operation = $data['type_operation'];
+        $this->dates = $data['dates'];
       
         
         $this->date_creation = $data['date_creation'];
@@ -182,14 +189,14 @@ class moneygram
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter( $date_heure, $num_ref,$code_aut,  $id_user, $id_pvente, $montant, $frais, $total,   $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
+    static function Ajouter( $date_heure, $num_ref,$code_aut,  $id_user, $id_pvente, $montant, $frais, $total,  $taxe,$type_operation, $dates,  $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
     {
         global $db;
         $req = $db->prepare('
-            INSERT INTO moneygram(date_heure, num_ref,code_aut, id_user, id_pvente,montant, frais, total,   date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO moneygram(date_heure, num_ref,code_aut, id_user, id_pvente,montant, frais, total,  taxe,type_operation, dates,   date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(?, ?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ');
-        return $req->execute([$date_heure, $num_ref,$code_aut, $id_user, $id_pvente, $montant, $frais, $total, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$date_heure, $num_ref,$code_aut, $id_user, $id_pvente, $montant, $frais, $total,$taxe,$type_operation, $dates, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
     //||**********************************||

@@ -54,7 +54,7 @@
                  <div class="content-header-left col-md-9 col-12 mb-2">
                      <div class="row breadcrumbs-top">
                          <div class="col-12">
-                             <h2 class="content-header-title float-start mb-0">Gestion des cartes - Achats  </h2>
+                             <h2 class="content-header-title float-start mb-0">Gestion des cartes - Achats </h2>
                              <div class="breadcrumb-wrapper">
                                  <ol class="breadcrumb">
                                      <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
@@ -123,10 +123,9 @@
                                              <th></th>
                                              <th></th>
                                              <th>id</th>
-                                             <th>CUSTOMER ID </th>
-                                             <th>DATE D'ACTIVATION</th>
-                                             <th>DATE D'EXPIRATION</th>
+                                             <th>DATE ACHAT </th>
                                              <th>TYPE DE CARTE </th>
+                                             <th>CUSTOMER ID </th>
                                              <th>STATUS</th>
                                              <th>ACTIONS</th>
                                          </tr>
@@ -149,26 +148,29 @@
                                      <i data-feather='refresh-ccw'></i></button>
 
                                  <div class="modal-body flex-grow-1">
+
                                      <!--- Customer Id --->
                                      <div>
-                                         <label class='form-label' for='annees'>Customer Id</label>
-                                         <input type='text' id='customer_id' class='form-control dt-full-annees' name='customer_id' placeholder="Veuillez saisir le customer id" aria - Label='annees' maxlength='75' />
+                                         <label class='form-label' for='date_achat'>Date d'achat</label>
+                                         <input type='text' class='form-control ' id='date_achat' name='date_achat' placeholder='La date'  />
                                      </div>
-                                     <div class='mb-1'><small id='customer_idHelp' class='text-danger invisible'></small></div>
+                                     <div class='mb-1'><small id='date_achatHelp' class='text-danger invisible'></small></div>
 
-                                     <!--- DATE ACTIVATION --->
-                                     <div>
-                                         <label class='form-label' for='date_fin'>Date d'activation</label>
-                                         <input type='text' id='date_enregistrement' class='form-control dt-full-date_fin flatpickr-basic' name='date_enregistrement' placeholder="YYYY-MM-DD" aria - Label='date_fin' maxlength='75' />
-                                     </div>
-                                     <div class='mb-1'><small id='date_enregistrementHelp' class='text-danger invisible'></small></div>
+                                     <div class="row mb-1">
+                                         <label class='form-label '>Type d'enregistrement</label>
 
-                                     <!--- DATE EXPIRATION --->
-                                     <div>
-                                         <label class='form-label' for='date_debut'>Date d'expiration</label>
-                                         <input type='text' id='date_expiration' class='form-control dt-full-date_debut flatpickr-basic' name='date_expiration' placeholder="YYYY-MM-DD" aria - Label='date_debut' maxlength='75' />
+                                         <div class="">
+
+                                             <div class="form-check form-check-inline">
+                                                 <input class="form-check-input" type="radio" name="radio_type" id="radio_vente_individuel" checked value="individuel" />
+                                                 <label class="form-check-label" for="radio_vente_individuel">Individuel</label>
+                                             </div>
+                                             <div class="form-check form-check-inline">
+                                                 <input class="form-check-input" type="radio" name="radio_type" id="radio_vente_lot" value="lot" />
+                                                 <label class="form-check-label" for="radio_vente_lot">par lot</label>
+                                             </div>
+                                         </div>
                                      </div>
-                                     <div class='mb-1'><small id='date_expirationHelp' class='text-danger invisible'></small></div>
 
                                      <!--- TYPE DE CARTE --->
                                      <div>
@@ -189,6 +191,43 @@
 
                                      </div>
                                      <div class='mb-1'><small id='typeHelp' class='text-danger invisible'></small></div>
+
+
+                                     <div id="bloc_vente_detail">
+                                         <!--- Customer Id --->
+                                         <div>
+                                             <label class='form-label' for='annees'>Customer Id</label>
+                                             <input type='text' id='customer_id' class='form-control dt-full-annees' name='customer_id' placeholder="Veuillez saisir le customer id" aria - Label='annees' maxlength='75' />
+                                         </div>
+                                         <div class='mb-1'><small id='customer_idHelp' class='text-danger invisible'></small></div>
+                                     </div>
+
+                                     <!--- Achat par lot --->
+                                     <div id="bloc_vente_gros" class="d-none">
+                                         <!--- Customer Id Initial --->
+                                         <div>
+                                             <label class='form-label' for='customer_id_initial'>Customer Id Initial</label>
+                                             <input type='text' id='customer_id_initial' class='form-control' name='customer_id_initial' placeholder="Veuillez saisir le customer id initial"  />
+                                         </div>
+                                         <div class='mb-1'><small id='customer_id_initialHelp' class='text-danger invisible'></small></div>
+
+                                         <!--- Customer Id Final --->
+                                         <div>
+                                             <label class='form-label' for='customer_id_final'>Customer Id Final</label>
+                                             <input type='text' id='customer_id_final' class='form-control dt-full-annees' name='customer_id_final' placeholder="Veuillez saisir le customer id" aria - Label='annees' maxlength='75' />
+                                         </div>
+                                         <div class='mb-1'><small id='customer_id_finalHelp' class='text-danger invisible'></small></div>
+
+                                         <!--- Achat par lot --->
+                                         <div>
+                                             <label class='form-label' for='nombre_carte'>Nombre de carte</label>
+                                             <input type='text' id='nombre_carte' class='form-control dt-full-annees' name='nombre_carte'  disabled />
+                                         </div>
+                                         <div class='mb-1'><small id='nombre_carteHelp' class='text-danger invisible'></small></div>
+                                     </div>
+
+
+
 
                                      <!--- ENREGISTREMENT --->
                                      <button type="submit" id='bt_enregistrer' name='bt_enregistrer' class='btn btn-primary enregistrer me-1'>Enregistrer</button>

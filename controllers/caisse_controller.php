@@ -6,35 +6,32 @@
 //||******************************************************||
 
 
-// AFFICHER LA LISTE DES PROPRIETAIRE
 
 
 // ENREGISTRER (AJOUTER) UN NOUVEAU Proprietaire
 if (isset($_POST['bt_enregistrer'])) {
-    // inclusion des fichiers ressources
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
-    include('../models/Mtn.php');
+    include('../models/Caisse.php');
+  
 
     // Récupération des données postés dépuis le formulaire dans les variables respectives
     $type = strSecur($_POST["radio_type"]);
 
     $montant = strSecur($_POST["montant"]);    
 
-    $solde_t = strSecur($_POST["solde_t"]);   
+    $libelle = strSecur($_POST["libelle"]);    
 
-    $id_transaction = strSecur($_POST["id_transaction"]);   
-
-    $magasin = $_SESSION["KaspyISS_bureau"];
-    // telephone du client 
-    $tel_cli = strSecur($_POST["tel_cli"]);  
+    $magasin = $_SESSION["KaspyISS_bureau"];    // telephone du client 
+    
+   
     // $date_t = strSecur($_POST["date_t"]);
     $date_t = strSecur($_POST["date_t"]);
     $date_t = date('Y-m-d', strtotime($date_t));
 
     // Déclaration et initialisation des variables d'erreur (e)
-    $e_montant = $e_tel_cli = "";
+    $e_montant  = "";
     $succes = true;
 
     // Vérifications
@@ -43,16 +40,6 @@ if (isset($_POST['bt_enregistrer'])) {
         $succes = false;
     }   
  
-
-    if (empty($tel_cli)) {
-        $e_tel_cli = "Ce champ ne doit pas être vide.";
-        $succes = false;
-    }
-
-  
-
-
-
     // Cas ou tout est ok
     if ($succes) {
 
@@ -61,13 +48,11 @@ if (isset($_POST['bt_enregistrer'])) {
         $us = $_SESSION["KaspyISS_user"]['users'];
         $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         $dt = date("Y-m-d H:i:s");
-        if (mtn::Ajouter(
+        if (caisse::Ajouter(
             $date_t,
-            $type,
-            $tel_cli,     
+            $type,   
+            $libelle,   
             $montant,
-            $solde_t, 
-            $id_transaction,
             $magasin,
             $dt,
             $us,
@@ -113,21 +98,20 @@ if (isset($_POST['bt_modifier'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
-    include('../models/Mtn.php');
+    include('../models/Caisse.php');
 
     // Récupération des données postés dépuis le formulaire dans les variables respectives
 
      
     $montant = strSecur($_POST["montant_modif"]);
 
-    $solde_t = strSecur($_POST["solde_t_modif"]);
+  
 
-    $id_transaction = strSecur($_POST["id_transaction_modif"]);
+    $libelle = strSecur($_POST["libelle_modif"]);
 
     $type = strSecur($_POST["radio_type_modif"]);
  
-    $tel_cli = strSecur($_POST["tel_cli_modif"]);
- 
+
     $date_t = strSecur($_POST["date_t_modif"]);
 
     $idModif = strSecur($_POST["idModif"]);
@@ -142,11 +126,7 @@ if (isset($_POST['bt_modifier'])) {
         $succes = false;
     }
   
-    if (empty($tel_cli)) {
-        $e_tel_cli = "Ce champ ne doit pas être vide.";
-        $succes = false;
-    }
-      
+ 
     // Cas ou tout est ok
     if ($succes) {
         $ip = getIp();
@@ -154,14 +134,13 @@ if (isset($_POST['bt_modifier'])) {
         $us = $_SESSION["KaspyISS_user"]['users'];
         $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         $dt = date("Y-m-d H:i:s");
-        if (mtn::Modifier(
+        if (caisse::Modifier(
            
             $date_t,
             $type,
-            $tel_cli,
+            $libelle,  
             $montant,
-            $solde_t,
-            $id_transaction,        
+                
             $dt,
             $us,
             $navigateur,
@@ -188,29 +167,23 @@ if (isset($_POST['bt_modifier'])) {
             'message' => "Vérifier les champs",
             'montant' => $e_montant,
             'date' => $e_date_t,
-            'client' => $e_client,
-            'telephone_client' => $e_tel_cli,
-            'destinataire' => $e_destinataire,
-            'telephone_destinataire' => $e_tel_dest,
+                     
 
         ]);
     }
 }
-
-
-
 
 // RECUPERATION DES INFO DE LA DERNIERE LIGNE
 if (isset($_GET['idLast'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
-    include('../models/Mtn.php');
+    include('../models/Caisse.php');
 
-    $transactions = mtn::getLast();
+    $transactions = caisse::getLast();
 
     if ($transactions) {
-        $total = mtn::getCount();
+        $total = caisse::getCount();
         echo json_encode([
             'last_transaction' => $transactions,
             'total' => $total
@@ -224,14 +197,15 @@ if (isset($_GET['idLast'])) {
 
 
 // RECUPERATION DES INFO POUR LA MODIFICATION
-if (isset($_GET['idMtn'])) {
+if (isset($_GET['caisse'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
-    include('../models/Mtn.php');
+    include('../models/Caisse.php');
 
-    $id = $_GET['idMtn'];
-    $proprietes = mtn::getByID($id);
+    $id = $_GET['caisse'];
+    $proprietes = caisse::getByID($id);
+
     if ($proprietes) {
         echo json_encode([
             'transaction' => $proprietes,
@@ -243,24 +217,23 @@ if (isset($_GET['idMtn'])) {
     }
 }
 
-
 // RECUPERATION DES INFO POUR PROPRIETE D'UN ELEMENT 
 if (isset($_GET['idProprietes'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
-    include('../models/Mtn.php');
+    include('../models/Caisse.php');
 
     $id = $_GET['idProprietes'];
-    $proprietes = mtn::getByID($id);
+    $proprietes = caisse::getByID($id);
 
     if ($proprietes) {
         echo json_encode([
-            'proprietes_mtn' => $proprietes,
+            'proprietes_caisse' => $proprietes,
         ]);
     } else {
         echo json_encode([
-            'proprietes_mtn' => 'null'
+            'proprietes_caisse' => 'null'
         ]);
     }
 }
@@ -270,10 +243,10 @@ if (isset($_GET['idSuppr'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
-    include('../models/Mtn.php');
+    include('../models/Caisse.php');
 
     $id = strSecur($_GET['idSuppr']);
-    if (mtn::Supprimer($id)) {
+    if (caisse::Supprimer($id)) {
         $message = "transaction  supprimée avec succès.";
         echo json_encode([
             'success' => 'true',

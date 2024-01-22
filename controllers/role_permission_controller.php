@@ -70,7 +70,7 @@ if (isset($_POST['bt_enregistrer'])) {
 
 
                 // Création des roles et permission detail
-                for ($i = 1; $i < 19; $i++) {
+                for ($i = 1; $i < 22; $i++) {
                     try {
                         $fonction = strSecur($_POST["role" . $i]);
 
@@ -102,7 +102,6 @@ if (isset($_POST['bt_enregistrer'])) {
                         } else {
                             $valeur_modification = 0;
                         }
-
 
                         $valeur_suppression;
                         if ($suppression === "on") {
@@ -215,7 +214,7 @@ if (isset($_POST['bt_modifier'])) {
 
 
             //boucle d'enregistrement des roles dans la base de données
-            for ($i = 1; $i < 19; $i++) {
+            for ($i = 1; $i < 22; $i++) {
                 try {
                     //recuperation des roles depuis le formulaire
                     $fonction = strSecur($_POST["role_modif" . $i]);
@@ -280,7 +279,9 @@ if (isset($_POST['bt_modifier'])) {
                     }
 
                     // enregistrement dans la bd
-                    role_permission_details::Ajouter($id, $idModif, $fonction, $valeur_lecture, $valeur_creation, $valeur_modification, $valeur_suppression, $valeur_duplicata, $valeur_visualisation, $valeur_exportation, $dt, $us, $navigateur, $pc, $ip, $dt, $us, $navigateur, $pc, $ip);
+                    role_permission_details::Ajouter($id, $idModif, $fonction, $valeur_lecture, $valeur_creation, 
+                    $valeur_modification, $valeur_suppression, $valeur_duplicata, $valeur_visualisation, $valeur_exportation, 
+                    $dt, $us, $navigateur, $pc, $ip, $dt, $us, $navigateur, $pc, $ip);
                 } catch (PDOException $e) {
                     echo $e->getMessage();
                 };

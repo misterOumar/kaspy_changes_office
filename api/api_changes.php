@@ -3,7 +3,7 @@
 $Listes_changes = null;
 
 if (isset($_GET['page']) and !empty($_GET['page']) and $_GET['page'] === "api_changes") {
-    include("models/Changes.php");
+    include("models/Change.php");
     $Listes_changes = changes::getAll();
     echo json_encode($Listes_changes);
 }

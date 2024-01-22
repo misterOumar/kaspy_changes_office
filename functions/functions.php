@@ -21,10 +21,13 @@ function verifiePhone($var)
     return preg_match($pattern, $var);
 }
 
+
+
 /** Vérifie si un mot de passe contient au moins 6 caractères
  * @param $var
  * @return boolean
  */
+
 function verifiePass($var)
 {
     $pattern = '/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/';

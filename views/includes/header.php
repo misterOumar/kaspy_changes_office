@@ -28,27 +28,36 @@
                         Etats
                     </a>
                     <ul class="dropdown-menu sub-menu01" aria-labelledby="navbarDropdown">
+                        <strong class="ms-2"> Mobile Money</strong>
+                        <li><a class="dropdown-item" href="etats/EtatListeOrange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Orange Money</a></li>
 
-                        <li><a class="dropdown-item" href="etats/EtatListeOrange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions orange money</a></li>
+                        <li><a class="dropdown-item" href="etats/EtatListeMoov.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Moov Money</a></li>
 
-                        <li><a class="dropdown-item" href="etats/EtatListeMoov.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions moov money</a></li>
+                        <li><a class="dropdown-item" href="etats/EtatListeMtn.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Mtn Money</a></li>
 
-                        <li><a class="dropdown-item" href="etats/EtatListeMtn.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions mtn money</a></li>
-
-                        <li><a class="dropdown-item" href="etats/EtatListeVenteCarte.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Liste des ventes de cartes</a> </li>
-                        <li><a class="dropdown-item" href="etats/EtatListeChange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Liste des échanges</a> </li>
+                        <div class="dropdown-divider"></div>
+                        <strong class="ms-2"> Cartes</strong>
                         <li><a class="dropdown-item" href="etats/EtatListeCarte.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
                                 Liste des cartes</a> </li>
-                     
-                        <li><a class="dropdown-item" href="etats/EtatListeOperationRIA.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Liste des opérations RIA</a> </li>
-                        <li><a class="dropdown-item" href="etats/EtatListeOperationWU.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Liste des opérations WU</a> </li>
+
+                        <li><a class="dropdown-item" href="etats/EtatListeVenteCarte.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Journal des ventes de cartes</a> </li>
+
                         <li><a class="dropdown-item" href="etats/EtatStockDisponible.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Stock Disponible</a> </li>
+                                Stock de carte disponible</a> </li>
+
                         <div class="dropdown-divider"></div>
+                        <strong class="ms-2"> Transactions</strong>
+
+                        <li><a class="dropdown-item" href="etats/EtatListeOperationRIA.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Rapport de suivie des opérations RIA</a> </li>
+                        <li><a class="dropdown-item" href="etats/EtatListeOperationWU.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Rapport de suivie des opérations WU</a> </li>
+                        <div class="dropdown-divider"></div>
+
+                        <li><a class="dropdown-item" href="etats/EtatListeChange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Liste des changes</a> </li>
+
 
                     </ul>
                 </li>
