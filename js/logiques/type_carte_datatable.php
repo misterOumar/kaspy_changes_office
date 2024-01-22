@@ -19,7 +19,7 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                         duree: champ_bd.duree,
                         prix_vente_detail: champ_bd.prix_vente_detail + ' F-CFA',
                         prix_vente_gros: champ_bd.prix_vente_gros + ' F-CFA',
-                       
+
                     })
 
                     .draw();
@@ -129,10 +129,10 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                                 $libelle +
                                 '</span>' +
                                 '<small class="emp_nom_pop text-truncate text-muted">' +
-                                 $duree + ' ans'
-                                '</small>' +
-                                '</div>' +
-                                '</div>';
+                                $duree + ' ans'
+                            '</small>' +
+                            '</div>' +
+                            '</div>';
                             return $row_output;
                         }
                     },
@@ -277,7 +277,7 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                     },
 
 
-            
+
                 ],
                 // RESPONSIVE - Sur téléphone
                 responsive: {
@@ -336,9 +336,11 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
 
 
 
-        // MODIFIER / AJOUTER UN ELEMENT
+        // AJOUTER UN ELEMENT
         $('#form_ajouter').on('submit', function(e) {
             var $new_libelle = $('#libelle').val(),
+                $new_prix_vente_detail = $('#prix_vente_detail').val(),
+                $new_prix_vente_gros = $('#prix_vente_gros').val(),
                 $new_duree = $('#duree').val();
 
 
@@ -395,7 +397,8 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                                                 id: last_id,
                                                 libelle: $new_libelle,
                                                 duree: $new_duree,
-                                                status: 5
+                                                prix_vente_detail: $new_prix_vente_detail + ' F-CFA',
+                                                prix_vente_gros: $new_prix_vente_gros + ' F-CFA',
 
                                             })
                                             .draw();
