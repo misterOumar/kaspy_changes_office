@@ -1,6 +1,4 @@
 <?php include("views/components/alerts.php") ?>
-
-
 <script>
     jQuery(function ($) {
         $('#dates').flatpickr({
@@ -40,20 +38,19 @@
                     }).filter(row =>
                         row[21] !== undefined && row[21] !== null && row[21] !== ''
                     );
-                    const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0].map((value, index) => index + 1) : [];
+                    const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0] : [];
                     const dataRows = nonEmptyZRows.slice(1);
 
                     jsonData = dataRows.map(row =>
                         keys.reduce((obj, key, index) => {
                             obj[key] = row[index];
                             return obj;
-                        }, {})
-                    );
+                        }, {})                    );
 
 
-                    // console.log(JSON.stringify(jsonData, null, 2));
+                     console.log(JSON.stringify(jsonData, null, 2));
                     var date_saisie = document.getElementById("dates").value;
-                    var dateColumnIndex = 17; // Assuming the date column is at index 17
+                    var dateColumnIndex = 'Date' ;// Assuming the date column is at index 17
 
                     if (jsonData.length > 0 && jsonData[0][dateColumnIndex]) {
                          var date_objet = jsonData[0][dateColumnIndex];
@@ -76,26 +73,29 @@
                         console.error('Aucune donnée disponible pour la vérification de la date.');
                     }
 
+                    // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
+                    if ($.fn.DataTable.isDataTable("#excelDataTable")) {
+                                            $("#excelDataTable").DataTable().destroy();
+                                        }
 
-                    console.log(JSON.stringify(jsonData, null, 2));
-                    const table = document.createElement('table');
-                    table.classList.add('table', 'table-bordered', 'table-striped');
-                    for (let i = 0; i < nonEmptyZRows.length; i++) {
-                        const rowData = nonEmptyZRows[i];
-                        const tableRow = document.createElement('tr');
-                        for (let j = 0; j < rowData.length; j++) {
-                            const cellData = rowData[j];
-                            const cell = document.createElement('td');
-                            cell.textContent = cellData;
-                            tableRow.appendChild(cell);
-                        }
-                        table.appendChild(tableRow);
-                    }
-                    const tableContainer = document.getElementById('tableContainer');
-                    tableContainer.innerHTML = '';
-                    tableContainer.appendChild(table);
-                    const dataModal = new bootstrap.Modal(document.getElementById('dataModal'));
-                    dataModal.show();
+        
+                     // Création du DataTable avec les nouvelles clés
+                    $("#excelDataTable1").DataTable({
+                        data: jsonData,
+                        columns: Object.keys(jsonData[0]).map(function(col) {
+                            return {
+                                data: col,
+                                title: col
+                            };
+                        }),
+                        scrollX: true, 
+                    })
+                      
+                        // Affichez le modal
+                        $("#excelModal1").modal("show");
+
+                         
+
                 } catch (error) {
                     console.error('Erreur lors de la lecture du fichier Excel :', error);
                 }
@@ -107,12 +107,26 @@
         }
     };
     // Fonction au clic du bouton "Enregistrer"
-    $("#btn_save").click(function (e) {
+    $("#btnValider1").click(function(e) {
         e.preventDefault();
         // ... (votre code existant)
         // Appel de la fonction pour envoyer les données au contrôleur
         sendDataToController(jsonData);
-    });
+        });
+            // Fonction au clic du bouton "Annuler"
+      $("#btnAnnuler").click(function(e) {
+            e.preventDefault();
+            // Réinitialisez Dropzone
+            var myDropzone = Dropzone.forElement("#dpz-single-file");
+            if (myDropzone) {
+                myDropzone.removeAllFiles();
+            }
+            // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
+            if ($.fn.DataTable.isDataTable("#excelDataTable1")) {
+                $("#excelDataTable1").DataTable().destroy();
+            }
+        });
+        
     // Fonction pour envoyer les données au contrôleur via AJAX
     function sendDataToController(jsonData) {
         $.ajax({
@@ -125,7 +139,7 @@
             dataType: 'json',
             success: function (response) {
                 if (response.success === 'true') {
-                    $("#dataModal").modal("hide");
+                    $("#excelModal1").modal("hide");
                     // Réinitialisez Dropzone
                     // MESSAGE ALERT
                     swal_Alert_Sucess(response.message);
@@ -135,7 +149,7 @@
                     }
                 }  else if(response.success === 'existe') 
                 {                        // MESSAGE ALERT SI  EXISTE
-                        $("#dataModal").modal("hide");
+                        $("#excelModal1").modal("hide");
                     // Réinitialisez Dropzone
                     // MESSAGE ALERT
                     swal_Alert_Danger(response.message);

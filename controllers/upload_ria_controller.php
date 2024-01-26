@@ -17,7 +17,7 @@ if (isset($_POST['upload_ria_file'])) {
 
     // Parcourez chaque élément du tableau et récupérez la valeur de 'Dates'
     foreach ($tableData as $item) {
-        $datesArray[] = $item[17];
+        $datesArray[] = $item['Date'];
     }
     
 
@@ -48,28 +48,28 @@ if (isset($_POST['upload_ria_file'])) {
     foreach ($tableData as $rowData) {
         // var_dump($rowData);
         ria::Ajouter(
-            $rowData[1],
-            $rowData[2],
-            $rowData[3],
-            $rowData[4],
-            $rowData[5],
-            $rowData[6],
-            $rowData[7],
-            $rowData[8],
-            $rowData[9],
-            $rowData[10],
-            $rowData[11],
-            $rowData[12],
-            $rowData[13],
-            $rowData[14],
-            $rowData[15],
-            $rowData[16],
-            $rowData[17],
-            $rowData[18],
-            $rowData[19],
-            $rowData[20],
-            $rowData[21],
-            $rowData[22],
+            $rowData["Numero de transfert"],
+            $rowData["PIN"],
+            $rowData["Mode de livraison"],
+            $rowData["Caissie"],
+            $rowData["Agence"],
+            $rowData["Code Agence"],
+            $rowData["Agence Réconciliation"],
+            $rowData["Code A. réconciliation"],
+            $rowData["Montant Envoye"],
+            $rowData["Devise d'Envoi"],
+            $rowData["ays d'Envoi"],
+            $rowData["Pays de destination"],
+            $rowData["Montant à Payer"],
+            $rowData["Devise de paiement"],
+            $rowData["Montant de la commission SA"],
+            $rowData["Devise de la commission SA"],
+            $rowData["Date"],
+            $rowData["Taux"],
+            $rowData["TOB"],
+            $rowData["TTHU"],
+            $rowData["Frais"],
+            $rowData["Action"],
             $magasin,                
             $dt,
             $us,

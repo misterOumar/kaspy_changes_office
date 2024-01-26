@@ -116,6 +116,27 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                             </div>
                         </div>
                     </div>
+                       <!-- Modal large  pour la deuxieme dataTable-->
+                       <div class="modal fade text-start" id="excelModal1" tabindex="-1" aria-labelledby="myModalLabel16" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel16">Point du jour Ria </h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <span class="me-4">Montant Total : <span id="montant_envoye" class="fw-bold"></span>
+                                </span>
+                                    <span class="me-4">Frais Total : <span id="frais_envoye" class="fw-bold"></span> </span>                                    <!-- payer -->
+                                    <table id="excelDataTable1" class="display datatables-basic table"></table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="btnAnnuler" type="button" class="btn btn-outline-secondary me-1" data-bs-dismiss="modal">Annuler</button>
+                                    <button id='btnValider1' name='btnValider1' class='btn btn-primary enregistrer '>Valider</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- single file upload ends -->
                     <?php include 'components/modal_proprietes.php' ?>
                     <?php include 'components/modal_excel.php' ?>                  

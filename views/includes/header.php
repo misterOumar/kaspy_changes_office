@@ -31,11 +31,11 @@
                     <ul class="dropdown-menu sub-menu01" aria-labelledby="navbarDropdown">
                         <strong class="ms-2"> Mobile Money</strong>
 
-                        <li><a class="dropdown-item"   target="_blank"  data-bs-target="#JournalOrange" data-bs-toggle="modal" ><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Orange Money</a></li>
+                        <li><a class="dropdown-item" target="_blank" data-bs-target="#JournalOrange" data-bs-toggle="modal"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Orange Money</a></li>
 
-                        <li><a class="dropdown-item"  target="_blank"  data-bs-target="#JournalMoov" data-bs-toggle="modal" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Moov Money</a></li>
+                        <li><a class="dropdown-item" target="_blank" data-bs-target="#JournalMoov" data-bs-toggle="modal" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Moov Money</a></li>
 
-                        <li><a class="dropdown-item"  target="_blank"  data-bs-target="#JournalMtn" data-bs-toggle="modal"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Mtn Money</a></li>
+                        <li><a class="dropdown-item" target="_blank" data-bs-target="#JournalMtn" data-bs-toggle="modal"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Mtn Money</a></li>
 
                         <div class="dropdown-divider"></div>
                         <strong class="ms-2"> Cartes</strong>
@@ -297,39 +297,28 @@
 
 
 <script>
-    // $('#Dark_Mode').on('click', function() {
-    // })
+        document.addEventListener("DOMContentLoaded", function () {
+            const body = document.querySelector(".vertical-layout");
+            const darkModeToggle = document.getElementById("Dark_Mode");
 
-    // Fonction pour activer le mode sombre
-    function activerDarkMode() {
-        // Ajouter une classe ou un style au corps de la page pour activer le mode sombre
-        document.body.classList.add('dark-mode');
-        // Enregistrer l'état du mode sombre dans le localStorage
-        localStorage.setItem('darkMode', 'enabled');
-    }
+            // Vérifiez l'état du mode sombre dans le stockage local lors du chargement de la page
+            const darkModeEnabled = localStorage.getItem("darkMode") === "enabled";
 
-    // Fonction pour désactiver le mode sombre
-    function désactiverDarkMode() {
-        // Supprimer la classe ou le style du corps de la page pour désactiver le mode sombre
-        document.body.classList.remove('dark-mode');
-        // Enregistrer l'état du mode sombre dans le localStorage
-        localStorage.setItem('darkMode', 'disabled');
-    }
+            // Appliquer le mode sombre si activé
+            if (darkModeEnabled) {
+                body.classList.add("dark-layout");
+            }
 
-    // Vérifier l'état du mode sombre au chargement de la page
-    if (localStorage.getItem('darkMode') === 'enabled') {
-        activerDarkMode();
-    }
-
-    // Gérer le clic sur le bouton Dark Mode
-    $('#Dark_Mode').on('click', function() {
-        // Vérifier si le mode sombre est actuellement activé
-        if (document.body.classList.contains('dark-mode')) {
-            // Désactiver le mode sombre
-            désactiverDarkMode();
-        } else {
-            // Activer le mode sombre
-            activerDarkMode();
-        }
-    });
-</script>
+            // Gérer le clic sur le bouton de basculement du mode sombre
+            darkModeToggle.addEventListener("click", function () {
+                // Basculez entre activé et désactivé
+                if (body.classList.contains("dark-layout")) {
+                    body.classList.remove("dark-layout");
+                    localStorage.setItem("darkMode", "disabled");
+                } else {
+                    body.classList.add("dark-layout");
+                    localStorage.setItem("darkMode", "enabled");
+                }
+            });
+        });
+    </script>
