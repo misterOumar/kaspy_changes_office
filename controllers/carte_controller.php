@@ -173,92 +173,92 @@ function enregistrerCarteLot($customer_id_initial, $customer_id_final, $date_ach
 // MODIFIER UNE TRANSACTION
 if (isset($_POST['bt_modifier'])) {
 
-// Inclusion des fichiers ressources
-include('../functions/functions.php');
-include('../config/config.php');
-include('../config/db.php');
-include('../models/Carte.php'); // Il semble que vous n'utilisiez pas Mtn.php dans ce code
+    // Inclusion des fichiers ressources
+    include('../functions/functions.php');
+    include('../config/config.php');
+    include('../config/db.php');
+    include('../models/Carte.php'); // Il semble que vous n'utilisiez pas Mtn.php dans ce code
 
-// Récupération des données postées depuis le formulaire dans les variables respectives
-$type = strSecur($_POST['typemodif']);
-$customer_id = strSecur($_POST['customer_idmodif']);
-$date_activation = strSecur($_POST['date_enregistrementmodif']);
-$date_expiration = strSecur($_POST['date_expirationmodif']);
+    // Récupération des données postées depuis le formulaire dans les variables respectives
+    $type = strSecur($_POST['typemodif']);
+    $customer_id = strSecur($_POST['customer_idmodif']);
+    $date_activation = strSecur($_POST['date_enregistrementmodif']);
+    $date_expiration = strSecur($_POST['date_expirationmodif']);
 
-// Calculer la différence entre les deux dates
-$activation = new DateTime($date_activation);
-$expiration = new DateTime($date_expiration);
-$duree = $activation->diff($expiration);
+    // Calculer la différence entre les deux dates
+    $activation = new DateTime($date_activation);
+    $expiration = new DateTime($date_expiration);
+    $duree = $activation->diff($expiration);
 
-// Afficher la différence en jours
-$format_duree = $duree->format('%a jours %h heures %i minutes');
+    // Afficher la différence en jours
+    $format_duree = $duree->format('%a jours %h heures %i minutes');
 
-$idModif = strSecur($_POST["idModif"]);
+    $idModif = strSecur($_POST["idModif"]);
 
-// Déclaration et initialisation des variables d'erreur (e)
-$e_type = $e_customer_id = $e_date_activation = $e_date_expiration = "";
-$succes = true;
+    // Déclaration et initialisation des variables d'erreur (e)
+    $e_type = $e_customer_id = $e_date_activation = $e_date_expiration = "";
+    $succes = true;
 
-// Vérifications
-if (empty($customer_id)) {
-$e_customer_id = "Ce champ ne doit pas être vide.";
-$succes = false;
-}
-if (empty($date_activation)) {
-$e_date_activation = "Ce champ ne doit pas être vide.";
-$succes = false;
-}
-if (empty($date_expiration)) {
-$e_date_expiration = "Ce champ ne doit pas être vide.";
-$succes = false;
-}
+    // Vérifications
+    if (empty($customer_id)) {
+        $e_customer_id = "Ce champ ne doit pas être vide.";
+        $succes = false;
+    }
+    if (empty($date_activation)) {
+        $e_date_activation = "Ce champ ne doit pas être vide.";
+        $succes = false;
+    }
+    if (empty($date_expiration)) {
+        $e_date_expiration = "Ce champ ne doit pas être vide.";
+        $succes = false;
+    }
 
-// Cas où tout est OK
-if ($succes) {
-$ip = getIp();
-$navigateur = getNavigateur();
-$us = $_SESSION["KaspyISS_user"]['users'];
-$pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-$dt = date("Y-m-d H:i:s");
-$status = "en stock";
-// Appel de la fonction Modifier de la classe Carte
-if (cartes::Modifier(
-$customer_id,
-$date_activation,
-$date_expiration,
-$type,
-$format_duree,
-$status,
-$dt,
-$us,
-$navigateur,
-$pc,
-$ip,
-$idModif
-)) {
-$message = "Modification de l'enregistrement fiscal de bail effectuée avec succès.";
-echo json_encode([
-'success' => 'true',
-'message' => $message
-]);
-} else {
-$message = "Erreur lors de la modification de l'enregistrement fiscal de bail.";
-echo json_encode([
-'success' => 'false',
-'message' => $message
-]);
-}
-} else {
-// Retourner les erreurs de validation
-echo json_encode([
-'success' => 'false',
-'message' => "Vérifiez les champs",
-'customer_id' => $e_customer_id,
-'date_activation' => $e_date_activation,
-'date_expiration' => $e_date_expiration,
-'type' => $e_type,
-]);
-}
+    // Cas où tout est OK
+    if ($succes) {
+        $ip = getIp();
+        $navigateur = getNavigateur();
+        $us = $_SESSION["KaspyISS_user"]['users'];
+        $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        $dt = date("Y-m-d H:i:s");
+        $status = "en stock";
+        // Appel de la fonction Modifier de la classe Carte
+        if (cartes::Modifier(
+            $customer_id,
+            $date_activation,
+            $date_expiration,
+            $type,
+            $format_duree,
+            $status,
+            $dt,
+            $us,
+            $navigateur,
+            $pc,
+            $ip,
+            $idModif
+        )) {
+            $message = "Modification de l'enregistrement fiscal de bail effectuée avec succès.";
+            echo json_encode([
+                'success' => 'true',
+                'message' => $message
+            ]);
+        } else {
+            $message = "Erreur lors de la modification de l'enregistrement fiscal de bail.";
+            echo json_encode([
+                'success' => 'false',
+                'message' => $message
+            ]);
+        }
+    } else {
+        // Retourner les erreurs de validation
+        echo json_encode([
+            'success' => 'false',
+            'message' => "Vérifiez les champs",
+            'customer_id' => $e_customer_id,
+            'date_activation' => $e_date_activation,
+            'date_expiration' => $e_date_expiration,
+            'type' => $e_type,
+        ]);
+    }
 }
 
 
@@ -266,70 +266,89 @@ echo json_encode([
 
 // RECUPERATION DES INFO DE LA DERNIERE LIGNE
 if (isset($_GET['idLast'])) {
-include('../functions/functions.php');
-include('../config/config.php');
-include('../config/db.php');
-include('../models/carte.php');
+    include('../functions/functions.php');
+    include('../config/config.php');
+    include('../config/db.php');
+    include('../models/carte.php');
 
 
 
 
-$carte = cartes::getLast();
+    $carte = cartes::getLast();
 
-if ($carte) {
-$total = cartes::getCount();
-echo json_encode([
-'last_carte' => $carte,
-'total' => $total
-]);
-} else {
-echo json_encode([
-'last_carte' => 'null'
-]);
-}
+    if ($carte) {
+        $total = cartes::getCount();
+        echo json_encode([
+            'last_carte' => $carte,
+            'total' => $total
+        ]);
+    } else {
+        echo json_encode([
+            'last_carte' => 'null'
+        ]);
+    }
 }
 
 // RECUPERATION DES INFO POUR LA MODIFICATION
 if (isset($_GET['idCarte'])) {
-include('../functions/functions.php');
-include('../config/config.php');
-include('../config/db.php');
-include('../models/Carte.php');
+    include('../functions/functions.php');
+    include('../config/config.php');
+    include('../config/db.php');
+    include('../models/Carte.php');
 
-$id = $_GET['idCarte'];
-$proprietes = cartes::getByID($id);
+    $id = $_GET['idCarte'];
+    $proprietes = cartes::getByID($id);
 
-if ($proprietes) {
-echo json_encode([
-'carte' => $proprietes,
-]);
-} else {
-echo json_encode([
-'carte' => 'null'
-]);
+    if ($proprietes) {
+        echo json_encode([
+            'carte' => $proprietes,
+        ]);
+    } else {
+        echo json_encode([
+            'carte' => 'null'
+        ]);
+    }
 }
-}
+
+    // RECUPERATION DES INFO POUR PROPRIETE D'UN ELEMENT 
+    if (isset($_GET['idProprietes'])) {
+        include('../functions/functions.php');
+        include('../config/config.php');
+        include('../config/db.php');
+        include('../models/Carte.php');
+        $id = $_GET['idProprietes'];
+        $transactions = cartes::getByID($id);
+        if ($transactions) {
+            echo json_encode([
+                'carte' => $transactions,
+            ]);
+        } else {
+            echo json_encode([
+                'carte' => 'null'
+            ]);
+        }
+    }
 
 
 // SUPPRESSION D'UN enregistrement_contrat_bail
 if (isset($_GET['idSuppr'])) {
-include('../functions/functions.php');
-include('../config/config.php');
-include('../config/db.php');
-include('../models/carte.php');
+    include('../functions/functions.php');
+    include('../config/config.php');
+    include('../config/db.php');
+    include('../models/carte.php');
 
-$id = strSecur($_GET['idSuppr']);
-if (cartes::Supprimer($id)) {
-$message = "enregistrement carte supprimée avec succès.";
-echo json_encode([
-'success' => 'true',
-'message' => $message
-]);
-} else {
-$message = "Erreur impossible de supprimer cette carte.";
-echo json_encode([
-'success' => 'false',
-'message' => $message
-]);
-}
+    $id = strSecur($_GET['idSuppr']);
+    if (cartes::Supprimer($id)) {
+        $message = "enregistrement carte supprimée avec succès.";
+        echo json_encode([
+            'success' => 'true',
+            'message' => $message
+        ]);
+    } else {
+        $message = "Erreur impossible de supprimer cette carte.";
+        echo json_encode([
+            'success' => 'false',
+            'message' => $message
+        ]);
+    }
 }

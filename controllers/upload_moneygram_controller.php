@@ -13,6 +13,17 @@ if (isset($_POST['upload_moneygram_file'])) {
     // recuperrer les données postées
     $tableData = $_POST['data'];
     // recuperation des informations sur l'utilisateur
+
+    $transaction = moneygram::getByDate($tableData['dates']);
+
+    if ($transaction['Dates'] == $tableData['dates']) {
+        $message = "Ce fichier a été déjà importé";
+        $response = [
+            'success' => "existe",
+            'message' => $message
+        ];
+    } else{  
+        var_dump($transaction);
     $ip = getIp();
     $navigateur = getNavigateur();
     $us = $_SESSION["KaspyISS_user"]['users'];
@@ -51,5 +62,8 @@ if (isset($_POST['upload_moneygram_file'])) {
         'success' => 'true',
         'message' => $message
     ]);
-   
+
+}
+    // Envoie la réponse JSON au script JavaScript
+    echo json_encode($response);
 }

@@ -171,6 +171,20 @@ class western_union
         return $req->fetch();
     }
 
+  /* Méthode de récupération de western_union en fonction de la date.
+    *
+    * @param $date
+    * @return mixed
+    */
+   static function getByDates($dates)
+   {
+       global $db;
+       $sql = "SELECT * FROM western_union WHERE date = ?";
+       $req = $db->prepare($sql);
+       $req->execute([$dates]);
+       return $req->fetch();
+   }
+   
      /**
      * Renvoi la liste des ria pour le rapport.
      *

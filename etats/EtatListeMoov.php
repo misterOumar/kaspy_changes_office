@@ -1,161 +1,137 @@
 <?php
-require_once('../plugins/fpdf184/fpdf.php');
-include_once('../config/config.php');
-include_once('../config/db.php');
-require_once("../models/Bureaux.php");
-require_once("../models/Moov.php");
 
-class EtatListeMoov extends FPDF
-{
-    public $logoEtat;
-    public $nom_entreprise;
-    public $sigle;
-    public $slogan;
-    public $piedDePage;
+// Journal des recouvrements
+if (isset($_POST['bt_moov'])) {
+    // include('../functions/functions.php');
+    require_once('../plugins/fpdf184/fpdf.php');
+    include_once('../config/config.php');
+    include_once('../config/db.php');
+    require_once("../models/Bureaux.php");
+    require_once("../models/Moov.php");
+    
 
-    public $annee;
-
-    // En-tête
-    function Header()
-    {
-        if ($this->PageNo() == 1) {
-            // Logo
-            $this->Image(API_HOST . '/assets/images/etats/' . $this->logoEtat, 10, 8, 20);
-
-            // ENTETE GAUCHE
-            $this->Cell(22);
-            // Nom de l'entreprise
-            $this->SetFont('Helvetica', 'B', 16);
-            $this->Cell(0, 7, $this->nom_entreprise, 0, 0, 'L');
-            // Sigle de l'entreprise
-            $this->Ln(7);
-            $this->Cell(22);
-            $this->SetFont('Helvetica', '', 12);
-            $this->Cell(0, 7, $this->sigle, 0, 0, 'L');
-            // slogan de l'entreprise
-            $this->Ln(6);
-            $this->Cell(22);
-            $this->SetFont('Helvetica', 'I', 10);
-            $this->Cell(0, 7, $this->slogan, 0, 0, 'L');
-
-            // ENTETE DROITE
-            // Année académique
-            $this->Ln(0);
-            $this->Cell(135);
-            $this->SetFont('Helvetica', '', 10);
-            $this->Cell(0, 7, "Année : " . $this->annee, 0, 0, 'L');
+ 
 
 
-            // TITRE DE L'ETAT
-            // $this->Ln(12);
-            // $this->Cell(45);
-            // $this->SetFont('Helvetica', 'B', 15);
-            // $this->Cell(100, 10, 'LISTE DES TRANSACTIONS ORANGE MONEY', 1, 0, 'C');
-            $this->Ln(12);
-            $this->Cell(45);
-            $this->SetFont('Helvetica', 'B', 15);
-            $this->Cell(100, 10, ' TRANSACTIONS MOOV MONEY', 1, 0, 'C');
+    $date_debut = $_POST["date_debut"];
+    $date_debut = date('Y-m-d', strtotime($date_debut));
 
-            // Décalage à droite
-            $this->Cell(20);
+    $date_fin = $_POST["date_fin"];
+    $date_fin = date('Y-m-d', strtotime($date_fin));
 
-            $this->Ln();
-            $this->Cell(153);
-            $this->SetFont('Helvetica', 'I', 10);
-
-            // Date
-            //$this->Cell(0,7,"Tiré le : " .date("d/m/Y") ,0, 0, 'L');
-
-            // Saut de ligne
-            $this->Ln(15);
-        } else {
-            //Pages suivantes
-
-        }
-    }
+    $orange = moov::getAllBetween2Date($date_debut, $date_fin);
+    //  var_dump($orange);
 
 
-    // Tableau simple
-    function BasicTable($data)
-    {
-        // En-tête
-        $this->SetFont('Helvetica', 'B', 9);
-        $this->Cell(13, 7, "Nº", 1, 0, 'C');
-        $this->Cell(25, 7, "Date", 1, 0, 'C');
-        $this->Cell(25, 7, "Type opération", 1, 0, 'C');
-        $this->Cell(30, 7, "Telephone", 1, 0, 'C');
-        $this->Cell(30, 7, "Montant", 1, 0, 'C');
-        $this->Cell(35, 7, " ID Transaction ", 1, 0, 'C');
-        $this->Cell(30, 7, "Nouveau Solde", 1, 0, 'C');
-        $this->Ln();
+    // Propriéte de l'entrepise
+    $entreprise = bureaux::getByNom($_SESSION["KaspyISS_bureau"]);
+    $logoEtat = $entreprise['logo_etats'];
+    $nom_entreprise = $entreprise['libelle'];
+    $sigle = $entreprise['sigle'];
+    $slogan = $entreprise['slogan'];
 
-        $i = 1;
-        $this->SetFont('Helvetica', '', 9);
-        if (count($data) > 0) {
-            foreach ($data as $transaction) {
-                $this->Cell(13, 6, $i, 1, 0, 'C');
-                $this->Cell(25, 6, $transaction['date'], 1);
-                $this->Cell(25, 6, $transaction['type_operation'], 1);
-                $this->Cell(30, 6, $transaction['telephone_client'], 1);
-                $this->Cell(30, 6, number_format($transaction['montant'], 0, '', ' '), 1);
-                $this->Cell(35, 6, $transaction['id_transaction'], 1);
-                $this->Cell(30, 6, number_format($transaction['solde_total'], 0, '', ' '), 1); // formatter le solde en separateur de millier
-                $this->Ln();
-                $i++;
-            }
-        } else {
-            $this->Cell(188, 6,  'Aucune Transaction enregistrée', 1, 0, 'C');
-            $this->Ln();
-        }
-    }
+    $annee = $_SESSION["KaspyISS_annee"];
+    $pdf = new FPDF();
 
 
+// ---------------------------------entete du fichier fpdf-----------------------------------
+$pdf->AddPage();
+if ($pdf->PageNo() == 1) {
+    // ENTETE GAUCHE
+    // Logo
+    $pdf->Image(API_HOST . '/assets/images/etats/' . $logoEtat, 10, 8, 20);
+    // Nom de l'entreprise
+    $pdf->Cell(22);
+    $pdf->SetFont('Helvetica', 'B', 16);
+    $pdf->Cell(0, 7, $nom_entreprise, 0, 0, 'L');
+    // Sigle de l'entreprise
+    $pdf->Ln(7);
+    $pdf->Cell(22);
+    $pdf->SetFont('Helvetica', '', 12);
+    $pdf->Cell(0, 7, $sigle, 0, 0, 'L');
+    // slogan de l'entreprise
+    $pdf->Ln(6);
+    $pdf->Cell(22);
+    $pdf->SetFont('Helvetica', 'I', 10);
+    $pdf->Cell(0, 7, $slogan, 0, 0, 'L');
+
+    // ENTETE DROITE
+    // Année académique
+    $pdf->Ln(0);
+    $pdf->Cell(135);
+    $pdf->SetFont('Helvetica', '', 10);
+    $pdf->Cell(0, 7, "Periode du : " . $date_debut,0, 0, 'R');
+    $pdf->Ln();
+    $pdf->Cell(0, 7, "Au: " . $date_fin, 0, 0, 'R');
+    // TITRE DE L'ETAT
+    $pdf->Ln(12);
+    $pdf->Cell(20);
+    $pdf->SetFont('Helvetica', 'B', 15);
+    $pdf->Cell(150, 10, 'LISTE DES TRANSACTIONS MOOV MONEY', 1, 0, 'C');
+    // Décalage à droite
+    $pdf->Cell(20);
+    $pdf->Ln();
+    $pdf->Cell(153);
+    $pdf->SetFont('Helvetica', 'I', 10);
+
+    // Date
+    //$pdf->Cell(0,7,"Tiré le : " .date("d/m/Y") ,0, 0, 'L');
+
+    // Saut de ligne
+    $pdf->Ln(15);
+} else {
+    //Pages suivantes
+}
+// ---------------------------------corps du fichier fpdf-----------------------------------
+
+
+     // En-tête
+    $pdf->SetFont('Helvetica', 'B', 9);
+    $pdf->Cell(13, 7, "Nº", 1, 0, 'C');
+    $pdf->Cell(25, 7, "Date", 1, 0, 'C');
+    $pdf->Cell(25, 7, "Type opération", 1, 0, 'C');
+    $pdf->Cell(30, 7, "Telephone", 1, 0, 'C');
+    $pdf->Cell(30, 7, "Montant", 1, 0, 'C');
+    $pdf->Cell(35, 7, " ID Transaction ", 1, 0, 'C');
+    $pdf->Cell(30, 7, "Nouveau Solde", 1, 0, 'C');
+    $pdf->Ln();
+
+
+     $i = 1;
+    $pdf->SetFont('Helvetica', '', 9);
+     if (count($orange) > 0) {
+         foreach ($orange as $transaction) {
+            $pdf->Cell(13, 6, $i, 1, 0, 'C');
+            $pdf->Cell(25, 6, $transaction['date'], 1);
+            $pdf->Cell(25, 6, $transaction['type_operation'], 1);
+            $pdf->Cell(30, 6, $transaction['telephone_client'], 1);
+            $pdf->Cell(30, 6, number_format($transaction['montant'], 0, '', ' '), 1);
+            $pdf->Cell(35, 6, $transaction['id_transaction'], 1);
+            $pdf->Cell(30, 6, number_format($transaction['solde_total'], 0, '', ' '), 1); // formatter le solde en separateur de millier
+            $pdf->Ln();
+             $i++;
+         }
+     }else{
+        $pdf->Cell(188, 6,  'Aucune Transaction enregistrée', 1, 0, 'C');
+        $pdf->Ln();
+     }
+
+    //-------------------------pieds du fichier fpdf-------------------------------------
+    // Positionnement à 1,5 cm du bas
+    $pdf->SetY(-30);
+    // Police Arial italique 8
+    $pdf->SetFont('Arial', 'I', 8);
     // Pied de page
-    function Footer()
-    {
-        // Positionnement à 1,5 cm du bas
-        $this->SetY(-15);
-        // Police Arial italique 8
-        $this->SetFont('Arial', 'I', 8);
-        // Pied de page
-        $this->Cell(0, 7, APP_NAME . ' ' . APP_VERSION, 0, 0, 'L');
-        $this->Cell(0, 10, $this->piedDePage, 0, 0, 'C');
+    $pdf->Cell(0, 7, APP_NAME . ' ' . APP_VERSION, 0, 0, 'L');
+    // $pdf->Cell(0, 10, $piedDePage, 0, 0, 'C');
+    $heure =  date("H") - 1 . ":";
+    $pdf->Cell(0, 7, "Tiré le : " . date("d/m/Y") . ' à ' . $heure . date("i:s"), 0, 0, 'R');
 
-        $heure =  date("H") - 1 . ":";
-        $this->Cell(0, 7, "Tiré le : " . date("d/m/Y") . ' à ' . $heure . date("i:s"), 0, 0, 'R');
-    }
+
+    // Indiquez au navigateur de traiter le fichier PDF en ligne
+    header('Content-type: application/pdf');
+    header('Content-Disposition: inline; filename="JournalDesTransactionsOrangeMoney.pdf"');
+    $pdf->SetTitle('TRANSACTIONS MOOV MONNEY', 1);
+    $pdf->Output();
+    exit;
 }
-
-
-
-$data = array();
-$magasin = $_SESSION["KaspyISS_bureau"];
-$professeurs = moov::getAll($magasin);
-for ($num = 0; $num < count($professeurs); $num++) {
-    array_push(
-        $data,
-        $professeurs[$num]
-    );
-}
-
-
-
-// Instanciation de la classe dérivée
-$pdf = new EtatListeMoov();
-$entreprise = bureaux::getByNom($_SESSION["KaspyISS_bureau"]);
-$pdf->logoEtat = $entreprise['logo_etats'];
-$pdf->nom_entreprise = $entreprise['libelle'];
-$pdf->sigle = $entreprise['sigle'];
-$pdf->slogan = $entreprise['slogan'];
-
-$pdf->annee = $_SESSION["KaspyISS_annee"];
-
-$pdf->SetTitle('Transactions Moov Money', 1);
-
-
-$pdf->AliasNbPages();
-$pdf->AddPage('P');
-
-$pdf->BasicTable($data);
-
-$pdf->Output();

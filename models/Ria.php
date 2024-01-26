@@ -155,6 +155,21 @@ class ria
         return $req->fetch();
     }
 
+
+      /* Méthode de récupération de western_union en fonction de la date.
+    *
+    * @param $date
+    * @return mixed
+    */
+   static function getByDates($dates)
+   {
+       global $db;
+       $sql = "SELECT * FROM ria WHERE date = ?";
+       $req = $db->prepare($sql);
+       $req->execute([$dates]);
+       return $req->fetch();
+   }
+   
     /**
      * Méthode de récupération du dernier element de la table ria.
      *

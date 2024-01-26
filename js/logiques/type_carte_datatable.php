@@ -159,12 +159,6 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                                 }) +
                                 'Supprimer</a>' +
 
-                                //Détails
-                                '<a href="javascript:;" class="dropdown-item">' +
-                                feather.icons['file-text'].toSvg({
-                                    class: 'font-small-4 me-50'
-                                }) +
-                                'Détails</a>' +
                                 //Propriétés
                                 '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
                                 feather.icons['info'].toSvg({
@@ -521,21 +515,22 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                 url: "controllers/type_carte_controller.php",
                 success: function(result) {
                     var donnees = JSON.parse(result);
-                    if (donnees['carte'] !== 'null') {
+                    if (donnees['type_carte'] !== 'null') {
 
-                        let proprietes = donnees['locataire']
+                        let proprietes = donnees['type_carte']
 
-                        let libelle = proprietes['libelle'];
-                        let duree = proprietes['duree'];
-                        let date_creation = proprietes['date_creation'];
-                        $("#offcanvasBottomLabel").html("Propriété de « " + titre + " »");
-                        $("#date_creation").html(date_creation);
-                        $("#user_creation").html(user_creation);
-                        $("#navigateur_creation").html(navigateur_creation);
-                        $("#ordinateur_creation").html(ordinateur_creation);
-                        $("#ip_creation").html(ip_creation);
-                        $("#annee_academique").html(annee_academique);
-                        $("#ecole").html(ecole);
+                        $("#offcanvasBottomLabel").html("Propriété du type de carte « " + proprietes['libelle'] + " »");
+                        $("#date_creation").html(proprietes['date_creation']);
+                        $("#user_creation").html(proprietes['user_creation']);
+                        $("#navigateur_creation").html(proprietes['navigateur_creation']);
+                        $("#ordinateur_creation").html(proprietes['ordinateur_creation']);
+                        $("#ip_creation").html(proprietes['ip_creation']);
+                        $("#date_modification").html(proprietes['date_modif']);
+                        $("#user_modification").html(proprietes['user_modif']);
+                        $("#navigateur_modification").html(proprietes['navigateur_modif']);
+                        $("#ordinateur_modification").html(proprietes['ordinateur_modif']);
+                        $("#ip_modification").html(proprietes['ip_modif']);
+                        $("#ecole").html(proprietes['magasin']);
                     }
                 }
             })

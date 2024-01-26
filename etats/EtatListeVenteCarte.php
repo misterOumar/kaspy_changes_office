@@ -93,7 +93,7 @@ class EtatListeProprietaires extends FPDF
             $this->Cell(30, 6,  $carte['numero_carte'], 1, 0, '');
             $this->Cell(40, 6,  $carte['client'], 1, 0, 'C');
             $this->Cell(30, 6,  $carte['telephone'], 1, 0, 'C');
-            $this->Cell(30, 6,  $carte['montant'], 1, 0, '');
+            $this->Cell(30, 6,  $carte['montant'], 1, 0, 'C');
             $this->Ln();
             $i++;
         }

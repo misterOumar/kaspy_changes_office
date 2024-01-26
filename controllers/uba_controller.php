@@ -4,9 +4,7 @@ $Liste_Money_gram = null;
 if (isset($_GET['page']) and !empty($_GET['page']) and $_GET['page'] === "uba") {
     include("models/Uba.php");
     $Listes_uba = uba::getAll();
-
-}
-;
+};
 
 
 // RECUPERATION DES INFO POUR PROPRIETE D'UN ELEMENT 
@@ -54,4 +52,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     // Répondre avec une erreur si la requête n'est pas une requête POST
     http_response_code(405); // Méthode non autorisée
+}
+
+// RECUPERATION DES INFO POUR PROPRIETE D'UN ELEMENT 
+if (isset($_GET['idProprietes'])) {
+    include('../functions/functions.php');
+    include('../config/config.php');
+    include('../config/db.php');
+    include('../models/Uba.php');
+    $id = $_GET['idProprietes'];
+    $transactions = uba::getByID($id);
+    if ($transactions) {
+        echo json_encode([
+            'proprietes_uba' => $transactions,
+        ]);
+    } else {
+        echo json_encode([
+            'proprietes_uba' => 'null'
+        ]);
+    }
 }

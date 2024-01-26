@@ -291,6 +291,33 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 };
                             }),
                             scrollX: true, // Activer le défilement horizontal
+                            language: {
+                                // Textes pour la pagination
+                                paginate: {
+                                    previous: '&#10094; <span class="me-1"></span>',
+                                    next: '<span class="ms-1"></span> &#10095;',
+                                },
+                                // Textes pour l'affichage des informations
+                                info: 'Affichage de _START_ à _END_ sur _TOTAL_ entrées',
+                                // Texte pour le champ de recherche
+                                search: 'Rechercher :',
+                                // Textes pour la longueur de la page
+                                lengthMenu: 'Afficher _MENU_ ',
+                                // Texte lorsque la table est vide
+                                emptyTable: 'Aucune donnée disponible dans le tableau',
+                                // Texte lorsque les données sont en cours de chargement
+                                loadingRecords: 'Chargement...',
+                                // Texte lorsque la recherche ne trouve aucune correspondance
+                                zeroRecords: 'Aucun enregistrement trouvé',
+                                // Textes pour la sélection des colonnes
+                                select: {
+                                    rows: {
+                                        _: '%d lignes sélectionnées',
+                                        0: 'Aucune ligne sélectionnée',
+                                        1: '1 ligne sélectionnée'
+                                    }
+                                }
+                            }
                         });
 
                         $('#montant_envoye').text(montant_envoyer);

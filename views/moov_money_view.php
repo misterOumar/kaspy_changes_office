@@ -105,7 +105,7 @@
 
                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
                                    <div class="modal-header mb-1">
-                                       <h5 class="modal-title" id="exampleModalLabel">Enregistrmement d'une nouvelle transaction moov money</h5>
+                                       <h5 class="modal-title" id="exampleModalLabel">Enregistrmement d'une nouvelle transaction Moov money</h5>
                                    </div>
                                    <button type="button" id="bt_vider" name="bt_vider" class="btn" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" class="avatar pull-up my-0" title="Vider les champs" style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
                                        <i data-feather='refresh-ccw'></i></button>

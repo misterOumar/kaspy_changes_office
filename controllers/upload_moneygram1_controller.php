@@ -12,6 +12,29 @@ if (isset($_POST['upload_moneygram_file'])) {
 
     // recuperrer les données postées
     $tableData = $_POST['data'];
+    $datesArray = [];
+
+    // Parcourez chaque élément du tableau et récupérez la valeur de 'Dates'
+    foreach ($tableData as $item) {
+        $datesArray[] = $item['Dates'];
+    }
+    
+    // Affichez les valeurs de 'Dates'
+    // var_dump($datesArray[0]);
+    // recuperation des informations sur l'utilisateur
+   
+    $transaction = moneygram::getByDates($datesArray[0]);
+    //  var_dump($transaction);
+
+    if ($transaction['dates'] === $datesArray[1]) {
+        $message = "Ce fichier a été déjà importé";
+        echo json_encode([
+            'success' => 'existe',
+            'message' => $message
+        ]);
+    } else
+    {  
+       
     // recuperation des informations sur l'utilisateur
     $ip = getIp();
     $navigateur = getNavigateur();
@@ -52,5 +75,6 @@ if (isset($_POST['upload_moneygram_file'])) {
         'success' => 'true',
         'message' => $message
     ]);
-   
+}
+ 
 }

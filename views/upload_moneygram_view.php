@@ -73,33 +73,33 @@ if (!isset($_SESSION["KaspyISS_user"])) {
             </div>
             <div class="content-body">
                 <section id="basic-datatable">
-                     <!-- single file upload starts -->
-                     <div class="row">
+                    <!-- single file upload starts -->
+                    <div class="row">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="card-title">Téléversé le point du jour</h4>
                                     <!--- DATE --->
                                     <div class="d-flex align-items-ends mr-10 gap-1 justify-content-end">
-                                    <div class="col-md-3">
-                                        <label class='form-label' for='dates'>Date</label>
-                                        <input type="datetime" id="dates" name="dates" class="form-control flatpickr-date-time" placeholder="YYYY-MM-DD HH:MM" />
-
-                                    </div>
                                         <div class="col-md-3">
-                                        <label class='form-label' for='taxe'>Taxes</label>
-                                        <input type="int" id="taxe" name="taxe" class="form-control flatpickr-date-time" />
-                                    </div>
-                                   
+                                            <label class='form-label' for='dates'>Date</label>
+                                            <input type="datetime" id="dates" name="dates" class="form-control flatpickr-date-time" placeholder="YYYY-MM-DD HH:MM" />
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class='form-label' for='taxe'>Taxes</label>
+                                            <input type="int" id="taxe" name="taxe" class="form-control flatpickr-date-time" />
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                                            <form action="#" class="dropzone dropzone-area" id="dpz-single-file">
-                                <div class="dz-message">Déposez les fichiers money gram ici ou cliquez pour les télécharger.</div>
-                                <div class="fallback">
-                                    <input type='file' class='form-control me-1' name="fileInput" id="fileInput" style="width: 350px;" />
-                                </div>
-                                 </form>
+                                    <form action="#" class="dropzone dropzone-area" id="dpz-single-file">
+                                        <div class="dz-message">Déposez les fichiers money gram ici ou cliquez pour les télécharger.</div>
+                                        <div class="fallback">
+                                            <input type='file' class='form-control me-1' name="fileInput" id="fileInput" style="width: 350px;" />
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class="d-flex align-items-end justify-content-end me-2 mb-2">
                                     <a id='btnEnregistrer' href="index.php?page=money_gram" class=' btn btn-outline-primary '>
@@ -116,19 +116,19 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                     </div>
                     <!-- single file upload ends -->
 
-               
+
                     <!-- Modal large  pour la deuxieme dataTable-->
                     <div class="modal fade text-start" id="excelModal1" tabindex="-1" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel16">Point du jour money gram  </h4>
+                                    <h4 class="modal-title" id="myModalLabel16">Point du jour money gram </h4>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <span class="me-4">Montant Total : <span id="montant_envoye" class="fw-bold"></span>
-                                </span>
-                                    <span class="me-4">Frais Total : <span id="frais_envoye" class="fw-bold"></span> </span>                                    <!-- payer -->
+                                    </span>
+                                    <span class="me-4">Frais Total : <span id="frais_envoye" class="fw-bold"></span> </span> <!-- payer -->
                                     <table id="excelDataTable1" class="display datatables-basic table"></table>
                                 </div>
                                 <div class="modal-footer">
@@ -161,6 +161,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
     <!-- BEGIN: FICHIERS JS DES PAGES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="js/plugins/tables/datatable/jquery.dataTables.min.js"></script>
     <script src="js/plugins/tables/datatable/dataTables.bootstrap5.min.js"></script>
     <script src="js/plugins/tables/datatable/dataTables.responsive.min.js"></script>
@@ -191,23 +192,15 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <!-- END: Footer-->
     <!-- <?php include 'js/flatpick_fr.js' ?>
      -->
-     <?php include 'js/logiques/depenses_datatable.php' ?>
+    <?php include 'js/logiques/depenses_datatable.php' ?>
     <?php include 'js/logiques/depenses_logiques.php' ?>
     <?php include("views/components/alerts.php") ?>
 
 
-        <script>
-        // Désactiver la zone de dépôt au chargement de la page
-        Dropzone.options.dpzSingleFile = {
-            init: function() {
-                this.disable();
-            }
-        };
-    </script>
     <script>
-            var jsonData = [];
-            var jsonData1 = [];
-            var mergedData = [];
+        var jsonData = [];
+        var jsonData1 = [];
+        var mergedData = [];
         // Configuration de Dropzone pour le téléversement de fichiers
         Dropzone.options.dpzSingleFile = {
             paramName: "file", // Nom du paramètre qui sera utilisé pour le téléversement du fichier
@@ -271,36 +264,67 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                             row[6] !== undefined &&
                             row[6] !== null &&
                             row[6] !== '' &&
-                             row[7] === undefined                         
-                          
+                            row[7] === undefined
+
                         );
-                        
+
                         const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0] : [];
-                        const dataRows = nonEmptyZRows.slice(1,-1);
+
+
+
+
+
+                        const dataRows = nonEmptyZRows.slice(1, -1);
                         const taxeInput = document.getElementById('taxe');
                         const taxeValue = taxeInput.value;
                         const datesInput = document.getElementById('dates');
                         const datesValue = datesInput.value;
 
                         // Ajoutez les clés Taxe et Dates à la liste des clés
-                        const keysWithTaxeDates = [...keys, 'Taxe', 'Dates','Type'];
+                        const keysWithTaxeDates = [...keys, 'Taxe', 'Dates', 'Type'];
                         const jsonData = dataRows.map(row =>
                             keys.reduce((obj, key, index) => {
                                 obj[key] = row[index];
                                 return obj;
                             }, {
-                                Taxe: taxeValue,  // Ajout de la clé Taxe avec sa valeur dans chaque objet
+                                Taxe: taxeValue, // Ajout de la clé Taxe avec sa valeur dans chaque objet
                                 Dates: datesValue,
-                                Type:"Reçu" // Ajoutez d'autres propriétés si nécessaire
+                                Type: "Reçu" // Ajoutez d'autres propriétés si nécessaire
                             })
                         );
 
+                        var date_saisie = document.getElementById("dates").value;
+                        var dateColumnIndex = "Heure et date (locales)"; // Assuming the date column is at index 17
+                        if (jsonData.length > 0 && jsonData[0][dateColumnIndex]) {
+                            var date_objet = jsonData[0][dateColumnIndex];
+                            var parsedDate_objet = moment(date_objet, "YYYY-MMM-DD HH:mm:ss").format("DD/MM/YYYY");
+                            // var parsedDate_objet=  date_objet ;
+                            var parsedDate_saisie = moment(date_saisie).format("DD/MM/YYYY"); // Adjust the format as needed
+
+                            if (parsedDate_objet !== parsedDate_saisie) {
+                                // / Display a customized alert box
+                                Swal.fire({
+                                    title: 'Les dates ne correspondent pas',
+                                    html: 'Date fichier: ' + parsedDate_objet + '<br>Date saisie: ' + parsedDate_saisie,
+                                    icon: 'error',
+                                    confirmButtonText: 'OK',
+                                }).then((result) => {
+                                    // Reload the page after the user clicks "OK" on the alert
+                                    if (result.isConfirmed) {
+                                        window.location.reload();
+                                    }
+                                });
+
+                            }
+                        } else {
+                            console.error('Aucune donnée disponible pour la vérification de la date.');
+                        }
                         console.log('Json Data 1:', jsonData);
 
                         // Traitement des données pour le deuxième tableau (tab2)
                         const keys1 = nonEmptyZRows1.length > 0 ? nonEmptyZRows1[0] : [];
                         const dataRows1 = nonEmptyZRows1.slice(1);
-                        const keysWithTaxeDates1 = [...keys1,  'code d\'autorisation', 'Taxe', 'Dates','Type'];
+                        const keysWithTaxeDates1 = [...keys1, 'code d\'autorisation', 'Taxe', 'Dates', 'Type'];
 
                         jsonData1 = dataRows1.map(row =>
                             keys1.reduce((obj, key, index) => {
@@ -312,47 +336,65 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 }
                                 return obj;
                             }, {
-                                Taxe: taxeValue,  // Ajout de la clé Taxe avec sa valeur dans chaque objet
-                                Dates: datesValue ,// Ajoutez d'autres propriétés si nécessaire
-                                Type:"Envoyé"
+                                Taxe: taxeValue, // Ajout de la clé Taxe avec sa valeur dans chaque objet
+                                Dates: datesValue, // Ajoutez d'autres propriétés si nécessaire
+                                Type: "Envoyé"
                             })
                         );
 
-                         mergedData = jsonData.concat(jsonData1);
+                        mergedData = jsonData.concat(jsonData1);
 
                         // Affichage des données dans la console
                         console.log('Json Data 2:', jsonData1);
-                        
+
                         console.log('Json Data 1& 2:', mergedData);
                         // Initialisation de DataTable avec en-tête
-                       // Création du DataTable avec les nouvelles clés
-                    $("#excelDataTable").DataTable({
-                        data: jsonData,
-                        columns: keysWithTaxeDates.map(function(col) {
-                            return {
-                                data: col,
-                                title: col
-                            };
-                        })
-                    });
 
-                     // Création du DataTable avec les nouvelles clés
-                    $("#excelDataTable1").DataTable({
-                        data: mergedData,
-                        columns: keysWithTaxeDates1.map(function(col) {
-                            return {
-                                data: col,
-                                title: col
-                            };
+
+                        // Création du DataTable avec les nouvelles clés
+                        $("#excelDataTable1").DataTable({
+                            data: mergedData,
+                            columns: keysWithTaxeDates1.map(function(col) {
+                                return {
+                                    data: col,
+                                    title: col
+                                };
+                            }),// Activer le défilement horizontal
+                            language: {
+                                // Textes pour la pagination
+                                paginate: {
+                                    previous: '&#10094; <span class="me-1"></span>',
+                                    next: '<span class="ms-1"></span> &#10095;',
+                                },
+                                // Textes pour l'affichage des informations
+                                info: 'Affichage de _START_ à _END_ sur _TOTAL_ entrées',
+                                // Texte pour le champ de recherche
+                                search: 'Rechercher :',
+                                // Textes pour la longueur de la page
+                                lengthMenu: 'Afficher _MENU_ ',
+                                // Texte lorsque la table est vide
+                                emptyTable: 'Aucune donnée disponible dans le tableau',
+                                // Texte lorsque les données sont en cours de chargement
+                                loadingRecords: 'Chargement...',
+                                // Texte lorsque la recherche ne trouve aucune correspondance
+                                zeroRecords: 'Aucun enregistrement trouvé',
+                                // Textes pour la sélection des colonnes
+                                select: {
+                                    rows: {
+                                        _: '%d lignes sélectionnées',
+                                        0: 'Aucune ligne sélectionnée',
+                                        1: '1 ligne sélectionnée'
+                                    }
+                                }
+                            }
                         })
-                    })
-                      
+
                         // Affichez le modal
                         $("#excelModal1").modal("show");
 
-                          // Affichez le modal
-                          $("#excelModal").modal("show");
- 
+                        // Affichez le modal
+                        $("#excelModal").modal("show");
+
                     } catch (error) {
                         console.error('Erreur lors de la lecture du fichier Excel :', error);
                     }
@@ -366,15 +408,15 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 console.error("Erreur lors du téléversement du fichier", file, errorMessage);
             }
         };
-         // Fonction au clic du bouton "Enregistrer 1"
-         $("#btnValider1").click(function(e) {
+        // Fonction au clic du bouton "Enregistrer 1"
+        $("#btnValider1").click(function(e) {
             e.preventDefault();
             // Appel de la fonction pour envoyer les données au contrôleur
             sendDataToController1(mergedData);
         });
 
-            // Fonction au clic du bouton "Annuler"
-            $("#btnAnnuler").click(function(e) {
+        // Fonction au clic du bouton "Annuler"
+        $("#btnAnnuler").click(function(e) {
             e.preventDefault();
             // Réinitialisez Dropzone
             var myDropzone = Dropzone.forElement("#dpz-single-file");
@@ -386,10 +428,10 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 $("#excelDataTable1").DataTable().destroy();
             }
         });
-        
 
-         // Fonction pour envoyer les données (1) au contrôleur via AJAX
-         function sendDataToController1(mergedData) {
+
+        // Fonction pour envoyer les données (1) au contrôleur via AJAX
+        function sendDataToController1(mergedData) {
             $.ajax({
                 url: 'controllers/upload_moneygram1_controller.php', // Remplacez par le chemin réel vers votre contrôleur
                 method: 'POST',
@@ -409,6 +451,16 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                         }
                         // MESSAGE ALERT
                         swal_Alert_Sucess(response.message);
+                    } else if (response.success === 'existe') {
+                        // MESSAGE ALERT SI  EXISTE
+                        swal_Alert_Danger(response.message);
+                        //FERMETURE DU MODAL
+                        $("#excelModal1").modal("hide");
+                        // Réinitialisez Dropzone
+                        var myDropzone = Dropzone.forElement("#dpz-single-file");
+                        if (myDropzone) {
+                            myDropzone.removeAllFiles();
+                        }
                     } else {
                         console.error('Erreur : ' + response.message);
                     }
@@ -419,9 +471,9 @@ if (!isset($_SESSION["KaspyISS_user"])) {
             });
         }
     </script>
-       <script>
+    <script>
         $(window).on('load', function() {
-            
+
             if (feather) {
                 feather.replace({
                     width: 14,

@@ -248,6 +248,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <script src="plugins/jquery/jquery.min.js"></script>
 
     <!-- BEGIN: FICHIERS JS DES PAGES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="js/plugins/tables/datatable/jquery.dataTables.min.js"></script>
     <script src="js/plugins/tables/datatable/dataTables.bootstrap5.min.js"></script>
     <script src="js/plugins/tables/datatable/dataTables.responsive.min.js"></script>
@@ -343,6 +344,31 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 return obj;
                             }, {})
                         );
+                        var date_saisie = document.getElementById("dates").value;
+                        var dateColumnIndex = "Date"; // Assuming the date column is at index 17
+
+                        if (jsonData.length > 0 && jsonData[0][dateColumnIndex]) {
+                            var date_objet = jsonData[0][dateColumnIndex];
+                            var parsedDate_objet = moment(date_objet, "DD-MM-YYYY").format("DD/MM/YYYY");
+                            // var parsedDate_objet = date_objet;
+                            var parsedDate_saisie = moment(date_saisie).format("DD/MM/YYYY");
+                            if (parsedDate_objet !== parsedDate_saisie) {
+
+                                Swal.fire({
+                                    title: 'Les dates ne correspondent pas',
+                                    html: 'Date du fichier: ' + parsedDate_objet + '<br>Date saisie: ' + parsedDate_saisie,
+                                    icon: 'error',
+                                    confirmButtonText: 'OK',
+                                }).then((result) => {
+                                    // Reload the page after the user clicks "OK" on the alert
+                                    if (result.isConfirmed) {
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        } else {
+                            console.error('Aucune donnée disponible pour la vérification de la date.');
+                        }
                         // Parcourir toutes les données
                         jsonData.forEach(function(item) {
                             // Vérifier si la propriété "Type de paiement" est égale à "CASH"
@@ -435,10 +461,8 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                             language: {
                                 // Textes pour la pagination
                                 paginate: {
-                                    first: 'Premier',
-                                    previous: 'Précédent',
-                                    next: 'Suivant',
-                                    last: 'Dernier'
+                                    previous: '&#10094; <span class="me-1"></span>',
+                                    next: '<span class="ms-1"></span> &#10095;',
                                 },
                                 // Textes pour l'affichage des informations
                                 info: 'Affichage de _START_ à _END_ sur _TOTAL_ entrées',
@@ -478,12 +502,8 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                         $('#impots_payees').text(impots_payees.toLocaleString());
                         $('#traditionnel').text(total_payees.toLocaleString());
                         $('#frais_paye').text(frais_payer);
-
                         // Affichez le modal
                         $("#excelModal").modal("show");
-
-
-
                     } catch (error) {
                         console.error('Erreur lors de la lecture du fichier Excel :', error);
                     }
@@ -532,7 +552,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 success: function(response) {
                     if (response.success === 'true') {
                         $("#excelModal").modal("hide");
-
                         // Réinitialisez Dropzone
                         var myDropzone = Dropzone.forElement("#dpz-single-file");
                         if (myDropzone) {
@@ -540,6 +559,17 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                         }
                         // MESSAGE ALERT
                         swal_Alert_Sucess(response.message);
+                    } else if (response.success === 'existe') {
+                        // MESSAGE ALERT SI  EXISTE
+                        swal_Alert_Danger(response.message);
+                        //FERMETURE DU MODAL
+                        $("#excelModal").modal("hide");
+                        // Réinitialisez Dropzone
+                        var myDropzone = Dropzone.forElement("#dpz-single-file");
+                        if (myDropzone) {
+                            myDropzone.removeAllFiles();
+                        }
+
                     } else {
                         console.error('Erreur : ' + response.message);
                     }

@@ -91,7 +91,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     <div class="d-flex align-items-center gap-1 justify-content-end">
                                         <label class='form-label' for='dates'>Date</label>
                                         <div class="col-5">
-
                                             <input type="datetime" id="dates" name="dates" class="form-control flatpickr-date-time" placeholder="YYYY-MM-DD HH:MM" />
 
                                         </div>
@@ -105,8 +104,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                         </div>
                                     </form>
                                 </div>
-
-
                                 <div class="d-flex align-items-end justify-content-end me-2 mb-2">
                                     <a id='btnEnregistrer' href="index.php?page=ria" class=' btn btn-outline-primary '>
                                         
@@ -115,10 +112,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                         </span>
                                         <i data-feather="eye" class="me-25"></i>
                                     </a>
-                           
-                                 
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -148,6 +142,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <script src="plugins/jquery/jquery.min.js"></script>
 
     <!-- BEGIN: FICHIERS JS DES PAGES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="js/plugins/tables/datatable/jquery.dataTables.min.js"></script>
     <script src="js/plugins/tables/datatable/dataTables.bootstrap5.min.js"></script>
     <script src="js/plugins/tables/datatable/dataTables.responsive.min.js"></script>
@@ -170,14 +165,13 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <script src="js/plugins/forms/form-file-uploader.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-    <!-- START: Footer-->
+   
+<!-- Your existing script -->
+
     <?php include 'includes/footer.php' ?> <!-- END: Footer-->
     <!-- <?php include 'js/flatpick_fr.js' ?>
      --> 
      <?php include 'js/logiques/upload_ria_logique.php' ?>
-
-
-
    
 </body>
 <style>
@@ -187,4 +181,9 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     }
 </style>
 
+<script>
+    // Attachez un écouteur d'événements au clic du bouton
+    document.getElementById('dates');
+   
+</script>
 </html>

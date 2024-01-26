@@ -671,34 +671,18 @@ $api_url = API_HOST . 'index.php?page=api_depenses';
                     if (donnees['proprietes_depense'] !== 'null') {
                         let proprietes = donnees['proprietes_depense']
 
-                        let titre = proprietes['designation'];
-                        let date_creation = proprietes['date_creation'];
-                        let user_creation = proprietes['user_creation'];
-                        let navigateur_creation = proprietes['navigateur_creation'];
-                        let ordinateur_creation = proprietes['ordinateur_creation'];
-                        let ip_creation = proprietes['ip_creation'];
-                        let date_modif = proprietes['date_modif'];
-                        let user_modif = proprietes['user_modif'];
-                        let navigateur_modif = proprietes['navigateur_modif'];
-                        let ordinateur_modif = proprietes['ordinateur_modif'];
-                        let ip_modif = proprietes['ip_modif'];
-                        let annee_academique = proprietes['annee_academique'];
-                        let ecole = proprietes['ecole'];
-
-                        $("#offcanvasBottomLabel").html("Propriété de « " + titre + " »");
-                        $("#date_creation").html(date_creation);
-                        $("#user_creation").html(user_creation);
-                        $("#navigateur_creation").html(navigateur_creation);
-                        $("#ordinateur_creation").html(ordinateur_creation);
-                        $("#ip_creation").html(ip_creation);
-                        $("#date_modif").html(date_modif);
-                        $("#user_modif").html(user_modif);
-                        $("#navigateur_modif").html(navigateur_modif);
-                        $("#ordinateur_modif").html(ordinateur_modif);
-                        $("#ip_modif").html(ip_modif);
-
-                        $("#annee_academique").html(annee_academique);
-                        $("#ecole").html(ecole);
+                        $("#offcanvasBottomLabel").html("Propriété de la depenses « " + proprietes['n_piece'] + " »");
+                        $("#date_creation").html(proprietes['date_creation']);
+                        $("#user_creation").html(proprietes['user_creation']);
+                        $("#navigateur_creation").html(proprietes['navigateur_creation']);
+                        $("#ordinateur_creation").html(proprietes['ordinateur_creation']);
+                        $("#ip_creation").html(proprietes['ip_creation']);
+                        $("#date_modification").html(proprietes['date_modif']);
+                        $("#user_modification").html(proprietes['user_modif']);
+                        $("#navigateur_modification").html(proprietes['navigateur_modif']);
+                        $("#ordinateur_modification").html(proprietes['ordinateur_modif']);
+                        $("#ip_modification").html(proprietes['ip_modif']);
+                        $("#ecole").html(proprietes['magasin']);
                     }
                 }
             })

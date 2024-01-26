@@ -1,4 +1,5 @@
 <?php include_once 'includes/licence_modal.php' ?>
+<?php include_once 'components/journal_orange.php' ?>
 <link rel="stylesheet" href="css/drop_menu_etats.css" />
 
 <!-- BEGIN: Header-->
@@ -29,11 +30,12 @@
                     </a>
                     <ul class="dropdown-menu sub-menu01" aria-labelledby="navbarDropdown">
                         <strong class="ms-2"> Mobile Money</strong>
-                        <li><a class="dropdown-item" href="etats/EtatListeOrange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Orange Money</a></li>
 
-                        <li><a class="dropdown-item" href="etats/EtatListeMoov.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Moov Money</a></li>
+                        <li><a class="dropdown-item"   target="_blank"  data-bs-target="#JournalOrange" data-bs-toggle="modal" ><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Orange Money</a></li>
 
-                        <li><a class="dropdown-item" href="etats/EtatListeMtn.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Mtn Money</a></li>
+                        <li><a class="dropdown-item"  target="_blank"  data-bs-target="#JournalMoov" data-bs-toggle="modal" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Moov Money</a></li>
+
+                        <li><a class="dropdown-item"  target="_blank"  data-bs-target="#JournalMtn" data-bs-toggle="modal"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Mtn Money</a></li>
 
                         <div class="dropdown-divider"></div>
                         <strong class="ms-2"> Cartes</strong>
@@ -49,10 +51,14 @@
                         <div class="dropdown-divider"></div>
                         <strong class="ms-2"> Transactions</strong>
 
+                        <li><a class="dropdown-item" href="etats/EtatListeOperationMoneyGram.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Rapport de suivi des opérations Money Gram</a> </li>
                         <li><a class="dropdown-item" href="etats/EtatListeOperationRIA.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Rapport de suivie des opérations RIA</a> </li>
+                                Rapport de suivi des opérations RIA</a> </li>
                         <li><a class="dropdown-item" href="etats/EtatListeOperationWU.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Rapport de suivie des opérations WU</a> </li>
+                                Rapport de suivi des opérations WU</a> </li>
+                        <li><a class="dropdown-item" href="etats/EtatListeOperationWU.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Rapport de la caisse des transactions</a> </li>
                         <div class="dropdown-divider"></div>
 
                         <li><a class="dropdown-item" href="etats/EtatListeChange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>

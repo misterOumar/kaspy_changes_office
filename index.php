@@ -32,9 +32,14 @@ if (in_array($page . '_controller.php', $allPages)) {
     include_once 'controllers/droits_acces_controller.php';
     include_once 'controllers/' . $page . '_controller.php';
     include_once 'views/' . $page . '_view.php';
+
+    // modals
+    include_once 'views/components/journal_orange.php';
+    include_once 'views/components/journal_moov.php';
+    include_once 'views/components/journal_mtn.php';
 } else {
-   // header('Location: index.php?page=404');
-   
-   //header('Location: 404.php');
-   //include_once '404.php';
+    // header('Location: index.php?page=404');
+
+    //header('Location: 404.php');
+    //include_once '404.php';
 }

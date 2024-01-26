@@ -139,7 +139,20 @@ class mtn
         $req->execute([$client]);
         return $req->fetch();
     }
-
+  /**
+     * Renvoi la liste des transactions entre deux dates.
+     * @param $dates
+     * @return array
+     */
+    static function getAllBetween2Date($date_debut, $date_fin)
+    {
+        global $db;
+        $req = $db->prepare("SELECT mtn.* FROM mtn AS mtn
+                             WHERE mtn.date BETWEEN ? AND ?");
+        $req->execute([$date_debut, $date_fin]);
+        return $req->fetchAll();
+    }
+    
     //||**********************************||
     //||------------ INSERTIONS ------------||
     //||**********************************||

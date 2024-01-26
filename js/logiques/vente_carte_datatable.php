@@ -474,6 +474,40 @@ $api_url = API_HOST . 'index.php?page=api_vente_carte';
             })
         });
 
+           // PROPRIETE D'UNE LIGNE
+           $('.datatables-basic tbody').on('click', '.proprietes', function() {
+            var that = this
+            $.ajax({
+                type: "GET",
+                data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+                url: "controllers/vente_carte_controller.php",
+                success: function(result) {
+                  
+                    var donnees = JSON.parse(result);
+                    if (donnees['ventes'] !== 'null') {
+
+                        let proprietes = donnees['ventes']
+
+                       
+                        $("#offcanvasBottomLabel").html("Propriété de la transaction MTN Money« " + proprietes['date_creation'] + " »");
+                        $("#date_creation").html(proprietes['date_creation']);
+                        $("#user_creation").html(proprietes['user_creation']);
+                        $("#navigateur_creation").html(proprietes['navigateur_creation']);
+                        $("#ordinateur_creation").html(proprietes['ordinateur_creation']);
+                        $("#ip_creation").html(proprietes['ip_creation']);
+                        $("#date_modification").html(proprietes['date_modif']);
+                        $("#user_modification").html(proprietes['user_modif']);
+                        $("#navigateur_modification").html(proprietes['navigateur_modif']);
+                        $("#ordinateur_modification").html(proprietes['ordinateur_modif']);
+                        $("#ip_modification").html(proprietes['ip_modif']);
+                        $("#ecole").html(proprietes['magasin']);
+
+
+                    }
+                }
+            })
+        });
+
         // SUPPRIMER UNE LIGNE
         $('.datatables-basic tbody').on('click', '.delete-record', function() {
             // Suppression Front

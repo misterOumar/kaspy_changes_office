@@ -190,13 +190,13 @@ if (isset($_GET['fichier'])) {
 }
 
 // RECUPERATION DES INFO POUR PROPRIETE D'UN ELEMENT 
-if (isset($_GET['idTypeCarte'])) {
+if (isset($_GET['idProprietes'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
     include('../models/Type_carte.php');
 
-    $id = $_GET['idTypeCarte'];
+    $id = $_GET['idProprietes'];
     $proprietes = type_carte::getByID($id);
 
     if ($proprietes) {

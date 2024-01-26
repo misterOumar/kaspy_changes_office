@@ -115,13 +115,21 @@ class moneygram
     }
     
 
-    // static function getDepot()
-    // {
-    //     global $db;
-    //     $req = $db->prepare("SELECT SUM(montant_envoye) FROM money_gram where code_pays_origine ='CI' ");
-    //     $req->execute([]);
-    //     return $req->fetchColumn();
-    // } 
+  /**
+     * Méthode de récupération de western_union en fonction de la date.
+     *
+     * @param $date
+     * @return mixed
+     */
+    static function getByDates($dates)
+    {
+        global $db;
+        $sql = "SELECT * FROM moneygram WHERE dates = ?";
+        $req = $db->prepare($sql);
+        $req->execute([$dates]);
+        return $req->fetch();
+    }
+    
     /**
      * Méthode pour récupérer un(e)moneygram en fonction de son id.
      *
@@ -162,6 +170,16 @@ class moneygram
         $req->execute([]);
         return $req->fetch()[0];
     }
+    // Rappor UBA
+    static function getAllRapport()
+{
+    global $db;
+    $req = $db->prepare("SELECT * from operatio_money_gram");
+    $req->execute([]);
+    return $req->fetchAll();
+    
+    
+}
 
     //||**********************************||
     //||------------ INSERTIONS ------------||

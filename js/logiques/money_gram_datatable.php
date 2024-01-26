@@ -20,7 +20,8 @@ $api_url = API_HOST . 'index.php?page=api_money_gram';
             Numero: champ_bd.num_ref,
             Montant: champ_bd.montant,
             frais: champ_bd.frais,
-            
+            type_operation: champ_bd.type_operation,
+
             total: champ_bd.total,
           })
 
@@ -109,7 +110,15 @@ $api_url = API_HOST . 'index.php?page=api_money_gram';
             render: function(data, type, full, meta) {
               var $user_img = full['avatar'],
                 $libelle = full['libelle'],
+                $type = full['type_operation'],
                 $duree = full['Date'];
+              var bg;
+              if ($type == "Reçu") {
+                bg = 'bg-success'
+              } else {
+                bg = 'bg-info'
+              }
+
               if ($user_img) {
                 // For Avatar image
                 var $output =
@@ -122,7 +131,7 @@ $api_url = API_HOST . 'index.php?page=api_money_gram';
                   $expediteur = full['Date'],
                   $initials = $expediteur.match(/\b\w/g) || [];
                 $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-                $output = '<span class="avatar-content">' + $initials + '</span>';
+                $output = '<span class="avatar-content ' + bg + '">' + $initials + '</span>';
               }
 
               var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
@@ -138,6 +147,9 @@ $api_url = API_HOST . 'index.php?page=api_money_gram';
                 '<span class="emp_nom text-truncate fw-bold">' +
                 $expediteur +
                 '</span>' +
+                '<small class="emp_nom_pop text-truncate text-muted">' +
+                $type +
+                '</small>' +
                 '</div>' +
                 '</div>';
               return $row_output;
@@ -399,7 +411,11 @@ $api_url = API_HOST . 'index.php?page=api_money_gram';
             $("#navigateur_creation").html(proprietes['navigateur_creation']);
             $("#ordinateur_creation").html(proprietes['ordinateur_creation']);
             $("#ip_creation").html(proprietes['ip_creation']);
-            $("#annee_academique").html(proprietes['annee_academique']);
+            $("#date_modification").html(proprietes['date_modif']);
+            $("#user_modification").html(proprietes['user_modif']);
+            $("#navigateur_modification").html(proprietes['navigateur_modif']);
+            $("#ordinateur_modification").html(proprietes['ordinateur_modif']);
+            $("#ip_modification").html(proprietes['ip_modif']);
             $("#ecole").html(proprietes['magasin']);
 
 
@@ -409,22 +425,22 @@ $api_url = API_HOST . 'index.php?page=api_money_gram';
     });
 
     // Details
-  $('.datatables-basic tbody').on('click', '.details', function() {
-    var that = this
-    $.ajax({
-      type: "GET",
-      data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
-      url: "controllers/money_gram_controller.php",
-      success: function(result) {
-        var donnees = JSON.parse(result);
-        if (donnees['proprietes_moneygram'] !== 'null') {
+    $('.datatables-basic tbody').on('click', '.details', function() {
+      var that = this
+      $.ajax({
+        type: "GET",
+        data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+        url: "controllers/money_gram_controller.php",
+        success: function(result) {
+          var donnees = JSON.parse(result);
+          if (donnees['proprietes_moneygram'] !== 'null') {
 
-          let moneygram = donnees['proprietes_moneygram']
+            let moneygram = donnees['proprietes_moneygram']
 
-          $('#titre_modal').text('Détail de la transaction MoneyGram')
+            $('#titre_modal').text('Détail de la transaction MoneyGram')
 
-          // le tableau de la transaction
-          $('.modal_details .modal-body').html(`
+            // le tableau de la transaction
+            $('.modal_details .modal-body').html(`
                             <table class="table table-bordered text-nowrap text-center">             
                                 <tbody class="details">
                                     <tr>
@@ -465,17 +481,15 @@ $api_url = API_HOST . 'index.php?page=api_money_gram';
                         `);
 
 
-          // afficher le modal
-          $('.modal_details').modal('show')
+            // afficher le modal
+            $('.modal_details').modal('show')
 
 
 
+          }
         }
-      }
-    })
-  });
+      })
+    });
 
   });
-
-  
 </script>

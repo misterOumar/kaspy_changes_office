@@ -110,7 +110,34 @@ class uba
         $req->execute([]);
         return $req->fetchAll();
     }
+       /**
+     * Méthode de récupération de locataires en fonction du nom_prenom.
+     *
+     * @param $nom_prenom
+     * @return mixed
+     */
+    static function getByDate($dates)
+    {
+        global $db;
+        $req = $db->prepare("SELECT * FROM transaction_uba WHERE Dates = ?");
+        $req->execute([$dates]);
+        return $req->fetch();
+    }
 
+  /**
+     * Méthode de récupération de western_union en fonction de la date.
+     *
+     * @param $date
+     * @return mixed
+     */
+    static function getByDates($dates)
+    {
+        global $db;
+        $sql = "SELECT * FROM transaction_uba WHERE Dates = ?";
+        $req = $db->prepare($sql);
+        $req->execute([$dates]);
+        return $req->fetch();
+    }
     /**
      * Méthode pour récupérer un(e) transaction_uba en fonction de son id.
      *

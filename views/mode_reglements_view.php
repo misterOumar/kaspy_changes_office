@@ -87,6 +87,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                             <th></th>
                                             <th>id</th>
                                             <th>Nom</th>
+                                            <th>Date de création</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>

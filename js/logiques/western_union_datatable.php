@@ -115,8 +115,8 @@ $api_url = API_HOST . 'index.php?page=api_western_union';
                                 bg = 'bg-success'
                             } else {
                                 bg = 'bg-info'
-
                             }
+                            
                             if ($user_img) {
                                 // For Avatar image
                                 var $output =
