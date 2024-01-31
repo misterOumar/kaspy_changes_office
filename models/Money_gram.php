@@ -176,8 +176,7 @@ class moneygram
     global $db;
     $req = $db->prepare("SELECT * from operatio_money_gram");
     $req->execute([]);
-    return $req->fetchAll();
-    
+    return $req->fetchAll();   
     
 }
 

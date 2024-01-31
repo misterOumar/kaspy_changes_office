@@ -96,22 +96,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 <div class="row">
                                     <div class="col">
                                         <a href="#" class="" style="margin-left:27px">
-                                            <img src="assets/images/<?= $embleme_actuelle ?>" id="image_embleme" class="rounded me-50" height="150" width="150" />
-
-                                        </a>
-
-                                        <div class="row">
-                                            <div class="d-flex align-items-end mt-75 ms-1">
-                                                <label id="bt_charger_photo_embleme" for="photo_embleme" class="btn btn-sm btn-primary mb-75 me-75">Charger</label>
-                                                <input type="file" name="photo_embleme" id="photo_embleme" hidden accept=".jpg, .png, .jpeg,|image/*" onchange="VoirFichier(this, '#image_embleme');" />
-                                                <button type="button" id="photo_embleme_reset" class="btn btn-sm btn-outline-secondary mb-75">Annuler</button>
-                                                <!-- <h4 class="mb-4">Emblème du pays</h4> -->
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <a href="#" class="" style="margin-left:27px">
                                             <img src="assets/images/<?= $logo_actuel ?>" id="image_2" class="rounded me-50" height="150" width="150" />
                                         </a>
 
@@ -124,7 +108,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                             </div>
                                         </div>
                                     </div>
-
 
 
 

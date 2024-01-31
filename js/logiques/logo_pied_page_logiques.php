@@ -8,14 +8,8 @@
     //VERIFICATION
     var formValide = true;
 
-    // Chargement de l'image emblème et logo
-    //      embleme
-    $("#bt_charger_photo_embleme").click(function() {
-        $("#photo_embleme").click();
-    });
-    $("#image_embleme").click(function() {
-        $("#bt_charger_photo_embleme").click();
-    });
+    // Chargement de l'image logo
+   
     //      logo
     $("#bt_charger_photo_2").click(function() {
         $("#photo_2").click();
@@ -23,38 +17,10 @@
     $("#image_2").click(function() {
         $("#bt_charger_photo_2").click();
     });
-    //Annulation de l'image emblème et chargement de l'image par défaut
-    $("#photo_embleme_reset").click(function() {
-        $("#image_embleme").attr('src', "assets/images/image_defaut.png")
-    });
-    $("#photo_2_reset").click(function() {
-        $("#image_2").attr('src', "assets/images/image_defaut.png")
-    });
 
 
     //  au click du bouton enregistrer
     $("#bt_maj").on('click', function() {
-
-        // Photo de l'emblème
-        var uploadpath = $("#image_embleme").attr('src');
-        var fileExtension = uploadpath.substring(uploadpath.lastIndexOf(".") + 1, uploadpath.length);
-        var verfilextension = false
-        if (uploadpath.includes("data:image/png;base64,") === true || uploadpath.includes("data:image/jpg;base64,") === true || uploadpath.includes("data:image/jpeg;base64,") === true || uploadpath.includes("data:image/bmp;base64,") === true) {
-            verfilextension = true
-        } else {
-            verfilextension = false
-        }
-
-        if (verfilextension === true || fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg" || fileExtension === "bmp") {} else {
-            //MessageBox - Toast
-            $('.flash').addClass('alert-warning');
-            $('.flash').html('<i class="fas fa-exclamation-triangle"></i> Veillez charger une image valide (.png ; .jpg ; .jpeg ; .bmp)')
-                .fadeIn(300).delay(2500).fadeOut(300);
-            // MessageBox - Toast
-
-            formValide = false;
-            e.preventDefault()
-        }
         // Photo de logo
         var uploadpath_2 = $("#image_2").attr('src');
         var fileExtension_2 = uploadpath_2.substring(uploadpath_2.lastIndexOf(".") + 1, uploadpath_2.length);
@@ -77,13 +43,6 @@
         }
 
         //Si pas de photo alors choisir l'image de profile par défaut
-        //  cas de emblème 
-        var nom_image_embleme
-        if ($('#photo_embleme').val() === '') {
-            nom_image_embleme = "image_defaut.png"
-        } else {
-            nom_image_embleme = $('#photo_embleme').val()
-        }
         // cas de logo 
         var nom_image_logo
         if ($('#photo_2').val() === '') {
@@ -98,12 +57,9 @@
 
             // Création dans la base de donnée
             var fd = new FormData();
-            var files = $('#photo_embleme')[0].files;
             var files_2 = $('#photo_2')[0].files;
-            fd.append('file_photo', files[0]);
             fd.append('file_photo_2', files_2[0]);
             fd.append('pied_page', $('#pied_page').val());
-            fd.append('photo', nom_image_embleme);
             fd.append('photo_2', nom_image_logo);
             fd.append('bt_maj', '');
 
@@ -134,8 +90,6 @@
                         formValide = true;
 
 
-
-
                         // Top End -- SWEET ALERT
                         Swal.fire({
                             //height:'100px',
@@ -151,8 +105,8 @@
                             buttonsStyling: false
                         });
 
-                        //Rédirection vers login
-                        location.href = "index.php?page=logo_pied_page";
+                        //Rédirection
+                       // location.href = "index.php?page=logo_pied_page";
                     }
                 }
             });

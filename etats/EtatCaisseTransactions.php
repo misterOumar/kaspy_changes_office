@@ -3,9 +3,9 @@ require_once('../plugins/fpdf184/fpdf.php');
 include_once('../config/config.php');
 include_once('../config/db.php');
 require_once("../models/Bureaux.php");
-require_once("../models/Carte.php");
+require_once("../models/Caisse.php");
 
-class   EtatListeCarte extends FPDF
+class EtatListeProprietaires extends FPDF
 {
     public $logoEtat;
     public $nom_entreprise;
@@ -47,9 +47,10 @@ class   EtatListeCarte extends FPDF
 
             // TITRE DE L'ETAT
             $this->Ln(12);
-            $this->Cell(45);
+            $this->Cell(20);
             $this->SetFont('Helvetica', 'B', 15);
-            $this->Cell(100, 10, 'LISTE DES CARTES', 1, 0, 'C');
+            $this->Cell(150, 10, 'RAPPORT DE LA CAISSE DES TRANSACTIONS', 1, 0, 'C');
+
 
             // Décalage à droite
             $this->Cell(20);
@@ -69,39 +70,45 @@ class   EtatListeCarte extends FPDF
     }
 
 
-    // Tableau simple  hec_cocody
+    // Tableau simple
     function BasicTable($data)
     {
         // En-tête
-        $this->SetFont('Helvetica', 'B', 9);
-        $this->Cell(10, 7, "Nº", 1, 0, 'C');
-        $this->Cell(40, 7, "DATE D'ACHAT", 1, 0, 'C');
-        $this->Cell(45, 7, "TYPE DE CARTE", 1, 0, 'C');
-        $this->Cell(60, 7, "CUSTOMER ID", 1, 0, 'C');
-        $this->Cell(30, 7, "STATUS", 1, 0, 'C');
+        $this->SetFont('Helvetica', 'B', 10);
+        $this->Cell(30, 7, "DATE", 1, 0, 'C');
+        $this->Cell(65, 7, "LIBELLE", 1, 0, 'C');
+        $this->Cell(30, 7, "ENTREE", 1, 0, 'C');
+        $this->Cell(30, 7, "SORTIE", 1, 0, 'C');
+        $this->Cell(35, 7, "SOLDE", 1, 0, 'C');
         $this->Ln();
 
-        $i = 1;
+
         $this->SetFont('Helvetica', '', 9);
-        if (count($data) > 0) {
-            # code...
-        
-        foreach ($data as $carte) {
+        foreach ($data as $transaction_caisse) {
+            // Convertir la chaîne de date en objet DateTime
+            $date = DateTime::createFromFormat('d/m/Y H:i', $transaction_caisse['date']);
 
-            $this->SetFont('Helvetica', 'B', 9);
-            $this->Cell(10, 6, $i, 1, 0, 'C',);
-            $this->SetFont('Helvetica', '', 9);
-            $this->Cell(40, 6,  $carte['date_achat'], 1, 0, '');
-            $this->Cell(45, 6,  $carte['type_carte'], 1, 0, '');
-            $this->Cell(60, 6,  $carte['customer_id'], 1, 0, '');
-            $this->Cell(30, 6,  $carte['status'] == 0 ? "EN STOCK": "VENDUE", 1, 0, 'C');
+            if ($date === false) {
+                // Si la conversion échoue, essayer un autre format
+                $date = new DateTime($transaction_caisse['date']);
+            }
+
+            // Formater la date pour afficher le jour, le mois et l'année
+            $dateFormatee = $date->format('d/m/Y');
+
+            $this->Cell(30, 6,  $dateFormatee, 1, 0, 'C');
+            $this->Cell(65, 6,  $transaction_caisse['Libelle'], 1, 0, '');
+            $this->Cell(30, 6,  $transaction_caisse['ENTREE'], 1, 0, '');
+            $this->Cell(30, 6,  $transaction_caisse['SORTIE'], 1, 0, 'C');
+            $this->Cell(35, 6,  $transaction_caisse['SOLDE'], 1, 0, 'C');
             $this->Ln();
-            $i++;
         }
-    }else{
-        $this->Cell(185, 6,  'Aucune Carte enregistrée', 1, 0, 'C');
-        $this->Ln();
-     }
+        
+        // Couleur de remplissage
+        $this->SetFillColor(85, 156, 173);
+        // $this->SetTextColor(255, 255, 255); //couleur du texte
+        $this->SetFont('Helvetica', 'B', 10);
+        $this->Cell(190, 6,  '1 000 500', 1, 0, 'R', true);
     }
 
 
@@ -124,18 +131,18 @@ class   EtatListeCarte extends FPDF
 
 
 $data = array();
-$proprietaires = cartes::getAll();
-for ($num = 0; $num < count($proprietaires); $num++) {
+$transactions_caisse = caisse::getAllRapport();
+for ($num = 0; $num < count($transactions_caisse); $num++) {
     array_push(
         $data,
-        $proprietaires[$num]
+        $transactions_caisse[$num]
     );
 }
 
 
 
 // Instanciation de la classe dérivée
-$pdf = new   EtatListeCarte();
+$pdf = new EtatListeProprietaires();
 $entreprise = bureaux::getByNom($_SESSION["KaspyISS_bureau"]);
 $pdf->logoEtat = $entreprise['logo_pc'];
 $pdf->nom_entreprise = $entreprise['raison_sociale'];
@@ -146,7 +153,7 @@ $pdf->annee = $_SESSION["KaspyISS_annee"];
 
 
 // Param"trage de la difusion de l'état
-$pdf->SetTitle('Liste des Cartes', 1);
+$pdf->SetTitle('Liste des transactions de caisse', 1);
 
 $pdf->AliasNbPages();
 $pdf->AddPage('P');
@@ -171,7 +178,7 @@ function generatePDF($data)
 
     // Titre du document
     $pdf->SetFont('Arial', 'B', 16);
-    $pdf->Cell(0, 10, 'Liste des Cartes', 0, 1, 'C');
+    $pdf->Cell(0, 10, 'Liste des Proprietaires', 0, 1, 'C');
 
     // Heure de génération
     $pdf->SetFont('Arial', '', 12);
@@ -186,7 +193,7 @@ function generatePDF($data)
     }
 
     // Génération du PDF
-    $pdf->Output('liste_Proprietaires.pdf', 'D'); // 'D' pour afficher le téléchargement du fichier
+    $pdf->Output('liste_caisse_transactions.pdf', 'D'); // 'D' pour afficher le téléchargement du fichier
 }
 
 

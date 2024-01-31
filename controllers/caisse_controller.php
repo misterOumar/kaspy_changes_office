@@ -63,7 +63,7 @@ if (isset($_POST['bt_enregistrer'])) {
             $us,
             $navigateur,
             $pc,
-            $ip,
+            $ip
             
 
         )) {

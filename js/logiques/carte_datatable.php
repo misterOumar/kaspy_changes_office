@@ -17,10 +17,7 @@ $api_url = API_HOST . 'index.php?page=api_carte';
                         date_achat: champ_bd.date_achat,
                         customer_id: champ_bd.customer_id,
                         type_carte: champ_bd.type_carte,
-
                         status: champ_bd.status,
-
-
                     })
 
                     .draw();
@@ -30,7 +27,6 @@ $api_url = API_HOST . 'index.php?page=api_carte';
         var dt_basic_table = $('.datatables-basic'),
             dt_date_table = $('.dt-date'),
             assetPath = '../../../js/';
-
         if ($('body').attr('data-framework') === 'laravel') {
             assetPath = $('body').attr('data-asset-path');
         }

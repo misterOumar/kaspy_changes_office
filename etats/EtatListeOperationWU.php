@@ -22,7 +22,7 @@ class EtatListeOperation extends FPDF
     {
         if ($this->PageNo() == 1) {
             // Logo
-            $this->Image(API_HOST . '/assets/images/etats/' . $this->logoEtat, 10, 8, 20);
+            $this->Image(API_HOST . '/assets/images/' . $this->logoEtat, 10, 8, 20);
 
             // ENTETE GAUCHE
             $this->Cell(22);
@@ -190,8 +190,8 @@ for ($num = 0; $num < count($transactions_wu); $num++) {
 
 $pdf = new EtatListeOperation();
 $entreprise = bureaux::getByNom($_SESSION["KaspyISS_bureau"]);
-$pdf->logoEtat = $entreprise['logo_etats'];
-$pdf->nom_entreprise = $entreprise['libelle'];
+$pdf->logoEtat = $entreprise['logo_pc'];
+$pdf->nom_entreprise = $entreprise['raison_sociale'];
 $pdf->sigle = $entreprise['sigle'];
 $pdf->slogan = $entreprise['slogan'];
 $pdf->annee = $_SESSION["KaspyISS_annee"];

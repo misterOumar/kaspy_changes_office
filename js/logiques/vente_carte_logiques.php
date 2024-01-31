@@ -80,6 +80,45 @@
         maxboostedstep: 10,
     });
 
+    // logique pour la vente par lot
+    // Ecoutez l'événement de changement du radio bouton
+    var type_enregistrement = "individuel"
+    $('input[name="radio_type"]').change(function() {
+        // Vérifiez la valeur du radio bouton sélectionné
+        if ($(this).val() === 'individuel') {
+            type_enregistrement = "individuel"
+            // Si c'est individuel, affichez le bloc_vente_detail et masquez le bloc_vente_gros
+            $('#bloc_vente_detail').removeClass('d-none');
+            $('#bloc_vente_gros').addClass('d-none');
+        } else {
+            type_enregistrement = "lot"
+            // Sinon, affichez le bloc_vente_gros et masquez le bloc_vente_detail
+            $('#bloc_vente_gros').removeClass('d-none');
+            $('#bloc_vente_detail').addClass('d-none');
+        }
+    });
+
+
+    // Fonction pour calculer la différence entre les valeurs et afficher le résultat
+    function calculerDifference() {
+        // Récupérer les valeurs des champs
+        var customer_id_initial = parseInt($('#customer_id_initial').val()) || 0;
+        var customer_id_final = parseInt($('#customer_id_final').val()) || 0;
+
+        // Calculer la différence
+        var difference = customer_id_final - customer_id_initial + 1;
+
+        // Afficher la différence dans #nombre_carte
+        if (difference > 0) {
+            $('#nombre_carte').val(difference);
+        } else {
+            $('#nombre_carte').val(0);
+        }
+    }
+
+    // Attacher la fonction au changement des champs
+    $('#customer_id_initial, #customer_id_final').on('input', calculerDifference);
+
 
 
     // VERIFICATIONS DU FORMULAIRE 
@@ -100,28 +139,28 @@
     $('#carte').on('change', function() {
         var type_carte = $('#carte').val();
         $.ajax({
-                type: "GET", 
-                data: "type_carte=" + type_carte + "&get_by_type_carte=" + true,
-                url: "controllers/vente_carte_controller.php",
-                success: function(result) {
-                    donnee = JSON.parse(result);
-                    if (donnee['success'] === 'true') {
-                        var types_cartes = donnee['types_cartes'];
+            type: "GET",
+            data: "type_carte=" + type_carte + "&get_by_type_carte=" + true,
+            url: "controllers/vente_carte_controller.php",
+            success: function(result) {
+                donnee = JSON.parse(result);
+                if (donnee['success'] === 'true') {
+                    var types_cartes = donnee['types_cartes'];
 
-                        var options = '';
-                        for (var i = 0; i < types_cartes.length; i++) {
-                            options += '<option value="' + types_cartes[i]['customer_id'] + '">' + types_cartes[i]['customer_id'] + '</option>';
-                        }
-                        $('#num_carte').html(options);
-                    } else if (donnee['success'] === 'false') {
-
-                    } else {
-
+                    var options = '';
+                    for (var i = 0; i < types_cartes.length; i++) {
+                        options += '<option value="' + types_cartes[i]['customer_id'] + '">' + types_cartes[i]['customer_id'] + '</option>';
                     }
+                    $('#num_carte').html(options);
+                } else if (donnee['success'] === 'false') {
+
+                } else {
+
                 }
-            })
+            }
+        })
     });
-    
+
     $('#email').on('keydown', function() {
         $('#email').removeClass('is-invalid');
         $('#emailHelp').html('');

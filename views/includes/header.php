@@ -57,7 +57,7 @@
                                 Rapport de suivi des opérations RIA</a> </li>
                         <li><a class="dropdown-item" href="etats/EtatListeOperationWU.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
                                 Rapport de suivi des opérations WU</a> </li>
-                        <li><a class="dropdown-item" href="etats/EtatListeOperationWU.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                        <li><a class="dropdown-item" href="etats/EtatCaisseTransactions.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
                                 Rapport de la caisse des transactions</a> </li>
                         <div class="dropdown-divider"></div>
 

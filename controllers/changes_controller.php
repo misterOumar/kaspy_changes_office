@@ -84,7 +84,7 @@ if (isset($_POST['bt_enregistrer'])) {
             $user_creation,
             $navigateur_creation,
             $ordinateur_creation,
-            $ip_creation,          
+            $ip_creation         
         )) {
             $message = "Enregistrement de l\'échange  éffectué avec succès.";
             echo json_encode([

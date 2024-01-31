@@ -12,7 +12,7 @@
    <!-- BEGIN: Head-->
 
    <head>
-       <title><?= APP_NAME ?> - cartes</title>
+       <title><?= APP_NAME ?> - Vente Carte</title>
 
        <!-- Fichiers CSS par défaut (TEMPLATE) -->
        <?php include_once 'includes/head.php' ?>
@@ -160,13 +160,31 @@
                                    <button type="button" id="bt_vider" name="bt_vider" class="btn" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" class="avatar pull-up my-0" title="Vider les champs" style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
                                        <i data-feather='refresh-ccw'></i></button>
                                    <div class="modal-body flex-grow-1">
+                                       <!--- TYPE DE VENTE --->
+                                       <div class="row mb-1">
+                                           <label class='form-label mb-1'>Type de vente</label>
+
+                                           <div class="">
+
+                                               <div class="form-check form-check-inline">
+                                                   <input class="form-check-input" type="radio" name="radio_type" id="radio_vente_individuel" checked value="individuel" />
+                                                   <label class="form-check-label" for="radio_vente_individuel">Détail</label>
+                                               </div>
+                                               <div class="form-check form-check-inline">
+                                                   <input class="form-check-input" type="radio" name="radio_type" id="radio_vente_lot" value="lot" />
+                                                   <label class="form-check-label" for="radio_vente_lot">par lot</label>
+                                               </div>
+                                           </div>
+                                       </div>
+
                                        <!--- NOM ET PRENOM OU RAISON SOCIALE --->
                                        <div>
                                            <label class='form-label' for='etablie_le'>Date</label>
                                            <input type='text' class='form-control dt-full-etablie_le' id='date_v' name='date_v' placeholder='La date' aria - Label='etablie_le' maxlength='75' />
                                        </div>
                                        <div class='mb-1'><small id='date_vHelp' class='text-danger invisible'></small></div>
-                                       <!--- NUMERO --->
+
+
                                        <!--- DOMICILE --->
                                        <!-- COMPTE -->
                                        <div>
@@ -196,24 +214,49 @@
                                        </div>
                                        <div class='mb-1'><small id='carteHelp' class='text-danger invisible'></small></div>
 
+                                       <div id="bloc_vente_detail">
+                                           <div class="">
+                                               <label class="form-label" for="num_carte">Le numero de la carte</label>
+                                               <select class="select2 form-select select2-icons" name='num_carte' id='num_carte'>
+                                                   <option selected disabled hidden data-icon='facebook'>Choisir le numero</Option>
 
-                                       <div class="">
-                                           <label class="form-label" for="num_carte">Le numero de la carte</label>
-                                           <select class="select2 form-select select2-icons" name='num_carte' id='num_carte'>
-                                               <option selected disabled hidden data-icon='facebook'>Choisir le numero</Option>
-
-                                               <?php
-                                                foreach ($List_cartes as $cartes) {
-                                                ?>
-                                                   <option value="<?= $cartes['customer_id'] ?>">
-                                                       <?= $cartes['customer_id'] ?>
-                                                   </option>
-                                               <?php
-                                                }
-                                                ?>
-                                           </select>
+                                                   <?php
+                                                    foreach ($List_cartes as $cartes) {
+                                                    ?>
+                                                       <option value="<?= $cartes['customer_id'] ?>">
+                                                           <?= $cartes['customer_id'] ?>
+                                                       </option>
+                                                   <?php
+                                                    }
+                                                    ?>
+                                               </select>
+                                           </div>
+                                           <div class='mb-1'><small id='num_carteHelp' class='text-danger invisible'></small></div>
                                        </div>
-                                       <div class='mb-1'><small id='num_carteHelp' class='text-danger invisible'></small></div>
+
+                                       <!--- Achat par lot --->
+                                       <div id="bloc_vente_gros" class="d-none">
+                                           <!--- Customer Id Initial --->
+                                           <div>
+                                               <label class='form-label' for='customer_id_initial'>Customer Id Initial</label>
+                                               <input type='text' id='customer_id_initial' class='form-control' name='customer_id_initial' placeholder="Veuillez saisir le customer id initial" />
+                                           </div>
+                                           <div class='mb-1'><small id='customer_id_initialHelp' class='text-danger invisible'></small></div>
+
+                                           <!--- Customer Id Final --->
+                                           <div>
+                                               <label class='form-label' for='customer_id_final'>Customer Id Final</label>
+                                               <input type='text' id='customer_id_final' class='form-control dt-full-annees' name='customer_id_final' placeholder="Veuillez saisir le customer id" aria - Label='annees' maxlength='75' />
+                                           </div>
+                                           <div class='mb-1'><small id='customer_id_finalHelp' class='text-danger invisible'></small></div>
+
+                                           <!--- Achat par lot --->
+                                           <div>
+                                               <label class='form-label' for='nombre_carte'>Nombre de carte</label>
+                                               <input type='text' id='nombre_carte' class='form-control dt-full-annees' name='nombre_carte' disabled />
+                                           </div>
+                                           <div class='mb-1'><small id='nombre_carteHelp' class='text-danger invisible'></small></div>
+                                       </div>
 
 
                                        <!--- NOM COMPLET DU CLIENT --->

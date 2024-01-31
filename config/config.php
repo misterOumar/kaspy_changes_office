@@ -47,8 +47,8 @@ define("APP_OWNER", "Kaspy Corporation");
 
 define("DATABASE_HOST", "localhost");
 define("DATABASE_NAME", "bdkaspychangesoffice"); //. "_" .  $monfichier
-define("DATABASE_USER", "KASPY");
-define("DATABASE_PASSWORD", "KASPY77");
+define("DATABASE_USER", "root");
+define("DATABASE_PASSWORD", "");
 
 
 // API REST informations

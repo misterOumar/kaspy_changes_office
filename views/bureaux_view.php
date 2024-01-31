@@ -112,7 +112,7 @@
                                     </span>
                                     <span class="bs-stepper-label">
                                         <span class="bs-stepper-title">Comptabilité</span>
-                                        <span class="bs-stepper-subtitle">Notre comptabilité</span>
+                                        <span class="bs-stepper-subtitle">juridique, fiscale et sociale</span>
                                     </span>
                                 </button>
                             </div>

@@ -362,7 +362,7 @@ class cartes
         $user_modif,
         $navigateur_modif,
         $ordinateur_modif,
-        $ip_modif,
+        $ip_modif
     ) {
         global $db;
         $req = $db->prepare('

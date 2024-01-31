@@ -90,7 +90,7 @@
                     $us,
                     $navigateur,
                     $pc,
-                    $pc,
+                    $pc
 
                 )) {
                     cartes::Carte_vendue(
@@ -99,7 +99,7 @@
                         $us,
                         $navigateur,
                         $pc,
-                        $pc,
+                        $pc
                     );
                     $message = "Enregistrement de la vente  éffectué avec succès.";
                     echo json_encode([
@@ -122,7 +122,7 @@
                     'telephone' => $e_telephone,
                     'date' => $e_date_v,
                     'quantite' => $e_quantite,
-                    'carte' => $e_carte,
+                    'carte' => $e_carte
 
                 ]);
             }
@@ -218,7 +218,7 @@
                 'client' => $e_client,
                 'carte' => $e_carte,
                 'quantite' => $e_quantite,
-                'prix_u' => $e_prix_u,
+                'prix_u' => $e_prix_u
             ]);
         }
     }

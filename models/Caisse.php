@@ -14,7 +14,7 @@ class caisse
     public $id;
     public $date;
     public $type_operation;
-    public $libelle;     
+    public $libelle;
     public $montant;
     public $magasin;
     public $date_creation;
@@ -45,10 +45,10 @@ class caisse
         $this->id = $id;
         $this->montant = $data['montant'];
         $this->date = $data['date'];
-        $this->type_operation = $data['type_operation'];        
-        $this->libelle= $data['libelle'];
+        $this->type_operation = $data['type_operation'];
+        $this->libelle = $data['libelle'];
         $this->magasin = $data['magasin'];
-     
+
 
 
         $this->date_creation = $data['date_creation'];
@@ -136,6 +136,30 @@ class caisse
         return $req->fetch();
     }
 
+
+    /**
+     * Méthode de récupération du rapport de caisse des transactions.
+     *
+     * @param $nom_prenom
+     * @return mixed
+     */
+    static function getAllRapport()
+    {
+        global $db;
+        $req = $db->prepare(
+            "SELECT `caisse`.`date` AS `date`,
+            'Caisse' AS `op`,
+        `caisse`.`type_operation` AS `type_transaction`,
+        `caisse`.`libelle` AS 'Libelle',
+        sum((case when (`caisse`.`type_operation` = 'Entrée') then `caisse`.`montant` else 0 end)) AS `ENTREE`,
+        sum((case when (`caisse`.`type_operation` = 'Sortie') then `caisse`.`montant` else 0 end)) AS `SORTIE`,
+        (sum((case when (`caisse`.`type_operation` = 'Entrée') then `caisse`.`montant` else 0 end)) - sum((case when (`caisse`.`type_operation` = 'Sortie') then `caisse`.`montant` else 0 end))) AS 'SOLDE'        
+        FROM caisse GROUP BY `caisse`.`type_operation` UNION ALL SELECT * FROM `caisse_interne_transactions` GROUP BY `date`, `type_transaction` ORDER BY `date` ;"
+        );
+        $req->execute([]);
+        return $req->fetchAll();
+    }
+
     //||**********************************||
     //||------------ INSERTIONS ------------||
     //||**********************************||
@@ -163,17 +187,30 @@ class caisse
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter( $date, $type_operation, $libelle, 
-     $montant,$magasin, $date_creation, $user_creation, $navigateur_creation, 
-     $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
-    {
+    static function Ajouter(
+        $date,
+        $type_operation,
+        $libelle,
+        $montant,
+        $magasin,
+        $date_creation,
+        $user_creation,
+        $navigateur_creation,
+        $ordinateur_creation,
+        $ip_creation,
+        $date_modif,
+        $user_modif,
+        $navigateur_modif,
+        $ordinateur_modif,
+        $ip_modif
+    ) {
         global $db;
 
         $req = $db->prepare('
             INSERT INTO caisse( date,type_operation, libelle,montant , magasin,  date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
             VALUES(?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([ $date, $type_operation, $libelle,$montant, $magasin, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$date, $type_operation, $libelle, $montant, $magasin, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 
@@ -213,7 +250,7 @@ class caisse
     //     return $req->execute([$montant, $date, $client, $telephone_client, $destinataire, $telephone_destinataire,  $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     // }
     static function Modifier(
-       
+
         $date,
         $type_operation,
         $libelle,
@@ -243,8 +280,8 @@ class caisse
     ');
 
         return $req->execute([
-             $date, $type_operation,
-            $libelle,$montant, 
+            $date, $type_operation,
+            $libelle, $montant,
             $date_modif, $user_modif,
             $navigateur_modif, $ordinateur_modif, $ip_modif, $id
         ]);
@@ -267,4 +304,7 @@ class caisse
         $req = $db->prepare('DELETE FROM caisse WHERE id= ?');
         return $req->execute([$id]);
     }
+
+
+    // caisse interne de transactions
 }

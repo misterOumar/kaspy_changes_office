@@ -25,8 +25,8 @@ if (isset($_POST['bt_mtn'])) {
 
     // Propriéte de l'entrepise
     $entreprise = bureaux::getByNom($_SESSION["KaspyISS_bureau"]);
-    $logoEtat = $entreprise['logo_etats'];
-    $nom_entreprise = $entreprise['libelle'];
+    $logoEtat = $entreprise['logo_pc'];
+    $nom_entreprise = $entreprise['raison_sociale'];
     $sigle = $entreprise['sigle'];
     $slogan = $entreprise['slogan'];
 
@@ -39,7 +39,7 @@ $pdf->AddPage();
 if ($pdf->PageNo() == 1) {
     // ENTETE GAUCHE
     // Logo
-    $pdf->Image(API_HOST . '/assets/images/etats/' . $logoEtat, 10, 8, 20);
+    $pdf->Image(API_HOST . '/assets/images/' . $logoEtat, 10, 8, 20);
     // Nom de l'entreprise
     $pdf->Cell(22);
     $pdf->SetFont('Helvetica', 'B', 16);

@@ -21,7 +21,7 @@ class   EtatListeCarte extends FPDF
         if ($this->PageNo() == 1) {
             // ENTETE GAUCHE
             // Logo
-            $this->Image(API_HOST . '/assets/images/etats/' . $this->logoEtat, 10, 8, 20);
+            $this->Image(API_HOST . '/assets/images/' . $this->logoEtat, 10, 8, 20);
             // Nom de l'entreprise
             $this->Cell(22);
             $this->SetFont('Helvetica', 'B', 16);
@@ -131,8 +131,8 @@ for ($num = 0; $num < count($cartes); $num++) {
 // Instanciation de la classe dérivée
 $pdf = new   EtatListeCarte();
 $entreprise = bureaux::getByNom($_SESSION["KaspyISS_bureau"]);
-$pdf->logoEtat = $entreprise['logo_etats'];
-$pdf->nom_entreprise = $entreprise['libelle'];
+$pdf->logoEtat = $entreprise['logo_pc'];
+$pdf->nom_entreprise = $entreprise['raison_sociale'];
 $pdf->sigle = $entreprise['sigle'];
 $pdf->slogan = $entreprise['slogan'];
 

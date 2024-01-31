@@ -42,7 +42,6 @@ class bureaux
     public $logo_etats;
     public $logo_reçu_inscription;
     public $logo_pc;
-    public $image_emblème;
     public $annee_academique;
     public $ecole;
     public $date_creation;
@@ -101,7 +100,6 @@ class bureaux
         $this->logo_etats = $data['logo_etats'];
         $this->logo_reçu_inscription = $data['logo_reçu_inscription'];
         $this->logo_pc = $data['logo_pc'];
-        $this->image_emblème = $data['image_emblème'];
         $this->annee_academique = $data['annee_academique'];
         $this->ecole = $data['ecole'];
         $this->date_creation = $data['date_creation'];
@@ -232,7 +230,6 @@ class bureaux
      * @param $logo_etats
      * @param $logo_reçu_inscription
      * @param $logo_pc
-     * @param $image_emblème
      * @param $annee_academique
      * @param $ecole
      * @param $date_creation
@@ -247,15 +244,15 @@ class bureaux
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter($id, $libelle, $responsable, $raison_sociale, $adresse, $sigle, $slogan, $tel1, $tel2, $fixe, $fax, $email, $bp, $site_internet, $pays, $ville, $activites, $forme_juridique, $rccm, $compte_contribuable, $regime_imposition, $centre_impôts, $capital_social, $compte_Bancaire, $monnaie, $n_agrement_1, $n_agrement_2, $pied_page, $logo_etats, $logo_reçu_inscription, $logo_pc, $image_emblème, $annee_academique, $ecole, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
+    static function Ajouter($id, $libelle, $responsable, $raison_sociale, $adresse, $sigle, $slogan, $tel1, $tel2, $fixe, $fax, $email, $bp, $site_internet, $pays, $ville, $activites, $forme_juridique, $rccm, $compte_contribuable, $regime_imposition, $centre_impôts, $capital_social, $compte_Bancaire, $monnaie, $n_agrement_1, $n_agrement_2, $pied_page, $logo_etats, $logo_reçu_inscription, $logo_pc, $annee_academique, $ecole, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
     {
         global $db;
 
         $req = $db->prepare('
-            INSERT INTO bureaux(id, libelle, responsable, raison_sociale, adresse, sigle, slogan, tel1, tel2, fixe, fax, email, bp, site_internet, pays, ville, activites, forme_juridique, rccm, compte_contribuable, regime_imposition, centre_impôts, capital_social, compte_Bancaire, monnaie, n_agrement_1, n_agrement_2, pied_page, logo_etats, logo_reçu_inscription, logo_pc, image_emblème, annee_academique, ecole, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            INSERT INTO bureaux(id, libelle, responsable, raison_sociale, adresse, sigle, slogan, tel1, tel2, fixe, fax, email, bp, site_internet, pays, ville, activites, forme_juridique, rccm, compte_contribuable, regime_imposition, centre_impôts, capital_social, compte_Bancaire, monnaie, n_agrement_1, n_agrement_2, pied_page, logo_etats, logo_reçu_inscription, logo_pc, annee_academique, ecole, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([$id, $libelle, $responsable, $raison_sociale, $adresse, $sigle, $slogan, $tel1, $tel2, $fixe, $fax, $email, $bp, $site_internet, $pays, $ville, $activites, $forme_juridique, $rccm, $compte_contribuable, $regime_imposition, $centre_impôts, $capital_social, $compte_Bancaire, $monnaie, $n_agrement_1, $n_agrement_2, $pied_page, $logo_etats, $logo_reçu_inscription, $logo_pc, $image_emblème, $annee_academique, $ecole, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$id, $libelle, $responsable, $raison_sociale, $adresse, $sigle, $slogan, $tel1, $tel2, $fixe, $fax, $email, $bp, $site_internet, $pays, $ville, $activites, $forme_juridique, $rccm, $compte_contribuable, $regime_imposition, $centre_impôts, $capital_social, $compte_Bancaire, $monnaie, $n_agrement_1, $n_agrement_2, $pied_page, $logo_etats, $logo_reçu_inscription, $logo_pc, $annee_academique, $ecole, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 
@@ -295,7 +292,6 @@ class bureaux
      * @param $logo_etats
      * @param $logo_reçu_inscription
      * @param $logo_pc
-     * @param $image_emblème
      * @param $annee_academique
      * @param $ecole
      * @param $date_creation
@@ -319,13 +315,13 @@ class bureaux
         return $req->execute([$libelle, $responsable, $raison_sociale, $adresse, $sigle, $slogan, $tel1, $tel2, $fixe, $fax, $email, $bp, $site_internet, $pays, $ville, $activites, $forme_juridique, $rccm, $compte_contribuable, $regime_imposition, $centre_impôts, $capital_social, $compte_Bancaire, $monnaie, $n_agrement_1, $n_agrement_2,  $annee_academique, $ecole,  $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     }
 
-    static function update1($pied_page, $image_emblème,$logo_pc,  $id)
+    static function update1($pied_page,$logo_pc,  $id)
     {
         global $db;
         $req = $db->prepare('
-            UPDATE bureaux SET pied_page = ?, image_emblème = ?, logo_pc = ? WHERE id = ?
+            UPDATE bureaux SET pied_page = ?, logo_pc = ? WHERE id = ?
         ');
-        return $req->execute([$pied_page, $image_emblème,$logo_pc, $id]);
+        return $req->execute([$pied_page,$logo_pc, $id]);
     }
 
 
