@@ -146,12 +146,15 @@
                 donnee = JSON.parse(result);
                 if (donnee['success'] === 'true') {
                     var types_cartes = donnee['types_cartes'];
+                    var type_carte = donnee['type_carte'];
+                    console.log(type_carte)
 
                     var options = '';
                     for (var i = 0; i < types_cartes.length; i++) {
                         options += '<option value="' + types_cartes[i]['customer_id'] + '">' + types_cartes[i]['customer_id'] + '</option>';
                     }
                     $('#num_carte').html(options);
+                    $('#prix_u').val(type_carte['prix_vente_detail'])
                 } else if (donnee['success'] === 'false') {
 
                 } else {

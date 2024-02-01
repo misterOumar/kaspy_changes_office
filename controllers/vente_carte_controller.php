@@ -23,13 +23,18 @@
         include('../models/Carte.php');
 
         // Récupération des données postés dépuis le formulaire dans les variables respectives
-        $client = strSecur($_POST["client"]);
-        $quantite = ($_POST["quantite"]);
-        $telephone = strSecur($_POST["telephone"]);
-        $email = strSecur($_POST["email"]);
-        $prix_u = ($_POST["prix_u"]);
+        $type_enregistrement = strSecur($_POST['radio_type']);
         $carte = strSecur($_POST["carte"]);
         $num_carte = strSecur($_POST["num_carte"]);
+        $quantite = ($_POST["quantite"]);
+        $prix_u = ($_POST["prix_u"]);
+
+        $customer_id_initial = ($_POST["customer_id_initial"]);
+        $customer_id_final = ($_POST["customer_id_final"]);
+
+        $client = strSecur($_POST["client"]);
+        $telephone = strSecur($_POST["telephone"]);
+        $email = strSecur($_POST["email"]);
         $date_v = date('Y-m-d H:i:s');
 
         $montant = $quantite * $prix_u;
@@ -38,97 +43,188 @@
         $e_client  =  $e_telephone =  $e_quantite = $e_date_v = $e_prix_u = $e_date_v = "";
         $succes = true;
 
-        // Vérifications   
+        if ($type_enregistrement === "individuel") {
 
-        if (empty($client)) {
-            $e_client = "Ce champ ne doit pas être vide.";
-            $succes = false;
-        }
-        if (empty($quantite)) {
-            $e_quantite = "Ce champ ne doit pas être vide.";
-            $succes = false;
-        }
+            // Vérifications
+            if (empty($client)) {
+                $e_client = "Ce champ ne doit pas être vide.";
+                $succes = false;
+            }
+            if (empty($quantite)) {
+                $e_quantite = "Ce champ ne doit pas être vide.";
+                $succes = false;
+            }
 
-        if (empty($date_v)) {
-            $e_date_v = "Ce champ ne doit pas être vide.";
-            $succes = false;
-        }
+            if (empty($date_v)) {
+                $e_date_v = "Ce champ ne doit pas être vide.";
+                $succes = false;
+            }
 
-        if (empty($prix_u)) {
-            $e_prix_u = "Ce champ ne doit pas être vide.";
-            $succes = false;
-        }
+            if (empty($prix_u)) {
+                $e_prix_u = "Ce champ ne doit pas être vide.";
+                $succes = false;
+            }
 
-        if ($quantite <= $stock) $vente = true;
+            if ($quantite <= $stock) $vente = true;
 
-        do {
+            do {
 
-            if ($succes) {
+                if ($succes) {
 
-                $ip = getIp();
-                $navigateur = getNavigateur();
-                $us = $_SESSION["KaspyISS_user"]['users'];
-                $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-                $dt = date("Y-m-d H:i:s");
-                if (vente_carte::Ajouter(
-                    $montant,
-                    $client,
-                    $telephone,
-                    $email,
-                    $carte,
-                    $num_carte,
-                    $prix_u,
-                    $quantite,
-                    $date_v,
-                    $dt,
-                    $dt,
-                    $us,
-                    $navigateur,
-                    $pc,
-                    $ip,
-                    $dt,
-                    $us,
-                    $navigateur,
-                    $pc,
-                    $pc
-
-                )) {
-                    cartes::Carte_vendue(
+                    $ip = getIp();
+                    $navigateur = getNavigateur();
+                    $us = $_SESSION["KaspyISS_user"]['users'];
+                    $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+                    $dt = date("Y-m-d H:i:s");
+                    if (vente_carte::Ajouter(
+                        $montant,
+                        $client,
+                        $telephone,
+                        $email,
+                        $carte,
                         $num_carte,
+                        $prix_u,
+                        $quantite,
+                        $date_v,
+                        $dt,
+                        $dt,
+                        $us,
+                        $navigateur,
+                        $pc,
+                        $ip,
                         $dt,
                         $us,
                         $navigateur,
                         $pc,
                         $pc
-                    );
-                    $message = "Enregistrement de la vente  éffectué avec succès.";
-                    echo json_encode([
-                        'success' => 'true',
-                        'message' => $message
-                    ]);
+
+                    )) {
+                        cartes::Carte_vendue(
+                            $num_carte,
+                            $dt,
+                            $us,
+                            $navigateur,
+                            $pc,
+                            $pc
+                        );
+                        $message = "Enregistrement de la vente  éffectué avec succès.";
+                        echo json_encode([
+                            'success' => 'true',
+                            'message' => $message
+                        ]);
+                    } else {
+                        $message = "Erreur lors de l\'enregistrement de la vente.";
+                        echo json_encode([
+                            'success' => 'false',
+                            'message' => $message
+                        ]);
+                    }
                 } else {
-                    $message = "Erreur lors de l\'enregistrement de la vente.";
                     echo json_encode([
                         'success' => 'false',
-                        'message' => $message
+                        'message' => "Vérifier les champs",
+                        'prix_u' => $e_prix_u,
+                        'client' => $e_client,
+                        'telephone' => $e_telephone,
+                        'date' => $e_date_v,
+                        'quantite' => $e_quantite,
+                        'carte' => $e_carte
+
                     ]);
                 }
+            } while ($vente);
+        } else {
+            // Vente par lot
+            $nombre_carte = $customer_id_final - $customer_id_initial + 1;
+
+            $e_type = $e_customer_id_initial = $e_customer_id_final = "";
+            $succes = true;
+
+            if (empty($customer_id_initial)) {
+                $e_customer_id_initial = "Ce champ ne doit pas être vide.";
+                $succes = false;
+            }
+            if (empty($customer_id_final)) {
+                $e_customer_id_final = "Ce champ ne doit pas être vide.";
+                $succes = false;
+            }
+
+            if ($succes) {
+                $result = enregistrerVenteLot($customer_id_initial, $customer_id_final, $montant, $client, $telephone, $email, $carte, $prix_u, $quantite, $date_v);
+                echo json_encode($result);
             } else {
                 echo json_encode([
                     'success' => 'false',
                     'message' => "Vérifier les champs",
-                    'prix_u' => $e_prix_u,
-                    'client' => $e_client,
-                    'telephone' => $e_telephone,
-                    'date' => $e_date_v,
-                    'quantite' => $e_quantite,
-                    'carte' => $e_carte
-
+                    'customer_id_initial' => $e_customer_id_initial,
+                    'customer_id_final' => $e_customer_id_final,
+                    'type_carte' => $e_type,
                 ]);
             }
-        } while ($vente);
-    }
 
+        }
+    }
+    
+    // fonction - enregistrer plusieurs ventes
+    function enregistrerVenteLot($customer_id_initial, $customer_id_final, $montant, $client, $telephone, $email, $carte, $prix_u, $quantite, $date_v)
+    {
+
+        // vérifier si toutes les cartes sont disponibles et en stock
+
+        //enregistrer
+        $ip = getIp();
+        $navigateur = getNavigateur();
+        $us = $_SESSION["KaspyISS_user"]['users'];
+        $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        $dt = date("Y-m-d H:i:s");
+
+        $succes = true;
+
+        for ($i = 0; $i < $customer_id_final - $customer_id_initial + 1; $i++) {
+            $customer_id_card = $customer_id_initial + $i;
+            if (vente_carte::Ajouter(
+                $montant,
+                $client,
+                $telephone,
+                $email,
+                $carte,
+                $customer_id_card,
+                $prix_u,
+                $quantite,
+                $date_v,
+                $dt,
+                $dt,
+                $us,
+                $navigateur,
+                $pc,
+                $ip,
+                $dt,
+                $us,
+                $navigateur,
+                $pc,
+                $pc
+
+            )) {
+                cartes::Carte_vendue(
+                    $customer_id_card,
+                    $dt,
+                    $us,
+                    $navigateur,
+                    $pc,
+                    $pc
+                );
+            } else {
+                $succes = false;
+                break;
+            }
+        }
+
+        if ($succes) {
+            return ['success' => 'true', 'message' => "Ventes des cartes éffectuée avec succès."];
+        } else {
+            return ['success' => 'false', 'message' => "Erreur lors de la vente des cartes."];
+        }
+    }
 
     // MODIFIER UNE TRANSACTION
     if (isset($_POST['bt_modifier'])) {
@@ -273,12 +369,16 @@
         include('../config/config.php');
         include('../config/db.php');
         include('../models/Carte.php');
+        include('../models/Type_carte.php');
 
         $type_carte = $_GET['type_carte'];
         $types_cartes = cartes::getByTypesCarte($type_carte);
+        $type_carte = type_carte::getByNom($type_carte);
+
         if ($types_cartes) {
             echo json_encode([
                 'types_cartes' => $types_cartes,
+                'type_carte' => $type_carte,
                 'success' => 'true',
             ]);
         } else {

@@ -230,7 +230,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                         <div class="card-body d-flex align-items-center justify-content-between">
                                             <div>
                                                 <h5>Réchargements UBA</h5>
-                                                <p class="card-text font-small-3"> Gestion Réchargements UBA </p>
+                                                <p class="card-text font-small-3"> Rechargement des cartes  </p>
                                             </div>
 
                                             <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->

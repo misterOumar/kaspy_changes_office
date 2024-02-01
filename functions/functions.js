@@ -134,3 +134,95 @@ function VerificationsImages(image_id) {
     return false;
   }
 }
+
+
+
+// /**
+//  * Fonction pour récupérer la valeur du presse-papiers
+//  *
+//  * @param ""
+//  * @returns {}
+//  */
+// async function obtenirValeurPressePapier() {
+//   if (navigator.clipboard && navigator.clipboard.readText) {
+//     try {
+//       const valeurPressePapier = await navigator.clipboard.readText();
+//       return valeurPressePapier;
+//     } catch (error) {
+//       console.error("Erreur lors de la lecture du presse-papiers :", error);
+//       throw error; // Optionnel : relancer l'erreur pour la gestion à un niveau supérieur si nécessaire
+//     }
+//   } else {
+//     console.error("L'API du presse-papiers n'est pas prise en charge dans ce navigateur.");
+//     return null; // Vous pouvez renvoyer une valeur par défaut ou null selon votre besoin
+//   }
+// }
+
+
+
+/**
+ * Fonction pour récupérer la valeur du presse-papiers
+ *
+ * @returns {Promise<string|null>} La valeur du presse-papiers ou null s'il y a une erreur ou si l'API n'est pas prise en charge.
+ */
+async function obtenirValeurPressePapier() {
+
+  // Vérifier que le navigateur est edge
+  if (navigator.userAgent.includes("Edg")) {
+
+    // Vérifier si l'API navigator.clipboard est disponible dans le navigateur
+    if (navigator.clipboard) {
+      // Utiliser navigator.clipboard.readText() pour lire le contenu du presse-papiers
+      navigator.clipboard.readText().then(function (clipboardData) {
+        return clipboardData;
+      }).catch(function (err) {
+        console.error("Erreur lors de la lecture du presse-papiers:", err);
+      });
+    } else {
+      // Fallback vers la méthode document.execCommand pour les anciens navigateurs
+      var textarea = document.createElement("textarea");
+      document.body.appendChild(textarea);
+
+      // Sélectionner et copier le contenu du presse-papiers dans le textarea
+      textarea.select();
+      document.execCommand("paste");
+
+      // Récupérer le contenu du textarea
+      var clipboardData = textarea.value;
+
+      return clipboardData;
+
+      // Supprimer le textarea
+      document.body.removeChild(textarea);
+    }
+  } else if (navigator.userAgent.includes("Chrome")) {
+    // Vérifier que le navigateur est chrome
+
+    if (navigator.clipboard && navigator.clipboard.readText) {
+      try {
+        const valeurPressePapier = await navigator.clipboard.readText();
+        return valeurPressePapier;
+      } catch (error) {
+        console.error("Erreur lors de la lecture du presse-papiers :", error);
+        throw error; // Optionnel : relancer l'erreur pour la gestion à un niveau supérieur si nécessaire
+      }
+    } else {
+      console.error("L'API du presse-papiers n'est pas prise en charge dans ce navigateur.");
+      return null; // Vous pouvez renvoyer une valeur par défaut ou null selon votre besoin
+    }
+  } else {  // Vérifier que le navigateur est chrome
+    if (navigator.clipboard && navigator.clipboard.readText) {
+      try {
+        const valeurPressePapier = await navigator.clipboard.readText();
+        return valeurPressePapier;
+      } catch (error) {
+        console.error("Erreur lors de la lecture du presse-papiers :", error);
+        throw error; // Optionnel : relancer l'erreur pour la gestion à un niveau supérieur si nécessaire
+      }
+    } else {
+      console.error("L'API du presse-papiers n'est pas prise en charge dans ce navigateur.");
+      return null; // Vous pouvez renvoyer une valeur par défaut ou null selon votre besoin
+    }
+  }
+
+}

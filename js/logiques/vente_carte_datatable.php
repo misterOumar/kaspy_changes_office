@@ -16,16 +16,16 @@ $api_url = API_HOST . 'index.php?page=api_vente_carte';
                 dt_basic.row
                     .add({
                         responsive_id: champ_bd.id,
-                         id: champ_bd.id,
-                         date: champ_bd.date,               
-						 client: champ_bd.client,
-						 telephone: champ_bd.telephone,					 
-						 carte: champ_bd.carte,
-                         numero_carte: champ_bd.numero_carte,
-						 quantite: champ_bd.quantite,						                
-						 prix_unitaire: champ_bd.prix_unitaire,
-                         montant: champ_bd.montant,                   
-                                         
+                        id: champ_bd.id,
+                        date: champ_bd.date,
+                        client: champ_bd.client,
+                        telephone: champ_bd.telephone,
+                        carte: champ_bd.carte,
+                        numero_carte: champ_bd.numero_carte,
+                        quantite: champ_bd.quantite,
+                        prix_unitaire: champ_bd.prix_unitaire,
+                        montant: champ_bd.montant,
+
                     })
                     .draw();
             })
@@ -53,14 +53,14 @@ $api_url = API_HOST . 'index.php?page=api_vente_carte';
                     {
                         data: 'date'
                     },
-                   
+
                     {
                         data: 'client'
-                    }, 
-					{
-						data :'telephone'
-					},
- 				                    {
+                    },
+                    {
+                        data: 'telephone'
+                    },
+                    {
                         data: 'carte'
                     },
                     {
@@ -69,15 +69,15 @@ $api_url = API_HOST . 'index.php?page=api_vente_carte';
                     {
                         data: 'quantite'
                     },
-					 {
+                    {
                         data: 'prix_unitaire'
                     },
-				
+
                     {
                         data: 'montant'
                     },
-                  
-                 
+
+
 
                     {
                         data: ''
@@ -150,7 +150,7 @@ $api_url = API_HOST . 'index.php?page=api_vente_carte';
                                 '</div>' +
                                 '<div class="d-flex flex-column">' +
                                 '<span class="emp_nom text-truncate fw-bold">' +
-                                $libelle + ' ' +  
+                                $libelle + ' ' +
                                 '</span>' +
                                 '</div>' +
                                 '</div>';
@@ -216,7 +216,7 @@ $api_url = API_HOST . 'index.php?page=api_vente_carte';
                 dom: "<'card-header border-bottom p-1'<'head-label'><'dt-action-buttons text-end'B>><'d-flex justify-content-between align-items-center mx-0 row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>t<'d-flex justify-content-between mx-0 row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
                 displayLength: 7,
                 lengthMenu: [7, 10, 25, 50, 75, 100],
-                buttons:  [{
+                buttons: [{
                         extend: 'collection',
                         className: 'btn btn-outline-secondary dropdown-toggle me-2 export',
                         text: feather.icons['share'].toSvg({
@@ -296,7 +296,7 @@ $api_url = API_HOST . 'index.php?page=api_vente_carte';
                             $(node).removeClass('btn-secondary');
                         }
                     },
-                     
+
                 ],
                 // RESPONSIVE - Sur téléphone
                 responsive: {
@@ -353,14 +353,14 @@ $api_url = API_HOST . 'index.php?page=api_vente_carte';
         }
         // MODIFIER UN ELEMENT
         $('#form_ajouter').on('submit', function(e) {
-            var  $new_client = $('#client').val(),
+            var $new_client = $('#client').val(),
                 $new_date_v = $('#date_v').val(),
                 $new_quantite = $('#quantite').val(),
-				 $new_montant = $('#montant').val(),
-				  $new_telephone = $('#telephone').val(),				  
-				$new_prix_u = $('#prix_u').val(),          
-                $new_carte = $('#carte').val(), 
-                $new_num_carte = $('#num_carte').val();                            
+                $new_montant = $('#montant').val(),
+                $new_telephone = $('#telephone').val(),
+                $new_prix_u = $('#prix_u').val(),
+                $new_carte = $('#carte').val(),
+                $new_num_carte = $('#num_carte').val();
             e.preventDefault()
 
             if ($new_quantite != '') {
@@ -378,62 +378,32 @@ $api_url = API_HOST . 'index.php?page=api_vente_carte';
                     success: function(result) {
                         //console.log(result);
                         var donnee = JSON.parse(result);
-                        
+
                         if (donnee['success'] === 'true') {
-                           
-							   $('#client').val("");
-							      $('#quantite').val("");
-                                  $('#telephone').val("");
-                                
-								     $('#prix_unitaire').val("");
-									   $('#date_v').val("");
-									    $('#carte').val("");
-                                        $('#num_carte').val("");
+
+                            $('#client').val("");
+                            $('#quantite').val("");
+                            $('#telephone').val("");
+
+                            $('#prix_unitaire').val("");
+                            $('#date_v').val("");
+                            $('#carte').val("");
+                            $('#num_carte').val("");
                             $('#montantHelp').html("").addClass('invisible');
-							 $('#clientHelp').html("").addClass('invisible');
-							  $('#carteHelp').html("").addClass('invisible');
-                              $('#num_carteHelp').html("").addClass('invisible');
-                              $('#telephoneHelp').html("").addClass('invisible');
-							   $('#prix_uHelp').html("").addClass('invisible');
-							   $('#quantiteHelp').html("").addClass('invisible');							   
-								 $('#date_vHelp').html("").addClass('invisible');
+                            $('#clientHelp').html("").addClass('invisible');
+                            $('#carteHelp').html("").addClass('invisible');
+                            $('#num_carteHelp').html("").addClass('invisible');
+                            $('#telephoneHelp').html("").addClass('invisible');
+                            $('#prix_uHelp').html("").addClass('invisible');
+                            $('#quantiteHelp').html("").addClass('invisible');
+                            $('#date_vHelp').html("").addClass('invisible');
 
                             // MESSAGE ALERT
                             swal_Alert_Sucess(donnee['message'])
 
-                            // Récupération de l'id de la ligne ajoutée
-                            $.ajax({
-                                type: "GET",
-                                data: "idLast=" + true,
-                                url: "controllers/vente_carte_controller.php",
-                                success: function(result) {
-                                    var donnees = JSON.parse(result)
-                                    if (donnees['last_vente'] !== 'null') {
-                                        let ventes = donnees['last_vente'];
-                                        let last_id = ventes['id'];
-                                        let total = donnees['total'];
-                                        // Ajout Front et ajout de l'id de la dernière ligne crée
-                                        dt_basic.row
-                                            .add({
-                                                responsive_id: last_id,
-                                                id: last_id,                                               
-                                                date: $new_date_v,
-                                                client: $new_client,
-                                                telephone: $new_telephone,
-                                                carte: $new_carte,
-                                                numero_carte: $new_num_carte,
-                                                prix_unitaire: $new_prix_u, 
-												quantite: $new_quantite,					
-                                                montant: $new_prix_u, 
-											 												
-                                                status: 5
 
-                                            })
-                                            .draw();
-                                        $('.modal').modal('hide');
-                                    }
-                                }
-                            });
+                            // Récharger la page
+                            location.reload();
                         }
                     }
                 });
@@ -461,7 +431,7 @@ $api_url = API_HOST . 'index.php?page=api_vente_carte';
                     if (donnees['vente'] !== 'null') {
                         // Remplir le formulaire
                         let vente = donnees['vente'];
-                        $('#idModif').val(vente['id']);                        
+                        $('#idModif').val(vente['id']);
                         $('#date_vmodif').val(vente['date']);
                         $('#client_modif').val(vente['client']);
                         $('#quantite_modif').val(vente['quantite']);
@@ -474,21 +444,21 @@ $api_url = API_HOST . 'index.php?page=api_vente_carte';
             })
         });
 
-           // PROPRIETE D'UNE LIGNE
-           $('.datatables-basic tbody').on('click', '.proprietes', function() {
+        // PROPRIETE D'UNE LIGNE
+        $('.datatables-basic tbody').on('click', '.proprietes', function() {
             var that = this
             $.ajax({
                 type: "GET",
                 data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
                 url: "controllers/vente_carte_controller.php",
                 success: function(result) {
-                  
+
                     var donnees = JSON.parse(result);
                     if (donnees['ventes'] !== 'null') {
 
                         let proprietes = donnees['ventes']
 
-                       
+
                         $("#offcanvasBottomLabel").html("Propriété de la transaction MTN Money« " + proprietes['date_creation'] + " »");
                         $("#date_creation").html(proprietes['date_creation']);
                         $("#user_creation").html(proprietes['user_creation']);

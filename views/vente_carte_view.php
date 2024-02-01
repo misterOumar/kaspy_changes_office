@@ -232,6 +232,20 @@
                                                </select>
                                            </div>
                                            <div class='mb-1'><small id='num_carteHelp' class='text-danger invisible'></small></div>
+
+                                           <!--- PRIX UNITAIRE --->
+                                           <div>
+                                               <label class='form-label' for='email'>Prix Unitaire</label>
+                                               <input type='text' class='form-control dt-email' id='prix_u' name='prix_u' readonly />
+                                           </div>
+                                           <div class='mb-1'><small id='prix_uHelp' class='text-danger invisible'></small></div>
+
+                                           <!--- QUANTITE --->
+                                           <div>
+                                               <label class='form-label' for='compte_contribuable'>Quantité</label>
+                                               <input type='tel' class='form-control dt-full-compte_contribuable' value="1" id='quantite' name='quantite'  readonly/>
+                                           </div>
+                                           <div class='mb-1'><small id='quantiteHelp' class='text-danger invisible'></small></div>
                                        </div>
 
                                        <!--- Achat par lot --->
@@ -259,6 +273,8 @@
                                        </div>
 
 
+
+
                                        <!--- NOM COMPLET DU CLIENT --->
                                        <div>
                                            <label class='form-label' for='numero_telephone'>Client</label>
@@ -280,18 +296,7 @@
                                        </div>
                                        <div class='mb-1'><small id='emailHelp' class='text-danger invisible'></small></div>
 
-                                       <div>
-                                           <label class='form-label' for='email'>Prix Unitaire</label>
-                                           <input type='text' class='form-control dt-email' id='prix_u' name='prix_u' placeholder="Veuillez saisir le prix unitaire" aria - Label='email' maxlength='75' />
-                                       </div>
-                                       <div class='mb-1'><small id='prix_uHelp' class='text-danger invisible'></small></div>
 
-                                       <!--- FONCTION --->
-                                       <div>
-                                           <label class='form-label' for='compte_contribuable'>Quantité</label>
-                                           <input type='tel' class='form-control dt-full-compte_contribuable' value="1" id='quantite' name='quantite' placeholder="Veuillez saisir la quantite" aria - Label='compte_contribuable' maxlength='75' />
-                                       </div>
-                                       <div class='mb-1'><small id='quantiteHelp' class='text-danger invisible'></small></div>
 
                                        <!--- ENREGISTREMENT --->
                                        <button type="submit" id='bt_enregistrer' name='bt_enregistrer' class='btn btn-primary enregistrer me-5'>Enregistrer</button>

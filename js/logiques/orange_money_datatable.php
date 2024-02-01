@@ -1,7 +1,7 @@
 <?php
 include('../config/config.php');
 $api_url = API_HOST . 'index.php?page=api_orange_money';
-?> 
+?>
 <script>
     $(function() {
         'use strict';
@@ -21,7 +21,7 @@ $api_url = API_HOST . 'index.php?page=api_orange_money';
                         montant: champ_bd.montant,
                         solde_total: champ_bd.solde_total,
                         id_transaction: champ_bd.id_transaction,
-                         
+
                     })
                     .draw();
             })
@@ -46,25 +46,25 @@ $api_url = API_HOST . 'index.php?page=api_orange_money';
                         data: 'id'
                     },
                     // used for sorting so will hide this column
-                   
+
                     {
                         data: 'date'
                     },
-                    
+
                     {
                         data: 'telephone_client'
                     },
-                    
+
                     {
                         data: 'montant'
                     },
                     {
-                         data: 'solde_total'
-                     },
+                        data: 'solde_total'
+                    },
 
-                     {
-                         data: 'id_transaction'
-                     },
+                    {
+                        data: 'id_transaction'
+                    },
 
                     {
                         data: ''
@@ -103,7 +103,7 @@ $api_url = API_HOST . 'index.php?page=api_orange_money';
                         visible: false
                     },
                     // Le badge ou l'image rond
-                              {
+                    {
                         // Avatar image/badge, libelle and nom_pop
                         targets: 3,
                         responsivePriority: 1,
@@ -178,7 +178,7 @@ $api_url = API_HOST . 'index.php?page=api_orange_money';
                                 }) +
                                 'Supprimer</a>' +
 
-                             
+
                                 //Propriétés
                                 '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
                                 feather.icons['info'].toSvg({
@@ -318,8 +318,8 @@ $api_url = API_HOST . 'index.php?page=api_orange_money';
                             }).join('');
 
                             return data ? $('<table class="table"/>').append('<tbody>' + data + '</tbody>') : false;
-                     }
-                   }
+                        }
+                    }
                 },
                 language: {
                     url: 'js/plugins/tables/language.french.json',
@@ -340,13 +340,14 @@ $api_url = API_HOST . 'index.php?page=api_orange_money';
                 dateFormat: 'm/d/Y'
             });
         }
+
+
         // MODIFIER UN ELEMENT
         $('#form_ajouter').on('submit', function(e) {
             var $new_type_op = $("input[name='radio_type']:checked").val();
-           
             var $new_montant = $('#montant').val(),
 
-             //GESTION DU SOLDE
+                //GESTION DU SOLDE
                 $new_solde = $('#solde_t').val(),
 
                 // GESTION DE LA TRANSACTION ID
@@ -355,7 +356,7 @@ $api_url = API_HOST . 'index.php?page=api_orange_money';
                 $new_date_t = $('#date_t').val(),
                 // $new_destinataire = $('#destinataire').val(),
                 $new_tel_cli = $('#tel_cli').val();
-                // $new_tel_dest = $('#tel_dest').val();
+            // $new_tel_dest = $('#tel_dest').val();
             e.preventDefault()
 
             if ($new_montant != '') {
@@ -406,11 +407,12 @@ $api_url = API_HOST . 'index.php?page=api_orange_money';
                                                 responsive_id: last_id,
                                                 id: last_id,
                                                 date: $new_date_t,
-                                               
+                                                type_operation: $new_type_op,
+
                                                 telephone_client: $new_tel_cli,
-                                                montant: $new_montant,  
-                                                solde_total: $new_solde, 
-                                                id_transaction: $new_id_transaction,                                         
+                                                montant: $new_montant,
+                                                solde_total: $new_solde,
+                                                id_transaction: $new_id_transaction,
                                                 status: 5
                                             })
                                             .draw();
@@ -451,11 +453,11 @@ $api_url = API_HOST . 'index.php?page=api_orange_money';
                         $('#id_transaction_modif').val(transaction['id_transaction']);
                         $('#date_t_modif').val(transaction['date']);
                         // $('#radio_type_modif').val(transaction['type_operation']);
-                        $('#tel_cli_modif').val(transaction['telephone_client']);  
-                        
+                        $('#tel_cli_modif').val(transaction['telephone_client']);
+
                         var radioTypeModifValue = transaction['type_operation'];
                         // Vérifie si la valeur est égale à 'Dépot'
-                        if (radioTypeModifValue ==='Retrait') {
+                        if (radioTypeModifValue === 'Retrait') {
                             // Coche le radio bouton 'Dépot'
                             $('#radio_retrait_modif').prop('checked', true);
                         } else {
@@ -469,20 +471,19 @@ $api_url = API_HOST . 'index.php?page=api_orange_money';
         });
 
         // PROPRIETE D'UNE LIGNE
-         $('.datatables-basic tbody').on('click', '.proprietes', function() {
+        $('.datatables-basic tbody').on('click', '.proprietes', function() {
             var that = this
             $.ajax({
                 type: "GET",
                 data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
                 url: "controllers/orange_money_controller.php",
                 success: function(result) {
-                  
+
                     var donnees = JSON.parse(result);
                     if (donnees['proprietes_orange'] !== 'null') {
 
                         let proprietes = donnees['proprietes_orange']
 
-                       
                         $("#offcanvasBottomLabel").html("Propriété de la transaction Orange Money« " + proprietes['date_creation'] + " »");
                         $("#date_creation").html(proprietes['date_creation']);
                         $("#user_creation").html(proprietes['user_creation']);

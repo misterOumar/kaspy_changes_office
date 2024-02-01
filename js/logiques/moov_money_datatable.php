@@ -405,6 +405,7 @@ $api_url = API_HOST . 'index.php?page=api_moov_money';
                                                 responsive_id: last_id,
                                                 id: last_id,
                                                 date: $new_date_t,
+                                                type_operation: $new_type_op,
                                                 
                                                 telephone_client: $new_tel_cli,
                                                 montant: $new_montant,  

@@ -74,6 +74,7 @@ class EtatListeProprietaires extends FPDF
     function BasicTable($data)
     {
         // En-tête
+        
         $this->SetFont('Helvetica', 'B', 10);
         $this->Cell(30, 7, "DATE", 1, 0, 'C');
         $this->Cell(65, 7, "LIBELLE", 1, 0, 'C');
@@ -84,31 +85,64 @@ class EtatListeProprietaires extends FPDF
 
 
         $this->SetFont('Helvetica', '', 9);
+        // Initialiser le solde accumulé à zéro
+        $soldeAccumule = 0;
+        // Initialiser la date précédente à null
+        $datePrecedente = null;
+
         foreach ($data as $transaction_caisse) {
             // Convertir la chaîne de date en objet DateTime
             $date = DateTime::createFromFormat('d/m/Y H:i', $transaction_caisse['date']);
-
+        
             if ($date === false) {
                 // Si la conversion échoue, essayer un autre format
                 $date = new DateTime($transaction_caisse['date']);
             }
-
+        
             // Formater la date pour afficher le jour, le mois et l'année
             $dateFormatee = $date->format('d/m/Y');
+        
+            // Vérifier si la date a changé
+            if ($datePrecedente !== null && $datePrecedente != $dateFormatee) {
+                // Ajouter une ligne pour le solde du jour
+                $this->SetFont('Helvetica', 'B', 10);
+                $this->SetFillColor(85, 156, 173);
+                $this->Cell(155, 6,  'Solde du jour '. $datePrecedente, 1, 0, 'C', true); 
+                $this->Cell(35, 6,  $soldeAccumule, 1, 0, 'C', true); // Cellule pour le solde du jour avec couleur de remplissage
+                $this->Ln();
+        
+                // Réinitialiser le solde pour le nouveau jour
+                // $soldeAccumule = 0;
+            }
+        
+            // Calculer le solde pour la ligne actuelle
+            $soldeLigne = $transaction_caisse['ENTREE'] - $transaction_caisse['SORTIE'];
+        
+            // Ajouter le solde de la ligne actuelle au solde accumulé
+            $soldeAccumule += $soldeLigne;
+            $this->SetFont('Helvetica', '', 9);
+            
+            $montant_entre = $transaction_caisse['ENTREE'];
+            if ($montant_entre < 0) {
+                $montant_entre = -($montant_entre);
+            }
 
             $this->Cell(30, 6,  $dateFormatee, 1, 0, 'C');
             $this->Cell(65, 6,  $transaction_caisse['Libelle'], 1, 0, '');
-            $this->Cell(30, 6,  $transaction_caisse['ENTREE'], 1, 0, '');
+            $this->Cell(30, 6,  $montant_entre , 1, 0, '');
             $this->Cell(30, 6,  $transaction_caisse['SORTIE'], 1, 0, 'C');
-            $this->Cell(35, 6,  $transaction_caisse['SOLDE'], 1, 0, 'C');
+            
+            // Placer la couleur de remplissage avant la ligne du solde du jour
+            $this->SetFillColor(85, 156, 173);
+            
+            $this->Cell(35, 6,  $soldeAccumule, 1, 0, 'C');
             $this->Ln();
+        
+            // Mettre à jour la date précédente
+            $datePrecedente = $dateFormatee;
         }
         
-        // Couleur de remplissage
-        $this->SetFillColor(85, 156, 173);
-        // $this->SetTextColor(255, 255, 255); //couleur du texte
-        $this->SetFont('Helvetica', 'B', 10);
-        $this->Cell(190, 6,  '1 000 500', 1, 0, 'R', true);
+
     }
 
 
@@ -153,7 +187,7 @@ $pdf->annee = $_SESSION["KaspyISS_annee"];
 
 
 // Param"trage de la difusion de l'état
-$pdf->SetTitle('Liste des transactions de caisse', 1);
+$pdf->SetTitle('RAPPORT DE LA CAISSE DES TRANSACTIONS', 1);
 
 $pdf->AliasNbPages();
 $pdf->AddPage('P');
