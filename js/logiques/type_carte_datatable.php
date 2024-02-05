@@ -17,6 +17,7 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                         id: champ_bd.id,
                         libelle: champ_bd.libelle,
                         duree: champ_bd.duree,
+                        prix_achat: champ_bd.prix_achat + ' F-CFA',
                         prix_vente_detail: champ_bd.prix_vente_detail + ' F-CFA',
                         prix_vente_gros: champ_bd.prix_vente_gros + ' F-CFA',
 
@@ -47,6 +48,9 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                     }, // used for sorting so will hide this column
                     {
                         data: 'libelle'
+                    },
+                    {
+                        data: 'prix_achat'
                     },
                     {
                         data: 'prix_vente_detail'
@@ -90,7 +94,6 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                         targets: 2,
                         visible: false
                     },
-
                     // Le badge ou l'image rond
                     {
                         // Avatar image/badge, libelle and nom_pop
@@ -114,7 +117,6 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                                 $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
                                 $output = '<span class="avatar-content">' + $initials + '</span>';
                             }
-
                             var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
                             // Creates full output for row
                             var $row_output =
@@ -176,15 +178,10 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                             );
                         }
                     }
-
-
-
                 ],
                 order: [
                     [2, 'desc']
                 ],
-
-
                 // Les boutons d'action
                 dom: "<'card-header border-bottom p-1'<'head-label'><'dt-action-buttons text-end'B>><'d-flex justify-content-between align-items-center mx-0 row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>t<'d-flex justify-content-between mx-0 row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'p>>",
                 displayLength: 7,
@@ -269,9 +266,6 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                             $(node).removeClass('btn-secondary');
                         }
                     },
-
-
-
                 ],
                 // RESPONSIVE - Sur téléphone
                 responsive: {
@@ -333,6 +327,7 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
         // AJOUTER UN ELEMENT
         $('#form_ajouter').on('submit', function(e) {
             var $new_libelle = $('#libelle').val(),
+            $new_prix_achat = $('#prix_achat').val(),
                 $new_prix_vente_detail = $('#prix_vente_detail').val(),
                 $new_prix_vente_gros = $('#prix_vente_gros').val(),
                 $new_duree = $('#duree').val();
@@ -391,6 +386,7 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                                                 id: last_id,
                                                 libelle: $new_libelle,
                                                 duree: $new_duree,
+                                                prix_achat: $new_prix_achat + ' F-CFA',
                                                 prix_vente_detail: $new_prix_vente_detail + ' F-CFA',
                                                 prix_vente_gros: $new_prix_vente_gros + ' F-CFA',
 
@@ -435,6 +431,7 @@ $api_url = API_HOST . 'index.php?page=api_type_carte';
                         $('#idModif').val(carteType['id']);
                         $('#libellemodif').val(carteType['libelle']);
                         $('#dureemodif').val(carteType['duree']);
+                        $('#prix_achat_modif').val(carteType['prix_achat']);
                         $('#prix_vente_detail_modif').val(carteType['prix_vente_detail']);
                         $('#prix_vente_gros_modif').val(carteType['prix_vente_gros']);
 

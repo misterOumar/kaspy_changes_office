@@ -57,7 +57,6 @@ if (isset($_POST['bt_enregistrer'])) {
 
     // Récupération des données postés dépuis le formulaire dans les variables respectives
     $dates = strSecur($_POST['dates']);
-    $n_piece = strSecur($_POST['n_piece']);
     $nature_depense = strSecur($_POST['nature_depense']);
     $designation = strSecur($_POST['designation']);
     $fournisseur = strSecur($_POST['fournisseur']);
@@ -65,103 +64,7 @@ if (isset($_POST['bt_enregistrer'])) {
     $mode_reglement = strSecur($_POST['mode_reglement']);
 
     // Déclaration et initialisation des variables d'erreur (e)
-    $e_dates = $e_n_piece = $e_nature_depense = $e_designation = $e_fournisseur = $e_montant = $e_mode_reglement = '';
-    $succes = true;
-
-    // Vérifications 
-    if (empty($nature_depense)) {
-        $e_nature_depense = 'Ce champ ne doit pas être vide.';
-        $succes = false;
-    }
-
-    if (empty($designation)) {
-        $e_designation = 'Ce champ ne doit pas être vide.';
-        $succes = false;
-    }
-
-    if (empty($fournisseur)) {
-        $e_fournisseur = 'Ce champ ne doit pas être vide.';
-        $succes = false;
-    }
-
-    if (empty($montant)) {
-        $e_montant = 'Ce champ ne doit pas être vide.';
-        $succes = false;
-    }
-
-    if (empty($mode_reglement)) {
-        $e_mode_reglement = 'Ce champ ne doit pas être vide.';
-        $succes = false;
-    }
-
-    // Cas ou tout est ok
-    if ($succes) {
-        $depenses =  depenses::getByNom($n_piece);
-        if ($depenses['n_piece'] != '' and $depenses['n_piece']  == $n_piece) {
-            $message = 'Ce numero de pièce existe déjà';
-            echo json_encode([
-                'message' => $message,
-                'success' => 'existe'
-            ]);
-        } else {
-            $ip = getIp();
-            $navigateur = getNavigateur();
-            $annee = '2021-2022';
-            $ecole = 'hec yopougon';
-            $us = 'kesse';
-            $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-            $dt = '2022-09-06 07:20:00';
-            if (depenses::Ajouter($id, $dates, $n_piece, $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee, $ecole, $dt, $us, $navigateur, $pc, $ip, $dt, $us, $navigateur, $pc, $ip)) {
-                $message = 'Création depenses éffectuée avec succès.';
-                echo json_encode([
-                    'success' => 'true',
-                    'message' => $message
-                ]);
-            } else {
-                $message = 'Erreur lors de la création depenses.';
-                echo json_encode([
-                    'success' => 'non',
-                    'message' => $message
-                ]);
-            }
-        }
-    } else {
-        echo json_encode([
-            'success' => 'false',
-
-            'message' => 'Vérifier les champs',
-            'dates' => $e_dates,
-            'n_piece' => $e_n_piece,
-            'nature_depense' => $e_nature_depense,
-            'designation' => $e_designation,
-            'fournisseur' => $e_fournisseur,
-            'montant' => $e_montant,
-            'mode_reglement' => $e_mode_reglement,
-        ]);
-    }
-}
-
-
-// MODIFIER DEPENSES
-if (isset($_POST['bt_modifier'])) {
-    // inclusion des fichiers ressources
-    include('../functions/functions.php');
-    include('../config/config.php');
-    include('../config/db.php');
-    include('../models/Depenses.php');
-
-    // Récupération des données postés dépuis le formulaire dans les variables respectives
-    $dates = strSecur($_POST['dates_modif']);
-    $n_piece = strSecur($_POST['n_piece_modif']);
-    $nature_depense = strSecur($_POST['nature_depense_modif']);
-    $designation = strSecur($_POST['designation_modif']);
-    $fournisseur = strSecur($_POST['fournisseur_modif']);
-    $montant = strSecur($_POST['montant_modif']);
-    $mode_reglement = strSecur($_POST['mode_reglement_modif']);
-    $idModif = strSecur($_POST["idModif"]);
-
-    // Déclaration et initialisation des variables d'erreur (e)
-    $e_dates = $e_n_piece = $e_nature_depense = $e_designation = $e_fournisseur = $e_montant = $e_mode_reglement = '';
+    $e_dates =  $e_nature_depense = $e_designation = $e_fournisseur = $e_montant = $e_mode_reglement = '';
     $succes = true;
 
     // Vérifications 
@@ -196,11 +99,97 @@ if (isset($_POST['bt_modifier'])) {
         $ip = getIp();
         $navigateur = getNavigateur();
         $annee = '2021-2022';
-        $ecole = 'hec yopougon';
+        $magasin = $_SESSION["KaspyISS_bureau"];
         $us = 'kesse';
         $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         $dt = '2022-09-06 07:20:00';
-        if (depenses::Modifier($dates, $n_piece, $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee, $ecole, $dt, $us, $navigateur, $pc, $ip, $idModif)) {
+        if (depenses::Ajouter($id, $dates, $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee, $magasin, $dt, $us, $navigateur, $pc, $ip, $dt, $us, $navigateur, $pc, $ip)) {
+            $message = 'Création depenses éffectuée avec succès.';
+            echo json_encode([
+                'success' => 'true',
+                'message' => $message
+            ]);
+        } else {
+            $message = 'Erreur lors de la création depenses.';
+            echo json_encode([
+                'success' => 'non',
+                'message' => $message
+            ]);
+        }
+    } else {
+        echo json_encode([
+            'success' => 'false',
+
+            'message' => 'Vérifier les champs',
+            'dates' => $e_dates,
+            'nature_depense' => $e_nature_depense,
+            'designation' => $e_designation,
+            'fournisseur' => $e_fournisseur,
+            'montant' => $e_montant,
+            'mode_reglement' => $e_mode_reglement,
+        ]);
+    }
+}
+
+
+// MODIFIER DEPENSES
+if (isset($_POST['bt_modifier'])) {
+    // inclusion des fichiers ressources
+    include('../functions/functions.php');
+    include('../config/config.php');
+    include('../config/db.php');
+    include('../models/Depenses.php');
+
+    // Récupération des données postés dépuis le formulaire dans les variables respectives
+    $dates = strSecur($_POST['dates_modif']);
+    $nature_depense = strSecur($_POST['nature_depense_modif']);
+    $designation = strSecur($_POST['designation_modif']);
+    $fournisseur = strSecur($_POST['fournisseur_modif']);
+    $montant = strSecur($_POST['montant_modif']);
+    $mode_reglement = strSecur($_POST['mode_reglement_modif']);
+    $idModif = strSecur($_POST["idModif"]);
+
+    // Déclaration et initialisation des variables d'erreur (e)
+    $e_dates  = $e_nature_depense = $e_designation = $e_fournisseur = $e_montant = $e_mode_reglement = '';
+    $succes = true;
+
+    // Vérifications 
+    if (empty($nature_depense)) {
+        $e_nature_depense = 'Ce champ ne doit pas être vide.';
+        $succes = false;
+    }
+
+    if (empty($designation)) {
+        $e_designation = 'Ce champ ne doit pas être vide.';
+        $succes = false;
+    }
+
+    if (empty($fournisseur)) {
+        $e_fournisseur = 'Ce champ ne doit pas être vide.';
+        $succes = false;
+    }
+
+    if (empty($montant)) {
+        $e_montant = 'Ce champ ne doit pas être vide.';
+        $succes = false;
+    }
+
+    if (empty($mode_reglement)) {
+        $e_mode_reglement = 'Ce champ ne doit pas être vide.';
+        $succes = false;
+    }
+
+    // Cas ou tout est ok
+    if ($succes) {
+
+        $ip = getIp();
+        $navigateur = getNavigateur();
+        $annee = '2021-2022';
+        $magasin = $_SESSION["KaspyISS_bureau"];
+        $us = 'kesse';
+        $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        $dt = '2022-09-06 07:20:00';
+        if (depenses::Modifier($dates,  $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee, $magasin, $dt, $us, $navigateur, $pc, $ip, $idModif)) {
             $message = 'modification depenses éffectuée avec succès.';
             echo json_encode([
                 'success' => 'true',
@@ -219,7 +208,6 @@ if (isset($_POST['bt_modifier'])) {
 
             'message' => 'Vérifier les champs',
             'dates' => $e_dates,
-            'n_piece' => $e_n_piece,
             'nature_depense' => $e_nature_depense,
             'designation' => $e_designation,
             'fournisseur' => $e_fournisseur,

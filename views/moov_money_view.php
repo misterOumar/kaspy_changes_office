@@ -17,7 +17,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <!-- Incluez également le CSS de Bootstrap si vous utilisez les modales Bootstrap -->
 
 
-    <title><?= APP_NAME ?> -Transaction moov money</title>
+    <title><?= APP_NAME ?> - Moov Money</title>
 
     <!-- Fichiers CSS par défaut (TEMPLATE) -->
 

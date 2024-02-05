@@ -150,8 +150,13 @@ class moov
     static function getAllBetween2Date($date_debut, $date_fin)
     {
         global $db;
-        $req = $db->prepare("SELECT moov.* FROM moov AS moov
-                             WHERE moov.date BETWEEN ? AND ?");
+        $req = $db->prepare(
+            "SELECT moov.* , 
+            SUM(CASE WHEN type_operation = 'Dépot' THEN montant ELSE 0 END) as depot,
+            SUM(CASE WHEN type_operation = 'Retrait' THEN montant ELSE 0 END) as retrait
+            FROM moov AS moov
+            WHERE moov.date BETWEEN ? AND ? GROUP BY date, type_operation"
+            );
         $req->execute([$date_debut, $date_fin]);
         return $req->fetchAll();
     }

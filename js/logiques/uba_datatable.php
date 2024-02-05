@@ -370,22 +370,21 @@ $api_url = API_HOST . 'index.php?page=api_uba';
       $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
     };
 
-      // PROPRIETE D'UNE LIGNE
-      $('.datatables-basic tbody').on('click', '.proprietes', function() {
+    // PROPRIETE D'UNE LIGNE
+    $('.datatables-basic tbody').on('click', '.proprietes', function() {
       var that = this
+      
       $.ajax({
         type: "GET",
         data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
-        url: "controllers/uba_controller.php",
+        url: "controllers/uba_controller.php",        
         success: function(result) {
+          var donnees = JSON.parse(result);          
 
-          var donnees = JSON.parse(result);
-          if (donnees['proprietes_uba'] !== 'null') {
+          if (donnees['proprietes_rechargement'] !== 'null') {
+            let proprietes = donnees['proprietes_rechargement']
 
-            let proprietes = donnees['proprietes_uba']
-
-
-            $("#offcanvasBottomLabel").html("Propriété de la transaction MTN Money« " + proprietes['Trans_ID'] + " »");
+            $("#offcanvasBottomLabel").html("Propriété du rechargement du « " + proprietes['Dates'] + " »");
             $("#date_creation").html(proprietes['date_creation']);
             $("#user_creation").html(proprietes['user_creation']);
             $("#navigateur_creation").html(proprietes['navigateur_creation']);
@@ -397,12 +396,83 @@ $api_url = API_HOST . 'index.php?page=api_uba';
             $("#ordinateur_modification").html(proprietes['ordinateur_modif']);
             $("#ip_modification").html(proprietes['ip_modif']);
             $("#ecole").html(proprietes['magasin']);
-
-
           }
+        },
+        error: function (error) {
+          console.log(error);
         }
       })
     });
+
+     // Details
+     $('.datatables-basic tbody').on('click', '.details', function() {
+            var that = this
+            $.ajax({
+                type: "GET",
+                data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+                url: "controllers/uba_controller.php",
+                success: function(result) {
+                    var donnees = JSON.parse(result);
+                    if (donnees['proprietes_rechargement'] !== 'null') {
+
+                        let uba = donnees['proprietes_rechargement']
+
+                        $('#titre_modal').text('Détail du rechargement uba')
+
+                        // le tableau de la transaction
+                        $('.modal_details .modal-body').html(`
+                            <table class="table table-bordered text-nowrap text-center">             
+                                <tbody class="details">
+                                    <tr>
+                                        <th scope="row" class="text-start">Date</th>                                      
+                                        <td  class="text-start">${uba.Dates}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">ID Transaction</th>                                      
+                                        <td  class="text-start">${uba.Trans_ID}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Montant</th>                                      
+                                        <td  class="text-start">${uba.Amount}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">honoraires</th>                                        
+                                        <td  class="text-start">${uba.Fees}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Running Bal</th>                                        
+                                        <td  class="text-start">${uba.Running_Bal}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Description</th>                                        
+                                        <td  class="text-start">${uba.Description}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Reference</th>                                        
+                                        <td  class="text-start">${uba.Reference}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Account Id</th>                                        
+                                        <td  class="text-start">${uba.Account_Id}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Last Name</th>                                      
+                                        <td  class="text-start">${uba.Last_Name}</td>
+                                    </tr>                                     
+                                </tbody>
+                            </table>
+                        `);
+
+
+                        // afficher le modal
+                        $('.modal_details').modal('show')
+
+
+
+                    }
+                }
+            })
+        });
 
 
 
@@ -569,7 +639,7 @@ $api_url = API_HOST . 'index.php?page=api_uba';
     });
 
 
-  
+
 
   });
 </script>

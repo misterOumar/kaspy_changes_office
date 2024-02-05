@@ -114,33 +114,24 @@
                                     </div>
                                     <div class='mb-1'><small id='dateHelp' class='text-danger invisible'></small></div>
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <!--- NATURE DEPENSE --->
-                                            <div class=''>
-                                                <label class='form-label' for='nature_depense'>Nature de la dépense</label>
-                                                <select name='nature_depense' id='nature_depense' data-placeholder='Choisir...' Class='select2-icons form-select'>
-                                                    <option selected data-icon='facebook'>Choisir...</Option>
-                                                    <?php
-                                                    foreach ($nature_depenses as $key => $nature_depense) {
-                                                    ?>
-                                                        <option><?= $nature_depense['libelle'] ?> </option>
-                                                    <?php
+                                        <!--- NATURE DEPENSE --->
+                                        <div class=''>
+                                            <label class='form-label' for='nature_depense'>Nature de la dépense</label>
+                                            <select name='nature_depense' id='nature_depense' data-placeholder='Choisir...' Class='select2-icons form-select'>
+                                                <option selected data-icon='facebook'>Choisir...</Option>
+                                                <?php
+                                                foreach ($nature_depenses as $key => $nature_depense) {
+                                                ?>
+                                                    <option><?= $nature_depense['libelle'] ?> </option>
+                                                <?php
 
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class='mb-1'><small id='nature_depenseHelp' class='text-danger invisible'></small></div>
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
+                                        <div class='mb-1'><small id='nature_depenseHelp' class='text-danger invisible'></small></div>
 
-                                        <div class="col-md-6">
-                                            <!--- NUMERO PIECE --->
-                                            <div class=''>
-                                                <label class='form-label' for='n_piece'>Numero pièce</label>
-                                                <input type='text' class='form-control dt-full-nom' id='n_piece' name='n_piece' placeholder='Veuillez saisir le nom de numero pièce' aria - Label='nom' maxlength='75' />
-                                            </div>
-                                            <div class='mb-1'><small id='n_pieceHelp' class='text-danger invisible'></small></div>
-                                        </div>
+
                                     </div>
 
                                     <!--- FOURNISSEUR --->
@@ -225,33 +216,24 @@
                                     </div>
                                     <div class='mb-1'><small id='date_modifHelp' class='text-danger invisible'></small></div>
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <!--- NATURE DEPENSE --->
-                                            <div class=''>
-                                                <label class='form-label' for='nature_depense_modif'>Nature de la dépense</label>
-                                                <select name='nature_depense_modif' id='nature_depense_modif' data-placeholder='Choisir...' Class='select2-icons form-select'>
-                                                    <option selected data-icon='facebook'>Choisir...</Option>
-                                                    <?php
-                                                    foreach ($nature_depenses as $key => $nature_depense) {
-                                                    ?>
-                                                        <option><?= $nature_depense['libelle'] ?> </option>
-                                                    <?php
+                                        <!--- NATURE DEPENSE --->
+                                        <div class=''>
+                                            <label class='form-label' for='nature_depense_modif'>Nature de la dépense</label>
+                                            <select name='nature_depense_modif' id='nature_depense_modif' data-placeholder='Choisir...' Class='select2-icons form-select'>
+                                                <option selected data-icon='facebook'>Choisir...</Option>
+                                                <?php
+                                                foreach ($nature_depenses as $key => $nature_depense) {
+                                                ?>
+                                                    <option><?= $nature_depense['libelle'] ?> </option>
+                                                <?php
 
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class='mb-1'><small id='nature_depense_modifHelp' class='text-danger invisible'></small></div>
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
+                                        <div class='mb-1'><small id='nature_depense_modifHelp' class='text-danger invisible'></small></div>
 
-                                        <div class="col-md-6">
-                                            <!--- NUMERO PIECE --->
-                                            <div class=''>
-                                                <label class='form-label' for='n_piece_modif'>Numero pièce</label>
-                                                <input type='text' class='form-control dt-full-nom' id='n_piece_modif' name='n_piece_modif' placeholder='Veuillez saisir le nom de numero pièce' aria - Label='nom' maxlength='75' />
-                                            </div>
-                                            <div class='mb-1'><small id='n_piece_modifHelp' class='text-danger invisible'></small></div>
-                                        </div>
+
                                     </div>
 
                                     <!--- FOURNISSEUR --->
@@ -317,7 +299,8 @@
                     </div>
 
                     <!-- Modal pour les propriétés -->
-                    <?php include 'components/modal_proprietes.php' ?>
+                    <?php include 'components/modal_proprietes.php' ?>                    
+                    <?php include 'components/modal_details.php' ?>
                 </section>
                 <!--/ Basic table -->
             </div>

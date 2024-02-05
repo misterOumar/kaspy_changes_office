@@ -2,7 +2,8 @@
 <?php
 if (!isset($_SESSION["KaspyISS_user"])) {
     header("Location: index.php?page=login");
-};
+}
+;
 ?>
 <!-- End of the secure -->
 
@@ -12,7 +13,9 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 <!-- BEGIN: Head-->
 
 <head>
-    <title><?= APP_NAME ?> -Transation</title>
+    <title>
+        <?= APP_NAME ?> - Upload Money Gram
+    </title>
 
     <!-- Fichiers CSS par défaut (TEMPLATE) -->
     <?php include_once 'includes/head.php' ?>
@@ -36,7 +39,8 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 <!-- END: Head-->
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static " data-open="click" data-menu="vertical-menu-modern" data-col="">
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static " data-open="click"
+    data-menu="vertical-menu-modern" data-col="">
     <!-- BEGIN: Main Menu-->
     <?php include 'includes/main_menu.php' ?>
     <!-- END: Main Menu-->
@@ -83,26 +87,32 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     <div class="d-flex align-items-ends mr-10 gap-1 justify-content-end">
                                         <div class="col-md-3">
                                             <label class='form-label' for='dates'>Date</label>
-                                            <input type="datetime" id="dates" name="dates" class="form-control flatpickr-date-time" placeholder="YYYY-MM-DD HH:MM" />
+                                            <input type="datetime" id="dates" name="dates"
+                                                class="form-control flatpickr-date-time"
+                                                placeholder="YYYY-MM-DD HH:MM" />
 
                                         </div>
                                         <div class="col-md-3">
                                             <label class='form-label' for='taxe'>Taxes</label>
-                                            <input type="int" id="taxe" name="taxe" class="form-control flatpickr-date-time" />
+                                            <input type="int" id="taxe" name="taxe"
+                                                class="form-control flatpickr-date-time" />
                                         </div>
 
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <form action="#" class="dropzone dropzone-area" id="dpz-single-file">
-                                        <div class="dz-message">Déposez les fichiers money gram ici ou cliquez pour les télécharger.</div>
+                                        <div class="dz-message">Déposez les fichiers money gram ici ou cliquez pour les
+                                            télécharger.</div>
                                         <div class="fallback">
-                                            <input type='file' class='form-control me-1' name="fileInput" id="fileInput" style="width: 350px;" />
+                                            <input type='file' class='form-control me-1' name="fileInput" id="fileInput"
+                                                style="width: 350px;" />
                                         </div>
                                     </form>
                                 </div>
                                 <div class="d-flex align-items-end justify-content-end me-2 mb-2">
-                                    <a id='btnEnregistrer' href="index.php?page=money_gram" class=' btn btn-outline-primary '>
+                                    <a id='btnEnregistrer' href="index.php?page=money_gram"
+                                        class=' btn btn-outline-primary '>
                                         <span>
                                             Voir la liste
                                         </span>
@@ -118,26 +128,122 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
 
                     <!-- Modal large  pour la deuxieme dataTable-->
-                    <div class="modal fade text-start" id="excelModal1" tabindex="-1" aria-labelledby="myModalLabel16" aria-hidden="true">
+                    <div class="modal fade text-start" id="excelModal" tabindex="-1" aria-labelledby="myModalLabel16"
+                        aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel16">Point du jour money gram </h4>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <h4 class="modal-title" id="myModalLabel16">Point du jour Money Gram</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <span class="me-4">Montant Total : <span id="montant_envoye" class="fw-bold"></span>
-                                    </span>
-                                    <span class="me-4">Frais Total : <span id="frais_envoye" class="fw-bold"></span> </span> <!-- payer -->
+                                    <div class="d-flex col-8 mb-2 justify-between">
+                                        <div class="col-6">
+                                            <table>
+                                                <thead>
+                                                    <tr class="text-center">
+                                                        <th colspan="2" class="bg-light-success">TRANSACTIONS REÇUES
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Montants Réçus : </th>
+                                                        <td>XOF <span id="montant_envoyes"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Nombre de transactions Envoyées : </th>
+                                                        <td> <span id="nombre_transaction_envoyees"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Frais : </th>
+                                                        <td>XOF <span id="frais_envoyees"></span></td>
+                                                    </tr>
+
+                                                    <tr style="border-top: 2px solid;">
+                                                        <th>Total : </th>
+                                                        <td>XOF <span id="montant_total_envoye"></span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-6 mr-2">
+                                            <table>
+                                                <thead>
+                                                    <tr class="text-center">
+                                                        <th colspan="2" class="bg-light-primary">REMBOURSEMENTS</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr>
+                                                        <th>Montants Remboursés : </th>
+                                                        <td>XOF <span id="transfert_paye"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Nombre de transactions Remboursés : </th>
+                                                        <td> <span id="nombre_transaction_payees"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Frais : </th>
+                                                        <td>XOF <span id="frais_payes"></span></td>
+                                                    </tr>
+                                                    <tr style="border-top: 2px solid;">
+                                                        <th>Total : </th>
+                                                        <td>XOF <span id="montant_total_paye"></span></td>
+                                                    </tr>
+                                                </tbody>
+
+
+                                            </table>
+                                        </div>
+                                     
+                                        <div class="col-6">
+                                            <table>
+                                                <thead>
+                                                    <tr class="text-center">
+                                                        <th colspan="2" class="bg-light-success">TOTAL GENERAL </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                        <th>Nombre de transactions: </th>
+                                                        <td> <span id="nombre_general"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Montants Totaux : </th>
+                                                        <td>XOF <span id="montant_general"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Frais Totaux : </th>
+                                                        <td>XOF <span id="frais_general"></span></td>
+                                                    </tr>
+                                                    <tr style="border-top: 2px solid;">
+                                                        <th>Total : </th>
+                                                        <td>XOF <span id="total_general"></span></td>
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                     <table id="excelDataTable1" class="display datatables-basic table"></table>
+
                                 </div>
                                 <div class="modal-footer">
-                                    <button id="btnAnnuler" type="button" class="btn btn-outline-secondary me-1" data-bs-dismiss="modal">Annuler</button>
-                                    <button id='btnValider1' name='btnValider1' class='btn btn-primary enregistrer '>Valider</button>
+                                    <button id="btnAnnuler" type="button" class="btn btn-outline-secondary me-1"
+                                        data-bs-dismiss="modal">Annuler</button>
+                                    <button id='btnValider1' name='btnValider'
+                                        class='btn btn-primary enregistrer '>Valider</button>
+
                                 </div>
+
                             </div>
                         </div>
                     </div>
+                    <!-- Modal large -->
                     <!-- Modal large -->
                     <?php include 'components/modal_proprietes.php' ?>
                     <?php include 'components/modal_excel.php' ?>
@@ -185,294 +291,22 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <!-- <script src="plugins/dropzone/dropzone.js"></script>
     <script src="plugins/dropzone/forms-file-upload.js"></script> -->
     <!-- fichier pour upload -->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8"
+        src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
     <!-- START: Footer-->
     <?php include 'includes/footer.php' ?>
     <!-- END: Footer-->
     <!-- <?php include 'js/flatpick_fr.js' ?>
      -->
-    <?php include 'js/logiques/depenses_datatable.php' ?>
-    <?php include 'js/logiques/depenses_logiques.php' ?>
+    <?php include 'js/logiques/upload_moneygram_logiques.php' ?>
     <?php include("views/components/alerts.php") ?>
 
 
+ 
     <script>
-        var jsonData = [];
-        var jsonData1 = [];
-        var mergedData = [];
-        // Configuration de Dropzone pour le téléversement de fichiers
-        Dropzone.options.dpzSingleFile = {
-            paramName: "file", // Nom du paramètre qui sera utilisé pour le téléversement du fichier
-            maxFilesize: 10, // Taille maximale du fichier en mégaoctets
-            acceptedFiles: ".xls, .xlsx, .csv", // Types de fichiers acceptés
-            success: function(file, response) {
-                // Fonction exécutée en cas de téléversement réussi
-
-                // Récupération du fichier téléversé
-                var inputFile = file;
-
-                // Création d'un objet FileReader pour lire le contenu du fichier
-                var reader = new FileReader();
-
-                // Fonction appelée lorsque la lecture du fichier est terminée
-                reader.onload = function(e) {
-                    try {
-                        // Récupération des données du fichier
-                        var data = e.target.result;
-                        var workbook;
-
-                        // Vérification du type de fichier (CSV ou Excel)
-                        if (inputFile.name.endsWith('.csv')) {
-                            // Lecture du fichier CSV avec délimiteur ","
-                            workbook = XLSX.read(data, {
-                                type: 'binary',
-                                header: 3,
-                                delimiter: ','
-                            });
-                        } else {
-                            // Lecture du fichier Excel
-                            workbook = XLSX.read(data, {
-                                type: 'binary',
-                                header: 3
-                            });
-                        }
-
-                        // Sélection de la première feuille du classeur
-                        var sheetName = workbook.SheetNames[0];
-                        var sheet = workbook.Sheets[sheetName];
-
-                        // Filtrage des lignes non vides pour le premier tableau (tab1)
-                        const nonEmptyZRows = XLSX.utils.sheet_to_json(sheet, {
-                            header: 1
-                        }).filter(row =>
-                            row[0] !== undefined &&
-                            row[0] !== null &&
-                            row[0] !== '' &&
-                            row[7] !== undefined &&
-                            row[7] !== null &&
-                            row[7] !== ''
-                        );
-
-                        // Filtrage des lignes non vides pour le deuxième tableau (tab2)
-                        const nonEmptyZRows1 = XLSX.utils.sheet_to_json(sheet, {
-                            header: 1
-                        }).filter(row =>
-                            row[0] !== undefined &&
-                            row[0] !== null &&
-                            row[0] !== '' &&
-                            row[6] !== undefined &&
-                            row[6] !== null &&
-                            row[6] !== '' &&
-                            row[7] === undefined
-
-                        );
-
-                        const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0] : [];
-
-
-
-
-
-                        const dataRows = nonEmptyZRows.slice(1, -1);
-                        const taxeInput = document.getElementById('taxe');
-                        const taxeValue = taxeInput.value;
-                        const datesInput = document.getElementById('dates');
-                        const datesValue = datesInput.value;
-
-                        // Ajoutez les clés Taxe et Dates à la liste des clés
-                        const keysWithTaxeDates = [...keys, 'Taxe', 'Dates', 'Type'];
-                        const jsonData = dataRows.map(row =>
-                            keys.reduce((obj, key, index) => {
-                                obj[key] = row[index];
-                                return obj;
-                            }, {
-                                Taxe: taxeValue, // Ajout de la clé Taxe avec sa valeur dans chaque objet
-                                Dates: datesValue,
-                                Type: "Reçu" // Ajoutez d'autres propriétés si nécessaire
-                            })
-                        );
-
-                        var date_saisie = document.getElementById("dates").value;
-                        var dateColumnIndex = "Heure et date (locales)"; // Assuming the date column is at index 17
-                        if (jsonData.length > 0 && jsonData[0][dateColumnIndex]) {
-                            var date_objet = jsonData[0][dateColumnIndex];
-                            var parsedDate_objet = moment(date_objet, "YYYY-MMM-DD HH:mm:ss").format("DD/MM/YYYY");
-                            // var parsedDate_objet=  date_objet ;
-                            var parsedDate_saisie = moment(date_saisie).format("DD/MM/YYYY"); // Adjust the format as needed
-
-                            if (parsedDate_objet !== parsedDate_saisie) {
-                                // / Display a customized alert box
-                                Swal.fire({
-                                    title: 'Les dates ne correspondent pas',
-                                    html: 'Date fichier: ' + parsedDate_objet + '<br>Date saisie: ' + parsedDate_saisie,
-                                    icon: 'error',
-                                    confirmButtonText: 'OK',
-                                }).then((result) => {
-                                    // Reload the page after the user clicks "OK" on the alert
-                                    if (result.isConfirmed) {
-                                        window.location.reload();
-                                    }
-                                });
-
-                            }
-                        } else {
-                            console.error('Aucune donnée disponible pour la vérification de la date.');
-                        }
-                        console.log('Json Data 1:', jsonData);
-
-                        // Traitement des données pour le deuxième tableau (tab2)
-                        const keys1 = nonEmptyZRows1.length > 0 ? nonEmptyZRows1[0] : [];
-                        const dataRows1 = nonEmptyZRows1.slice(1);
-                        const keysWithTaxeDates1 = [...keys1, 'code d\'autorisation', 'Taxe', 'Dates', 'Type'];
-
-                        jsonData1 = dataRows1.map(row =>
-                            keys1.reduce((obj, key, index) => {
-                                if (key === 'Num Réf') {
-                                    obj[key] = row[index];
-                                    obj['code d\'autorisation'] = 0; // Initialiser avec la valeur 0
-                                } else {
-                                    obj[key] = row[index];
-                                }
-                                return obj;
-                            }, {
-                                Taxe: taxeValue, // Ajout de la clé Taxe avec sa valeur dans chaque objet
-                                Dates: datesValue, // Ajoutez d'autres propriétés si nécessaire
-                                Type: "Envoyé"
-                            })
-                        );
-
-                        mergedData = jsonData.concat(jsonData1);
-
-                        // Affichage des données dans la console
-                        console.log('Json Data 2:', jsonData1);
-
-                        console.log('Json Data 1& 2:', mergedData);
-                        // Initialisation de DataTable avec en-tête
-
-
-                        // Création du DataTable avec les nouvelles clés
-                        $("#excelDataTable1").DataTable({
-                            data: mergedData,
-                            columns: keysWithTaxeDates1.map(function(col) {
-                                return {
-                                    data: col,
-                                    title: col
-                                };
-                            }),// Activer le défilement horizontal
-                            language: {
-                                // Textes pour la pagination
-                                paginate: {
-                                    previous: '&#10094; <span class="me-1"></span>',
-                                    next: '<span class="ms-1"></span> &#10095;',
-                                },
-                                // Textes pour l'affichage des informations
-                                info: 'Affichage de _START_ à _END_ sur _TOTAL_ entrées',
-                                // Texte pour le champ de recherche
-                                search: 'Rechercher :',
-                                // Textes pour la longueur de la page
-                                lengthMenu: 'Afficher _MENU_ ',
-                                // Texte lorsque la table est vide
-                                emptyTable: 'Aucune donnée disponible dans le tableau',
-                                // Texte lorsque les données sont en cours de chargement
-                                loadingRecords: 'Chargement...',
-                                // Texte lorsque la recherche ne trouve aucune correspondance
-                                zeroRecords: 'Aucun enregistrement trouvé',
-                                // Textes pour la sélection des colonnes
-                                select: {
-                                    rows: {
-                                        _: '%d lignes sélectionnées',
-                                        0: 'Aucune ligne sélectionnée',
-                                        1: '1 ligne sélectionnée'
-                                    }
-                                }
-                            }
-                        })
-
-                        // Affichez le modal
-                        $("#excelModal1").modal("show");
-
-                        // Affichez le modal
-                        $("#excelModal").modal("show");
-
-                    } catch (error) {
-                        console.error('Erreur lors de la lecture du fichier Excel :', error);
-                    }
-                };
-
-                // Lecture du contenu du fichier en tant que chaîne binaire
-                reader.readAsBinaryString(inputFile);
-            },
-            error: function(file, errorMessage) {
-                // Fonction exécutée en cas d'erreur lors du téléversement du fichier
-                console.error("Erreur lors du téléversement du fichier", file, errorMessage);
-            }
-        };
-        // Fonction au clic du bouton "Enregistrer 1"
-        $("#btnValider1").click(function(e) {
-            e.preventDefault();
-            // Appel de la fonction pour envoyer les données au contrôleur
-            sendDataToController1(mergedData);
-        });
-
-        // Fonction au clic du bouton "Annuler"
-        $("#btnAnnuler").click(function(e) {
-            e.preventDefault();
-            // Réinitialisez Dropzone
-            var myDropzone = Dropzone.forElement("#dpz-single-file");
-            if (myDropzone) {
-                myDropzone.removeAllFiles();
-            }
-            // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
-            if ($.fn.DataTable.isDataTable("#excelDataTable1")) {
-                $("#excelDataTable1").DataTable().destroy();
-            }
-        });
-
-
-        // Fonction pour envoyer les données (1) au contrôleur via AJAX
-        function sendDataToController1(mergedData) {
-            $.ajax({
-                url: 'controllers/upload_moneygram1_controller.php', // Remplacez par le chemin réel vers votre contrôleur
-                method: 'POST',
-                data: {
-                    upload_moneygram_file: true,
-                    data: mergedData
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success === 'true') {
-                        $("#excelModal1").modal("hide");
-
-                        // Réinitialisez Dropzone
-                        var myDropzone = Dropzone.forElement("#dpz-single-file");
-                        if (myDropzone) {
-                            myDropzone.removeAllFiles();
-                        }
-                        // MESSAGE ALERT
-                        swal_Alert_Sucess(response.message);
-                    } else if (response.success === 'existe') {
-                        // MESSAGE ALERT SI  EXISTE
-                        swal_Alert_Danger(response.message);
-                        //FERMETURE DU MODAL
-                        $("#excelModal1").modal("hide");
-                        // Réinitialisez Dropzone
-                        var myDropzone = Dropzone.forElement("#dpz-single-file");
-                        if (myDropzone) {
-                            myDropzone.removeAllFiles();
-                        }
-                    } else {
-                        console.error('Erreur : ' + response.message);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        }
-    </script>
-    <script>
-        $(window).on('load', function() {
+        $(window).on('load', function () {
 
             if (feather) {
                 feather.replace({

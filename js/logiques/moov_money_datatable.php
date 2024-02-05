@@ -484,7 +484,7 @@ $api_url = API_HOST . 'index.php?page=api_moov_money';
                         let proprietes = donnees['proprietes_moov']
 
                        
-                        $("#offcanvasBottomLabel").html("Propriété de la transaction Moov Money« " + proprietes['date_creation'] + " »");
+                        $("#offcanvasBottomLabel").html("Propriété de la transaction Moov Money « " + proprietes['id_transaction'] + " »");
                         $("#date_creation").html(proprietes['date_creation']);
                         $("#user_creation").html(proprietes['user_creation']);
                         $("#navigateur_creation").html(proprietes['navigateur_creation']);

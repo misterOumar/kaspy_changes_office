@@ -12,7 +12,7 @@
     <!-- BEGIN: Head-->
 
     <head>
-        <title><?= APP_NAME ?> - changes</title>
+        <title>Changes - <?= APP_NAME ?> </title>
 
         <!-- Fichiers CSS par défaut (TEMPLATE) -->
         <?php include_once 'includes/head.php' ?>

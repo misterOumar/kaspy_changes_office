@@ -13,7 +13,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 <!-- BEGIN: Head-->
 
 <head>
-    <title><?= APP_NAME ?> - Accueil</title>
+    <title>Tableau de bord - <?= APP_NAME ?> </title>
 
     <!-- Fichiers CSS par défaut (TEMPLATE) -->
     <?php include_once 'includes/head.php' ?>

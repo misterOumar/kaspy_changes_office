@@ -204,7 +204,7 @@ $api_url = API_HOST . 'index.php?page=api_depenses';
                                 'Supprimer</a>' +
 
                                 //Détails
-                                '<a href="javascript:;" class="dropdown-item">' +
+                                '<a href="javascript:;" class="dropdown-item details">' +
                                 feather.icons['file-text'].toSvg({
                                     class: 'font-small-4 me-50'
                                 }) +
@@ -564,9 +564,9 @@ $api_url = API_HOST . 'index.php?page=api_depenses';
 
 
 
-           // MODIFIER UN ELEMENT
+        // MODIFIER UN ELEMENT
         // au clique de la ligne selectionnée
-        // Propriété
+        // Editer
         $('.datatables-basic tbody').on('click', '.item-edit', function() {
             var that = this
             $.ajax({
@@ -591,7 +591,6 @@ $api_url = API_HOST . 'index.php?page=api_depenses';
                 }
             })
         });
-
 
 
 
@@ -668,10 +667,11 @@ $api_url = API_HOST . 'index.php?page=api_depenses';
                 url: "controllers/depenses_controller.php",
                 success: function(result) {
                     var donnees = JSON.parse(result);
+
                     if (donnees['proprietes_depense'] !== 'null') {
                         let proprietes = donnees['proprietes_depense']
 
-                        $("#offcanvasBottomLabel").html("Propriété de la depenses « " + proprietes['n_piece'] + " »");
+                        $("#offcanvasBottomLabel").html("Propriété de la depenses « " + proprietes['montant'] + " »");
                         $("#date_creation").html(proprietes['date_creation']);
                         $("#user_creation").html(proprietes['user_creation']);
                         $("#navigateur_creation").html(proprietes['navigateur_creation']);
@@ -683,6 +683,65 @@ $api_url = API_HOST . 'index.php?page=api_depenses';
                         $("#ordinateur_modification").html(proprietes['ordinateur_modif']);
                         $("#ip_modification").html(proprietes['ip_modif']);
                         $("#ecole").html(proprietes['magasin']);
+                    }
+                }
+            })
+        });
+
+        // Details
+        $('.datatables-basic tbody').on('click', '.details', function() {
+            var that = this
+            $.ajax({
+                type: "GET",
+                data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+                url: "controllers/depenses_controller.php",
+                success: function(result) {
+                    var donnees = JSON.parse(result);
+                    if (donnees['proprietes_depense'] !== 'null') {
+
+                        let depense = donnees['proprietes_depense']
+
+                        $('#titre_modal').text('Détail de la Dépense du  ' + depense.dates )
+
+                        // le tableau de la transaction
+                        $('.modal_details .modal-body').html(`
+                            <table class="table table-bordered text-nowrap text-center">             
+                                <tbody class="details">
+                                    <tr>
+                                        <th scope="row" class="text-start">Date</th>                                      
+                                        <td  class="text-start">${depense.dates}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Nature de la dépense</th>                                      
+                                        <td  class="text-start">${depense.nature_depense}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Désignation</th>                                      
+                                        <td  class="text-start">${depense.designation}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Fournisseur</th>                                        
+                                        <td  class="text-start">${depense.fournisseur}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Montant</th>                                        
+                                        <td  class="text-start">${depense.montant}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-start">Mode de réglement</th>                                        
+                                        <td  class="text-start">${depense.mode_reglement}</td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        `);
+
+
+                        // afficher le modal
+                        $('.modal_details').modal('show')
+
+
+
                     }
                 }
             })

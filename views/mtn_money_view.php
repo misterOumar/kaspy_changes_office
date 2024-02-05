@@ -12,7 +12,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
     <!-- Incluez le JS de SlickGrid et de jQuery -->
     <!-- Incluez également le CSS de Bootstrap si vous utilisez les modales Bootstrap -->
-    <title><?= APP_NAME ?> - Transaction mtn money</title>
+    <title><?= APP_NAME ?> - Mtn Money</title>
     <!-- Fichiers CSS par défaut (TEMPLATE) -->
     <?php include_once 'includes/head.php' ?>
     <!-- Fichiers CSS spécifiques a la page (TEMPLATE) -->

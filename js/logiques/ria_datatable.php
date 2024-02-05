@@ -17,7 +17,7 @@ $api_url = API_HOST . 'index.php?page=api_ria';
                         id: champ_bd.id,
                         date: champ_bd.date,
                         num_transfert: champ_bd.num_transfert,
-                        montant_envoye: champ_bd.montant_envoye,
+                        // "Montant Envoye": champ_bd.montant_envoye,
                         pays_destination: champ_bd.pays_destination,
                         montant_paye: champ_bd.montant_paye,
                         devise_paiement: champ_bd.devise_paiement,
@@ -55,9 +55,9 @@ $api_url = API_HOST . 'index.php?page=api_ria';
                     {
                         data: 'num_transfert'
                     },
-                    {
-                        data: 'montant_envoye'
-                    },
+                    // {
+                    //     data: 'Montant Envoye'
+                    // },
                     {
                         data: 'pays_destination'
                     },

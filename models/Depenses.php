@@ -13,14 +13,13 @@ class depenses
 {
     public $id;
     public $dates;
-    public $n_piece;
     public $nature_depense;
     public $designation;
     public $fournisseur;
     public $montant;
     public $mode_reglement;
     public $annee_academique;
-    public $ecole;
+    public $magasin;
     public $date_creation;
     public $user_creation;
     public $navigateur_creation;
@@ -48,14 +47,13 @@ class depenses
 
         $this->id = $id;
         $this->dates = $data['dates'];
-        $this->n_piece = $data['n_piece'];
         $this->nature_depense = $data['nature_depense'];
         $this->designation = $data['designation'];
         $this->fournisseur = $data['fournisseur'];
         $this->montant = $data['montant'];
         $this->mode_reglement = $data['mode_reglement'];
         $this->annee_academique = $data['annee_academique'];
-        $this->ecole = $data['ecole'];
+        $this->magasin = $data['magasin'];
         $this->date_creation = $data['date_creation'];
         $this->user_creation = $data['user_creation'];
         $this->navigateur_creation = $data['navigateur_creation'];
@@ -131,19 +129,7 @@ class depenses
     }
 
 
-    /**
-     * Méthode de récupération de depenses en fonction du dates.
-     *
-     * @param $dates
-     * @return mixed
-     */
-    static function getByNom($n_piece)
-    {
-        global $db;
-        $req = $db->prepare("SELECT * FROM depenses WHERE n_piece = ? ");
-        $req->execute([$n_piece]);
-        return $req->fetch();
-    }
+
 
 
 
@@ -155,14 +141,13 @@ class depenses
      * Méthode pour insérer un(e) depenses en base de données.
      *
      * @param $dates
-     * @param $n_piece
      * @param $nature_depense
      * @param $designation
      * @param $fournisseur
      * @param $montant
      * @param $mode_reglement
      * @param $annee_academique
-     * @param $ecole
+     * @param $magasin
      * @param $date_creation
      * @param $user_creation
      * @param $navigateur_creation
@@ -175,15 +160,15 @@ class depenses
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter($id, $dates, $n_piece, $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee_academique, $ecole, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
+    static function Ajouter($id, $dates,  $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee_academique, $magasin, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
     {
         global $db;
 
         $req = $db->prepare('
-            INSERT INTO depenses(id, dates, n_piece, nature_depense, designation, fournisseur, montant, mode_reglement, annee_academique, ecole, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+            INSERT INTO depenses(id, dates,  nature_depense, designation, fournisseur, montant, mode_reglement, annee_academique, magasin, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([$id, $dates, $n_piece, $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee_academique, $ecole, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$id, $dates, $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee_academique, $magasin, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 
@@ -194,14 +179,13 @@ class depenses
      * Méthode pour modifier un(e) depenses en base de données.
      *
      * @param $dates
-     * @param $n_piece
      * @param $nature_depense
      * @param $designation
      * @param $fournisseur
      * @param $montant
      * @param $mode_reglement
      * @param $annee_academique
-     * @param $ecole
+     * @param $magasin
      * @param $date_creation
      * @param $user_creation
      * @param $navigateur_creation
@@ -214,13 +198,13 @@ class depenses
      * @param $ip_modif
      * @return bool
      */
-    static function Modifier($dates, $n_piece, $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee_academique, $ecole, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id)
+    static function Modifier($dates, $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee_academique, $magasin, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id)
     {
         global $db;
         $req = $db->prepare('
-            UPDATE depenses SET dates = ?, n_piece = ?, nature_depense = ?, designation = ?, fournisseur = ?, montant = ?, mode_reglement = ?, annee_academique = ?, ecole = ?, date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
+            UPDATE depenses SET dates = ?, , nature_depense = ?, designation = ?, fournisseur = ?, montant = ?, mode_reglement = ?, annee_academique = ?, magasin = ?, date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
         ');
-        return $req->execute([$dates, $n_piece, $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee_academique, $ecole, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
+        return $req->execute([$dates, $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee_academique, $magasin, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     }
 
 

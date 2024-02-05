@@ -88,6 +88,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                             <th></th>
                                             <th>id</th>
                                             <th>Libellé</th>
+                                            <th>Prix achat</th>
                                             <th>Prix vente en détail </th>
                                             <th>Prix vente en gros</th>
 
@@ -128,6 +129,15 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     </div>
                                     <div class='mb-1'><small id='dureeHelp' class='text-danger invisible'></small></div>
                                     
+
+                                    <!--- PRIX D ACHAT  --->
+                                    <div>
+                                        <label class='form-label' for='prix_achat'>Prix d'achat</label>
+                                        <input type='text' class='form-control dt-prix_achat' id='prix_achat' name='prix_achat' />
+                                    </div>
+                                    <div class='mb-1'><small id='prix_achatHelp' class='text-danger invisible'></small></div>
+
+
                                     <!--- PRIX DE VENTE DETAIL --->
                                     <div>
                                         <label class='form-label' for='prix_vente_detail'>Prix de vente détail</label>
@@ -152,8 +162,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                             </form>
                         </div>
                     </div>
-              
-
+            
                     <!--- Formulaire de modification --->
 
                     <div class="modal modal-slide-in fade" id="modal-modif">
@@ -173,13 +182,19 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                             <label class='form-label' for='libellemodif'>Libellé</label>
                                             <input type='text' class='form-control dt-loyermodif' id='libellemodif' name='libellemodif' aria - Label='loyermodif' maxlength='75' />
                                         </div>
-                                        <div class='mb-1'><small id='loyermodifHelp' class='text-danger invisible'></small></div>
+                                        <div class='mb-1'><small id='libellemodifHelp' class='text-danger invisible'></small></div>
 
                                         <div class=''>
                                             <label class='form-label' for='montant_payermodif'>Durée</label>
                                             <input type='text' class='form-control dt-montant_payermodif' id='dureemodif' name='dureemodif' aria - Label='montant_payermodif' maxlength='75' />
                                         </div>
                                         <div class='mb-1'><small id='dureemodifHelp' class='text-danger invisible'></small></div>
+                                          <!--- PRIX D ACHAT MODIF_modif --->
+                                    <div>
+                                        <label class='form-label' for='prix_achat_modif'>Prix d'achat</label>
+                                        <input type='text' class='form-control dt-prix_achat' id='prix_achat_modif' name='prix_achat_modif' />
+                                    </div>
+                                    <div class='mb-1'><small id='prix_achat_modifHelp' class='text-danger invisible'></small></div>
 
 
                                          <!--- PRIX DE VENTE DETAIL --->
@@ -207,12 +222,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                         </div>
                     </div>
                     <!--- formulaire d importation des fichiers csv , excel  --->
-
-                  
-
-
-
-
                     <?php include 'components/modal_proprietes.php' ?>
 
                 </section>

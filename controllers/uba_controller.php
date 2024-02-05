@@ -33,11 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $us = $_SESSION["KaspyISS_user"]['users'];
         $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         $dt = date("Y-m-d H:i:s");
+        $magasin = $_SESSION["KaspyISS_bureau"];
         $dateC = date('Y-m-d H:i:s', strtotime(str_replace('/', '-', $colonnes[1])));
 
         // Préparer la requête d'insertion
         // Exécuter la requête avec les valeurs échappées
-        if (uba::Ajouter($id, $colonnes[0], $dateC, $colonnes[2], $colonnes[3], $colonnes[4], $colonnes[5], $colonnes[6], $colonnes[7], $colonnes[8], $_SESSION['KaspyISS_user']['id'], $dt, $us, $navigateur, $pc, $ip, $dt, $us, $navigateur, $pc, $ip)) {
+        if (uba::Ajouter($id, $colonnes[0], $dateC, $colonnes[2], $colonnes[3], $colonnes[4], $colonnes[5], $colonnes[6], $colonnes[7], $colonnes[8], $_SESSION['KaspyISS_user']['id'],$magasin,     $dt, $us, $navigateur, $pc, $ip, $dt, $us, $navigateur, $pc, $ip)) {
             // Ajouter($id, $dateC, $colonnes[1], $colonnes[2], $colonnes[3], $colonnes[4], $colonnes[5], $colonnes[6], $colonnes[7], $colonnes[8], $colonnes[9], $colonnes[10], $colonnes[11], $_SESSION['KaspyISS_user']['id'], $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
             // Afficher un message de succès
             // echo "Ligne insérée avec succès.";
@@ -49,9 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Répondre à JavaScript avec un message (facultatif)
     echo json_encode(['success' => true, 'message' => 'Données traitées avec succès.']);
-} else {
-    // Répondre avec une erreur si la requête n'est pas une requête POST
-    http_response_code(405); // Méthode non autorisée
 }
 
 // RECUPERATION DES INFO POUR PROPRIETE D'UN ELEMENT 
@@ -60,15 +58,16 @@ if (isset($_GET['idProprietes'])) {
     include('../config/config.php');
     include('../config/db.php');
     include('../models/Uba.php');
+
     $id = $_GET['idProprietes'];
-    $transactions = uba::getByID($id);
-    if ($transactions) {
+    $proprietes = uba::getByID($id);
+    if ($proprietes) {
         echo json_encode([
-            'proprietes_uba' => $transactions,
+            'proprietes_rechargement' => $proprietes,
         ]);
     } else {
         echo json_encode([
-            'proprietes_uba' => 'null'
+            'proprietes_rechargement' => 'null'
         ]);
     }
 }

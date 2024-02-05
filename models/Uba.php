@@ -22,6 +22,7 @@ class uba
     public $Account_Id;
     public $Last_Name;
     public $ajouter_par;
+    public $magasin;
 
     public $date_creation;
     public $user_creation;
@@ -59,6 +60,7 @@ class uba
         $this->Account_Id = $data['Account_Id'];
         $this->Last_Name = $data['Last_Name'];
         $this->ajouter_par = $data['ajouter_par'];
+        $this->magasin = $data['magasin'];
 
         $this->date_creation = $data['date_creation'];
         $this->user_creation = $data['user_creation'];
@@ -92,6 +94,7 @@ class uba
         $req->execute([]);
         return $req->fetchAll();
     }
+
     /**
      * Renvoi la la somme des montant, frais et total de transaction de la journee
      *
@@ -110,7 +113,9 @@ class uba
         $req->execute([]);
         return $req->fetchAll();
     }
-       /**
+
+
+    /**
      * Méthode de récupération de locataires en fonction du nom_prenom.
      *
      * @param $nom_prenom
@@ -124,7 +129,7 @@ class uba
         return $req->fetch();
     }
 
-  /**
+    /**
      * Méthode de récupération de western_union en fonction de la date.
      *
      * @param $date
@@ -214,6 +219,7 @@ class uba
      * @param $Account_Id
      * @param $Last_Name
      * @param $ajouter_par
+     * @param $magasin
 
      
      * @param $date_creation
@@ -228,17 +234,36 @@ class uba
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter($Trans_ID, $Dates, $Amount, $Fees, $Running_Bal, $Description, $Reference, 
-    $Account_Id, $Last_Name, $ajouter_par, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, 
-    $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
-    {
+    static function Ajouter(
+        $Trans_ID,
+        $Dates,
+        $Amount,
+        $Fees,
+        $Running_Bal,
+        $Description,
+        $Reference,
+        $Account_Id,
+        $Last_Name,
+        $ajouter_par,
+        $magasin,
+        $date_creation,
+        $user_creation,
+        $navigateur_creation,
+        $ordinateur_creation,
+        $ip_creation,
+        $date_modif,
+        $user_modif,
+        $navigateur_modif,
+        $ordinateur_modif,
+        $ip_modif
+    ) {
         global $db;
 
         $req = $db->prepare('
-            INSERT INTO transaction_uba( Trans_ID, Dates, Amount, Fees, Running_Bal, Description, Reference, Account_Id, Last_Name, ajouter_par, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,?)
+            INSERT INTO transaction_uba( Trans_ID, Dates, Amount, Fees, Running_Bal, Description, Reference, Account_Id, Last_Name, ajouter_par,magasin, date_creation, user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,?, ?)
         ');
-        return $req->execute([$Trans_ID, $Dates, $Amount, $Fees, $Running_Bal, $Description, $Reference, $Account_Id, $Last_Name, $ajouter_par, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$Trans_ID, $Dates, $Amount, $Fees, $Running_Bal, $Description, $Reference, $Account_Id, $Last_Name, $ajouter_par,$magasin, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 

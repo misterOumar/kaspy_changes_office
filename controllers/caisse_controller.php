@@ -23,7 +23,7 @@ if (isset($_POST['bt_enregistrer'])) {
 
     $libelle = strSecur($_POST["libelle"]);    
 
-    $magasin = $_SESSION["KaspyISS_bureau"];    // telephone du client 
+    $magasin = $_SESSION["KaspyISS_bureau"];    
     
    
     // $date_t = strSecur($_POST["date_t"]);

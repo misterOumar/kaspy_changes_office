@@ -362,14 +362,10 @@ if ($new_montant != '') {
         success: function(result) {
             //console.log(result);
             var donnee = JSON.parse(result);
-
             if (donnee['success'] === 'true') {
-
                 $('#libelle').val("");
                 $('#montant').val("");
-                $('#date_t').val("");
-                
-                
+                $('#date_t').val("");               
                 $('#montantHelp').html("").addClass('invisible');
                 $('#libelleHelp').html("").addClass('invisible');
                 $('#montantHelp').html("").addClass('invisible');
@@ -397,11 +393,9 @@ if ($new_montant != '') {
                                     id: last_id,
                                     date: $new_date_v,
                                     libelle:$new_libelle,
-                                    type: $new_type,                                                
-                                    montant: $new_montant,
-                                              
+                                    type_operation: $new_type,                                                
+                                    montant: $new_montant,                                             
                                     status: 5
-
                                 })
                                 .draw();
                             $('.modal').modal('hide');

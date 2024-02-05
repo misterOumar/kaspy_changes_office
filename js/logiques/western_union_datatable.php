@@ -9,7 +9,7 @@ $api_url = API_HOST . 'index.php?page=api_western_union';
         // LECTURE DES ELEMENTS DE LA BASE DE DONNEES
         $.get('<?= $api_url; ?>', function(rep) {
             let data = JSON.parse(rep)
-           
+
             data.map((champ_bd) => {
                 var imageUrl = champ_bd.logo;
                 dt_basic.row
@@ -21,7 +21,7 @@ $api_url = API_HOST . 'index.php?page=api_western_union';
                         receveur: champ_bd.receveur,
                         montant_envoye: champ_bd.montant_envoye,
                         total_frais: champ_bd.total_frais,
-                        type_transaction : champ_bd.type_transaction ,
+                        type_transaction: champ_bd.type_transaction,
                     })
 
                     .draw();
@@ -62,7 +62,7 @@ $api_url = API_HOST . 'index.php?page=api_western_union';
                     {
                         data: 'total_frais'
                     },
-                 
+
 
                     {
                         data: ''
@@ -116,7 +116,7 @@ $api_url = API_HOST . 'index.php?page=api_western_union';
                             } else {
                                 bg = 'bg-info'
                             }
-                            
+
                             if ($user_img) {
                                 // For Avatar image
                                 var $output =
@@ -272,7 +272,7 @@ $api_url = API_HOST . 'index.php?page=api_western_union';
                     },
 
 
-                 
+
                 ],
                 // RESPONSIVE - Sur téléphone
                 responsive: {
@@ -431,7 +431,7 @@ $api_url = API_HOST . 'index.php?page=api_western_union';
 
                         let proprietes = donnees['proprietes_western_union']
 
-                       
+
                         $("#offcanvasBottomLabel").html("Propriété de « " + proprietes['nom_utilisateur'] + " »");
                         $("#date_creation").html(proprietes['date_creation']);
                         $("#user_creation").html(proprietes['user_creation']);
@@ -451,8 +451,8 @@ $api_url = API_HOST . 'index.php?page=api_western_union';
             })
         });
 
-           // Details
-           $('.datatables-basic tbody').on('click', '.details', function() {
+        // Details
+        $('.datatables-basic tbody').on('click', '.details', function() {
             var that = this
             $.ajax({
                 type: "GET",

@@ -15,13 +15,16 @@
         $('#libelle').removeClass('is-invalid');
         $('#libelleHelp').html('Veuillez saisir le libellé...');
         $('#libelleHelp').addClass('invisible');
-       /* $('#datesHelp').html('');
-        $('#datesHelp').addClass('invisible');*/
-     
-       // $('#libelle').focus();
+
+
+        $('#prix_achat').val('');
+        $('#prix_achat').removeClass('is-invalid');
+        $('#prix_achatHelp').html('Veuillez saisir le prixd\' achat ...');
+        $('#prix_achatHelp').addClass('invisible');
+
     }
 
-    $('#bt_vider').on('click', function() {
+    $('#bt_vider').on('click', function () {
         vider_les_champs()
     });
 
@@ -32,26 +35,26 @@
         decimals: 0,
         boostat: 5,
         maxboostedstep: 10,
-    });  
- 
-  
+    });
 
-   // VERIFICATIONS DU FORMULAIRE 
+
+
+    // VERIFICATIONS DU FORMULAIRE 
     var formValide = false;
 
     //      Les événements en déhors du click du boutton de validation
- 
-    $('#duree').on('change', function() {
+
+    $('#duree').on('change', function () {
         $('#duree').removeClass('is-invalid');
         $('#dureeHelp').html('');
     });
-    $('#libelle').on('change', function() {
+    $('#libelle').on('change', function () {
         $('#libelle').removeClass('is-invalid');
         $('#libelleHelp').html('');
     });
-     
+
     // Champ de la duree ne doit contenir des letters
-    $('#duree').on('keyup', function() {
+    $('#duree').on('keyup', function () {
         var loyer = $('#duree').val();
         if ($.isNumeric(loyer) === false) {
             formValide = false;
@@ -69,7 +72,7 @@
     });
 
     // Champ du prix vente detail ne doit contenir des letters
-    $('#prix_vente_detail').on('keyup', function() {
+    $('#prix_vente_detail').on('keyup', function () {
         var prix_vente_detail = $('#prix_vente_detail').val();
         if ($.isNumeric(prix_vente_detail) === false) {
             formValide = false;
@@ -86,8 +89,27 @@
         }
     });
 
+    // Champ du prix d achat ne doit contenir des letters
+    $('#prix_achat').on('keyup', function () {
+        var prix_achat = $('#prix_achat').val();
+        if ($.isNumeric(prix_achat) === false) {
+            formValide = false;
+            $('#prix_achat').addClass('is-invalid');
+            $('#prix_achatHelp').html('Veuillez saisir un montant correcte');
+            $('#prix_achatHelp').removeClass('invisible');
+            $('#prix_achat').val('')
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#prix_achat').removeClass('is-invalid');
+            $('#prix_achatHelp').html('');
+            $('#prix_achatHelp').addClass('invisible');
+        }
+    });
+
+
     // Champ du prix vente detail ne doit contenir des letters
-    $('#prix_vente_gros').on('keyup', function() {
+    $('#prix_vente_gros').on('keyup', function () {
         var prix_vente_gros = $('#prix_vente_gros').val();
         if ($.isNumeric(prix_vente_gros) === false) {
             formValide = false;
@@ -106,16 +128,16 @@
 
     // Champ du libelle ne doit contenir des chiffres
 
-    $('#libelle').on('keyup', function() {
+    $('#libelle').on('keyup', function () {
         var loyer = $('#libelle').val();
 
         for (var i = 0; i < loyer.length; i++) {
-         if ($.isNumeric(loyer[i])) {       
-            $('#libelle').addClass('is-invalid');
-            $('#libelleHelp').html('Veuillez saisir un libellé correcte');
-            $('#libelleHelp').removeClass('invisible');
-            $('#libelle').val('')
-            e.preventDefault()
+            if ($.isNumeric(loyer[i])) {
+                $('#libelle').addClass('is-invalid');
+                $('#libelleHelp').html('Veuillez saisir un libellé correcte');
+                $('#libelleHelp').removeClass('invisible');
+                $('#libelle').val('')
+                e.preventDefault()
             }
         }
 
@@ -127,14 +149,14 @@
             $('#libelle').val('')
             e.preventDefault()
         }
-        
-        else{
+
+        else {
             formValide = true;
             $('#libelle').removeClass('is-invalid');
             $('#libelleHelp').html('');
             $('#libelleHelp').addClass('invisible');
         }
-    
+
     });
 
 
@@ -142,7 +164,7 @@
 
 
     //      Au click du boutton
-    $('#bt_enregistrer').on('click', function(e) {
+    $('#bt_enregistrer').on('click', function (e) {
 
         // Cas de la duree
         let duree = $('#duree').val();
@@ -173,8 +195,53 @@
             $('#libelleHelp').html('');
             $('#libelleHelp').addClass('invisible');
         }
-       
-        
+
+        //cas du prix d achat 
+        let prix_achat = $('#prix_achat').val();
+        if (prix_achat === '') {
+            formValide = false;
+            $('#prix_achat').addClass('is-invalid');
+            $('#prix_achatHelp').html('Veuillez saisir  le prix d\'achat.');
+            $('#prix_achatHelp').removeClass('invisible');
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#prix_achat').removeClass('is-invalid');
+            $('#prix_achatHelp').html('');
+            $('#prix_achatHelp').addClass('invisible');
+        }
+
+        //cas du prix de evente en details
+        let prix_vente_detail = $('#prix_vente_detail').val();
+        if (prix_vente_detail === '') {
+            formValide = false;
+            $('#prix_vente_detail').addClass('is-invalid');
+            $('#prix_vente_detailHelp').html('Veuillez saisir  le prix de vente.');
+            $('#prix_vente_detailHelp').removeClass('invisible');
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#prix_vente_detail').removeClass('is-invalid');
+            $('#prix_vente_detailHelp').html('');
+            $('#prix_vente_detailHelp').addClass('invisible');
+        }
+
+
+        //cas du prix de vente en gros 
+        let prix_vente_gros = $('#prix_vente_gros').val();
+        if (prix_vente_gros === '') {
+            formValide = false;
+            $('#prix_vente_gros').addClass('is-invalid');
+            $('#prix_vente_grosHelp').html('Veuillez saisir  le prix de vente en gros.');
+            $('#prix_vente_grosHelp').removeClass('invisible');
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#prix_vente_gros').removeClass('is-invalid');
+            $('#prix_vente_grosHelp').html('');
+            $('#prix_vente_grosHelp').addClass('invisible');
+        }
+
 
     });
 
@@ -182,22 +249,22 @@
 
 
 
-      // MODIFICATION
+    // MODIFICATION
     //      Les événements en déhors du click du boutton de validation
     // $('#libellemodif').on('keydown', function() {
     //     $('#libellemodif').removeClass('is-invalid');
     //     $('#libellemodifHelp').html('');
     // });
-    $('#libellemodif').on('keyup', function() {
+    $('#libellemodif').on('keyup', function () {
         var loyer = $('#libellemodif').val();
 
         for (var i = 0; i < loyer.length; i++) {
-         if ($.isNumeric(loyer[i])) {       
-            $('#libellemodif').addClass('is-invalid');
-            $('#libelleHelp').html('Veuillez saisir un libellé correcte');
-            $('#libellemodifHelp').removeClass('invisible');
-            $('#libellemodif').val('')
-            e.preventDefault()
+            if ($.isNumeric(loyer[i])) {
+                $('#libellemodif').addClass('is-invalid');
+                $('#libellemodifHelp').html('Veuillez saisir un libellé correcte');
+                $('#libellemodifHelp').removeClass('invisible');
+                $('#libellemodif').val('')
+                e.preventDefault()
             }
         }
 
@@ -209,47 +276,160 @@
             $('#libellemodif').val('')
             e.preventDefault()
         }
-        
-        else{
+
+        else {
             formValide = true;
             $('#libellemodif').removeClass('is-invalid');
             $('#libellemodifHelp').html('');
             $('#libellemodifHelp').addClass('invisible');
         }
-    
+
     });
 
-    $('#dureemodif').on('keydown', function() {
-        $('#dureemodif').removeClass('is-invalid');
-        $('#dureemodifHelp').html('');
+
+        // Champ du prix achat ne doit contenir des letters lors de la Modification
+        $('#prix_achat_modif').on('keyup', function () {
+        var prix_achat = $('#prix_achat_modif').val();
+        if ($.isNumeric(prix_achat) === false) {
+            formValide = false;
+            $('#prix_achat_modif').addClass('is-invalid');
+            $('#prix_achat_modifHelp').html('Veuillez saisir un montant correcte ');
+            $('#prix_achat_modifHelp').removeClass('invisible');
+            $('#prix_achat_modif').val('')
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#prix_achat_modif').removeClass('is-invalid');
+            $('#prix_achat_modifHelp').html('');
+            $('#prix_achat_modifHelp').addClass('invisible');
+        }
     });
+
+    // Champ de la duree ne doit contenir des letters lors de la Modification
+    $('#dureemodif').on('keyup', function () {
+        var loyer = $('#dureemodif').val();
+        if ($.isNumeric(loyer) === false) {
+            formValide = false;
+            $('#dureemodif').addClass('is-invalid');
+            $('#dureemodifHelp').html('Veuillez saisir une durée correcte en année');
+            $('#dureemodifHelp').removeClass('invisible');
+            $('#dureemodif').val('')
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#dureemodif').removeClass('is-invalid');
+            $('#dureemodifHelp').html('');
+            $('#dureemodifHelp').addClass('invisible');
+        }
+    });
+
+    // Champ du prix de vente en gros ne doit contenir des letters lors de la Modification
+    $('#prix_vente_gros_modif').on('keyup', function () {
+        var prix_vente = $('#prix_vente_gros_modif').val();
+        if ($.isNumeric(prix_vente) === false) {
+            formValide = false;
+            $('#prix_vente_gros_modif').addClass('is-invalid');
+            $('#prix_vente_gros_modifHelp').html('Veuillez saisir une montant correcte ');
+            $('#prix_vente_gros_modifHelp').removeClass('invisible');
+            $('#prix_vente_gros_modif').val('')
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#prix_vente_gros_modif').removeClass('is-invalid');
+            $('#prix_vente_gros_modifHelp').html('');
+            $('#prix_vente_gros_modifHelp').addClass('invisible');
+        }
+    });
+
+
+    // Champ du prix de vente detail ne doit contenir des letters lors de la Modification
+    $('#prix_vente_detail_modif').on('keyup', function () {
+        var prix_gros = $('#prix_vente_detail_modif').val();
+        if ($.isNumeric(prix_gros) === false) {
+            formValide = false;
+            $('#prix_vente_detail_modif').addClass('is-invalid');
+            $('#prix_vente_detail_modifHelp').html('Veuillez saisir un montant correcte');
+            $('#prix_vente_detail_modifHelp').removeClass('invisible');
+            $('#prix_vente_detail_modif').val('')
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#prix_vente_detail_modif').removeClass('is-invalid');
+            $('#prix_vente_detail_modifHelp').html('');
+            $('#prix_vente_detail_modifHelp').addClass('invisible');
+        }
+    });
+
 
     //      Au click du boutton
-    $('#bt_modifier').on('click', function(e) {
+    $('#bt_modifier').on('click', function (e) {
         // Cas de - libelle
         var libelle = $('#libellemodif').val();
-        var duree =$('#dureemodif').val();
-     
-        if (libelle === '' && duree === '') {
+
+        if (libelle === '') {
             formValide = false;
             $('#libellemodif').addClass('is-invalid');
             $('#libellemodifHelp').html('Veillez saisir le libellé.');
             $('#libellemodifHelp').removeClass('invisible');
-
-            $('#dureemodif').addClass('is-invalid');
-            $('#dureemodifHelp').html('Veillez saisir la duree.');
-            $('#dureemodifHelp').removeClass('invisible');
             e.preventDefault()
         } else {
             formValide = true;
             $('#libellemodif').removeClass('is-invalid');
             $('#libellemodifHelp').html('');
             $('#libellemodifHelp').addClass('invisible');
+        }
 
+
+        // Cas de la durée
+        var duree = $('#dureemodif').val();
+        if (libelle === '') {
+            formValide = false;
+            $('#dureemodif').addClass('is-invalid');
+            $('#dureemodifHelp').html('Veillez saisir la durée.');
+            $('#dureemodifHelp').removeClass('sinvisible');
+            e.preventDefault()
+        } else {
+            formValide = true;
             $('#dureemodif').removeClass('is-invalid');
             $('#dureemodifHelp').html('');
             $('#dureemodifHelp').addClass('invisible');
         }
+
+        // Cas du prix de vente en details 
+        var duree = $('#prix_vente_gros_modif').val();
+        if (libelle === '') {
+            formValide = false;
+            $('#prix_vente_gros_modif').addClass('is-invalid');
+            $('#prix_vente_gros_modifHelp').html('Veillez saisir le prix de vente en gros.');
+            $('#prix_vente_gros_modifHelp').removeClass('sinvisible');
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#prix_vente_gros_modif').removeClass('is-invalid');
+            $('#prix_vente_gros_modifHelp').html('');
+            $('#prix_vente_gros_modifHelp').addClass('invisible');
+        }
+
+
+        
+        // Cas du prix de vente en gros
+        var duree = $('#prix_vente_detail_modif').val();
+        if (libelle === '') {
+            formValide = false;
+            $('#prix_vente_detail_modif').addClass('is-invalid');
+            $('#prix_vente_detail_modifHelp').html('Veillez saisir le prix de vente en details.');
+            $('#prix_vente_detail_modifHelp').removeClass('sinvisible');
+            e.preventDefault()
+        } else {
+            formValide = true;
+            $('#prix_vente_detail_modif').removeClass('is-invalid');
+            $('#prix_vente_detail_modifHelp').html('');
+            $('#prix_vente_detail_modifHelp').addClass('invisible');
+        }
+
+
+
+
 
         if (formValide) {
             e.preventDefault();
@@ -266,7 +446,7 @@
                 type: method,
                 data: form.serialize() + "&bt_modifier=" + true,
                 url: url,
-                success: function(result) {
+                success: function (result) {
                     donnee = JSON.parse(result);
                     if (donnee['success'] === 'existe') {
                         $('#libellemodif').addClass('is-invalid');
@@ -320,5 +500,5 @@
 
     });
 
-   
+
 </script>

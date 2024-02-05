@@ -2,8 +2,7 @@
 <?php
 if (!isset($_SESSION["KaspyISS_user"])) {
     header("Location: index.php?page=login");
-}
-;
+};
 ?>
 <!-- End of the secure -->
 
@@ -19,9 +18,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
     <!-- Fichiers CSS par défaut (TEMPLATE) -->
     <?php include_once 'includes/head.php' ?>
-    <!-- Fichier fenetre des differents Liste et journaux -->
-    <?php include_once 'components/journal_recouvrement.php' ?>
-    <?php include_once 'components/batiment_par_proprietaire.php' ?>
 
     <!-- Fichiers CSS spécifiques a la page (TEMPLATE) -->
     <link rel="stylesheet" type="text/css" href="css/template/vendors.min.css">
@@ -44,8 +40,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click"
-    data-menu="vertical-menu-modern" data-col="">
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
     <!-- BEGIN: Main Menu-->
     <?php include 'includes/main_menu.php' ?>
     <!-- END: Main Menu-->
@@ -93,11 +88,11 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 <table class="datatables-basic table">
                                     <thead>
                                         <tr>
-                                        <th></th>
+                                            <th></th>
                                             <th></th>
                                             <th>id</th>
                                             <th>Dates</th>
-                                          
+
                                             <th>Id Transaction </th>
                                             <th>Running Bal</th>
                                             <th>Montant</th>
@@ -224,14 +219,12 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                     </div> -->
 
                     <!-- Modal pour IMPORTATION-->
-                    <div class="modal fade" id="importationModal" tabindex="-1" aria-labelledby="importationLabel"
-                        aria-hidden="true">
+                    <div class="modal fade" id="importationModal" tabindex="-1" aria-labelledby="importationLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="importationLabel">Importer votre fichier csv</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body" id="importation">
                                     Glisser et deposer votre fichier csv dans la fenetre.
@@ -241,8 +234,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     <div id="file-name" style="margin-top: 10px;"></div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal" id="fermerBtn">Fermer</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="fermerBtn">Fermer</button>
                                     <button type="button" class="btn btn-primary" id="ChangerImport">Charger</button>
                                 </div>
                             </div>
@@ -250,7 +242,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                     </div>
                     <!-- Modal pour les propriétés -->
                     <?php include 'components/modal_proprietes.php' ?>
-                    <?php include 'components/modal_details_batiments.php' ?>
+                    <?php include 'components/modal_details.php' ?>
                 </section>
                 <!--/ Basic table -->
             </div>
@@ -307,7 +299,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <?php include 'js/logiques/reporting_logiques.php' ?>
 
     <script>
-        $(window).on('load', function () {
+        $(window).on('load', function() {
             if (feather) {
                 feather.replace({
                     width: 14,

@@ -1,6 +1,6 @@
 <?php
+// GESTION DE L'ENREGISTREMENT D'UN NOUVEAU TYPE DE CARTE
 if (isset($_POST['bt_enregistrer'])) {
-
     // inclusion des fichiers ressources
     include('../functions/functions.php');
     include('../config/config.php');
@@ -8,27 +8,28 @@ if (isset($_POST['bt_enregistrer'])) {
     include('../models/Type_carte.php');
     include('../models/Bureaux.php');
 
-
-
+    // Récupération des données du formulaire
     $libelle = strSecur($_POST["libelle"]);
     $duree = strSecur($_POST["duree"]);
+    $prix_achat = strSecur($_POST["prix_achat"]);
     $prix_vente_detail = strSecur($_POST["prix_vente_detail"]);
     $prix_vente_gros = strSecur($_POST["prix_vente_gros"]);
 
-
+    // Initialisation des messages d'erreur
     $e_duree = $e_libelle = "";
     $succes = true;
+
+    // Vérification des champs obligatoires
     if ($libelle == "") {
-        //$libelle = "";
         $e_libelle = "Ce champ est requis.";
         $succes = false;
     }
-    if ($duree == " ") {
+    if ($duree == "") {
         $e_duree = "Ce champ est requis.";
         $succes = false;
     }
 
-
+    // Traitement en cas de succès ou d'échec
     if ($succes) {
         $type_carte = type_carte::getByNom($libelle);
         if ($type_carte['libelle'] == $libelle) {
@@ -38,16 +39,13 @@ if (isset($_POST['bt_enregistrer'])) {
                 'success' => "existe"
             ]);
         } else {
-
-
             $ip = getIp();
             $navigateur = getNavigateur();
             $us = $_SESSION["KaspyISS_user"]['users'];
             $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
             $dt = date("Y-m-d H:i:s");
-            if (type_carte::Ajouter($libelle, $duree, $prix_vente_detail, $prix_vente_gros, $dt, $us, $navigateur, $pc, $ip, $dt, $us, $navigateur, $pc, $ip)) {
-
-                $message = "Création du type de carte  éffectué avec succès.";
+            if (type_carte::Ajouter($libelle, $duree, $prix_achat, $prix_vente_detail, $prix_vente_gros, $dt, $us, $navigateur, $pc, $ip, $dt, $us, $navigateur, $pc, $ip)) {
+                $message = "Création du type de carte éffectué avec succès.";
                 echo json_encode([
                     'success' => 'true',
                     'message' => $message
@@ -60,22 +58,18 @@ if (isset($_POST['bt_enregistrer'])) {
                 ]);
             }
         }
-        // }
     } else {
         echo json_encode([
             'success' => 'false',
             'message' => "Vérifier les champs",
             'libelle' => $e_libelle,
             'duree' => $e_duree,
-
         ]);
     }
 }
 
-// MODIFIER  UN NOUVEAU 
-
+// MODIFICATION D'UN TYPE DE CARTE EXISTANT
 if (isset($_POST['bt_modifier'])) {
-
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
@@ -84,6 +78,7 @@ if (isset($_POST['bt_modifier'])) {
     $idModif = strSecur($_POST["idModif"]);
     $libelle = strSecur($_POST["libellemodif"]);
     $duree = strSecur($_POST["dureemodif"]);
+    $prix_achat = strSecur($_POST["prix_achat_modif"]);
     $prix_vente_detail = strSecur($_POST["prix_vente_detail_modif"]);
     $prix_vente_gros = strSecur($_POST["prix_vente_gros_modif"]);
 
@@ -98,9 +93,8 @@ if (isset($_POST['bt_modifier'])) {
         $succes = false;
     }
 
-    // Cas ou tout est ok
+    // Traitement en cas de succès ou d'échec
     if ($succes) {
-
         $lastData = type_carte::getByID($idModif);
         $carte = type_carte::getByNom($libelle);
         if ($carte['libelle'] === $libelle && $carte['libelle'] !== $lastData['libelle']) {
@@ -116,7 +110,7 @@ if (isset($_POST['bt_modifier'])) {
             $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
             $dt = date("Y-m-d H:i:s");
 
-            if (type_carte::Modifier($libelle, $duree, $prix_vente_detail, $prix_vente_gros, $dt, $us, $navigateur, $pc, $ip, $idModif)) {
+            if (type_carte::Modifier($libelle, $duree, $prix_achat, $prix_vente_detail, $prix_vente_gros, $dt, $us, $navigateur, $pc, $ip, $idModif)) {
                 $message = "Modification du type de carte éffectuée avec succès.";
                 echo json_encode([
                     'success' => 'true',
@@ -130,29 +124,24 @@ if (isset($_POST['bt_modifier'])) {
                 ]);
             }
         }
-        // }
     } else {
         echo json_encode([
             'success' => 'false',
             'message' => "Vérifier les champs",
             'libelle' => $e_libelle,
             'duree' => $e_duree,
-
         ]);
     }
 }
 
-
-
+// RECUPERATION DU DERNIER TYPE DE CARTE
 if (isset($_GET['idLast'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
     include('../models/Type_carte.php');
 
-
     $type_carte = type_carte::getLast();
-
 
     if ($type_carte) {
         $total = type_carte::getCount();
@@ -167,43 +156,22 @@ if (isset($_GET['idLast'])) {
     }
 }
 
-if (isset($_GET['fichier'])) {
-    $fichier = $_GET['fichier'];
-    $nomFichier = $fichier;
 
-    if (file_exists($nomFichier)) {
-
-        if (unlink($nomFichier)) {
-            echo json_encode([
-                'success' => 'true',
-            ]);
-        } else {
-            echo json_encode([
-                'success' => $nomFichier,
-            ]);
-        }
-    } else {
-        echo json_encode([
-            'success' => $nomFichier,
-        ]);
-    }
-}
-
-// RECUPERATION DES INFO POUR PROPRIETE D'UN ELEMENT 
-if (isset($_GET['idProprietes'])) {
+// RECUPERATION DES INFO POUR LA MODIFICATION
+if (isset($_GET['idTypeCarte'])) {
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
     include('../models/Type_carte.php');
 
-    $id = $_GET['idProprietes'];
+    $id = $_GET['idTypeCarte'];
     $proprietes = type_carte::getByID($id);
-
     if ($proprietes) {
         echo json_encode([
             'type_carte' => $proprietes,
         ]);
-    } else {
+    } 
+    else {
         echo json_encode([
             'type_carte' => 'null'
         ]);

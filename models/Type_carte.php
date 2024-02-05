@@ -15,6 +15,7 @@ class type_carte
     public $id;
     public $libelle;
     public $duree;
+    public $prix_achat;
     public $prix_vente_detail;
     public $prix_vente_gros;
     public $date_creation;
@@ -46,6 +47,8 @@ class type_carte
         $this->libelle = $data['libelle'];
         $this->duree = $data['duree'];
         $this->prix_vente_detail = $data['prix_vente_detail'];
+
+        $this->prix_achat = $data['prix_achat'];
         $this->prix_vente_gros = $data['prix_vente_gros'];
 
         $this->date_creation = $data['date_creation'];
@@ -166,13 +169,13 @@ class type_carte
      * @param $ip_modif
      * @return bool
      */
-    static function Ajouter($libelle,$duree,$prix_vente_detail,$prix_vente_gros, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
+    static function Ajouter($libelle,$duree,$prix_achat,$prix_vente_detail,$prix_vente_gros, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif)
     {    global $db;
         $req = $db->prepare('
-            INSERT INTO type_carte(libelle,duree,prix_vente_detail, prix_vente_gros, date_creation,user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(?,?,?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+            INSERT INTO type_carte(libelle,duree,prix_achat,prix_vente_detail, prix_vente_gros, date_creation,user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(?,?,?, ?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([$libelle,$duree,$prix_vente_detail,$prix_vente_gros,  $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$libelle,$duree,$prix_achat,$prix_vente_detail,$prix_vente_gros,  $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
     //||**********************************||
@@ -194,13 +197,13 @@ class type_carte
      * @param $ip_modif
      * @return bool
      */
-    static function Modifier($libelle, $duree, $prix_vente_detail, $prix_vente_gros, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id)
+    static function Modifier($libelle, $duree,$prix_achat, $prix_vente_detail, $prix_vente_gros, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id)
     {
         global $db;
         $req = $db->prepare('
-            UPDATE type_carte SET libelle = ?, duree = ?, prix_vente_detail = ?, prix_vente_gros = ?, date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
+            UPDATE type_carte SET libelle = ?, duree = ?,  prix_achat= ?,prix_vente_detail = ?, prix_vente_gros = ?, date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
         ');
-        return $req->execute([$libelle,$duree, $prix_vente_detail, $prix_vente_gros, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
+        return $req->execute([$libelle,$duree, $prix_achat, $prix_vente_detail, $prix_vente_gros, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     }
 
     //||**********************************||

@@ -90,7 +90,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                             <th> Date</th>
                                             <th> Numero Transfert </th>
 
-                                            <th> Montant Envoye </th>
+                                            <!-- <th> Montant Envoye </th> -->
 
                                             <th> Pays destination </th>
 

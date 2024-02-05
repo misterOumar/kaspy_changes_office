@@ -147,8 +147,13 @@ class mtn
     static function getAllBetween2Date($date_debut, $date_fin)
     {
         global $db;
-        $req = $db->prepare("SELECT mtn.* FROM mtn AS mtn
-                             WHERE mtn.date BETWEEN ? AND ?");
+        $req = $db->prepare(
+            "SELECT mtn.* , 
+            SUM(CASE WHEN type_operation = 'Dépot' THEN montant ELSE 0 END) as depot,
+            SUM(CASE WHEN type_operation = 'Retrait' THEN montant ELSE 0 END) as retrait
+            FROM mtn AS mtn
+            WHERE mtn.date BETWEEN ? AND ? GROUP BY date, type_operation"
+            );
         $req->execute([$date_debut, $date_fin]);
         return $req->fetchAll();
     }

@@ -8,8 +8,11 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 <!DOCTYPE html>
 <html class="loading" lang="fr" data-textdirection="ltr">
 <!-- BEGIN: Head-->
+
 <head>
-    <title><?= APP_NAME ?> -Rechargement UBA</title>
+    <title>
+        <?= APP_NAME ?> -Rechargement UBA
+    </title>
     <!-- Fichiers CSS par défaut (TEMPLATE) -->
     <?php include_once 'includes/head.php' ?>
     <!-- Fichier fenetre des differents Liste et journaux -->
@@ -30,6 +33,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 </head>
 <!-- END: Head-->
 <!-- BEGIN: Body-->
+
 <body class="vertical-layout vertical-menu-modern  navbar-floating footer-static " data-open="click" data-menu="vertical-menu-modern" data-col="">
     <!-- BEGIN: Main Menu-->
     <?php include 'includes/main_menu.php' ?>
@@ -46,14 +50,14 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Point Journalier  UBA</h2>
+                            <h2 class="content-header-title float-start mb-0">Point Journalier UBA</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
                                     </li>
                                     <li class="breadcrumb-item"><a href="#">Comptabilité</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Rechargement UBA 
+                                    <li class="breadcrumb-item active">Rechargement UBA
                                     </li>
                                 </ol>
                             </div>
@@ -76,14 +80,15 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                         <label class='form-label' for='dates'>Date</label>
                                         <div class="col-5">
 
-                                            <input type="datetime" id="dates" name="dates" class="form-control flatpickr-date-time" placeholder="YYYY-MM-DD HH:MM" />
+                                            <input type="datetime" id="dates" name="dates" class="form-control flatpickr-date-time" placeholder="AAAA-MM-JJ HH:MM" />
 
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <form action="#" class="dropzone dropzone-area" id="dpz-single-file">
-                                        <div class="dz-message">Déposez les fichiers uba  ici ou cliquez pour les télécharger.</div>
+                                        <div class="dz-message">Déposez les fichiers uba ici ou cliquez pour les
+                                            télécharger.</div>
                                         <div class="fallback">
                                             <input type='file' class='form-control me-1' name="fileInput" id="fileInput" style="width: 350px;" />
                                         </div>
@@ -112,9 +117,41 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <span class="me-4">Montant Total : <span id="montant_envoye" class="fw-bold"></span> </span>
-                                    <span class="me-4">Frais Total : <span id="frais_envoye" class="fw-bold"></span> </span>                                    <!-- payer -->
-                                      <table id="excelDataTable" class="display datatables-basic table"></table>
+                                    <div class="d-flex mb-2">
+                                        <div class="col-6">
+                                            <table>
+                                                <thead>
+                                                    <tr class="text-center">
+                                                        <th colspan="2" class="bg-light-success">STATISTIQUES UBA</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr>
+                                                        <th>Nombre de cartes: </th>
+                                                        <td> <span id="nombre_carte"></span></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th>Commissions Revenues: </th>
+                                                        <td> <span id="revenue"></span></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th>Rechargements de cartes: </th>
+                                                        <td> <span id="recharge"></span></td>
+                                                    </tr>
+                                                    <tr style="border-top: 2px solid;">
+                                                        <th>Total : </th>
+                                                        <td>XOF <span id="montant_general"></span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+                                    <table id="excelDataTable" class="display datatables-basic table"></table>
                                 </div>
                                 <div class="modal-footer">
                                     <button id="btnAnnuler" type="button" class="btn btn-outline-secondary me-1" data-bs-dismiss="modal">Annuler</button>
@@ -152,6 +189,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <script src="plugins/jquery/jquery.min.js"></script>
 
     <!-- BEGIN: FICHIERS JS DES PAGES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="js/plugins/tables/datatable/jquery.dataTables.min.js"></script>
     <script src="js/plugins/tables/datatable/dataTables.bootstrap5.min.js"></script>
     <script src="js/plugins/tables/datatable/dataTables.responsive.min.js"></script>
@@ -193,208 +231,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
     <!-- <?php include 'js/flatpick_fr.js' ?>
      -->
-    <?php include 'js/logiques/type_carte_datatable.php' ?>
-    <?php include 'js/logiques/type_carte_logiques.php' ?>
-    <?php include 'js/logiques/upload_western_union_logique.php' ?>
-    <?php include("views/components/alerts.php") ?>
-    <script>
-        // rechargercher la page quand on clique sur annuler dans le modal
-        $("#close_modal").click(function(e) {
-            e.preventDefault();
-            alert(1)
-            location.reload;
-
-        });
-
-
-        let jsonData;
-
-        Dropzone.options.dpzSingleFile = 
-        {
-            paramName: "file",
-            maxFilesize: 10,
-            acceptedFiles: ".xls, .xlsx, .csv",
-            success: function(file, response) {
-                var inputFile = file;
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    try {
-                        var data = e.target.result;
-                        var workbook;
-                        if (inputFile.name.endsWith('.csv')) {
-                            workbook = XLSX.read(data, {
-                                type: 'binary',
-                                header: 3,
-                                delimiter: ','
-                            });
-                        } else {
-                            workbook = XLSX.read(data, {
-                                type: 'binary',
-                                header: 3
-                            });
-                        }
-                        var sheetName = workbook.SheetNames[0];
-                        var sheet = workbook.Sheets[sheetName];
-                        const nonEmptyZRows = XLSX.utils.sheet_to_json(sheet, {
-                            header: 1
-                        }).filter(row =>
-                            row[8] !== undefined && row[8] !== null && row[8] !== ''
-                        );
-                        const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0]: [];
-                        // Eliminer la première ligne 
-                        const dataRows = nonEmptyZRows.slice(1);
-                        jsonData = dataRows.map(row =>
-                            keys.reduce((obj, key, index) => {
-                                obj[key] = row[index];
-                                return obj;
-                            }, {})
-                        );
-                    
-                        // STATS
-                        var montant_envoyer = 0;
-                        var montant_payer = 0;
-                        var frais_envoyer = 0;
-                        var frais_payer = 0;
-                        jsonData.forEach(function(item) {
-                                montant_envoyer += item["Amount"];
-                                frais_envoyer += item["Frais de Transfert"];                          
-                                montant_payer += item["Montant envoyé"];
-                                frais_payer += item["Frais de Transfert"];
-                           
-                        });
-
-                        console.log(JSON.stringify(jsonData, null, 2));
-
-                        // Affichez les données dans un DataTable
-                        $("#excelDataTable").DataTable({
-                            data: jsonData,
-                            columns: Object.keys(jsonData[0]).map(function(col) {
-                                return {
-                                    data: col,
-                                    title: col
-                                };
-                            })
-                        });
-
-                        // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
-                        if ($.fn.DataTable.isDataTable("#excelDataTable")) {
-                            $("#excelDataTable").DataTable().destroy();
-                        }
-
-                        // (Re)initialisez la DataTable
-                        dataTable = $("#excelDataTable").DataTable({
-                            data: jsonData,
-                            columns: Object.keys(jsonData[0]).map(function(col) {
-                                return {
-                                    data: col,
-                                    title: col
-                                };
-                            }),
-                            scrollX: true, // Activer le défilement horizontal
-                            language: {
-                                // Textes pour la pagination
-                                paginate: {
-                                    previous: '&#10094; <span class="me-1"></span>',
-                                    next: '<span class="ms-1"></span> &#10095;',
-                                },
-                                // Textes pour l'affichage des informations
-                                info: 'Affichage de _START_ à _END_ sur _TOTAL_ entrées',
-                                // Texte pour le champ de recherche
-                                search: 'Rechercher :',
-                                // Textes pour la longueur de la page
-                                lengthMenu: 'Afficher _MENU_ ',
-                                // Texte lorsque la table est vide
-                                emptyTable: 'Aucune donnée disponible dans le tableau',
-                                // Texte lorsque les données sont en cours de chargement
-                                loadingRecords: 'Chargement...',
-                                // Texte lorsque la recherche ne trouve aucune correspondance
-                                zeroRecords: 'Aucun enregistrement trouvé',
-                                // Textes pour la sélection des colonnes
-                                select: {
-                                    rows: {
-                                        _: '%d lignes sélectionnées',
-                                        0: 'Aucune ligne sélectionnée',
-                                        1: '1 ligne sélectionnée'
-                                    }
-                                }
-                            }
-                        });
-
-                        $('#montant_envoye').text(montant_envoyer);
-                        $('#frais_envoye').text(frais_envoyer);
-                        $('#montant_paye').text(montant_payer);
-                        $('#frais_paye').text(frais_payer);
-
-                        // Affichez le modal
-                        $("#excelModal").modal("show");
-
-
-
-                    } catch (error) {
-                        console.error('Erreur lors de la lecture du fichier Excel :', error);
-                    }
-                };
-                reader.readAsBinaryString(inputFile);
-            },
-            error: function(file, errorMessage) {
-                console.error("Erreur lors du téléchargement du fichier", file, errorMessage);
-            }
-        };
-
-        // Fonction au clic du bouton "Enregistrer"
-        $("#btnValider").click(function(e) {
-            e.preventDefault();
-
-            // ... (votre code existant)
-
-            // Appel de la fonction pour envoyer les données au contrôleur
-            sendDataToController(jsonData);
-        });
-        // Fonction au clic du bouton "Annuler"
-        $("#btnAnnuler").click(function(e) {
-            e.preventDefault();
-            // Réinitialisez Dropzone
-            var myDropzone = Dropzone.forElement("#dpz-single-file");
-            if (myDropzone) {
-                myDropzone.removeAllFiles();
-            }
-            // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
-            if ($.fn.DataTable.isDataTable("#excelDataTable")) {
-                $("#excelDataTable").DataTable().destroy();
-            }
-        });
-
-        // Fonction pour envoyer les données au contrôleur via AJAX
-        function sendDataToController(jsonData) {
-            $.ajax({
-                url: 'controllers/rechargement_uba_controller.php', // Remplacez par le chemin réel vers votre contrôleur
-                method: 'POST',
-                data: {
-                    uba_file: true,
-                    data: jsonData
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success === 'true') {
-                        $("#excelModal").modal("hide");
-
-                        // Réinitialisez Dropzone
-                        var myDropzone = Dropzone.forElement("#dpz-single-file");
-                        if (myDropzone) {
-                            myDropzone.removeAllFiles();
-                        }
-                        // MESSAGE ALERT
-                        swal_Alert_Sucess(response.message);
-                    } else {
-                        console.error('Erreur : ' + response.message);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        }
-    </script>
+    <?php include 'js/logiques/rechargement_uba_logiques.php' ?>
 
 
     <script>

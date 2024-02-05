@@ -484,7 +484,7 @@ $api_url = API_HOST . 'index.php?page=api_orange_money';
 
                         let proprietes = donnees['proprietes_orange']
 
-                        $("#offcanvasBottomLabel").html("Propriété de la transaction Orange Money« " + proprietes['date_creation'] + " »");
+                        $("#offcanvasBottomLabel").html("Propriété de la transaction Orange Money « " + proprietes['id_transaction'] + " »");
                         $("#date_creation").html(proprietes['date_creation']);
                         $("#user_creation").html(proprietes['user_creation']);
                         $("#navigateur_creation").html(proprietes['navigateur_creation']);

@@ -152,7 +152,7 @@
                                      <!--- Customer Id --->
                                      <div>
                                          <label class='form-label' for='date_achat'>Date d'achat</label>
-                                         <input type='text' class='form-control ' id='date_achat' name='date_achat' placeholder='La date'  />
+                                         <input type='text' class='form-control ' id='date_achat' name='date_achat' placeholder='La date' />
                                      </div>
                                      <div class='mb-1'><small id='date_achatHelp' class='text-danger invisible'></small></div>
 
@@ -207,7 +207,7 @@
                                          <!--- Customer Id Initial --->
                                          <div>
                                              <label class='form-label' for='customer_id_initial'>Customer Id Initial</label>
-                                             <input type='text' id='customer_id_initial' class='form-control' name='customer_id_initial' placeholder="Veuillez saisir le customer id initial"  />
+                                             <input type='text' id='customer_id_initial' class='form-control' name='customer_id_initial' placeholder="Veuillez saisir le customer id initial" />
                                          </div>
                                          <div class='mb-1'><small id='customer_id_initialHelp' class='text-danger invisible'></small></div>
 
@@ -221,7 +221,7 @@
                                          <!--- Achat par lot --->
                                          <div>
                                              <label class='form-label' for='nombre_carte'>Nombre de carte</label>
-                                             <input type='text' id='nombre_carte' class='form-control dt-full-annees' name='nombre_carte'  disabled />
+                                             <input type='text' id='nombre_carte' class='form-control dt-full-annees' name='nombre_carte' disabled />
                                          </div>
                                          <div class='mb-1'><small id='nombre_carteHelp' class='text-danger invisible'></small></div>
                                      </div>
