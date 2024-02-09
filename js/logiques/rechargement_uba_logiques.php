@@ -6,7 +6,7 @@
 
 <script>
     // calendrier
-    jQuery(function($) {
+    jQuery(function ($) {
         $('#dates').flatpickr({
             defaultDate: "today",
         })
@@ -14,24 +14,21 @@
     })
 
     // rechargercher la page quand on clique sur annuler dans le modal
-    $("#close_modal").click(function(e) {
+    $("#close_modal").click(function (e) {
         e.preventDefault();
         alert(1)
         location.reload;
 
     });
-
-
     let jsonData;
-
     Dropzone.options.dpzSingleFile = {
         paramName: "file",
         maxFilesize: 10,
         acceptedFiles: ".xls, .xlsx, .csv",
-        success: function(file, response) {
+        success: function (file, response) {
             var inputFile = file;
             var reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 try {
                     var data = e.target.result;
                     var workbook;
@@ -49,20 +46,42 @@
                     }
                     var sheetName = workbook.SheetNames[0];
                     var sheet = workbook.Sheets[sheetName];
+
+                    // Convertir la feuille en JSON
                     const nonEmptyZRows = XLSX.utils.sheet_to_json(sheet, {
                         header: 1
                     }).filter(row =>
                         row[8] !== undefined && row[8] !== null && row[8] !== ''
                     );
+
+                    // Extrayez les clés
                     const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0] : [];
-                    // Eliminer la première ligne 
-                    const dataRows = nonEmptyZRows.slice(1);
-                    jsonData = dataRows.map(row =>
-                        keys.reduce((obj, key, index) => {
-                            obj[key] = row[index];
-                            return obj;
-                        }, {})
-                    );
+
+                    // Vérifier si le nombre de clés est inférieur ou supérieur à 22
+                    if (keys.length < 9 || keys.length > 9) {
+                        Swal.fire({
+                            title: 'Mauvais fichier',
+                            html: 'Veillez sélectionner le bon fichier !',
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                        }).then((result) => {
+                            // Rechargez la page après que l'utilisateur a cliqué sur "OK" sur l'alerte
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }
+                        });
+                    } else {
+                        // Eliminer la première ligne 
+                        const dataRows = nonEmptyZRows.slice(1);
+                        // Convertir les données en format JSON en utilisant les clés
+                        jsonData = dataRows.map(row =>
+                            keys.reduce((obj, key, index) => {
+                                obj[key] = row[index];
+                                return obj;
+                            }, {})
+                        );
+                    }
+
 
                     // Vérifier les dates avant importation
                     var date_saisie = document.getElementById("dates").value;
@@ -103,7 +122,7 @@
                     var revenue = 0;
                     var recharge = 0;
 
-                    jsonData.forEach(function(item) {
+                    jsonData.forEach(function (item) {
                         if (item["Description"] === "Commission Revenu") {
                             var montant = parseFloat(item["Amount"]);
 
@@ -127,7 +146,7 @@
                     // Affichez les données dans un DataTable
                     $("#excelDataTable").DataTable({
                         data: jsonData,
-                        columns: Object.keys(jsonData[0]).map(function(col) {
+                        columns: Object.keys(jsonData[0]).map(function (col) {
                             return {
                                 data: col,
                                 title: col
@@ -143,7 +162,7 @@
                     // (Re)initialisez la DataTable
                     dataTable = $("#excelDataTable").DataTable({
                         data: jsonData,
-                        columns: Object.keys(jsonData[0]).map(function(col) {
+                        columns: Object.keys(jsonData[0]).map(function (col) {
                             return {
                                 data: col,
                                 title: col
@@ -204,13 +223,13 @@
             };
             reader.readAsBinaryString(inputFile);
         },
-        error: function(file, errorMessage) {
+        error: function (file, errorMessage) {
             console.error("Erreur lors du téléchargement du fichier", file, errorMessage);
         }
     };
 
     // Fonction au clic du bouton "Enregistrer"
-    $("#btnValider").click(function(e) {
+    $("#btnValider").click(function (e) {
         e.preventDefault();
 
         // ... (votre code existant)
@@ -219,7 +238,7 @@
         sendDataToController(jsonData);
     });
     // Fonction au clic du bouton "Annuler"
-    $("#btnAnnuler").click(function(e) {
+    $("#btnAnnuler").click(function (e) {
         e.preventDefault();
         // Réinitialisez Dropzone
         var myDropzone = Dropzone.forElement("#dpz-single-file");
@@ -242,7 +261,7 @@
                 data: jsonData
             },
             dataType: 'json',
-            success: function(response) {
+            success: function (response) {
                 if (response.success === 'true') {
                     $("#excelModal").modal("hide");
 
@@ -253,7 +272,7 @@
                     }
                     // MESSAGE ALERT
                     swal_Alert_Sucess(response.message);
-                }else if (response.success === 'existe') {
+                } else if (response.success === 'existe') {
                     // MESSAGE ALERT SI  EXISTE
                     swal_Alert_Danger(response.message);
                     //FERMETURE DU MODAL
@@ -268,7 +287,7 @@
                     console.error('Erreur : ' + response.message);
                 }
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error(xhr.responseText);
             }
         });
