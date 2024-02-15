@@ -14,7 +14,6 @@ $api_url = API_HOST . 'index.php?page=api_fournisseurs';
                     .add({
                         responsive_id: champ_bd.id,
                         id: champ_bd.id,
-
                         raison_sociale: champ_bd.raison_sociale,
                         tel: champ_bd.tel,
                         interlocuteur: champ_bd.interlocuteur,
@@ -170,7 +169,6 @@ $api_url = API_HOST . 'index.php?page=api_fournisseurs';
                                     class: 'font-small-4 me-50'
                                 }) +
                                 'Supprimer</a>' +
-
 
                                 //Propriétés
                                 '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
@@ -395,7 +393,6 @@ $api_url = API_HOST . 'index.php?page=api_fournisseurs';
                                             .add({
                                                 responsive_id: last_id,
                                                 id: last_id,
-
                                                 raison_sociale: $new_raison_sociale,
                                                 adresse: $new_adresse,
                                                 email: $new_email,
@@ -438,7 +435,6 @@ $api_url = API_HOST . 'index.php?page=api_fournisseurs';
                     var donnees = JSON.parse(result);
                     if (donnees['proprietes_fournisseurs'] !== 'null') {
                         let fournisseur = donnees['proprietes_fournisseurs']
-
                         $("#idModif").val(fournisseur['id']);
                         $("#raison_sociale_modif").val(fournisseur['raison_sociale']);
                         $("#adresse_modif").val(fournisseur['adresse']);

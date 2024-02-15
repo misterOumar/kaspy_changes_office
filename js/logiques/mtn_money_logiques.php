@@ -8,53 +8,53 @@
          // dates
          $('#montant').val('');
          $('#montant').removeClass('is-invalid');
-         $('#montantHelp').html('Veuillez saisir le montant...');
-         $('#montantHelp').addClass('invisible');
+         $('#montant_Help').html('Veuillez saisir le montant...');
+         $('#montant_Help').addClass('invisible');
 
-         $('#solde_t').val('');
-         $('#solde_t').removeClass('is-invalid');
-         $('#solde_tHelp').html('Veuillez saisir  le  solde total...');
-         $('#solde_tHelp').addClass('invisible');
+         $('#nouveau_solde').val('');
+         $('#nouveau_solde').removeClass('is-invalid');
+         $('#nouveau_soldeHelp').html('Veuillez saisir  le  solde total...');
+         $('#nouveau_soldeHelp').addClass('invisible');
 
          $('#id_transaction').val('');
          $('#id_transaction').removeClass('is-invalid');
          $('#id_transactionHelp').html('Veuillez saisir  la transaction id...');
          $('#id_transactionHelp').addClass('invisible');
 
-         $('#date_t').val('');
-         $('#date_t').removeClass('is-invalid');
-         $('#date_tHelp').html('Veuillez sélectionner la date ...');
-         $('#date_tHelp').addClass('invisible');
+         $('#dates').val('');
+         $('#dates').removeClass('is-invalid');
+         $('#dates_Help').html('Veuillez sélectionner la date ...');
+         $('#dates_Help').addClass('invisible');
 
-         $('#tel_cli').val('');
-         $('#tel_cli').removeClass('is-invalid');
-         $('#tel_cliHelp').html('Veuillez saisir le telephone du client...');
-         $('#tel_cliHelp').addClass('invisible');
+         $('#numero_telephone').val('');
+         $('#numero_telephone').removeClass('is-invalid');
+         $('#numero_telephone_Help').html('Veuillez saisir le telephone du client...');
+         $('#numero_telephone_Help').addClass('invisible');
      }
 
      $('#bt_vider').on('click', function() {
          vider_les_champs()
      });
      jQuery(function($) {
-         $('#date_t').flatpickr({
+         $('#dates').flatpickr({
              defaultDate: 'today',
              dateFormat: "Y-m-d",
          })
      });
 
-     flatpickr("#date_t", {
+     flatpickr("#dates", {
          locale: 'fr',
          // defaultDate : 'today'
      });
 
      jQuery(function($) {
-         $('#date_t_modif').flatpickr({
+         $('#dates_modif').flatpickr({
              defaultDate: 'today',
              dateFormat: "Y-m-d",
          })
      });
 
-     flatpickr("#date_t_modif", {
+     flatpickr("#dates_modif", {
          locale: 'fr',
          // defaultDate : 'today'
      });
@@ -77,30 +77,30 @@
 
      $('#montant').on('change', function() {
          $('#montant').removeClass('is-invalid');
-         $('#montantHelp').html('');
+         $('#montant_Help').html('');
      });
 
 
      $('#type').on('change', function() {
          $('#type').removeClass('is-invalid');
-         $('#typeHelp').html('');
+         $('#type_Help').html('');
      });
 
 
-     $('#tel_cli').on('change', function() {
-         $('#tel_cli').removeClass('is-invalid');
-         $('#tel_cliHelp').html('');
+     $('#numero_telephone').on('change', function() {
+         $('#numero_telephone').removeClass('is-invalid');
+         $('#numero_telephone_Help').html('');
      });
 
-     $('#solde_t').on('change', function() {
-         $('#solde_t').removeClass('is-invalid');
-         $('#solde_tHelp').html('');
+     $('#nouveau_solde').on('change', function() {
+         $('#nouveau_solde').removeClass('is-invalid');
+         $('#nouveau_soldeHelp').html('');
      });
 
 
-     $('#solde_t').on('change', function() {
-         $('#solde_t').removeClass('is-invalid');
-         $('#solde_tHelp').html('');
+     $('#nouveau_solde').on('change', function() {
+         $('#nouveau_solde').removeClass('is-invalid');
+         $('#nouveau_soldeHelp').html('');
      });
 
      $('#id_transaction').on('change', function() {
@@ -114,34 +114,34 @@
          if ($.isNumeric(loyer) === false) {
              formValide = false;
              $('#montant').addClass('is-invalid');
-             $('#montantHelp').html('Veuillez saisir un  montant correcte');
-             $('#montantHelp').removeClass('invisible');
+             $('#montant_Help').html('Veuillez saisir un  montant correcte');
+             $('#montant_Help').removeClass('invisible');
              $('#montant').val('')
              e.preventDefault()
          } else {
              formValide = true;
              $('#montant').removeClass('is-invalid');
-             $('#montantHelp').html('');
-             $('#montantHelp').addClass('invisible');
+             $('#montant_Help').html('');
+             $('#montant_Help').addClass('invisible');
          }
      });
 
 
      //GESTION DU SOLDE
-     $('#solde_t').on('keyup', function() {
-         var loyer = $('#solde_t').val();
+     $('#nouveau_solde').on('keyup', function() {
+         var loyer = $('#nouveau_solde').val();
          if ($.isNumeric(loyer) === false) {
              formValide = false;
-             $('#solde_t').addClass('is-invalid');
-             $('#solde_tHelp').html('Veuillez saisir un  solde  correcte');
-             $('#solde_tHelp').removeClass('invisible');
-             $('#solde_t').val('')
+             $('#nouveau_solde').addClass('is-invalid');
+             $('#nouveau_soldeHelp').html('Veuillez saisir un  solde  correcte');
+             $('#nouveau_soldeHelp').removeClass('invisible');
+             $('#nouveau_solde').val('')
              e.preventDefault()
          } else {
              formValide = true;
-             $('#solde_t').removeClass('is-invalid');
-             $('#solde_tHelp').html('');
-             $('#solde_tHelp').addClass('invisible');
+             $('#nouveau_solde').removeClass('is-invalid');
+             $('#nouveau_soldeHelp').html('');
+             $('#nouveau_soldeHelp').addClass('invisible');
          }
      });
 
@@ -150,32 +150,32 @@
          formValide = true;
          $('#radio_depot').removeClass('is-invalid');
          $('#radio_retrait').removeClass('is-invalid');
-         $('#typeHelp').html("");
-         $('#typeHelp').removeClass('invisible');
+         $('#type_Help').html("");
+         $('#type_Help').removeClass('invisible');
      } else {
          formValide = false;
          $('#radio_depot').addClass('is-invalid');
          $('#radio_retrait').addClass('is-invalid');
-         $('#typeHelp').html("Veillez choisir le type de la transacion");
-         $('#typeHelp').removeClass('invisible');
+         $('#type_Help').html("Veillez choisir le type de la transacion");
+         $('#type_Help').removeClass('invisible');
          e.preventDefault()
      }
 
 
-     $('#tel_cli').on('keyup', function() {
-         var loyer = $('#tel_cli').val();
+     $('#numero_telephone').on('keyup', function() {
+         var loyer = $('#numero_telephone').val();
          if ($.isNumeric(loyer) === false) {
              formValide = false;
-             $('#tel_cli').addClass('is-invalid');
-             $('#tel_cliHelp').html('Veuillez saisir un numero correcte');
-             $('#tel_cliHelp').removeClass('invisible');
-             $('#tel_cli').val('')
+             $('#numero_telephone').addClass('is-invalid');
+             $('#numero_telephone_Help').html('Veuillez saisir un numero correcte');
+             $('#numero_telephone_Help').removeClass('invisible');
+             $('#numero_telephone').val('')
              e.preventDefault()
          } else {
              formValide = true;
-             $('#tel_cli').removeClass('is-invalid');
-             $('#tel_cliHelp').html('');
-             $('#tel_cliHelp').addClass('invisible');
+             $('#numero_telephone').removeClass('is-invalid');
+             $('#numero_telephone_Help').html('');
+             $('#numero_telephone_Help').addClass('invisible');
          }
      });
 
@@ -188,29 +188,29 @@
          if (montant === '') {
              formValide = false;
              $('#montant').addClass('is-invalid');
-             $('#montantHelp').html('Veuillez saisir le montant .');
-             $('#montantHelp').removeClass('invisible');
+             $('#montant_Help').html('Veuillez saisir le montant .');
+             $('#montant_Help').removeClass('invisible');
              e.preventDefault()
          } else {
              formValide = true;
              $('#montant').removeClass('is-invalid');
-             $('#montantHelp').html('');
-             $('#montantHelp').addClass('invisible');
+             $('#montant_Help').html('');
+             $('#montant_Help').addClass('invisible');
          }
 
          // Cas du solde total
-         let solde_t = $('#solde_t').val();
-         if (solde_t === '') {
+         let nouveau_solde = $('#nouveau_solde').val();
+         if (nouveau_solde === '') {
              formValide = false;
-             $('#solde_t').addClass('is-invalid');
-             $('#solde_tHelp').html('Veuillez saisir le solde total .');
-             $('#solde_tHelp').removeClass('invisible');
+             $('#nouveau_solde').addClass('is-invalid');
+             $('#nouveau_soldeHelp').html('Veuillez saisir le solde total .');
+             $('#nouveau_soldeHelp').removeClass('invisible');
              e.preventDefault()
          } else {
              formValide = true;
-             $('#solde_t').removeClass('is-invalid');
-             $('#solde_tHelp').html('');
-             $('#solde_tHelp').addClass('invisible');
+             $('#nouveau_solde').removeClass('is-invalid');
+             $('#nouveau_soldeHelp').html('');
+             $('#nouveau_soldeHelp').addClass('invisible');
          }
 
          // Cas de la transaction id
@@ -230,34 +230,34 @@
 
 
          //cas du telephone
-         let tel_cli = $('#tel_cli').val();
-         if (tel_cli === '') {
+         let numero_telephone = $('#numero_telephone').val();
+         if (numero_telephone === '') {
              formValide = false;
-             $('#tel_cli').addClass('is-invalid');
-             $('#tel_cliHelp').html('Veuillez saisir le  telephone du client.');
-             $('#tel_cliHelp').removeClass('invisible');
+             $('#numero_telephone').addClass('is-invalid');
+             $('#numero_telephone_Help').html('Veuillez saisir le  telephone du client.');
+             $('#numero_telephone_Help').removeClass('invisible');
              e.preventDefault()
          } else
 
          {
              formValide = true;
-             $('#tel_cli').removeClass('is-invalid');
-             $('#tel_cliHelp').html('');
-             $('#tel_cliHelp').addClass('invisible');
+             $('#numero_telephone').removeClass('is-invalid');
+             $('#numero_telephone_Help').html('');
+             $('#numero_telephone_Help').addClass('invisible');
          }
 
-         let date_t = $('#date_t').val();
-         if (date_t === '') {
+         let dates = $('#dates').val();
+         if (dates === '') {
              formValide = false;
-             $('#date_t').addClass('is-invalid');
-             $('#date_tHelp').html('Veuillez selectionner  la date  .');
-             $('#date_tHelp').removeClass('invisible');
+             $('#dates').addClass('is-invalid');
+             $('#dates_Help').html('Veuillez selectionner  la date  .');
+             $('#dates_Help').removeClass('invisible');
              e.preventDefault()
          } else {
              formValide = true;
-             $('#date_t').removeClass('is-invalid');
-             $('#date_tHelp').html('');
-             $('#date_tHelp').addClass('invisible');
+             $('#dates').removeClass('is-invalid');
+             $('#dates_Help').html('');
+             $('#dates_Help').addClass('invisible');
          }
 
          // window.location.reload();
@@ -288,20 +288,20 @@
 
 
      //Le telephone  ne doit contenir ds lettres
-     $('#tel_cli_modif').on('keyup', function() {
-         var loyer = $('#tel_cli').val();
+     $('#numero_telephone_modif').on('keyup', function() {
+         var loyer = $('#numero_telephone').val();
          if ($.isNumeric(loyer) === false) {
              formValide = false;
-             $('#tel_cli_modif').addClass('is-invalid');
-             $('#tel_cli_modifHelp').html('Veuillez saisir un numero correcte');
-             $('#tel_cli_modifHelp').removeClass('invisible');
-             $('#tel_cli_modif').val('')
+             $('#numero_telephone_modif').addClass('is-invalid');
+             $('#numero_telephone_modifHelp').html('Veuillez saisir un numero correcte');
+             $('#numero_telephone_modifHelp').removeClass('invisible');
+             $('#numero_telephone_modif').val('')
              e.preventDefault()
          } else {
              formValide = true;
-             $('#tel_cli_modif').removeClass('is-invalid');
-             $('#tel_cli_modifHelp').html('');
-             $('#tel_cli_modifHelp').addClass('invisible');
+             $('#numero_telephone_modif').removeClass('is-invalid');
+             $('#numero_telephone_modifHelp').html('');
+             $('#numero_telephone_modifHelp').addClass('invisible');
          }
      });
 
@@ -312,29 +312,29 @@
 
          var montant = $('#montant_modif').val();
 
-         var tel_cli = $('#tel_cli_modif').val();
+         var numero_telephone = $('#numero_telephone_modif').val();
          var tel_dest = $('#tel_dest_modif').val();
          var destinataire = $('#destinataire_modif').val();
-         var date_t = $('#date_t_modif').val();
+         var dates = $('#dates_modif').val();
 
 
-         if (montant === '' && tel_cli == '') {
+         if (montant === '' && numero_telephone == '') {
              formValide = false;
              $('#montant_modif').addClass('is-invalid');
              $('#montant_modifHelp').html('Veillez saisir le libellé.');
              $('#montant_modifHelp').removeClass('invisible');
-             $('#tel_cli_modif').addClass('is-invalid');
-             $('#tel_cli_modifHelp').html('Veillez sélectionner le telephone du client.');
-             $('#tel_cli_modifHelp').removeClass('invisible');
+             $('#numero_telephone_modif').addClass('is-invalid');
+             $('#numero_telephone_modifHelp').html('Veillez sélectionner le telephone du client.');
+             $('#numero_telephone_modifHelp').removeClass('invisible');
              e.preventDefault()
          } else {
              formValide = true;
              $('#montant_modif').removeClass('is-invalid');
              $('#montant_modifHelp').html('');
              $('#montant_modifHelp').addClass('invisible');
-             $('#tel_cli_modif').removeClass('is-invalid');
-             $('#tel_cli_modifHelp').html('');
-             $('#tel_cli_modifHelp').addClass('invisible');
+             $('#numero_telephone_modif').removeClass('is-invalid');
+             $('#numero_telephone_modifHelp').html('');
+             $('#numero_telephone_modifHelp').addClass('invisible');
 
          }
 
@@ -397,9 +397,9 @@
                  const ResultatExtraireInformations_RETRAIT = extraireInformations_RETRAIT(valeur);
 
                  $('#radio_retrait').prop('checked', true);
-                 $('#date_t').val(ResultatExtraireInformations_RETRAIT.dates);
-                 $('#solde_t').val(ResultatExtraireInformations_RETRAIT.solde);
-                 $('#tel_cli').val(ResultatExtraireInformations_RETRAIT.numero);
+                 $('#dates').val(ResultatExtraireInformations_RETRAIT.dates);
+                 $('#nouveau_solde').val(ResultatExtraireInformations_RETRAIT.solde);
+                 $('#numero_telephone').val(ResultatExtraireInformations_RETRAIT.numero);
                  $('#montant').val(ResultatExtraireInformations_RETRAIT.montant);
                  $('#id_transaction').val(ResultatExtraireInformations_RETRAIT.idTransaction);
 
@@ -409,10 +409,10 @@
 
                  // Collage dans les cellules
                  $('#radio_depot').prop('checked', true);
-                 $('#date_t').val(ResultatExtraireInformations_RETRAIT.dates);
-                 $('#solde_t').val(ResultatExtraireInformations_DEPOT.solde);
+                 $('#dates').val(ResultatExtraireInformations_RETRAIT.dates);
+                 $('#nouveau_solde').val(ResultatExtraireInformations_DEPOT.solde);
                  $('#montant').val(ResultatExtraireInformations_DEPOT.montant);
-                 $('#tel_cli').val(ResultatExtraireInformations_DEPOT.numero);
+                 $('#numero_telephone').val(ResultatExtraireInformations_DEPOT.numero);
                  $('#id_transaction').val(ResultatExtraireInformations_DEPOT.idTransaction);
              }
          } catch (error) {

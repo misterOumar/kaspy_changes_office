@@ -21,49 +21,52 @@
                 try {
                     var data = e.target.result;
                     var workbook;
-                    if (inputFile.name.endsWith('.csv')) {
-                        workbook = XLSX.read(data, {
-                            type: 'binary',
-                            header: 3,
-                            delimiter: ','
+                    // Read CSV data
+
+                    // Read CSV data
+                    var csvWorksheet = XLSX.read(data, {
+                        type: 'binary',
+                        header: 1 // Specify header for CSV files
+                    });
+                    // Get the first worksheet from the CSV file
+                    csvWorksheet = csvWorksheet.Sheets[Object.keys(csvWorksheet.Sheets)[0]];
+                    // Convert CSV data to JSON
+                    var csvData = XLS.utils.sheet_to_json(csvWorksheet, { header: 1 });
+                    // Extract keys from the CSV data
+                    const keys = csvData.length > 0 ? Object.keys(csvData[0]) : [];
+
+                    // Vérifiez si le nombre de clés est inférieur ou supérieur à 22
+                    if (keys.length < 22 || keys.length > 22 || csvData.length < 2) {
+                        Swal.fire({
+                            title: 'Mauvais fichier',
+                            html: 'Veillez sélectionner le bon fichier',
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                        }).then((result) => {
+                            // Reload the page after the user clicks "OK" on the alert
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }
                         });
                     } else {
-                        workbook = XLSX.read(data, {
-                            type: 'binary',
-                            header: 3
+                        // Extract data rows from the CSV data
+                        const dataRows = csvData.slice(1);
+                        // Process the data rows into JSON format
+                        jsonData = dataRows.map(row => {
+                            const newRow = {};
+                            keys.forEach((key, index) => {
+                                const cellValue = row[index];
+                                newRow[key] = (cellValue !== undefined && cellValue !== " ") ? cellValue : 0;
+                                console.log(`Clé: ${key}, Valeur: ${newRow[key]}`);
+                            });
+                            console.log(JSON.stringify(newRow, null, 2));
+                            return newRow;
                         });
                     }
-                    var sheetName = workbook.SheetNames[0];
-                    var sheet = workbook.Sheets[sheetName];
-                    const nonEmptyZRows = XLSX.utils.sheet_to_json(sheet, {
-                        header: 1
-                    }).map(row =>
-                        row.slice(0, 22) // Sélection des colonnes de A à V (index de 0 à 21)
-                    );
-                    const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0] : [];
-                    const dataRows = nonEmptyZRows.slice(1);
-                    jsonData = dataRows.map(row => {
-                    const newRow = {};
-                    keys.forEach((key, index) => {
-                        const cellValue = row[index];
-                        newRow[key] = cellValue !== undefined ? cellValue : 0; // Si la valeur de la cellule n'est pas undefined, utilisez-la, sinon utilisez 0
-                        console.log(`Clé: ${key}, Valeur: ${newRow[key]}`); // Afficher la clé et la valeur de la cellule
-                    });
-                    console.log(JSON.stringify(newRow , null, 2)); // Ligne de journalisation
-                    return newRow;
-                });
-
-
-
-
-
-
-
-
+                    // FIN DU TRAITEMENT DU FICHIER IMPORTER
                     console.log(JSON.stringify(jsonData, null, 2));
                     var date_saisie = document.getElementById("dates").value;
-                    var dateColumnIndex = 'Date';// Assuming the date column is at index 17
-
+                    var dateColumnIndex = 16;// Assuming the date column is at index 17
                     if (jsonData.length > 0 && jsonData[0][dateColumnIndex]) {
                         var date_objet = jsonData[0][dateColumnIndex];
                         var parsedDate_objet = moment(date_objet, "DD/MM/YYYY HH:mm:ss").format("DD/MM/YYYY");
@@ -82,32 +85,33 @@
                             });
                         }
                     } else {
-                        console.error('Aucune donnée disponible pour la vérification de la date.');
+                        console.error('Aucune donnée disponible pour la vérification de la date.', dateColumnIndex);
                     }
-
-
                     // STATS
+                    var montant_envoyer_total = 0;
+                    var montant_payer_total = 0;
                     var montant_envoyer = 0;
                     var nombre_transaction_envoyees = 0;
-
                     var nombre_total = 0;
                     var transfert_total = 0;
                     var frais_envoyees = 0;
                     var nombre_transaction_payees = 0;
                     var montant_collecte = 0;
-
                     var frais_payer = 0;
-
                     jsonData.forEach(function (item) {
-                        if (item["Action"] === "Envoi") {
+                        if (item[21] === "Envoi") {
                             nombre_transaction_envoyees += 1;
-                            montant_envoyer += item["Montant Envoye"];
-                            frais_envoyees += item["Frais"];
+                            // Convertir la valeur en nombre
+                            montant_envoyer += item[8];
+                            console.warn("Valeur1  :", item[8]);
+                            frais_envoyees += item[20];
 
                         } else {
                             nombre_transaction_payees += 1;
-                            montant_collecte += item["false"];
-                            if (item["Frais"] === '')
+                            // Convertir la valeur en nombre
+                            montant_collecte += item[8];
+
+                            if (item[20] === '')
                                 frais_payer = '0';
                         }
                     });
@@ -117,21 +121,40 @@
                     if ($.fn.DataTable.isDataTable("#excelDataTable")) {
                         $("#excelDataTable").DataTable().destroy();
                     }
-
+                    // Création du DataTable avec les nouvelles clés
                     // Création du DataTable avec les nouvelles clés
                     $("#excelDataTable").DataTable({
                         data: jsonData,
-                        columns: Object.keys(jsonData[0]).map(function (col) {
-                            return {
-                                data: col,
-                                title: col
-                            };
-                        }),
-                        scrollX: true
+                        columns: [
+                            { data: '0', title: 'Numero de transfert' },
+                            { data: '1', title: 'PIN' },
+                            { data: '2', title: 'Mode de livraison' },
+                            { data: '3', title: 'Caissier' },
+                            { data: '4', title: 'Agence' },
+                            { data: '5', title: 'Code Agence' },
+                            { data: '6', title: 'Agence Réconciliation' },
+                            { data: '7', title: 'Montant Envoye' },
+                            { data: '8', title: 'Pays de destination' },
+                            { data: '9', title: 'Devise d\'Envoi' },
+                            { data: '10', title: 'Pays d\'Envoi' },
+                            { data: '11', title: 'Pays de destination' },
+                            { data: '12', title: 'Montant à Payer' },
+                            { data: '13', title: 'Devise de paiement' },
+                            { data: '14', title: 'Montant de la commission SA' },
+                            { data: '15', title: 'Devise de la commission SA' },
+                            { data: '16', title: 'Date' },
+                            { data: '17', title: 'Taux' },
+                            { data: '18', title: 'TOB' },
+                            { data: '19', title: 'TTHU' },
+                            { data: '20', title: 'Frais' },
+                            { data: '21', title: 'Action' },
+
+                        ],
+                        scrollX: true // Activation du défilement horizontal
                     });
-                    var total_envoyees = montant_envoyer + frais_envoyees;
+                    var total_envoyees = montant_envoyer_total + frais_envoyees;
                     var nombre_total = nombre_transaction_payees + nombre_transaction_envoyees;
-                    var transfert_total = montant_envoyer + montant_collecte;
+                    var transfert_total = montant_envoyer_total + montant_collecte;
                     var total_payees = montant_collecte + frais_payer;
                     $('#nombre_transaction_envoyees').text(nombre_transaction_envoyees);
                     $('#transfert_envoye').text(montant_envoyer.toLocaleString());
@@ -146,8 +169,6 @@
                     // Affichez le modal
                     // Affichez le modal
                     $("#excelModal").modal("show");
-
-
 
 
                 } catch (error) {
@@ -180,7 +201,6 @@
             $("#excelDataTable1").DataTable().destroy();
         }
     });
-
     // Fonction pour envoyer les données au contrôleur via AJAX
     function sendDataToController(jsonData) {
         $.ajax({

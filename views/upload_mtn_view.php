@@ -2,8 +2,7 @@
 <?php
 if (!isset($_SESSION["KaspyISS_user"])) {
     header("Location: index.php?page=login");
-}
-;
+};
 ?>
 <!-- End of the secure -->
 
@@ -13,39 +12,39 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 <!-- BEGIN: Head-->
 
 <head>
-    <title> Ria -
-        <?= APP_NAME ?>
-    </title>
+    <title><?= APP_NAME ?> - Upload MTN </title>
 
     <!-- Fichiers CSS par défaut (TEMPLATE) -->
     <?php include_once 'includes/head.php' ?>
     <!-- Fichier fenetre des differents Liste et journaux -->
 
     <!-- Fichiers CSS spécifiques a la page (TEMPLATE) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="css/template/vendors.min.css">
-    <link rel="stylesheet" type="text/css" href="css/dropzone.min.css">
 
 
     <link rel="stylesheet" type="text/css" href="css/plugins/tables/datatable/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" type="text/css" href="css/plugins/tables/datatable/responsive.bootstrap5.min.css">
     <link rel="stylesheet" type="text/css" href="css/plugins/tables/datatable/buttons.bootstrap5.min.css">
     <link rel="stylesheet" type="text/css" href="css/plugins/pickers/flatpickr/flatpickr.min.css">
+
     <link rel="stylesheet" type="text/css" href="css/core/menu/menu-types/vertical-menu.css">
-    <link rel="stylesheet" type="text/css" href="css/plugins/forms/form-file-uploader.css">
+
+
     <!-- Mes fichiers style CSS -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
-    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css"> -->
+    <!-- upload style-->
+    <link rel="stylesheet" type="text/css" href="css/template/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="css/dropzone.min.css">
+    <link rel="stylesheet" type="text/css" href="css/plugins/forms/form-file-uploader.css">
+    <!-- new -->
+    <!-- <link rel="stylesheet" href="plugins/dropzone/dropzone.css"> -->
 </head>
 <!-- END: Head-->
 
 
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static " data-open="click"
-    data-menu="vertical-menu-modern" data-col="">
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static " data-open="click" data-menu="vertical-menu-modern" data-col="">
     <!-- BEGIN: Main Menu-->
     <?php include 'includes/main_menu.php' ?>
     <!-- END: Main Menu-->
@@ -63,14 +62,14 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Point Journalier RIA</h2>
+                            <h2 class="content-header-title float-start mb-0">Point MTN MONEY</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="#">Transactions</a>
+                                    <li class="breadcrumb-item"><a href="#">Structures</a>
                                     </li>
-                                    <li class="breadcrumb-item active">importation RIA
+                                    <li class="breadcrumb-item active">Upload MTN MONEY
                                     </li>
                                 </ol>
                             </div>
@@ -78,9 +77,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                     </div>
                 </div>
                 <!-- Include Menu toogle droit-->
-                <?php
-                //  include 'components/menu_toggle_droit.php' 
-                ?>
+                <?php include 'components/menu_toggle_droit.php' ?>
             </div>
             <div class="content-body">
                 <section id="basic-datatable">
@@ -94,110 +91,52 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     <div class="d-flex align-items-center gap-1 justify-content-end">
                                         <label class='form-label' for='dates'>Date</label>
                                         <div class="col-5">
-                                            <input type="datetime" id="dates" name="dates"
-                                                class="form-control flatpickr-date-time"
-                                                placeholder="YYYY-MM-DD HH:MM" />
+                                            <input type="datetime" id="dates" name="dates" class="form-control flatpickr-date-time" placeholder="YYYY-MM-DD HH:MM" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <form action="#" class="dropzone dropzone-area" id="dpz-single-file">
-                                        <div class="dz-message">Déposez les fichiers Ria ici ou cliquez pour les
-                                            télécharger.</div>
+                                        <div class="dz-message">Déposez les fichiers MTN MONEY ici ou cliquez pour les télécharger.</div>
                                         <div class="fallback">
-                                            <input type='file' class='form-control me-1' name="fileInput" id="inputFile"
-                                                style="width: 350px;" />
+                                            <input type='file' class='form-control me-1' name="fileInput" id="fileInput" style="width: 350px;" />
                                         </div>
                                     </form>
                                 </div>
                                 <div class="d-flex align-items-end justify-content-end me-2 mb-2">
-                                    <a id='btnEnregistrer' href="index.php?page=ria" class=' btn btn-outline-primary '>
+                                    <a id='btnEnregistrer' href="index.php?page=mtn_money" class=' btn btn-outline-primary '>
                                         <span>
                                             Voir la liste
                                         </span>
                                         <i data-feather="eye" class="me-25"></i>
                                     </a>
                                 </div>
+
                             </div>
                         </div>
                     </div>
+                    <!-- single file upload ends -->
                     <!-- Modal large -->
-                    <div class="modal fade text-start" id="excelModal" tabindex="-1" aria-labelledby="myModalLabel16"
-                        aria-hidden="true">
+                    <div class="modal fade text-start" id="excelModal" tabindex="-1" aria-labelledby="myModalLabel16" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel16">Point du jour Ria</h4>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                    <h4 class="modal-title" id="myModalLabel16">Point du jour MTN MONEY</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="d-flex mb-2">
-                                       
-                                        <div class="col-6">
-                                            <table>
-                                                <thead>
-                                                    <tr class="text-center">
-                                                        <th colspan="2" class="bg-light-primary">STATISTIQUES GENERAUX
-                                                            RIA</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <th> </th>
-                                                        <th>Nombre de commandes </th>
-                                                        <th>Total </th>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td> <span>Transferts envoyées</span></td>                                                    
-                                                        <td> <span id="nombre_transaction_envoyees"></span></td>
-                                                        <td>XOF <span id="transfert_envoye"></span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td> <span>Transferts payées</span></td>
-
-                                                        <td><span id="nombre_transaction_payees"></span></td>
-                                                        <td>XOF <span id="transfert_paye"></span></td>
-                                                    </tr>
-                                                    <tr>
-
-                                                        <td> <span  >Transferts annulés</span></td>
-
-                                                        <td><span id="annule"></span></td>
-                                                        <td>XOF <span id="transfert_annule"></span></td>
-                                                    </tr>
-                                                    <tr>
-
-                                                        <td style="border-top: 2px solid;"> <span id="">Total Transfert </span></td>
-
-                                                        <td><span id="nombre_total"></span></td>
-                                                        <td>XOF <span id="transfert_total"></span></td>
-                                                    </tr>
-
-
-                                                </tbody>
-
-
-                                            </table>
-                                        </div>
+                                    <div class="d-flex mb-2">                                                                                
                                     </div>
-                                    <table id="excelDataTable" class="display datatables-basic table"></table>
-
+                                   <table id="excelDataTable" class="display datatables-basic table"></table>
                                 </div>
                                 <div class="modal-footer">
-                                    <button id="btnAnnuler" type="button" class="btn btn-outline-secondary me-1"
-                                        data-bs-dismiss="modal">Annuler</button>
-                                    <button id='btnValider1' name='btnValider'
-                                        class='btn btn-primary enregistrer '>Valider</button>
-
+                                    <button id="btnAnnuler" type="button" class="btn btn-outline-secondary me-1" data-bs-dismiss="modal">Annuler</button>
+                                    <button id='btnValider' name='btnValider' class='btn btn-primary enregistrer '>Valider</button>
                                 </div>
-
-                            </div>
+                                </div>
                         </div>
                     </div>
                     <!-- Modal large -->
-                    <!-- single file upload ends -->
                     <?php include 'components/modal_proprietes.php' ?>
                     <?php include 'components/modal_excel.php' ?>
                 </section>
@@ -205,56 +144,75 @@ if (!isset($_SESSION["KaspyISS_user"])) {
             </div>
         </div>
     </div>
-
-
     <!-- END: Content-->
-
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
- 
     <!-- END: Content-->
     <?php include 'includes/toast.php' ?>
+
     <!-- ***************************************** FICHIERS JS ************************************************************** -->
     <!-- BEGIN: FICHIERS JS DU TEMPLATE -->
     <script src="js/template/vendors.min.js"></script>
-
-
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
-
     <!-- BEGIN: FICHIERS JS DES PAGES -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="js/plugins/tables/datatable/jquery.dataTables.min.js"></script>
     <script src="js/plugins/tables/datatable/dataTables.bootstrap5.min.js"></script>
     <script src="js/plugins/tables/datatable/dataTables.responsive.min.js"></script>
     <script src="js/plugins/tables/datatable/responsive.bootstrap5.min.js"></script>
+
     <script src="js/plugins/tables/datatable/datatables.checkboxes.min.js"></script>
     <script src="js/plugins/tables/datatable/datatables.buttons.min.js"></script>
     <script src="js/plugins/tables/datatable/jszip.min.js"></script>
+
     <script src="js/plugins/tables/datatable/pdfmake.min.js"></script>
     <script src="js/plugins/tables/datatable/vfs_fonts.js"></script>
     <script src="js/plugins/tables/datatable/buttons.html5.min.js"></script>
     <script src="js/plugins/tables/datatable/buttons.print.min.js"></script>
     <script src="js/plugins/pickers/flatpickr/flatpickr.min.js"></script>
+
     <!--<script src="js/template/ui/jquery.sticky.js"></script> -->
     <script src="js/template/forms/spinner/jquery.bootstrap-touchspin.js"></script>
     <script src="js/template/forms/form-number-input.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <script src="js/template/app.js"></script>
     <script src="js/template/app-menu.js"></script>
     <script src="js/plugins/forms/dropzone.min.js"></script>
-    <script src="js/plugins/forms/form-file-uploader.js"></script>
-    <script type="text/javascript" charset="utf8"
-        src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8"
-        src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-    <!-- Your existing script -->
-    <?php include 'includes/footer.php' ?> <!-- END: Footer-->
-    <?php include 'js/logiques/upload_ria_logique.php' ?>
+    <!-- <script src="js/plugins/forms/form-file-uploader.js"></script> -->
+    <!-- new -->
+    <!-- <script src="plugins/dropzone/dropzone.js"></script>
+    <script src="plugins/dropzone/forms-file-upload.js"></script> -->
 
+    <!-- fichier pour upload -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+
+
+
+    <!-- START: Footer-->
+    <?php include 'includes/footer.php' ?>
+    <!-- END: Footer-->
+
+
+    <!-- <?php include 'js/flatpick_fr.js' ?>
+     -->
+    <?php include 'js/logiques/upload_mtn_logiques.php' ?>
+    <?php include("views/components/alerts.php") ?>
+    
+
+
+    <script>
+        $(window).on('load', function() {
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+        })
+    </script>
 </body>
 <style>
     .modal-custom-width {
@@ -262,11 +220,5 @@ if (!isset($_SESSION["KaspyISS_user"])) {
         /* Ajustez cette valeur selon vos besoins */
     }
 </style>
-
-<script>
-    // Attachez un écouteur d'événements au clic du bouton
-    document.getElementById('dates');
-
-</script>
 
 </html>

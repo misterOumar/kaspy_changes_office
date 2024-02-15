@@ -19,7 +19,6 @@ if (isset($_POST['uba_file'])) {
     foreach ($tableData as $item) {
         $datesArray[] = $item['Date'];
     }
-
     $dateObj = DateTime::createFromFormat('d-m-y H:i:s', $datesArray[0]);
     // Formater la date dans le nouveau format
     $date_fichier = $dateObj->format('Y-m-d H:i:s');
@@ -33,9 +32,6 @@ if (isset($_POST['uba_file'])) {
             'message' => $message
         ]);
     } else {
-
-
-
         $ip = getIp();
         $navigateur = getNavigateur();
         $us = $_SESSION["KaspyISS_user"]['users'];

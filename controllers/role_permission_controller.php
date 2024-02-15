@@ -211,8 +211,6 @@ if (isset($_POST['bt_modifier'])) {
         $date_modif = date("Y-m-d H:i:s");
         if (role_permission::Modifier($libelle, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $idModif)) {
             role_permission_details::Supprimer($idModif);
-
-
             //boucle d'enregistrement des roles dans la base de données
             for ($i = 1; $i < 22; $i++) {
                 try {
@@ -314,9 +312,7 @@ if (isset($_GET['idLast'])) {
     include('../config/config.php');
     include('../config/db.php');
     include('../models/Role_permission.php');
-
     $role_permission = role_permission::getLast();
-
     if ($role_permission) {
         $total = role_permission::getCount();
         echo json_encode([

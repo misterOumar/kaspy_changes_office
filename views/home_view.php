@@ -3,7 +3,8 @@
 
 if (!isset($_SESSION["KaspyISS_user"])) {
     header("Location: index.php?page=login");
-};
+}
+;
 ?>
 <!-- End of the secure -->
 
@@ -13,7 +14,9 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 <!-- BEGIN: Head-->
 
 <head>
-    <title><?= APP_NAME ?> - Accueil</title>
+    <title>
+        <?= APP_NAME ?> - Accueil
+    </title>
 
     <!-- Fichiers CSS par défaut (TEMPLATE) -->
     <?php include_once 'includes/head.php' ?>
@@ -38,7 +41,8 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="" >
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click"
+    data-menu="vertical-menu-modern" data-col="">
 
     <!-- BEGIN: Main Menu-->
     <?php include 'includes/main_menu.php' ?>
@@ -73,9 +77,8 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 </div>
 
                 <!-- Include Menu toogle droit-->
-                <?php include 'components/menu_toggle_droit.php' ?>
+            <?php include 'components/menu_toggle_droit.php' ?>
             </div>
-
 
             <div class="content-wrapper container-xxl p-0">
                 <div class="content-header row">
@@ -84,199 +87,171 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                     <!-- Dashboard Ecommerce Starts -->
                     <section id="dashboard-ecommerce">
                         <div class="row match-height">
-                            <!-- Medal Card -->
-
-                            <div class="col-xl-4 col-md-6 col-12">
-                                <a href="index.php?page=ria">
-                                    <div class="card card-congratulation-medal">
-                                        <div class="card-body d-flex align-items-center justify-content-between">
-                                            <div>
-                                                <h5>Ria</h5>
-                                                <p class="card-text font-small-3"> Transactions </p>
+                            <!-- AFFICHAGE RIA SUR LE HOME -->
+                            <?php if (intval($_SESSION['KaspyISS_user_details'][0]['lecture']) === 1) { ?>
+                                <div class="col-xl-4 col-md-6 col-12">
+                                    <a href="index.php?page=ria">
+                                        <div class="card card-congratulation-medal">
+                                            <div class="card-body d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <h5>Ria</h5>
+                                                    <p class="card-text font-small-3"> Transactions </p>
+                                                </div>
+                                                <img src="assets/images/template/ria.png" class="img-fluid" alt="Medal Pic"
+                                                    style="max-width:100px;" />
                                             </div>
-
-                                            <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->
-
-                                            <img src="assets/images/template/ria.png" class="img-fluid" alt="Medal Pic" style="max-width:100px;" />
-
-
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-xl-4 col-md-6 col-12">
-                                <a href="index.php?page=western_union">
-                                    <div class="card card-congratulation-medal">
-                                        <div class="card-body d-flex align-items-center justify-content-between">
-                                            <div>
-                                                <h5>Western Union</h5>
-                                                <p class="card-text font-small-3"> Transactions </p>
+                                    </a>
+                                </div>
+                            <?php } ?>
+                            <!-- AFFICHAGE WESTERN UNION SUR LE HOME -->
+                            <?php if (intval($_SESSION['KaspyISS_user_details'][1]['lecture']) === 1) { ?>
+
+                                <div class="col-xl-4 col-md-6 col-12">
+                                    <a href="index.php?page=western_union">
+                                        <div class="card card-congratulation-medal">
+                                            <div class="card-body d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <h5>Western Union</h5>
+                                                    <p class="card-text font-small-3"> Transactions </p>
+                                                </div>
+                                                <img src="assets/images/template/westernunion.png" class="img-fluid"
+                                                    alt="Medal Pic"
+                                                    style="width:7rem;height:7rem; border-radius:50%; object-fit:cover" />
                                             </div>
-
-                                            <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->
-
-                                            <img src="assets/images/template/westernunion.png" class="img-fluid" alt="Medal Pic" style="width:7rem;height:7rem; border-radius:50%; object-fit:cover" />
-
-
                                         </div>
-                                    </div>
-                                </a>
-
-                            </div>
-                            <div class="col-xl-4 col-md-6 col-12">
-
-                                <a href="index.php?page=money_gram">
-                                    <div class="card card-congratulation-medal">
-                                        <div class="card-body d-flex align-items-center justify-content-between">
-                                            <div>
-                                                <h5>MoneyGram</h5>
-                                                <p class="card-text font-small-3"> Transactions </p>
+                                    </a>
+                                </div>
+                            <?php } ?>
+                            <!-- AFFICHAGE MONEYGRAM  SUR LE HOME -->
+                            <?php if (intval($_SESSION['KaspyISS_user_details'][10]['lecture']) === 1) { ?>
+                                <div class="col-xl-4 col-md-6 col-12">
+                                    <a href="index.php?page=money_gram">
+                                        <div class="card card-congratulation-medal">
+                                            <div class="card-body d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <h5>MoneyGram</h5>
+                                                    <p class="card-text font-small-3"> Transactions </p>
+                                                </div>
+                                                <img src="assets/images/template/gram.png" class="img-fluid" alt="Medal Pic"
+                                                    style="max-width:100px;" />
                                             </div>
-
-                                            <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->
-
-                                            <img src="assets/images/template/gram.png" class="img-fluid" alt="Medal Pic" style="max-width:100px;" />
-
-
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
+                                <?php } ?>
+                            </div>                    
+                        <div class="row match-height">
+                            <!-- AFFICHAGE ORANGE MONEY  SUR LE HOME -->
+                            <?php if (intval($_SESSION['KaspyISS_user_details'][7]['lecture']) === 1) { ?>
+                                <div class="col-xl-4 col-md-6 col-12">
+                                    <a href="index.php?page=orange_money">
+                                        <div class="card card-congratulation-medal">
+                                            <div class="card-body d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <h5>Orange money</h5>
+                                                    <p class="card-text font-small-3"> Mobile Money </p>
+                                                </div>
+                                                <img src="assets/images/template/orm.png" class="img-fluid" alt="Medal Pic"
+                                                    style="width:7rem;height:7rem; border-radius:50%; object-fit:cover" />
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            <?php } ?>
+                            <!-- AFFICHAGE MOOV MONEY  SUR LE HOME -->
+                            <?php if (intval($_SESSION['KaspyISS_user_details'][5]['lecture']) === 1) { ?>
+                                <div class="col-xl-4 col-md-6 col-12">
+                                    <a href="index.php?page=moov_money">
+                                        <div class="card card-congratulation-medal">
+                                            <div class="card-body d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <h5>Moov Money</h5>
+                                                    <p class="card-text font-small-3"> Mobile Money </p>
+                                                </div>
+                                                <img src="assets/images/template/moov.png" class="img-fluid" alt="Medal Pic"
+                                                    style="width:7rem;height:7rem; object-fit:cover" />
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            <?php } ?>
+                            <!-- AFFICHAGE MTN MONEY  SUR LE HOME -->
+                            <?php if (intval($_SESSION['KaspyISS_user_details'][6]['lecture']) === 1) { ?>
 
-
-                            </div>
-
+                                <div class="col-xl-4 col-md-6 col-12">
+                                    <a href="index.php?page=mtn_money">
+                                        <div class="card card-congratulation-medal">
+                                            <div class="card-body d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <h5>MTN Money</h5>
+                                                    <p class="card-text font-small-3"> Mobile Money </p>
+                                                </div>
+                                                <img src="assets/images/template/mtn.png" class="img-fluid" alt="Medal Pic"
+                                                    style="max-width:100px;" />
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            <?php } ?>
                         </div>
                         <div class="row match-height">
-                            <div class="col-xl-4 col-md-6 col-12">
-
-                                <a href="index.php?page=orange_money">
-                                    <div class="card card-congratulation-medal">
-                                        <div class="card-body d-flex align-items-center justify-content-between">
-                                            <div>
-                                                <h5>Orange money</h5>
-                                                <p class="card-text font-small-3"> Mobile Money </p>
+                            <!-- AFFICHAGE DES CARTES SUR LE HOME -->
+                            <?php if (intval($_SESSION['KaspyISS_user_details'][8]['lecture']) === 1) { ?>
+                                <div class="col-xl-4 col-md-6 col-12">
+                                    <a href="index.php?page=carte">
+                                        <div class="card card-congratulation-medal">
+                                            <div class="card-body d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <h5>Cartes VISA</h5>
+                                                    <p class="card-text font-small-3"> Gestion des cartes | Caisse </p>
+                                                </div>
+                                                <img src="assets/images/template/cartes.png" class="img-fluid"
+                                                    alt="Medal Pic" style="max-width:100px;" />
                                             </div>
-
-                                            <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->
-
-                                            <img src="assets/images/template/orm.png" class="img-fluid" alt="Medal Pic" style="width:7rem;height:7rem; border-radius:50%; object-fit:cover" />
-
-
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-xl-4 col-md-6 col-12">
-                                <a href="index.php?page=moov_money">
-                                    <div class="card card-congratulation-medal">
-                                        <div class="card-body d-flex align-items-center justify-content-between">
-                                            <div>
-                                                <h5>Moov Money</h5>
-                                                <p class="card-text font-small-3"> Mobile Money </p>
+                                    </a>
+                                </div>
+                            <?php } ?>
+                            <!-- AFFICHAGE DES RECHARGE UBA SUR LE HOME -->
+                            <?php if (intval($_SESSION['KaspyISS_user_details'][11]['lecture']) === 1) { ?>
+                                <div class="col-xl-4 col-md-6 col-12">
+                                    <a href="index.php?page=uba">
+                                        <div class="card card-congratulation-medal">
+                                            <div class="card-body d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <h5>Réchargements UBA</h5>
+                                                    <p class="card-text font-small-3"> Rechargement des cartes </p>
+                                                </div>
+                                                <img src="assets/images/template/rechargement_uba.png" class="img-fluid"
+                                                    alt="Medal Pic" style="max-width:145px;" />
                                             </div>
-
-                                            <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->
-
-                                            <img src="assets/images/template/moov.png" class="img-fluid" alt="Medal Pic" style="width:7rem;height:7rem; object-fit:cover" />
-
-
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-xl-4 col-md-6 col-12">
-
-                                <a href="index.php?page=ria">
-                                    <div class="card card-congratulation-medal">
-                                        <div class="card-body d-flex align-items-center justify-content-between">
-                                            <div>
-                                                <h5>MTN Money</h5>
-                                                <p class="card-text font-small-3"> Mobile Money </p>
+                                    </a>
+                                </div>
+                            <?php } ?>
+                            <!-- AFFICHAGE DES CHANGES SUR LE HOME -->
+                            <?php if (intval($_SESSION['KaspyISS_user_details'][2]['lecture']) === 1) { ?>
+                                <div class="col-xl-4 col-md-6 col-12">
+                                    <a href="index.php?page=changes">
+                                        <div class="card card-congratulation-medal">
+                                            <div class="card-body d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <h5>Changes</h5>
+                                                    <p class="card-text font-small-3"> Transactions </p>
+                                                </div>
+                                                <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->
+                                                <img src="assets/images/template/changes.png" class="img-fluid"
+                                                    alt="Medal Pic" style="max-width:100px;" />
                                             </div>
-
-                                            <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->
-
-                                            <img src="assets/images/template/mtn.png" class="img-fluid" alt="Medal Pic" style="max-width:100px;" />
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
+                            <?php } ?>
                         </div>
-                        <div class="row match-height">
-                            <div class="col-xl-4 col-md-6 col-12">
-
-                                <a href="index.php?page=carte">
-                                    <div class="card card-congratulation-medal">
-                                        <div class="card-body d-flex align-items-center justify-content-between">
-                                            <div>
-                                                <h5>Cartes VISA</h5>
-                                                <p class="card-text font-small-3"> Gestion des cartes | Caisse </p>
-                                            </div>
-
-                                            <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->
-
-                                            <img src="assets/images/template/cartes.png" class="img-fluid" alt="Medal Pic" style="max-width:100px;" />
-
-
-                                        </div>
-                                    </div>
-                                </a>
-
-                            </div>
-                            <div class="col-xl-4 col-md-6 col-12">
-
-                                <a href="index.php?page=uba">
-                                    <div class="card card-congratulation-medal">
-                                        <div class="card-body d-flex align-items-center justify-content-between">
-                                            <div>
-                                                <h5>Réchargements UBA</h5>
-                                                <p class="card-text font-small-3"> Rechargement des cartes  </p>
-                                            </div>
-
-                                            <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->
-
-                                            <img src="assets/images/template/rechargement_uba.png" class="img-fluid" alt="Medal Pic" style="max-width:145px;" />
-
-
-                                        </div>
-                                    </div>
-                                </a>
-
-                            </div>
-
-                            <div class="col-xl-4 col-md-6 col-12">
-
-                                <a href="index.php?page=changes">
-                                    <div class="card card-congratulation-medal">
-                                        <div class="card-body d-flex align-items-center justify-content-between">
-                                            <div>
-                                                <h5>Changes</h5>
-                                                <p class="card-text font-small-3"> Transactions </p>
-                                            </div>
-
-                                            <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->
-
-                                            <img src="assets/images/template/changes.png" class="img-fluid" alt="Medal Pic" style="max-width:100px;" />
-
-
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-
-
-
-
-                        </div>
-
-
                         <div class="row match-height">
                             <div class="col-lg-4 col-12">
                                 <div class="row match-height">
-
-
-
-
                                     <!--/ Earnings Card -->
                                 </div>
                             </div>
@@ -309,11 +284,11 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                     <?php
                                                     foreach ($annees as $key => $annee) {
                                                         if ($annee['annees'] === $_SESSION["KaspyISS_annee"]) {
-                                                    ?>
+                                                            ?>
                                                             <option selected><?= $annee['annees']; ?></option>
                                                         <?php
                                                         } else {
-                                                        ?>
+                                                            ?>
                                                             <option><?= $annee['annees']; ?></option>
                                                     <?php
                                                         }
@@ -366,7 +341,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
 
             <script>
-                $(window).on('load', function() {
+                $(window).on('load', function () {
                     if (feather) {
                         feather.replace({
                             width: 14,

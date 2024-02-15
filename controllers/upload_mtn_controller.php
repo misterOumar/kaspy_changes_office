@@ -3,12 +3,13 @@
 
 
 // IMPORTATION DES DONNEES
-if (isset($_POST['upload_ria_file'])) {
+if (isset($_POST['upload_mtn'])) {
     // inclusion des fichiers ressources
     include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php'); 
-    include('../models/Ria.php');
+    include('../models/upload_mtn.php');
+    include('../models/Mtn.php');
 
     // recuperrer les données postées
     $tableData = $_POST['data'];
@@ -17,7 +18,7 @@ if (isset($_POST['upload_ria_file'])) {
 
     // Parcourez chaque élément du tableau et récupérez la valeur de 'Dates'
     foreach ($tableData as $item) {
-        $datesArray[] = $item[16];
+        $datesArray[] = $item[3];
     }
     
 
@@ -26,10 +27,10 @@ if (isset($_POST['upload_ria_file'])) {
     // var_dump($datesArray[0]);
     // recuperation des informations sur l'utilisateur
    
-    $transaction = ria::getByDates($datesArray[0]);
+    $transaction = upload_mtn::getByDates($datesArray[0]);
     //  var_dump($transaction);
 
-    if ($transaction['date'] == $datesArray[0])
+    if ($transaction['dates'] == $datesArray[0])
      {
         $message = "Ce fichier a été déjà importé";
         echo json_encode([
@@ -47,29 +48,17 @@ if (isset($_POST['upload_ria_file'])) {
 
     foreach ($tableData as $rowData) {
         // var_dump($rowData);
-        ria::Ajouter(
-            $rowData[0],
-            $rowData[1],
-            $rowData[2],
-            $rowData[3],
-            $rowData[4],
-            $rowData[5],
-            $rowData[6],
-            $rowData[7],
-            $rowData[8],
+        upload_mtn::Ajouter(
+            $rowData[1],        
             $rowData[9],
-            $rowData[10],
-            $rowData[11],
+            $rowData[11],    
             $rowData[12],
             $rowData[13],
-            $rowData[14],
-            $rowData[15],
-            $rowData[16],
-            $rowData[17],
-            $rowData[18],
-            $rowData[19],
-            $rowData[20],
-            $rowData[21],
+            $rowData[17],  
+            $rowData[23],       
+            $rowData[31],
+            $rowData[32],
+            $rowData[3],
             $magasin,                
             $dt,
             $us,
@@ -80,7 +69,8 @@ if (isset($_POST['upload_ria_file'])) {
             $us,
             $navigateur,
             $pc,
-            $ip
+            $ip,
+            
         );
 
     }    

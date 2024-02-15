@@ -1,5 +1,5 @@
 <script>
-    jQuery(function($) {
+    jQuery(function ($) {
         $('#dates').flatpickr({
             defaultDate: "today",
             //  dateFormat: "d-m-Y",
@@ -16,7 +16,7 @@
 
 <script>
     // rechargercher la page quand on clique sur annuler dans le modal
-    $("#close_modal").click(function(e) {
+    $("#close_modal").click(function (e) {
         e.preventDefault();
         alert(1)
         location.reload;
@@ -30,10 +30,10 @@
         paramName: "file",
         maxFilesize: 10,
         acceptedFiles: ".xls, .xlsx, .csv",
-        success: function(file, response) {
+        success: function (file, response) {
             var inputFile = file;
             var reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 try {
                     var data = e.target.result;
                     var workbook;
@@ -51,20 +51,42 @@
                     }
                     var sheetName = workbook.SheetNames[0];
                     var sheet = workbook.Sheets[sheetName];
+
+                    // Convertir la feuille en JSON
                     const nonEmptyZRows = XLSX.utils.sheet_to_json(sheet, {
                         header: 1
                     }).filter(row =>
                         row[25] !== undefined && row[25] !== null && row[25] !== ''
                     );
+
+                    // Extrayez les clés
                     const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0] : [];
-                    const dataRows = nonEmptyZRows.slice(1);
-                    jsonData = dataRows.map(row =>
-                        keys.reduce((obj, key, index) => {
-                            obj[key] = row[index];
-                            return obj;
-                        }, {})
-                    );
-                    
+
+                    // Vérifiez si le nombre de clés est inférieur ou supérieur à 22
+                    if (keys.length !== 25) {
+                        Swal.fire({
+                            title: 'Mauvais fichier',
+                            html: 'Veillez sélectionner le bon fichier !',
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                        }).then((result) => {
+                            // Rechargez la page après que l'utilisateur a cliqué sur "OK" sur l'alerte
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }
+                        });
+                    } else {
+                        // Eliminer la première ligne 
+                        const dataRows = nonEmptyZRows.slice(1);
+                        // Convertir les données en format JSON en utilisant les clés
+                        jsonData = dataRows.map(row =>
+                            keys.reduce((obj, key, index) => {
+                                obj[key] = row[index];
+                                return obj;
+                            }, {})
+                        );
+                    }
+
                     var date_saisie = document.getElementById("dates").value;
                     var dateColumnIndex = "Date"; // Assuming the date column is at index 17
 
@@ -91,7 +113,7 @@
                         console.error('Aucune donnée disponible pour la vérification de la date.');
                     }
                     // Parcourir toutes les données
-                    jsonData.forEach(function(item) {
+                    jsonData.forEach(function (item) {
                         // Vérifier si la propriété "Type de paiement" est égale à "CASH"
                         if (item["Type de paiement"] === "CASH") {
                             // Si c'est le cas, remplacer la valeur de la propriété "null" par "envoi"
@@ -129,7 +151,7 @@
                     var frais_envoyer = 0;
                     var frais_payer = 0;
                     var impots_payees = 0;
-                    jsonData.forEach(function(item) {
+                    jsonData.forEach(function (item) {
                         if (item["Type de transaction"] === "envoi") {
                             nombre_transaction_envoyees += 1;
                             montant_envoyer += item["Montant envoyé"];
@@ -153,7 +175,7 @@
                     $("#excelDataTable").DataTable({
 
                         data: jsonData,
-                        columns: Object.keys(jsonData[0]).map(function(col) {
+                        columns: Object.keys(jsonData[0]).map(function (col) {
                             return {
                                 data: col,
                                 title: col
@@ -172,7 +194,7 @@
                     // (Re)initialisez la DataTable
                     dataTable = $("#excelDataTable").DataTable({
                         data: jsonData,
-                        columns: Object.keys(jsonData[0]).map(function(col) {
+                        columns: Object.keys(jsonData[0]).map(function (col) {
                             return {
                                 data: col,
                                 title: col
@@ -231,13 +253,13 @@
             };
             reader.readAsBinaryString(inputFile);
         },
-        error: function(file, errorMessage) {
+        error: function (file, errorMessage) {
             console.error("Erreur lors du téléchargement du fichier", file, errorMessage);
         }
     };
 
     // Fonction au clic du bouton "Enregistrer"
-    $("#btnValider").click(function(e) {
+    $("#btnValider").click(function (e) {
         e.preventDefault();
 
         // ... (votre code existant)
@@ -247,7 +269,7 @@
     });
 
     // Fonction au clic du bouton "Annuler"
-    $("#btnAnnuler").click(function(e) {
+    $("#btnAnnuler").click(function (e) {
         e.preventDefault();
         // Réinitialisez Dropzone
         var myDropzone = Dropzone.forElement("#dpz-single-file");
@@ -270,7 +292,7 @@
                 data: jsonData
             },
             dataType: 'json',
-            success: function(response) {
+            success: function (response) {
                 if (response.success === 'true') {
                     $("#excelModal").modal("hide");
                     // Réinitialisez Dropzone
@@ -295,7 +317,7 @@
                     console.error('Erreur : ' + response.message);
                 }
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error(xhr.responseText);
             }
         });

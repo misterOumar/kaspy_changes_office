@@ -272,7 +272,6 @@ if (isset($_GET['idLast'])) {
     include('../models/Role_permission_details.php');
 
     $role_permission_details = role_permission_details::getLast();
-
     if ($role_permission_details) {
         $total = role_permission_details::getCount();
         echo json_encode([

@@ -119,7 +119,6 @@
                                         <i data-feather='refresh-ccw'></i></button>
                                     <div class="modal-body flex-grow-1">
                                         <!--- NOM ET PRENOM OU RAISON SOCIALE --->
-
                                         <div>
                                             <label class='form-label' for='etablie_le'>Date</label>
                                             <input type='text' class='form-control dt-full-etablie_le' id='date_v' name='date_v' placeholder='La date' aria - Label='etablie_le' maxlength='75' />
@@ -140,9 +139,7 @@
                                             </div>
                                             <div class='mb-1'><small id='typeHelp' class='text-danger invisible'></small></div>
                                         </div>
-
-
-                                        <div>
+                                       <div>
                                             <!--- DEVISE --->
                                             <label class='form-label' for='contrat_bail'>Devise </label>
                                             <select name='devise' id='devise' data-placeholder="Choisir le type de carte..." Class='select2-icons form-select'>
@@ -209,10 +206,6 @@
                                 </form>
                             </div>
                         </div>
-
-
-
-
                         <!-- Modal de modification-->
                         <!-- Modal to update new record -->
                         <div class="modal modal-slide-in fade" id="modal-modif">

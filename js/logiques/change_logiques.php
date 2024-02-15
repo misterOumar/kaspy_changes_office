@@ -155,8 +155,6 @@
             $('#montantHelp').addClass('invisible');
         }
     });
-
-
     $('#telephone').on('keyup', function() {
         var loyer = $('#telephone').val();
         if ($.isNumeric(loyer) === false) {
@@ -173,9 +171,6 @@
             $('#telephoneHelp').addClass('invisible');
         }
     });
-
-
-
     $('#taux').on('keyup', function() {
         var loyer = $('#taux').val();
         if ($.isNumeric(loyer) === false) {

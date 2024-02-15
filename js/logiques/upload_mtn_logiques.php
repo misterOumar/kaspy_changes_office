@@ -1,18 +1,18 @@
-<?php include("views/components/alerts.php") ?>
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-
-
-
-
 <script>
-    // calendrier
     jQuery(function ($) {
         $('#dates').flatpickr({
             defaultDate: "today",
+            //  dateFormat: "d-m-Y",
+            monthNames: ["Jan", "Feb", "Mar", "Avr", "Mai", "Juin", "Juil", "Aou", "Sept", "Oct", "Nov", "Dec"]
         })
-
+        $('#dates_modif').flatpickr({
+            defaultDate: "today",
+            //  dateFormat: "d-m-Y",
+            monthNames: ["Jan", "Feb", "Mar", "Avr", "Mai", "Juin", "Juil", "Aou", "Sept", "Oct", "Nov", "Dec"]
+        })
     })
-
+</script>
+<script>
     // rechargercher la page quand on clique sur annuler dans le modal
     $("#close_modal").click(function (e) {
         e.preventDefault();
@@ -21,7 +21,8 @@
 
     });
     let jsonData;
-    Dropzone.options.dpzSingleFile = {
+    Dropzone.options.dpzSingleFile =
+    {
         paramName: "file",
         maxFilesize: 10,
         acceptedFiles: ".xls, .xlsx, .csv",
@@ -51,51 +52,66 @@
                     const nonEmptyZRows = XLSX.utils.sheet_to_json(sheet, {
                         header: 1
                     }).filter(row =>
-                        row[8] !== undefined && row[8] !== null && row[8] !== ''
+                        row[30] !== undefined && row[30] !== null && row[30] !== ''
                     );
 
                     // Extrayez les clés
-                    const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0] : [];
+                    const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0].map((_, index) => index + 1) : [];
 
-                    // Vérifier si le nombre de clés est inférieur ou supérieur à 22
-                    if (keys.length < 9 || keys.length > 9) {
-                        Swal.fire({
-                            title: 'Mauvais fichier',
-                            html: 'Veillez sélectionner le bon fichier !',
-                            icon: 'error',
-                            confirmButtonText: 'OK',
-                        }).then((result) => {
-                            // Rechargez la page après que l'utilisateur a cliqué sur "OK" sur l'alerte
-                            if (result.isConfirmed) {
-                                window.location.reload();
+
+                    // Vérifiez si le nombre de clés est inférieur ou supérieur à 22
+                    // if (keys.length !== 30) {
+                    //     Swal.fire({
+                    //         title: 'Mauvais fichier',
+                    //         html: 'Veillez sélectionner le bon fichier !',
+                    //         icon: 'error',
+                    //         confirmButtonText: 'OK',
+                    //     }).then((result) => {
+                    //         // Rechargez la page après que l'utilisateur a cliqué sur "OK" sur l'alerte
+                    //         if (result.isConfirmed) {
+                    //             window.location.reload();
+                    //         }
+                    //     });
+                    // } else {
+                    // Eliminer la première ligne 
+                    const dataRows = nonEmptyZRows.slice(1);
+                    // Convertir les données en format JSON en utilisant les clés
+                    jsonData = dataRows.map(row =>
+                        keys.reduce((obj, key, index) => {
+                            obj[key] = row[index];
+                            return obj;
+                        }, {})
+                    );
+
+                    // Extraction du numero de l'expediteur
+                    jsonData = jsonData.map(obj => {
+                        if (obj['9']) {
+                            const extractedPart9 = obj['9'].split(':')[1].split('/')[0];
+                            obj['9'] = extractedPart9;
+                        }
+                        if (obj['12']) {
+                            const match = obj['12'].match(/FRI:(\d+)/);
+                            if (match) {
+                                const extractedPart12 = match[1];
+                                obj['12'] = extractedPart12;
                             }
-                        });
-                    } else {
-                        // Eliminer la première ligne 
-                        const dataRows = nonEmptyZRows.slice(1);
-                        // Convertir les données en format JSON en utilisant les clés
-                        jsonData = dataRows.map(row =>
-                            keys.reduce((obj, key, index) => {
-                                obj[key] = row[index];
-                                return obj;
-                            }, {})
-                        );
-                    }
-                    // Vérifier les dates avant importation
+                        }
+                        return obj;
+                    });
+                    // }                    
+                    console.log(JSON.stringify(jsonData, null, 2));
+                    // FIN DU TRAITEMENT DU FICHIER IMPORTER
+                    console.log(JSON.stringify(jsonData, null, 2));
                     var date_saisie = document.getElementById("dates").value;
-                    var dates_correctes = true;
-                    var dateColumnIndex = "Date";
+                    var dateColumnIndex = 3;// Assuming the date column is at index 17
                     if (jsonData.length > 0 && jsonData[0][dateColumnIndex]) {
                         var date_objet = jsonData[0][dateColumnIndex];
-                        var parsedDate_objet = moment(date_objet, "DD-MMM-YYYY HH:mm:ss").format("DD/MM/YYYY");
-                        // var parsedDate_objet=  date_objet ;
-                        var parsedDate_saisie = moment(date_saisie).format("DD/MM/YYYY"); // Adjust the format as needed
+                        var parsedDate_objet = moment(date_objet, "YYYY-MM-DD HH:mm:ss").format("DD/MM/YYYY");
+                        var parsedDate_saisie = moment(date_saisie).format("DD/MM/YYYY");
                         if (parsedDate_objet !== parsedDate_saisie) {
-                            // / Display a customized alert box
-                            dates_correctes = false;
                             Swal.fire({
                                 title: 'Les dates ne correspondent pas',
-                                html: 'Date fichier: ' + parsedDate_objet + '<br>Date saisie: ' + parsedDate_saisie,
+                                html: 'Date du fichier: ' + parsedDate_objet + '<br>Date saisie: ' + parsedDate_saisie,
                                 icon: 'error',
                                 confirmButtonText: 'OK',
                             }).then((result) => {
@@ -104,52 +120,10 @@
                                     window.location.reload();
                                 }
                             });
-
                         }
                     } else {
-                        console.error('Aucune donnée disponible pour la vérification de la date.');
+                        console.error('Aucune donnée disponible pour la vérification de la date.', dateColumnIndex);
                     }
-
-
-
-                    // STATS
-                    var montant_envoyer = 0;
-
-                    var totalElements = 0;
-                    var revenue = 0;
-                    var recharge = 0;
-
-                    jsonData.forEach(function (item) {
-                        if (item["Description"] === "Commission Revenu") {
-                            var montant = parseFloat(item["Amount"]);
-
-                            if (!isNaN(montant)) {
-                                revenue += montant;
-                            }
-                        } else {
-                            var montant1 = parseFloat(item["Amount"]);
-
-                            if (!isNaN(montant1)) {
-                                recharge += montant1;
-                            }
-                        }
-                        totalElements = jsonData.length;
-                    });
-
-
-
-                    console.log(JSON.stringify(jsonData, null, 2));
-
-                    // Affichez les données dans un DataTable
-                    $("#excelDataTable").DataTable({
-                        data: jsonData,
-                        columns: Object.keys(jsonData[0]).map(function (col) {
-                            return {
-                                data: col,
-                                title: col
-                            };
-                        })
-                    });
 
                     // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
                     if ($.fn.DataTable.isDataTable("#excelDataTable")) {
@@ -159,12 +133,21 @@
                     // (Re)initialisez la DataTable
                     dataTable = $("#excelDataTable").DataTable({
                         data: jsonData,
-                        columns: Object.keys(jsonData[0]).map(function (col) {
-                            return {
-                                data: col,
-                                title: col
-                            };
-                        }),
+                        columns: [
+                            { data: '1', title: 'Identifiant' },
+                            { data: '3', title: 'Date' },
+                            { data: '9', title: 'Numero Expediteur' },
+                            { data: '11', title: 'Agence' },
+                            { data: '12', title: 'Numero Recepteur' },
+                            { data: '13', title: 'Nom Recepteur' },
+                            { data: '17', title: 'Monatnt' },
+                            { data: '23', title: 'Frais' },                      //      
+                            { data: '31', title: 'Solde' },
+                            { data: '32', title: 'Devise' },
+
+                        ],
+
+                        scrollX: true, // Activer le défilement horizontal
                         language: {
                             // Textes pour la pagination
                             paginate: {
@@ -194,26 +177,8 @@
                         }
                     });
 
-
-                    var montant_general = recharge + revenue;
-
-                    $('#montant_total').text(montant_envoyer);
-
-                    $('#montant_general').text(montant_general);
-                    $('#nombre_carte').text(totalElements);
-
-                    $('#recharge').text(recharge);
-                    $('#revenue').text(revenue);
-                    $('#nombre_carte').text(totalElements);
-
-                    if (dates_correctes) {
-
-                        // Affichez le modal
-                        $("#excelModal").modal("show");
-                    }
-
-
-
+                    // Affichez le modal
+                    $("#excelModal").modal("show");
                 } catch (error) {
                     console.error('Erreur lors de la lecture du fichier Excel :', error);
                 }
@@ -234,6 +199,7 @@
         // Appel de la fonction pour envoyer les données au contrôleur
         sendDataToController(jsonData);
     });
+
     // Fonction au clic du bouton "Annuler"
     $("#btnAnnuler").click(function (e) {
         e.preventDefault();
@@ -251,17 +217,16 @@
     // Fonction pour envoyer les données au contrôleur via AJAX
     function sendDataToController(jsonData) {
         $.ajax({
-            url: 'controllers/rechargement_uba_controller.php', // Remplacez par le chemin réel vers votre contrôleur
+            url: 'controllers/upload_mtn_controller.php', // Remplacez par le chemin réel vers votre contrôleur
             method: 'POST',
             data: {
-                uba_file: true,
+                upload_mtn: true,
                 data: jsonData
             },
             dataType: 'json',
             success: function (response) {
                 if (response.success === 'true') {
                     $("#excelModal").modal("hide");
-
                     // Réinitialisez Dropzone
                     var myDropzone = Dropzone.forElement("#dpz-single-file");
                     if (myDropzone) {

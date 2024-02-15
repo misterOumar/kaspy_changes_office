@@ -22,19 +22,19 @@ if (isset($_POST['bt_enregistrer'])) {
 
     $montant = strSecur($_POST["montant"]);    
 
-    $solde_t = strSecur($_POST["solde_t"]);   
+    $nouveau_solde = strSecur($_POST["nouveau_solde"]);   
 
     $id_transaction = strSecur($_POST["id_transaction"]);   
 
     $magasin = $_SESSION["KaspyISS_bureau"];
     // telephone du client 
-    $tel_cli = strSecur($_POST["tel_cli"]);  
-    // $date_t = strSecur($_POST["date_t"]);
-    $date_t = strSecur($_POST["date_t"]);
-    $date_t = date('Y-m-d', strtotime($date_t));
+    $numero_telephone = strSecur($_POST["numero_telephone"]);  
+    // $dates = strSecur($_POST["dates"]);
+    $dates = strSecur($_POST["dates"]);
+    $dates = date('Y-m-d', strtotime($dates));
 
     // Déclaration et initialisation des variables d'erreur (e)
-    $e_montant = $e_tel_cli = "";
+    $e_montant = $e_numero_telephone = "";
     $succes = true;
 
     // Vérifications
@@ -44,8 +44,8 @@ if (isset($_POST['bt_enregistrer'])) {
     }   
  
 
-    if (empty($tel_cli)) {
-        $e_tel_cli = "Ce champ ne doit pas être vide.";
+    if (empty($numero_telephone)) {
+        $e_numero_telephone = "Ce champ ne doit pas être vide.";
         $succes = false;
     }
 
@@ -62,11 +62,11 @@ if (isset($_POST['bt_enregistrer'])) {
         $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         $dt = date("Y-m-d H:i:s");
         if (mtn::Ajouter(
-            $date_t,
+            $dates,
             $type,
-            $tel_cli,     
+            $numero_telephone,     
             $montant,
-            $solde_t, 
+            $nouveau_solde, 
             $id_transaction,
             $magasin,
             $dt,
@@ -99,7 +99,7 @@ if (isset($_POST['bt_enregistrer'])) {
             'success' => 'false',
             'message' => "Vérifier les champs",
             'montant' => $e_montant,           
-            'telephone_client' => $e_tel_cli,
+            'telephone_client' => $e_numero_telephone,
             
 
         ]);
@@ -120,19 +120,19 @@ if (isset($_POST['bt_modifier'])) {
      
     $montant = strSecur($_POST["montant_modif"]);
 
-    $solde_t = strSecur($_POST["solde_t_modif"]);
+    $nouveau_solde = strSecur($_POST["nouveau_solde_modif"]);
 
     $id_transaction = strSecur($_POST["id_transaction_modif"]);
 
     $type = strSecur($_POST["radio_type_modif"]);
  
-    $tel_cli = strSecur($_POST["tel_cli_modif"]);
+    $numero_telephone = strSecur($_POST["numero_telephone_modif"]);
  
-    $date_t = strSecur($_POST["date_t_modif"]);
+    $dates = strSecur($_POST["dates_modif"]);
 
     $idModif = strSecur($_POST["idModif"]);
 
-    $e_montant  = $e_tel_cli   =  " ";
+    $e_montant  = $e_numero_telephone   =  " ";
 
     $succes = true;
     // Vérifications
@@ -142,8 +142,8 @@ if (isset($_POST['bt_modifier'])) {
         $succes = false;
     }
   
-    if (empty($tel_cli)) {
-        $e_tel_cli = "Ce champ ne doit pas être vide.";
+    if (empty($numero_telephone)) {
+        $e_numero_telephone = "Ce champ ne doit pas être vide.";
         $succes = false;
     }
       
@@ -156,11 +156,11 @@ if (isset($_POST['bt_modifier'])) {
         $dt = date("Y-m-d H:i:s");
         if (mtn::Modifier(
            
-            $date_t,
+            $dates,
             $type,
-            $tel_cli,
+            $numero_telephone,
             $montant,
-            $solde_t,
+            $nouveau_solde,
             $id_transaction,        
             $dt,
             $us,
@@ -187,9 +187,9 @@ if (isset($_POST['bt_modifier'])) {
             'success' => 'false',
             'message' => "Vérifier les champs",
             'montant' => $e_montant,
-            'date' => $e_date_t,
+            'date' => $e_dates,
             'client' => $e_client,
-            'telephone_client' => $e_tel_cli,
+            'telephone_client' => $e_numero_telephone,
             'destinataire' => $e_destinataire,
             'telephone_destinataire' => $e_tel_dest,
 

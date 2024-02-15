@@ -219,10 +219,6 @@
         };
         statisticsProfitChart = new ApexCharts($statisticsProfitChart, statisticsProfitChartOptions);
         statisticsProfitChart.render();
-
-
-
-
         //RECUPERATION DES DONNEES ENVOYER DEPUIS LE CONTROLLER
         $.ajax({
             type: "GET",
@@ -230,7 +226,6 @@
             url: "controllers/home_controller.php", // URL du script PHP
             success: function(result) {
                 var donnees = JSON.parse(result);
-
                 //AFFECTATION DES DONNEES
                 var donnees_montant_payer = donnees['montant_payer']
                 var donnees_reste_a_payer = donnees['reste_a_payer']
@@ -453,10 +448,6 @@
 
             }
         });
-
-
-
-
 
         //------------ Browser State Charts ------------
         //----------------------------------------------
