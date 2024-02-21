@@ -26,6 +26,7 @@ if (isset($_POST['upload_moneygram_file'])) {
         var_dump($transaction);
     $ip = getIp();
     $navigateur = getNavigateur();
+    $magasin = $_SESSION["KaspyISS_bureau"];
     $us = $_SESSION["KaspyISS_user"]['users'];
     $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
     $dt = date("Y-m-d H:i:s");
@@ -42,7 +43,8 @@ if (isset($_POST['upload_moneygram_file'])) {
             $rowData["Total"],
             $rowData["Taxe"],
             $rowData["Type"], 
-            $rowData["Dates"],               
+            $rowData["Dates"], 
+            $magasin,              
             $dt,
             $us,
             $navigateur,

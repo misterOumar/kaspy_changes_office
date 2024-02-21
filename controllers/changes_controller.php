@@ -62,6 +62,7 @@ if (isset($_POST['bt_enregistrer'])) {
         $navigateur_creation = getNavigateur();
         $user_creation = $_SESSION["KaspyISS_user"]['users'];
         $ordinateur_creation = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+    $magasin = $_SESSION["KaspyISS_bureau"];
         $date_creation = date("Y-m-d H:i:s");
         if (changes::Ajouter(
             $date_v,
@@ -75,6 +76,7 @@ if (isset($_POST['bt_enregistrer'])) {
             $telephone,         
            
             $adresse,
+            $magasin,
             $date_creation,
             $user_creation,
             $navigateur_creation,

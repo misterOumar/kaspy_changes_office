@@ -59,6 +59,8 @@
                                 Rapport de suivi des opérations WU</a> </li>
                         <li><a class="dropdown-item" href="etats/EtatCaisseTransactions.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
                                 Rapport de la caisse des transactions</a> </li>
+                        <li><a class="dropdown-item" href="etats/EtatListeAllTransfert.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                Récapitulatif simplifié des transferts</a> </li>
                         <div class="dropdown-divider"></div>
 
                         <li><a class="dropdown-item" href="etats/EtatListeChange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
@@ -215,28 +217,28 @@
 
 
 <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const body = document.querySelector(".vertical-layout");
-            const darkModeToggle = document.getElementById("Dark_Mode");
+    document.addEventListener("DOMContentLoaded", function() {
+        const body = document.querySelector(".vertical-layout");
+        const darkModeToggle = document.getElementById("Dark_Mode");
 
-            // Vérifiez l'état du mode sombre dans le stockage local lors du chargement de la page
-            const darkModeEnabled = localStorage.getItem("darkMode") === "enabled";
+        // Vérifiez l'état du mode sombre dans le stockage local lors du chargement de la page
+        const darkModeEnabled = localStorage.getItem("darkMode") === "enabled";
 
-            // Appliquer le mode sombre si activé
-            if (darkModeEnabled) {
+        // Appliquer le mode sombre si activé
+        if (darkModeEnabled) {
+            body.classList.add("dark-layout");
+        }
+
+        // Gérer le clic sur le bouton de basculement du mode sombre
+        darkModeToggle.addEventListener("click", function() {
+            // Basculez entre activé et désactivé
+            if (body.classList.contains("dark-layout")) {
+                body.classList.remove("dark-layout");
+                localStorage.setItem("darkMode", "disabled");
+            } else {
                 body.classList.add("dark-layout");
+                localStorage.setItem("darkMode", "enabled");
             }
-
-            // Gérer le clic sur le bouton de basculement du mode sombre
-            darkModeToggle.addEventListener("click", function () {
-                // Basculez entre activé et désactivé
-                if (body.classList.contains("dark-layout")) {
-                    body.classList.remove("dark-layout");
-                    localStorage.setItem("darkMode", "disabled");
-                } else {
-                    body.classList.add("dark-layout");
-                    localStorage.setItem("darkMode", "enabled");
-                }
-            });
         });
-    </script>
+    });
+</script>

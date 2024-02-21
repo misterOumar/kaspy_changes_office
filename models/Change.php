@@ -20,6 +20,7 @@ class changes
     public $date;
     public $devise;
     public $adresse;
+    public $magasin;
     public $type_operation;
     public $date_creation;
     public $user_creation;
@@ -54,6 +55,7 @@ class changes
         $this->type_operation = $data['type_operation'];
         $this->devise = $data['devise'];
         $this->adresse = $data['adresse'];
+        $this->magasin = $data['magasin'];
         $this->date_creation = $data['date_creation'];
         $this->user_creation = $data['user_creation'];
         $this->navigateur_creation = $data['navigateur_creation'];
@@ -194,6 +196,7 @@ class changes
         $telephone,
       
         $adresse,
+        $magasin,
         $date_creation,
         $user_creation,
         $navigateur_creation,
@@ -207,11 +210,11 @@ class changes
     ) {
         global $db;
         $req = $db->prepare('
-            INSERT INTO changes(date ,devise,type,montant1,taux,montant2, client ,telephone, adresse,date_creation,user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(?, ?, ?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+            INSERT INTO changes(date ,devise,type,montant1,taux,montant2, client ,telephone, adresse, magasin, date_creation,user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(?, ?, ?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
         return $req->execute([$date,$devise, $type_operation,$montant1, $taux, $montant2, $client, $telephone,
-         $adresse, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+         $adresse, $magasin, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 
