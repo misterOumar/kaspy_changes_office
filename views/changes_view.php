@@ -90,7 +90,6 @@
                                                 <th></th>
                                                 <th>id</th>
                                                 <th>Date</th>
-                                                <th>Dévise</th>
                                                 <th>Montant Apporté</th>
                                                 <th>Taux de change </th>
                                                 <th>Montant Perçu</th>

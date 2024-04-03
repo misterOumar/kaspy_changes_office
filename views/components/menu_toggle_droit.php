@@ -7,7 +7,6 @@ if (isset($_GET['page']) and !empty($_GET['page'])) {
 
     if ($_GET['page'] !== 'annees') {
         include("models/Annees.php");
-
     }
     $annees = annees::getAll();
     // $liste_locataires = locataires::getAll();
@@ -55,10 +54,11 @@ if (isset($_GET['page']) and !empty($_GET['page'])) {
                         ?>
                     </select>
                 </div>
-                <a class="dropdown-item" href="javascript:void(0)" class="stretched-link text-nowrap add-new-role" data-bs-target="#InterogerLocataire" data-bs-toggle="modal">
+                <!--     <a class="dropdown-item" href="javascript:void(0)" class="stretched-link text-nowrap add-new-role" data-bs-target="#InterogerLocataire" data-bs-toggle="modal">
                     <i class="me-1" data-feather="message-square"></i>
                     <span class="align-middle">Intéroger un locataire</span>
                 </a>
+                    -->
             </div>
         </div>
     </div>

@@ -70,7 +70,7 @@ if (isset($_POST['bt_enregistrer'])) {
 
 
                 // Création des roles et permission detail
-                for ($i = 1; $i < 22; $i++) {
+                for ($i = 1; $i < 23; $i++) {
                     try {
                         $fonction = strSecur($_POST["role" . $i]);
 
@@ -161,7 +161,7 @@ if (isset($_POST['bt_enregistrer'])) {
 }
 
 
-// MODIFIER UNE role
+// MODIFIER UN ROLE
 if (isset($_POST['bt_modifier'])) {
     // inclusion des fichiers ressources
     include('../functions/functions.php');
@@ -214,7 +214,7 @@ if (isset($_POST['bt_modifier'])) {
 
 
             //boucle d'enregistrement des roles dans la base de données
-            for ($i = 1; $i < 22; $i++) {
+            for ($i = 1; $i < 23; $i++) {
                 try {
                     //recuperation des roles depuis le formulaire
                     $fonction = strSecur($_POST["role_modif" . $i]);
@@ -365,8 +365,10 @@ if (isset($_GET['idSuppr'])) {
     include('../models/Role_permission_details.php');
 
     $id = strSecur($_GET['idSuppr']);
+    var_dump($id);
+    die();
     if (role_permission::Supprimer($id)) {
-        role_permission_details::Supprimer($id);
+        // role_permission_details::Supprimer($id);
         $message = "role supprimée avec succès.";
         echo json_encode([
             'success' => 'true',

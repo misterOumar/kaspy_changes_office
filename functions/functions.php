@@ -164,3 +164,21 @@ function genererNumeroContrat($dateSignature, $typeContrat) {
 
     return $numeroContrat;
 }
+
+/**
+ * remplace underscore par espace
+ * @param $chaine
+ */
+function remplacerUnderscore($chaine) {
+    $resultat = str_replace('_', ' ', $chaine);
+    
+    return $resultat;
+}
+
+
+function formaterNombre($nombre) {
+    // Utilisation de number_format pour ajouter les séparateurs de milliers
+    $nombreFormate = number_format($nombre, 0, '', ' ');
+    
+    return $nombreFormate;
+}

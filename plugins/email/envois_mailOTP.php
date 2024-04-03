@@ -3,6 +3,7 @@
 require 'phpmailer/PHPMailer.php';
 require 'phpmailer/SMTP.php';
 require 'phpmailer/Exception.php';
+include('../../config/config.php');
 
 //Define name spaces
 use PHPMailer\PHPMailer\PHPMailer;
@@ -29,9 +30,10 @@ function envoyerEmailOTP($email_client, $otp, $mail_objet) {
     //Set gmail password
     $mail->Password = "gondnnbscfpvipbf";
     //Email subject
-    $mail->Subject = $mail_objet;
+    $mail->addCustomHeader("Content-Type: text/html; charset=UTF-8");
+    $mail->Subject = mb_encode_mimeheader($mail_objet, 'UTF-8');
     //Set sender email
-    $mail->setFrom('kaspsergekesse@gmail.com'); //Sender Email who will send email
+    $mail->setFrom('kaspsergekesse@gmail.com', APP_NAME); //Sender Email who will send email
     // Définir le nom d'utilisateur qui envois le email'
     // $mail->FromName = $mail_utilisateur;
     //Enable HTML
@@ -39,7 +41,9 @@ function envoyerEmailOTP($email_client, $otp, $mail_objet) {
     //Attachment
     //$mail->addAttachment('pj/optical_discount_signature.jpg'); // Ajout d'une pièce jointe par défaut
     //Email body
-    $mail->Body = "<h2>Voici votre code de verification OTP :</h2></br><p>" .  $otp . "</p>";
+    $message = file_get_contents('plugins/email/envois_mailOTP.html');
+    $message = str_replace('{{otp}}', $otp, $message);
+    $mail->Body = $message;
     //Add recipient
     $mail->addAddress($email_client); //Email of the person who will receive email
     //Finally send email

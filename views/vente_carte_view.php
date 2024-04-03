@@ -155,7 +155,7 @@
 
                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
                                    <div class="modal-header mb-1">
-                                       <h5 class="modal-title" id="exampleModalLabel">Enregistrmement d'une nouvelle vente</h5>
+                                       <h5 class="modal-title" id="exampleModalLabel">Enregistrmement d'une vente</h5>
                                    </div>
                                    <button type="button" id="bt_vider" name="bt_vider" class="btn" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" class="avatar pull-up my-0" title="Vider les champs" style=" position: relative; height: 30px; width:30px; left: 300pX; padding:5px; margin-top:-10px;">
                                        <i data-feather='refresh-ccw'></i></button>
@@ -232,38 +232,44 @@
                                                </select>
                                            </div>
                                            <div class='mb-1'><small id='num_carteHelp' class='text-danger invisible'></small></div>
+                                           <div class="row">
+                                               <!--- QUANTITE --->
+                                               <div class="col-md-6">
+                                                   <label class='form-label' for='compte_contribuable'>Quantité</label>
+                                                   <input type='tel' class='form-control dt-full-compte_contribuable' value="1" id='quantite' name='quantite' readonly />
+                                                   <div class='mb-1'><small id='quantiteHelp' class='text-danger invisible'></small></div>
+                                               </div>
 
-                                           <!--- PRIX UNITAIRE --->
-                                           <div>
-                                               <label class='form-label' for='email'>Prix Unitaire</label>
-                                               <input type='text' class='form-control dt-email' id='prix_u' name='prix_u' readonly />
-                                           </div>
-                                           <div class='mb-1'><small id='prix_uHelp' class='text-danger invisible'></small></div>
+                                               <!--- PRIX UNITAIRE --->
+                                               <div class="col-md-6">
+                                                   <label class='form-label' for='email'>Prix Unitaire</label>
+                                                   <input type='text' class='form-control dt-email' id='prix_u' name='prix_u' readonly />
+                                                   <div class='mb-1'><small id='prix_uHelp' class='text-danger invisible'></small></div>
+                                               </div>
 
-                                           <!--- QUANTITE --->
-                                           <div>
-                                               <label class='form-label' for='compte_contribuable'>Quantité</label>
-                                               <input type='tel' class='form-control dt-full-compte_contribuable' value="1" id='quantite' name='quantite'  readonly/>
+
                                            </div>
-                                           <div class='mb-1'><small id='quantiteHelp' class='text-danger invisible'></small></div>
                                        </div>
 
                                        <!--- Achat par lot --->
                                        <div id="bloc_vente_gros" class="d-none">
-                                           <!--- Customer Id Initial --->
-                                           <div>
-                                               <label class='form-label' for='customer_id_initial'>Customer Id Initial</label>
-                                               <input type='text' id='customer_id_initial' class='form-control' name='customer_id_initial' placeholder="Veuillez saisir le customer id initial" />
-                                           </div>
-                                           <div class='mb-1'><small id='customer_id_initialHelp' class='text-danger invisible'></small></div>
+                                           <div class="row">
 
-                                           <!--- Customer Id Final --->
-                                           <div>
-                                               <label class='form-label' for='customer_id_final'>Customer Id Final</label>
-                                               <input type='text' id='customer_id_final' class='form-control dt-full-annees' name='customer_id_final' placeholder="Veuillez saisir le customer id" aria - Label='annees' maxlength='75' />
-                                           </div>
-                                           <div class='mb-1'><small id='customer_id_finalHelp' class='text-danger invisible'></small></div>
 
+                                               <!--- Customer Id Initial --->
+                                               <div class="col-md-6">
+                                                   <label class='form-label' for='customer_id_initial'>Customer Id Initial</label>
+                                                   <input type='text' id='customer_id_initial' class='form-control' name='customer_id_initial' placeholder="" />
+                                                   <div class='mb-1'><small id='customer_id_initialHelp' class='text-danger invisible'></small></div>
+                                               </div>
+
+                                               <!--- Customer Id Final --->
+                                               <div class="col-md-6">
+                                                   <label class='form-label' for='customer_id_final'>Customer Id Final</label>
+                                                   <input type='text' id='customer_id_final' class='form-control dt-full-annees' name='customer_id_final' placeholder="" aria - Label='annees' maxlength='75' />
+                                                   <div class='mb-1'><small id='customer_id_finalHelp' class='text-danger invisible'></small></div>
+                                               </div>
+                                           </div>
                                            <!--- Achat par lot --->
                                            <div>
                                                <label class='form-label' for='nombre_carte'>Nombre de carte</label>
@@ -292,7 +298,7 @@
                                        <!--- EMAIL DU CLIENT --->
                                        <div>
                                            <label class='form-label' for='email'>Email</label>
-                                           <input type='text' class='form-control ' id='telephone' name='email' placeholder='client@gmail.com' aria - Label='numero_email' />
+                                           <input type='text' class='form-control ' id='telephone' name='email' placeholder='Adresse email du client' aria - Label='numero_email' />
                                        </div>
                                        <div class='mb-1'><small id='emailHelp' class='text-danger invisible'></small></div>
 
@@ -343,14 +349,23 @@
 
                                        <!-- COMPTE -->
                                        <div>
-                                           <label class='form-label' for='contrat_bail'>Choisir la carte</label>
+                                           <label class='form-label' for='contrat_bail'>Choisir le type de carte</label>
                                            <select name='carte_modif' id='carte_modif' data-placeholder="Choisir la carte..." Class='select2-icons form-select'>
                                                <option selected data-icon='facebook'>Choisir la carte</Option>
                                                <?php
-                                                foreach ($List_cartes as $cartes) {
+                                                if (count($liste_type_cartes)) {
+
+                                                    foreach ($liste_type_cartes as $cartes) {
                                                 ?>
-                                                   <option value="<?= $cartes['type_carte'] ?>">
-                                                       <?= $cartes['type_carte'] ?>
+                                                       <option value="<?= $cartes['type_carte'] ?>">
+                                                           <?= $cartes['type_carte'] ?>
+                                                       </option>
+                                                   <?php
+                                                    }
+                                                } else {
+                                                    ?>
+                                                   <option disabled>
+                                                       Aucune carte en stock
                                                    </option>
                                                <?php
                                                 }
@@ -359,19 +374,25 @@
                                        </div>
                                        <div class='mb-1'><small id='carte_modifHelp' class='text-danger invisible'></small></div>
 
-                                       <!--- EMAIL --->
-                                       <div>
-                                           <label class='form-label' for='email'>Prix Unitaire</label>
-                                           <input type='text' class='form-control dt-email' id='prix_u_modif' name='prix_u_modif' placeholder="Veuillez saisir le prix unitaire" aria - Label='email' maxlength='75' />
-                                       </div>
-                                       <div class='mb-1'><small id='prix_u_modifHelp' class='text-danger invisible'></small></div>
+                                       <div class="row">
 
-                                       <!--- FONCTION --->
-                                       <div>
-                                           <label class='form-label' for='compte_contribuable'>Quantité</label>
-                                           <input type='tel' class='form-control dt-full-compte_contribuable' id='quantite_modif' name='quantite_modif' placeholder="Veuillez saisir la quantite" aria - Label='compte_contribuable' maxlength='75' />
+
+                                           <!--- QUANTITE --->
+                                           <div class="col-md-6">
+                                               <label class='form-label' for='compte_contribuable'>Quantité</label>
+                                               <input type='tel' class='form-control dt-full-compte_contribuable' id='quantite_modif' name='quantite_modif' placeholder="Veuillez saisir la quantite" aria - Label='compte_contribuable' maxlength='75' readonly />
+                                               <div class='mb-1'><small id='quantite_modifHelp' class='text-danger invisible'></small></div>
+                                           </div>
+
+
+                                           <!--- PRIX UNITAIRE --->
+                                           <div class="col-md-6">
+                                               <label class='form-label' for='email'>Prix Unitaire</label>
+                                               <input type='text' class='form-control dt-email' id='prix_u_modif' name='prix_u_modif' placeholder="Veuillez saisir le prix unitaire" aria - Label='email' maxlength='75' readonly />
+                                               <div class='mb-1'><small id='prix_u_modifHelp' class='text-danger invisible'></small></div>
+                                           </div>
                                        </div>
-                                       <div class='mb-1'><small id='quantite_modifHelp' class='text-danger invisible'></small></div>
+
 
                                        <!--- ENREGISTREMENT --->
                                        <button type="submit" id='bt_modifier' name='bt_modifier' class='btn btn-primary enregistrer me-5'>Modifier</button>

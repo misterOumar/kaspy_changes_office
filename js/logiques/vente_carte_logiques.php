@@ -49,6 +49,11 @@
             dateFormat: "Y-m-d",
         })
     });
+    jQuery(function($) {
+        $('#date_vmodif').flatpickr({
+            dateFormat: "Y-m-d",
+        })
+    });
 
     flatpickr("#date_v", {
         locale: 'fr',

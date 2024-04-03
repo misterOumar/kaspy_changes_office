@@ -2,6 +2,7 @@
 require_once('../plugins/fpdf184/fpdf.php');
 include_once('../config/config.php');
 include_once('../config/db.php');
+include_once('../functions/functions.php');
 require_once("../models/Bureaux.php");
 require_once("../models/Change.php");
 
@@ -49,7 +50,7 @@ class  EtatListeChange extends FPDF
             $this->Ln(12);
             $this->Cell(45);
             $this->SetFont('Helvetica', 'B', 15);
-            $this->Cell(200, 10, 'LISTE DES ECHANGES', 1, 0, 'C');
+            $this->Cell(120, 10, 'JOURNAL DES OPERATIONS DE CHANGES', 1, 0, 'C');
 
             // Décalage à droite
             $this->Cell(20);
@@ -75,25 +76,25 @@ class  EtatListeChange extends FPDF
         // En-tête
         $this->SetFont('Helvetica', 'B', 10);
         $this->Cell(10, 7, "Nº", 1, 0, 'C');
-        $this->Cell(30, 7, "Date", 1, 0, 'C');
-        $this->Cell(50, 7, "Montant Apporté", 1, 0, 'C');
+        $this->Cell(20, 7, "Date", 1, 0, 'C');
+        $this->Cell(30, 7, "Montant Apporté", 1, 0, 'C');
         $this->Cell(40, 7, "Taux d'échange ", 1, 0, 'C');
-        $this->Cell(60, 7, "Montant reçu", 1, 0, 'C');
-        $this->Cell(40, 7, "Client", 1, 0, 'C');
-        $this->Cell(40, 7, "Telephone", 1, 0, 'C');  
+        $this->Cell(30, 7, "Montant reçu", 1, 0, 'C');
+        $this->Cell(35, 7, "Client", 1, 0, 'C');
+        $this->Cell(25, 7, "Telephone", 1, 0, 'C');  
         $this->Ln();
 
         $i = 1;
         $this->SetFont('Helvetica', '', 9);
-        foreach ($data as $batiment) {
+        foreach ($data as $change) {
 
             $this->Cell(10, 6, $i, 1, 0, 'C');
-            $this->Cell(30, 6,  $batiment['date'], 1, 0, 'C');
-            $this->Cell(50, 6,  $batiment['montant1'], 1, 0, '');
-            $this->Cell(40, 6,  $batiment['taux'], 1, 0, 'C');
-            $this->Cell(60, 6,  $batiment['montant2'], 1, 0, 'C');
-            $this->Cell(40, 6,  $batiment['client'], 1, 0, 'C');
-            $this->Cell(40, 6,  $batiment['telephone'], 1, 0, 'C');  
+            $this->Cell(20, 6,  $change['date'], 1, 0, 'C');
+            $this->Cell(30, 6,  formaterNombre($change['montant1']). ' ('.$change['devise'].')', 1, 0, '');
+            $this->Cell(40, 6,  $change['taux']. ' ('.$change['type'].')', 1, 0, 'C');
+            $this->Cell(30, 6,  formaterNombre($change['montant2']), 1, 0, 'C');
+            $this->Cell(35, 6,  $change['client'], 1, 0, 'C');
+            $this->Cell(25, 6,  $change['telephone'], 1, 0, 'C');  
             $this->Ln();
             $i++;
         }
@@ -144,7 +145,7 @@ $pdf->annee = $_SESSION["KaspyISS_annee"];
 $pdf->SetTitle('Transactions changes', 1);
 
 $pdf->AliasNbPages();
-$pdf->AddPage('L');
+$pdf->AddPage('P');
 
 $pdf->BasicTable($data);
 

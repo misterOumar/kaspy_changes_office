@@ -38,7 +38,7 @@ class RecapitulatifSimplifie
         $this-> frais_rembourssements = $data['frais_rembourssements'];
     }
 
-    static function getAll()
+    static function getAllBetween2Date($date_debut, $date_fin)
     {
         global $db;
         $req = $db->prepare(
@@ -117,13 +117,14 @@ class RecapitulatifSimplifie
             FROM changes
             GROUP BY date_formattee, agence
         ) AS combined_data
+        WHERE date BETWEEN ? AND ?
         GROUP BY date, agence
         ORDER BY date DESC
         ;
 
                     "
         );
-        $req->execute([]);
+        $req->execute([$date_debut, $date_fin]);
         return $req->fetchAll();
     }
 }

@@ -259,7 +259,7 @@ if (isset($_GET['Verif_email'])) {
         $message = "ras";
         $otp = mt_rand(100000, 999999);
         // Inclure le fichier d'envoi d'e-mail
-        $mail_objet = "Vérification OTP";
+        $mail_objet = "Code OTP : ". $otp ." pour vérification lors de l'inscription ";
         
         envoyerEmailOTP($email, $otp, $mail_objet);
 

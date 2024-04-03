@@ -20,18 +20,17 @@ $api_url = API_HOST . 'index.php?page=api_changes';
                         date: champ_bd.date,
 
                         
-                         // DEVISE DE LA MONAIE
-                         devise: champ_bd.devise,
+                  
 
                         // // TYPE DE L OPERATION
                         type: champ_bd.type,
 
 
                         //MONTANT APPORTE
-                        montant1: champ_bd.montant1 + ' F-CFA',
+                        montant1: champ_bd.montant1 + " "+champ_bd.devise,
 
                         //TAUX DE L 'ECHANGE
-                        taux: champ_bd.taux,
+                        taux: champ_bd.taux ,
 
                         //MONTANT FINAL DONNE AU CLIENT
                         montant2: champ_bd.montant2,
@@ -76,9 +75,7 @@ $api_url = API_HOST . 'index.php?page=api_changes';
                         data: 'date'
                     },
                      
-                    {
-                        data: 'devise'
-                    },
+             
 
                      
                     {

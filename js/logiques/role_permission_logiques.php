@@ -33,6 +33,7 @@ function alerterSurCocheParIDlecture(idCase) {
         $("#lecture19").prop('checked', true)
         $("#lecture20").prop('checked', true)
         $("#lecture21").prop('checked', true)
+        $("#lecture22").prop('checked', true)
 
     } else {
         $("#lecture1").prop('checked', false)
@@ -56,6 +57,7 @@ function alerterSurCocheParIDlecture(idCase) {
         $("#lecture19").prop('checked', false)
         $("#lecture20").prop('checked', false)
         $("#lecture21").prop('checked', false)
+        $("#lecture22").prop('checked', false)
     }
 }
 function alerterSurCocheParIDcreation(idCase) {
@@ -107,6 +109,7 @@ function alerterSurCocheParIDcreation(idCase) {
         $("#creation19").prop('checked', false)
         $("#creation20").prop('checked', false)
         $("#creation21").prop('checked', false)
+        $("#creation22").prop('checked', false)
     }
 }
 function alerterSurCocheParIDmodif(idCase) {
@@ -135,6 +138,7 @@ function alerterSurCocheParIDmodif(idCase) {
         $("#modification19").prop('checked', true)
         $("#modification20").prop('checked', true)
         $("#modification21").prop('checked', true)
+        $("#modification22").prop('checked', true)
 
     } else {
         $("#modification1").prop('checked', false)
@@ -159,6 +163,7 @@ function alerterSurCocheParIDmodif(idCase) {
         $("#modification19").prop('checked', false)
         $("#modification20").prop('checked', false)
         $("#modification21").prop('checked', false)
+        $("#modification22").prop('checked', false)
     }
 }
 function alerterSurCocheParIDsupp(idCase) {
@@ -188,6 +193,7 @@ function alerterSurCocheParIDsupp(idCase) {
         $("#suppression19").prop('checked', true)
         $("#suppression20").prop('checked', true)
         $("#suppression21").prop('checked', true)
+        $("#suppression22").prop('checked', true)
 
     } else {
         $("#suppression1").prop('checked', false)
@@ -212,6 +218,7 @@ function alerterSurCocheParIDsupp(idCase) {
         $("#suppression19").prop('checked', false)
         $("#suppression20").prop('checked', false)
         $("#suppression21").prop('checked', false)
+        $("#suppression22").prop('checked', false)
     }
 }
 function alerterSurCocheParIDduplicata(idCase) {
@@ -241,6 +248,7 @@ function alerterSurCocheParIDduplicata(idCase) {
         $("#duplicata19").prop('checked', true)
         $("#duplicata20").prop('checked', true)
         $("#duplicata21").prop('checked', true)
+        $("#duplicata22").prop('checked', true)
 
     } else {
         $("#duplicata1").prop('checked', false)
@@ -265,6 +273,7 @@ function alerterSurCocheParIDduplicata(idCase) {
         $("#duplicata19").prop('checked', false)
         $("#duplicata20").prop('checked', false)
         $("#duplicata21").prop('checked', false)
+        $("#duplicata22").prop('checked', false)
     }
 }
 function alerterSurCocheParIDvisual(idCase) {
@@ -293,6 +302,7 @@ function alerterSurCocheParIDvisual(idCase) {
         $("#visualisation19").prop('checked', true)
         $("#visualisation20").prop('checked', true)
         $("#visualisation21").prop('checked', true)
+        $("#visualisation22").prop('checked', true)
 
     } else {
         $("#visualisation1").prop('checked', false)
@@ -317,6 +327,7 @@ function alerterSurCocheParIDvisual(idCase) {
         $("#visualisation19").prop('checked', false)
         $("#visualisation20").prop('checked', false)
         $("#visualisation21").prop('checked', false)
+        $("#visualisation22").prop('checked', false)
     }
 }
 function alerterSurCocheParIDexport(idCase) {
@@ -345,6 +356,7 @@ function alerterSurCocheParIDexport(idCase) {
         $("#exportation19").prop('checked', true)
         $("#exportation20").prop('checked', true)
         $("#exportation21").prop('checked', true)
+        $("#exportation22").prop('checked', true)
 
     } else {
         $("#exportation1").prop('checked', false)
@@ -369,6 +381,7 @@ function alerterSurCocheParIDexport(idCase) {
         $("#exportation19").prop('checked', false)
         $("#exportation20").prop('checked', false)
         $("#exportation21").prop('checked', false)
+        $("#exportation22").prop('checked', false)
     }
 }
 
@@ -402,6 +415,7 @@ function alerterSurCocheParIDlecture_modif(idCase) {
         $("#lecture_modif19").prop('checked', true)
         $("#lecture_modif20").prop('checked', true)
         $("#lecture_modif21").prop('checked', true)
+        $("#lecture_modif22").prop('checked', true)
     } else {
         $("#lecture_modif1").prop('checked', false)
         $("#lecture_modif2").prop('checked', false)
@@ -425,6 +439,7 @@ function alerterSurCocheParIDlecture_modif(idCase) {
         $("#lecture_modif19").prop('checked', false)
         $("#lecture_modif20").prop('checked', false)
         $("#lecture_modif21").prop('checked', false)
+        $("#lecture_modif22").prop('checked', false)
     }
 }
 function alerterSurCocheParIDcreation_modif(idCase) {
@@ -454,6 +469,7 @@ function alerterSurCocheParIDcreation_modif(idCase) {
         $("#creation_modif19").prop('checked', true)
         $("#creation_modif20").prop('checked', true)
         $("#creation_modif21").prop('checked', true)
+        $("#creation_modif22").prop('checked', true)
 
     } else {
         $("#creation_modif1").prop('checked', false)
@@ -479,6 +495,7 @@ function alerterSurCocheParIDcreation_modif(idCase) {
         $("#creation_modif19").prop('checked', false)
         $("#creation_modif20").prop('checked', false)
         $("#creation_modif21").prop('checked', false)
+        $("#creation_modif22").prop('checked', false)
     }
 }
 function alerterSurCocheParIDmodif_modif(idCase) {
@@ -508,6 +525,7 @@ function alerterSurCocheParIDmodif_modif(idCase) {
         $("#modification_modif19").prop('checked', true)
         $("#modification_modif20").prop('checked', true)
         $("#modification_modif21").prop('checked', true)
+        $("#modification_modif22").prop('checked', true)
 
     } else {
         $("#modification_modif1").prop('checked', false)
@@ -533,6 +551,7 @@ function alerterSurCocheParIDmodif_modif(idCase) {
         $("#modification_modif19").prop('checked', false)
         $("#modification_modif20").prop('checked', false)
         $("#modification_modif21").prop('checked', false)
+        $("#modification_modif22").prop('checked', false)
     }
 }
 function alerterSurCocheParIDsupp_modif(idCase) {
@@ -562,6 +581,7 @@ function alerterSurCocheParIDsupp_modif(idCase) {
         $("#suppression_modif19").prop('checked', true)
         $("#suppression_modif20").prop('checked', true)
         $("#suppression_modif21").prop('checked', true)
+        $("#suppression_modif22").prop('checked', true)
 
     } else {
         $("#suppression_modif1").prop('checked', false)
@@ -587,6 +607,7 @@ function alerterSurCocheParIDsupp_modif(idCase) {
         $("#suppression_modif19").prop('checked', false)
         $("#suppression_modif20").prop('checked', false)
         $("#suppression_modif21").prop('checked', false)
+        $("#suppression_modif22").prop('checked', false)
     }
 }
 function alerterSurCocheParIDduplicata_modif(idCase) {
@@ -616,6 +637,7 @@ function alerterSurCocheParIDduplicata_modif(idCase) {
         $("#duplicata_modif19").prop('checked', true)
         $("#duplicata_modif20").prop('checked', true)
         $("#duplicata_modif21").prop('checked', true)
+        $("#duplicata_modif22").prop('checked', true)
 
     } else {
         $("#duplicata_modif1").prop('checked', false)
@@ -641,6 +663,7 @@ function alerterSurCocheParIDduplicata_modif(idCase) {
         $("#duplicata_modif19").prop('checked', false)
         $("#duplicata_modif20").prop('checked', false)
         $("#duplicata_modif21").prop('checked', false)
+        $("#duplicata_modif22").prop('checked', false)
     }
 }
 function alerterSurCocheParIDvisual_modif(idCase) {
@@ -670,6 +693,7 @@ function alerterSurCocheParIDvisual_modif(idCase) {
         $("#visualisation_modif19").prop('checked', true)
         $("#visualisation_modif20").prop('checked', true)
         $("#visualisation_modif21").prop('checked', true)
+        $("#visualisation_modif22").prop('checked', true)
 
     } else {
         $("#visualisation_modif1").prop('checked', false)
@@ -695,6 +719,7 @@ function alerterSurCocheParIDvisual_modif(idCase) {
         $("#visualisation_modif19").prop('checked', false)
         $("#visualisation_modif20").prop('checked', false)
         $("#visualisation_modif21").prop('checked', false)
+        $("#visualisation_modif22").prop('checked', false)
     }
 }
 function alerterSurCocheParIDexport_modif(idCase) {
@@ -724,6 +749,7 @@ function alerterSurCocheParIDexport_modif(idCase) {
         $("#exportation_modif19").prop('checked', true)
         $("#exportation_modif20").prop('checked', true)
         $("#exportation_modif21").prop('checked', true)
+        $("#exportation_modif22").prop('checked', true)
 
     } else {
         $("#exportation_modif1").prop('checked', false)
@@ -748,6 +774,7 @@ function alerterSurCocheParIDexport_modif(idCase) {
         $("#exportation_modif19").prop('checked', false)
         $("#exportation_modif20").prop('checked', false)
         $("#exportation_modif21").prop('checked', false)
+        $("#exportation_modif22").prop('checked', false)
     }
 }
 
@@ -1301,6 +1328,35 @@ function alerterSurCocheByRow_gestionAnnee(idCase) {
 }
 
 //Fonction pour cocher la ligne entreprise
+function alerterSurCocheByRow_caisse_interne(idCase) {
+    
+
+    var caseCochee = document.getElementById(idCase);
+  
+
+    if (caseCochee.checked) {
+        $("#lecture22").prop('checked', true)
+        $("#creation22").prop('checked', true)
+        $("#modification22").prop('checked', true)
+        $("#suppression22").prop('checked', true)
+        $("#duplicata22").prop('checked', true)
+        $("#visualisation22").prop('checked', true)
+        $("#exportation22").prop('checked', true)      
+    } 
+    else {
+        $("#lecture22").prop('checked', false)
+        $("#creation22").prop('checked', false)
+        $("#modification22").prop('checked', false)
+        $("#suppression22").prop('checked', false)
+        $("#exportation22").prop('checked', false)
+        $("#duplicata22").prop('checked', false)
+        $("#visualisation22").prop('checked', false)
+        $("#exportation22").prop('checked', false)
+       
+    }
+}
+
+//Fonction pour cocher la ligne entreprise
 function alerterSurCocheByRow_entreprise(idCase) {
     
 
@@ -1598,6 +1654,29 @@ function alerterSurCocheByRow_moneyGramModif(idCase) {
     else {
         // Décocher toutes les autres cases à cocher dont les ID se terminent par "_modif5"
         var elements = document.querySelectorAll('[id$="_modif11"]');
+        elements.forEach(function(element) {
+            element.checked = false;
+        });
+    }
+}
+
+
+//Fonction pour cocher la ligne caisse interne
+function alerterSurCocheByRow_caisse_interneModif(idCase) {
+    var caseCochee = document.getElementById(idCase);
+    
+    // Si la case à cocher spécifique est cochée
+    if (caseCochee.checked) {
+        // Cocher toutes les autres cases à cocher dont les ID se terminent par "_modif5"
+        var elements = document.querySelectorAll('[id$="_modif22"]');
+        elements.forEach(function(element) {
+            element.checked = true;
+        });
+    } 
+    // Sinon, si la case à cocher spécifique est décochée
+    else {
+        // Décocher toutes les autres cases à cocher dont les ID se terminent par "_modif5"
+        var elements = document.querySelectorAll('[id$="_modif22"]');
         elements.forEach(function(element) {
             element.checked = false;
         });
@@ -2688,6 +2767,41 @@ function alerterSurCocheByRow_natureDepenseModif(idCase) {
 
                             }
 
+
+                             //  (Caisse interne)
+                             if (role_permission_details[21]['lecture'] == 1) {
+                                $("#lecture_modif22").prop('checked', true)
+
+                            }
+                            if (role_permission_details[21]['creation'] == 1) {
+                                $("#creation_modif22").prop('checked', true)
+
+                            }
+                            if (role_permission_details[21]['modification'] == 1) {
+                                $("#modification_modif22").prop('checked', true)
+
+                            }
+
+                            if (role_permission_details[21]['suppression'] == 1) {
+                                $("#suppression_modif22").prop('checked', true)
+
+                            }
+
+                            if (role_permission_details[21]['duplicata'] == 1) {
+                                $("#duplicata_modif22").prop('checked', true)
+
+                            }
+
+                            if (role_permission_details[21]['visualisation'] == 1) {
+                                $("#visualisation_modif22").prop('checked', true)
+
+                            }
+
+                            if (role_permission_details[21]['exportation'] == 1) {
+                                $("#exportation_modif22").prop('checked', true)
+
+                            }
+
                     // }
 
                 }
@@ -2705,7 +2819,7 @@ function alerterSurCocheByRow_natureDepenseModif(idCase) {
 
         //--------------- Confirm Options SWEET ALERT ---------------
         Swal.fire({
-                title: 'Voulez vous vraiment supprimer ?',
+                title: 'Voulez vous vraiment supprimer ce rôle ?',
                 // text: '< ' + (dt_basic.row($(this).parents('tr')).data().numero_contrat) + ' > sera supprimé définitivement',
                 icon: 'warning',
                 showCancelButton: true,

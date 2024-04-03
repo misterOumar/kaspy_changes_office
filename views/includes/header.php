@@ -1,5 +1,11 @@
 <?php include_once 'includes/licence_modal.php' ?>
-<?php include_once 'components/journal_orange.php' ?>
+<?php include 'views/components/journal_orange.php' ?>
+<?php include 'views/components/journal_mtn.php' ?>
+<?php include 'views/components/journal_moov.php' ?>
+<?php include 'views/components/journal_depenses.php' ?>
+<?php include 'views/components/journal_recap_simplifie.php' ?>
+
+
 <link rel="stylesheet" href="css/drop_menu_etats.css" />
 
 <!-- BEGIN: Header-->
@@ -29,43 +35,74 @@
                         Etats
                     </a>
                     <ul class="dropdown-menu sub-menu01" aria-labelledby="navbarDropdown">
+                        <!-- GESTION DE L AFFICHAGE  MOBILE MONEY-->
                         <strong class="ms-2"> Mobile Money</strong>
 
-                        <li><a class="dropdown-item" target="_blank" data-bs-target="#JournalOrange" data-bs-toggle="modal"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Orange Money</a></li>
+                        <?php if (intval($_SESSION['KaspyISS_user_details'][7]['visualisation']) === 1) { ?>
+                            <li><a class="dropdown-item" target="_blank" data-bs-target="#JournalOrange" data-bs-toggle="modal"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions
+                                    Orange Money</a></li>
+                        <?php }; ?>
 
-                        <li><a class="dropdown-item" target="_blank" data-bs-target="#JournalMoov" data-bs-toggle="modal" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Moov Money</a></li>
+                        <?php if (intval($_SESSION['KaspyISS_user_details'][5]['visualisation']) === 1) { ?>
+                            <li><a class="dropdown-item" target="_blank" data-bs-target="#JournalMoov" data-bs-toggle="modal" target="_blank"><i class="fas fa-file-alt mr-2"> </i> Journal des
+                                    transactions Moov Money</a></li>
+                        <?php }; ?>
 
-                        <li><a class="dropdown-item" target="_blank" data-bs-target="#JournalMtn" data-bs-toggle="modal"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Mtn Money</a></li>
-
-                        <div class="dropdown-divider"></div>
-                        <strong class="ms-2"> Cartes</strong>
-                        <li><a class="dropdown-item" href="etats/EtatListeCarte.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Liste des cartes</a> </li>
-
-                        <li><a class="dropdown-item" href="etats/EtatListeVenteCarte.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Journal des ventes de cartes</a> </li>
-
-                        <li><a class="dropdown-item" href="etats/EtatStockDisponible.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Stock de carte disponible</a> </li>
+                        <?php if (intval($_SESSION['KaspyISS_user_details'][6]['visualisation']) === 1) { ?>
+                            <li><a class="dropdown-item" target="_blank" data-bs-target="#JournalMtn" data-bs-toggle="modal"><i class="fas fa-file-alt mr-2"> </i> Journal des transactions Mtn Money</a></li>
+                        <?php }; ?>
 
                         <div class="dropdown-divider"></div>
+
+
+                        <!-- GESTION DE L AFFICHAGE  CARTE-->
+                        <?php if (intval($_SESSION['KaspyISS_user_details'][8]['visualisation']) === 1 && intval($_SESSION['KaspyISS_user_details'][9]['visualisation']) === 1) { ?>
+                            <div class="dropdown-divider"></div>
+                            <strong class="ms-2"> Cartes</strong>
+                            <li><a class="dropdown-item" href="etats/EtatListeCarte.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                    Liste des cartes</a> </li>
+                            <li><a class="dropdown-item" href="etats/EtatListeVenteCarte.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                    Journal des ventes de cartes</a> </li>
+                            <li><a class="dropdown-item" href="etats/EtatStockDisponible.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                    Stock de carte disponible</a> </li>
+                        <?php }; ?>
+
+                        <div class="dropdown-divider"></div>
+
+                        <!-- GESTION DE L AFFICHAGE  DES TRANSACTION -->
                         <strong class="ms-2"> Transactions</strong>
 
-                        <li><a class="dropdown-item" href="etats/EtatListeOperationMoneyGram.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Rapport de suivi des opérations Money Gram</a> </li>
-                        <li><a class="dropdown-item" href="etats/EtatListeOperationRIA.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Rapport de suivi des opérations RIA</a> </li>
-                        <li><a class="dropdown-item" href="etats/EtatListeOperationWU.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Rapport de suivi des opérations WU</a> </li>
+                        <?php if (intval($_SESSION['KaspyISS_user_details'][10]['visualisation']) === 1) { ?>
+                            <li><a class="dropdown-item" href="etats/EtatListeOperationMoneyGram.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                    Rapport de suivi des opérations Money Gram</a> </li>
+                        <?php }; ?>
+
+                        <?php if (intval($_SESSION['KaspyISS_user_details'][0]['visualisation']) === 1) { ?>
+                            <li><a class="dropdown-item" href="etats/EtatListeOperationRIA.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                    Rapport de suivi des opérations RIA</a> </li>
+                        <?php }; ?>
+
+                        <?php if (intval($_SESSION['KaspyISS_user_details'][1]['visualisation']) === 1) { ?>
+                            <li><a class="dropdown-item" href="etats/EtatListeOperationWU.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                    Rapport de suivi des opérations WU</a> </li>
+                        <?php }; ?>
+
+                        <div class="dropdown-divider"></div>
+                        <li><a class="dropdown-item" target="_blank" data-bs-target="#JournalDepenses" data-bs-toggle="modal"><i class="fas fa-file-alt mr-2"> </i>
+                                Journal des dépenses</a> </li>
+
                         <li><a class="dropdown-item" href="etats/EtatCaisseTransactions.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
                                 Rapport de la caisse des transactions</a> </li>
-                        <li><a class="dropdown-item" href="etats/EtatListeAllTransfert.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+
+                        <li><a class="dropdown-item" target="_blank" data-bs-target="#JournalRecapSimpliflie" data-bs-toggle="modal"><i class="fas fa-file-alt mr-2"> </i>
                                 Récapitulatif simplifié des transferts</a> </li>
+
                         <div class="dropdown-divider"></div>
 
-                        <li><a class="dropdown-item" href="etats/EtatListeChange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                Liste des changes</a> </li>
-
+                        <?php if (intval($_SESSION['KaspyISS_user_details'][2]['visualisation']) === 1) { ?>
+                            <li><a class="dropdown-item" href="etats/EtatListeChange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                    Journal des opérations de changes</a> </li>
+                        <?php }; ?>
 
                     </ul>
                 </li>
@@ -215,6 +252,7 @@
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -240,5 +278,25 @@
                 localStorage.setItem("darkMode", "enabled");
             }
         });
+
+
     });
+</script>
+
+
+<script>
+    // Filtre des dates pour les états
+
+    $('.date_debut_filtre').flatpickr({
+        defaultDate: '01-01-2024',
+        dateFormat: "d-m-Y",
+        locale: 'fr',
+    })
+
+    $('.date_fin_filtre').flatpickr({
+        defaultDate: 'today',
+        dateFormat: "d-m-Y",
+        locale: 'fr',
+    })
+
 </script>

@@ -87,7 +87,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 </div>
                                 <div class="card-body">
                                     <form action="#" class="dropzone dropzone-area" id="dpz-single-file">
-                                        <div class="dz-message">Déposez les fichiers uba ici ou cliquez pour les
+                                        <div class="dz-message">Déposez le fichier uba ici ou cliquez pour le
                                             télécharger.</div>
                                         <div class="fallback">
                                             <input type='file' class='form-control me-1' name="fileInput" id="fileInput" style="width: 350px;" />

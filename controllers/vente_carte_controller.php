@@ -1,6 +1,5 @@
  <?php
 
-    // AFFICHER LA LISTE DES CONTRATS DE BAILS
     $List_cartes = null;
     if (isset($_GET['page']) and !empty($_GET['page']) and $_GET['page'] === "vente_carte") {
         include("models/Carte.php");

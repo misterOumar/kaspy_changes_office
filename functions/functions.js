@@ -226,3 +226,27 @@ async function obtenirValeurPressePapier() {
   }
 
 }
+
+
+/**
+ * Fonction pour convertir une chaine de caractère en UTF8
+ * @param {string}
+ * @returns {string}
+ */
+function fixEncoding(text) {
+  return text.replace(/Ã©/g, 'é')
+      .replace(/Ã¨/g, 'è')
+      .replace(/Ãª/g, 'ê')
+      .replace(/Ã/g, 'à')
+      .replace(/Â/g, 'À')
+      .replace(/Ã´/g, 'ô')
+      .replace(/Ã§/g, 'ç')
+      .replace(/Ã³/g, 'ó');
+  // Ajoutez d'autres remplacements au besoin
+}
+
+function encodeKeysInUTF8(keys) {
+  return keys.map(key => {
+      return fixEncoding(key);
+  });
+}

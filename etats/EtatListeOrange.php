@@ -6,6 +6,7 @@
         require_once('../plugins/fpdf184/fpdf.php');
         include_once('../config/config.php');
         include_once('../config/db.php');
+        include_once('../functions/functions.php');
         require_once("../models/Bureaux.php");
         require_once("../models/Orange.php");
 
@@ -132,7 +133,7 @@
                 $somme_retraits += $transaction['retrait'];
             }
         } else {
-            $pdf->Cell(188, 6,  'Aucune Transaction enregistrée', 1, 0, 'C');
+            $pdf->Cell(190, 6,  'Aucune Transaction enregistrée', 1, 0, 'C');
             $pdf->Ln();
         }
 
@@ -140,15 +141,15 @@
         $pdf->SetFont('Helvetica', 'B', 10);
         $pdf->SetFillColor(254, 95, 85);
         $pdf->Cell(85, 6,  'Solde Total ', 1, 0, 'C', true);
-        $pdf->Cell(25, 6, number_format($somme_depots, 0, '', ' '), 1,0,'', true);
-        $pdf->Cell(25, 6, number_format($somme_retraits, 0, '', ' '), 1, 0,'', true);
-        $pdf->Cell(25, 6, number_format($compensationAccumule, 0, '', ' '), 1, 0,'', true);
+        $pdf->Cell(25, 6, formaterNombre($somme_depots), 1,0,'', true);
+        $pdf->Cell(25, 6, formaterNombre($somme_retraits), 1, 0,'', true);
+        $pdf->Cell(25, 6, formaterNombre($compensationAccumule), 1, 0,'', true);
 
         // Positionner le pointeur interne sur le dernier élément du tableau
         end($orange);
         // Récupérer la valeur du dernier élément
         $lastTransaction = current($orange);
-        $pdf->Cell(30, 6, number_format($lastTransaction['solde_total'], 0, '', ' '), 1, 0,'', true);
+        $pdf->Cell(30, 6, formaterNombre($lastTransaction['solde_total']), 1, 0,'', true);
 
 
         //-------------------------pieds du fichier fpdf-------------------------------------

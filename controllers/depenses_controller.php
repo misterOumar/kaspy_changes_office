@@ -141,13 +141,15 @@ if (isset($_POST['bt_modifier'])) {
     include('../models/Depenses.php');
 
     // Récupération des données postés dépuis le formulaire dans les variables respectives
-    $dates = strSecur($_POST['dates_modif']);
+    $dates = strSecur($_POST['date_modifs']);
     $nature_depense = strSecur($_POST['nature_depense_modif']);
     $designation = strSecur($_POST['designation_modif']);
     $fournisseur = strSecur($_POST['fournisseur_modif']);
     $montant = strSecur($_POST['montant_modif']);
     $mode_reglement = strSecur($_POST['mode_reglement_modif']);
     $idModif = strSecur($_POST["idModif"]);
+
+ 
 
     // Déclaration et initialisation des variables d'erreur (e)
     $e_dates  = $e_nature_depense = $e_designation = $e_fournisseur = $e_montant = $e_mode_reglement = '';
@@ -186,9 +188,10 @@ if (isset($_POST['bt_modifier'])) {
         $navigateur = getNavigateur();
         $annee = '2021-2022';
         $magasin = $_SESSION["KaspyISS_bureau"];
-        $us = 'kesse';
+        $us = $_SESSION["KaspyISS_user"]['users'];
         $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-        $dt = '2022-09-06 07:20:00';
+        $dt = date("Y-m-d H:i:s");
+      
         if (depenses::Modifier($dates,  $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee, $magasin, $dt, $us, $navigateur, $pc, $ip, $idModif)) {
             $message = 'modification depenses éffectuée avec succès.';
             echo json_encode([

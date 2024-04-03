@@ -110,7 +110,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                         <div class="role-heading">
                                             <h4 class="fw-bolder"> <?= $role['libelle'] ?> </h4>
                                             <a href="javascript:;" class="role-edit-modal editmodal" data-id="<?= $role['id'] ?>" data-bs-toggle="modal" data-bs-target="#addRoleModalModifs">
-                                                <small class="fw-bolder">Edit Role</small>
+                                                <small class="fw-bolder">modifier le rôle</small>
                                             </a>
                                         </div>
                                         <?php if( intval(Users::CompteAll($role['id'])) == 0){ ?>
@@ -179,7 +179,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                     <tr>
                                                         <td class="text-nowrap fw-bolder" id="administrateur">
                                                             Selectionner tout
-                                                            <span data-bs-toggle="tooltip" data-bs-placement="top" title="Cliquez pour selectionner toute la colonne">
+                                                            <span data-bs-toggle="tooltip" data-bs-placement="top" title="Cliquez pour selectionner toute la colonne ou toute la ligne">
                                                                 <i data-feather="info"></i>
                                                             </span>
                                                         </td>
@@ -614,7 +614,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                     </tr>
                                                     <tr>
                                                         <td class="text-nowrap fw-bolder" id="type_locataire" name="role11">
-                                                        <input class="form-check-input" type="checkbox" id="gram" name="gram" onchange="alerterSurCocheByRow_gram('gram')"/>
+                                                        <input class="form-check-input" type="checkbox" id="caisse_interne" name="gram" onchange="alerterSurCocheByRow_gram('gram')"/>
                                                             <i data-feather="bar-chart-2"  style="width: 20px;  margin-left: 5px;"></i>Money Gram</td>
                                                         <input type="text" name="role11" id="contrat" hidden value="Money Gram">
                                                         <td>
@@ -647,6 +647,45 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                                 <div class="form-check me-3 me-lg-5">
                                                                     <input class="form-check-input" type="checkbox" id="exportation11" name="exportation11" />
                                                                     <label class="form-check-label" for="exportation11"> Exportation </label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap fw-bolder" id="type_locataire" name="role22">
+                                                        <input class="form-check-input" type="checkbox" id="caisse_interne" name="caisse_interne" onchange="alerterSurCocheByRow_caisse_interne('caisse_interne')"/>
+                                                            <i data-feather="bar-chart-2"  style="width: 20px;  margin-left: 5px;"></i>Caisse interne</td>
+                                                        <input type="text" name="role11" id="contrat" hidden value="Caisse interne">
+                                                        <td>
+                                                            <div class="d-flex">
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="lecture22" name="lecture11" />
+                                                                    <label class="form-check-label" for="lecture22"> Lecture </label>
+                                                                </div>
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="creation22" name="creation22" />
+                                                                    <label class="form-check-label" for="creation22"> Creation </label>
+                                                                </div>
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="modification22" name="modification22" />
+                                                                    <label class="form-check-label" for="modification22"> Modification </label>
+                                                                </div>
+
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="suppression22" name="suppression22" />
+                                                                    <label class="form-check-label" for="suppression22"> Suppression </label>
+                                                                </div>
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="duplicata22" name="duplicata22" />
+                                                                    <label class="form-check-label" for="duplicata22"> Duplicata </label>
+                                                                </div>
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="visualisation22" name="visualisation22" />
+                                                                    <label class="form-check-label" for="visualisation22"> Visualisation </label>
+                                                                </div>
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="exportation22" name="exportation22" />
+                                                                    <label class="form-check-label" for="exportation22"> Exportation </label>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -1102,9 +1141,8 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                 <input type="hidden" name="tableRows" value="Nombre_de_lignes">
                                                     <tr>
                                                         <td class="text-nowrap fw-bolder" id="administrateur">
-                                                            Administrator Access
-                                                            <span data-bs-toggle="tooltip" data-bs-placement="top" title="Allows a full access to the system">
-                                                                
+                                                        Selectionner tout
+                                                            <span data-bs-toggle="tooltip" data-bs-placement="top" title="Cliquez pour selectionner toute la colonne ou toute la ligne">
                                                                 <i data-feather="info"></i>
                                                             </span>
                                                         </td>
@@ -1571,6 +1609,45 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                                 <div class="form-check me-3 me-lg-5">
                                                                     <input class="form-check-input" type="checkbox" id="exportation_modif11" name="exportation_modif11" />
                                                                     <label class="form-check-label" for="exportation11"> Exportation </label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap fw-bolder" id="type_locataire" name="role_modif22">
+                                                        <input class="form-check-input mr-10" type="checkbox" id="caisse_interne1" name="caisse_interne1" onchange="alerterSurCocheByRow_caisse_interneModif('caisse_interne1')"/>
+                                                        Caisse interne</td>
+                                                        <input type="text" name="role_modif22" id="contrat" hidden value="Money caisse_interne">
+                                                        <td>
+                                                            <div class="d-flex">
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="lecture_modif22" name="lecture_modif22" />
+                                                                    <label class="form-check-label" for="lecture22"> Lecture </label>
+                                                                </div>
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="creation_modif22" name="creation_modif22" />
+                                                                    <label class="form-check-label" for="creation22"> Creation </label>
+                                                                </div>
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="modification_modif22" name="modification_modif22" />
+                                                                    <label class="form-check-label" for="modification22"> Modification </label>
+                                                                </div>
+
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="suppression_modif22" name="suppression_modif22" />
+                                                                    <label class="form-check-label" for="suppression22"> Suppression </label>
+                                                                </div>
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="duplicata_modif22" name="duplicata_modif22" />
+                                                                    <label class="form-check-label" for="duplicata22"> Duplicata </label>
+                                                                </div>
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="visualisation_modif22" name="visualisation_modif22" />
+                                                                    <label class="form-check-label" for="visualisation22"> Visualisation </label>
+                                                                </div>
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input class="form-check-input" type="checkbox" id="exportation_modif22" name="exportation_modif22" />
+                                                                    <label class="form-check-label" for="exportation22"> Exportation </label>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -2048,7 +2125,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <script src="js/template/app.js"></script>
     <script src="js/template/app-menu.js"></script>
 
-    <?php include 'js/logiques/role_permission_datatable.php' ?>
+    <?php include 'js/logiques/role_permission_datatable.phpp' ?>
     <?php include 'js/logiques/role_permission_logiques.php' ?>
     <?php include 'js/droits_access/gestion_DroitsAccess_DroitAcces.php' ?>
     <?php include 'js/logiques/reporting_logiques.php' ?>

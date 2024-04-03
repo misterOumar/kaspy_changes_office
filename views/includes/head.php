@@ -24,6 +24,8 @@
 <link rel="stylesheet" type="text/css" href="plugins/fontawesome-free/css/all.min.css">
 <link rel="stylesheet" type="text/css" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 <!-- END: Theme CSS-->
+<link rel="stylesheet" type="text/css" href="css/plugins/pickers/flatpickr/flatpickr.min.css">
+
 
 
 <!-- BEGIN: TEMPLATE - Page CSS-->

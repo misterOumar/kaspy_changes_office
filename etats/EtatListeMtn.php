@@ -2,10 +2,10 @@
 
 // Journal des recouvrements
 if (isset($_POST['bt_mtn'])) {
-    // include('../functions/functions.php');
     require_once('../plugins/fpdf184/fpdf.php');
     include_once('../config/config.php');
     include_once('../config/db.php');
+    include_once('../functions/functions.php');
     require_once("../models/Bureaux.php");
     require_once("../models/Mtn.php");
 
@@ -124,10 +124,10 @@ if (isset($_POST['bt_mtn'])) {
             $pdf->Cell(20, 6, $dateFormatee, 1);
             $pdf->Cell(30, 6, $transaction['id_transaction'], 1);
             $pdf->Cell(25, 6, $transaction['telephone_client'], 1);
-            $pdf->Cell(25, 6, number_format($transaction['depot'], 0, '', ' '), 1);
-            $pdf->Cell(25, 6, number_format($transaction['retrait'], 0, '', ' '), 1);
-            $pdf->Cell(25, 6, number_format($compensationAccumule, 0, '', ' '), 1);
-            $pdf->Cell(30, 6, number_format($transaction['solde_total'], 0, '', ' '), 1); // formatter le solde en separateur de millier
+            $pdf->Cell(25, 6, formaterNombre($transaction['depot']), 1);
+            $pdf->Cell(25, 6, formaterNombre($transaction['retrait']), 1);
+            $pdf->Cell(25, 6, formaterNombre($compensationAccumule), 1);
+            $pdf->Cell(30, 6, formaterNombre($transaction['solde_total']), 1); // formatter le solde en separateur de millier
             $pdf->Ln();
             $i++;
             $somme_depots += $transaction['depot'];
@@ -142,14 +142,14 @@ if (isset($_POST['bt_mtn'])) {
     $pdf->SetFont('Helvetica', 'B', 10);
     $pdf->SetFillColor(247, 198, 6);
     $pdf->Cell(85, 6,  'Solde Total ', 1, 0, 'C', true);
-    $pdf->Cell(25, 6, number_format($somme_depots, 0, '', ' '), 1, 0, '', true);
-    $pdf->Cell(25, 6, number_format($somme_retraits, 0, '', ' '), 1, 0, '', true);
-    $pdf->Cell(25, 6, number_format($compensationAccumule, 0, '', ' '), 1, 0, '', true);
+    $pdf->Cell(25, 6, formaterNombre($somme_depots), 1, 0, '', true);
+    $pdf->Cell(25, 6, formaterNombre($somme_retraits), 1, 0, '', true);
+    $pdf->Cell(25, 6, formaterNombre($compensationAccumule), 1, 0, '', true);
     // Positionner le pointeur interne sur le dernier élément du tableau
     end($transactions_mtn);
     // Récupérer la valeur du dernier élément
     $lastTransaction = current($transactions_mtn);
-    $pdf->Cell(30, 6, number_format($lastTransaction['solde_total'], 0, '', ' '), 1, 0, '', true);
+    $pdf->Cell(30, 6, formaterNombre($lastTransaction['solde_total']), 1, 0, '', true);
 
     //-------------------------pieds du fichier fpdf-------------------------------------
     // Positionnement à 1,5 cm du bas

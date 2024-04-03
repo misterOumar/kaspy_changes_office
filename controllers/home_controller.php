@@ -1,7 +1,6 @@
 <?php
 
 if (isset($_GET['page']) and !empty($_GET['page']) and $_GET['page'] === 'home') {
-    include('../functions/functions.php');
     include('../config/config.php');
     include('../config/db.php');
     include('models/Locataires.php');
@@ -9,14 +8,6 @@ if (isset($_GET['page']) and !empty($_GET['page']) and $_GET['page'] === 'home')
     include('models/Appartements.php');
     include('models/Proprietaires.php');
     include('models/Recouvrement.php');
-
-    //RECUPERATION DES INFOS POUR LE DASHBOARD
-    // $nbre_locataire = locataires::getCount(); //NOMBRE DE LOCATAIRE
-    // $nbre_batiment = batiments::getCount(); //NOMBRE DE BAIMENT
-    // $nbre_appartement = appartements::getCount(); //NOMBRE DE APPARTEMENT
-    // $nbre_proprietaire = proprietaires::getCount(); //NOMBRE DE PROPRIETAIRE
-    // $montant_total_payer_mois_en_cours = recouvrements::getMontantTotalPayerByCurrentMonth(); //MONTANT DU LOYER PAYES
-    // $montant_total_reste_mois_en_cours = recouvrements::getMontantResteTotalPayerByCurrentMonth(); //MONTANT DU LOYER IMPAYES
 
     //RECUPERATION DU MOIS EN COURS
     $dateCourante = date("Y-m-d H:i:s");
@@ -48,12 +39,7 @@ if (isset($_GET['Donnees'])) {
     include('../config/config.php');
     include('../config/db.php');
     include('../models/Recouvrement.php');
-    //RECUPERATION DES DONNEES POUR LES GRAPHIQUES DU DASHBOARD
 
-    // $donnees_montant_payer = recouvrements::getMontantPayerByMonthAndYear();
-    // $donnees_reste_a_payer = recouvrements::getResteAPayerByMonthAndYear();
-    // $montant_total_payer_mois_en_cours = recouvrements::getMontantTotalPayerByCurrentMonth(); //MONTANT DU LOYER
-    // $montant_total_reste_mois_en_cours = recouvrements::getMontantResteTotalPayerByCurrentMonth(); //MONTANT DU LOYER
 
     if ($donnees_montant_payer) {
         // header('Content-Type: application/json');

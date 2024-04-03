@@ -17,7 +17,7 @@
                             <!-- - DATE DEBUT - -->
                             <div>
                                 <label class='form-label' for='date_debut'>Periode du</label>
-                                <input type='text' class='form-control dt-full-libelle' id='date_debut' name='date_debut' placeholder='2024-01-12' />
+                                <input type='text' class='form-control dt-full-libelle date_debut_filtre'  name='date_debut' placeholder='2024-01-12' />
                             </div>
                             <div class='mb-1'><small id='date_debutHelp' class='text-danger invisible'></small></div>
                         </div>
@@ -26,7 +26,7 @@
                             <!-- - DATE FIN - -->
                             <div>
                                 <label class='form-label' for='date_fin'></label>
-                                <input type='text' class='form-control dt-full-libelle' id='date_fin' name='date_fin' placeholder='2024-01-12' />
+                                <input type='text' class='form-control dt-full-libelle date_fin_filtre'  name='date_fin' placeholder='2024-01-12' />
                             </div>
                             <div class='mb-1'><small id='date_finHelp' class='text-danger invisible'></small></div>
                         </div>

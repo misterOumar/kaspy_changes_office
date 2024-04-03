@@ -2,10 +2,11 @@
 require_once('../plugins/fpdf184/fpdf.php');
 include_once('../config/config.php');
 include_once('../config/db.php');
+include_once('../functions/functions.php');
 require_once("../models/Bureaux.php");
 require_once("../models/Vente_carte.php");
 
-class EtatListeProprietaires extends FPDF
+class EtatListeStockDisponible extends FPDF
 {
     public $logoEtat;
     public $nom_entreprise;
@@ -86,16 +87,21 @@ class EtatListeProprietaires extends FPDF
 
         $i = 1;
         $this->SetFont('Helvetica', '', 9);
-        foreach ($data as $carte) {
-            $this->Cell(10, 6, $i, 1, 0, 'C');
-            $this->Cell(20, 6,  $carte['date'], 1, 0, 'C');
-            $this->Cell(25, 6,  $carte['carte'], 1, 0, 'C');
-            $this->Cell(30, 6,  $carte['numero_carte'], 1, 0, '');
-            $this->Cell(40, 6,  $carte['client'], 1, 0, 'C');
-            $this->Cell(30, 6,  $carte['telephone'], 1, 0, 'C');
-            $this->Cell(30, 6,  $carte['montant'], 1, 0, 'C');
+        if (count($data) > 0) {
+            foreach ($data as $carte) {
+                $this->Cell(10, 6, $i, 1, 0, 'C');
+                $this->Cell(20, 6,  $carte['date'], 1, 0, 'C');
+                $this->Cell(25, 6,  $carte['carte'], 1, 0, 'C');
+                $this->Cell(30, 6,  $carte['numero_carte'], 1, 0, '');
+                $this->Cell(40, 6,  $carte['client'], 1, 0, 'C');
+                $this->Cell(30, 6,  $carte['telephone'], 1, 0, 'C');
+                $this->Cell(30, 6, formaterNombre($carte['montant']) , 1, 0, 'C');
+                $this->Ln();
+                $i++;
+            }
+        } else {
+            $this->Cell(185, 6,  'Aucune vente de carte enregistrée.', 1, 0, 'C');
             $this->Ln();
-            $i++;
         }
     }
 
@@ -119,18 +125,18 @@ class EtatListeProprietaires extends FPDF
 
 
 $data = array();
-$proprietaires = vente_carte::getAll();
-for ($num = 0; $num < count($proprietaires); $num++) {
+$stock_disponible = vente_carte::getAll();
+for ($num = 0; $num < count($stock_disponible); $num++) {
     array_push(
         $data,
-        $proprietaires[$num]
+        $stock_disponible[$num]
     );
 }
 
 
 
 // Instanciation de la classe dérivée
-$pdf = new EtatListeProprietaires();
+$pdf = new EtatListeStockDisponible();
 $entreprise = bureaux::getByNom($_SESSION["KaspyISS_bureau"]);
 $pdf->logoEtat = $entreprise['logo_pc'];
 $pdf->nom_entreprise = $entreprise['raison_sociale'];
@@ -166,7 +172,7 @@ function generatePDF($data)
 
     // Titre du document
     $pdf->SetFont('Arial', 'B', 16);
-    $pdf->Cell(0, 10, 'Liste des Proprietaires', 0, 1, 'C');
+    $pdf->Cell(0, 10, 'Liste stock de carte disponible', 0, 1, 'C');
 
     // Heure de génération
     $pdf->SetFont('Arial', '', 12);
@@ -181,16 +187,10 @@ function generatePDF($data)
     }
 
     // Génération du PDF
-    $pdf->Output('liste_Proprietaires.pdf', 'D'); // 'D' pour afficher le téléchargement du fichier
+    $pdf->Output('liste_stock_carte_disponible.pdf', 'D'); // 'D' pour afficher le téléchargement du fichier
 }
 
-// Exemple de données de bâtiments (vous pouvez remplacer cela par les données de votre base de données)
-$proprietaires = array(
-    array('nom' => 'Batiment A'),
-    array('nom' => 'Batiment B'),
-    array('nom' => 'Batiment C'),
-    // Ajoutez d'autres bâtiments ici...
-);
+
 
 // Appel de la fonction pour générer le PDF
-generatePDF($proprietaires);
+generatePDF($stock_disponible);

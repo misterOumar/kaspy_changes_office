@@ -493,7 +493,7 @@
             var that = this
             //--------------- Confirm Options SWEET ALERT ---------------
             Swal.fire({
-                title: 'Voulez vous vraiment supprimer ?',
+                title: 'Voulez vous vraiment supprimer ce rôle ?',
                 text: '< ' + (dt_basic.row($(this).parents('tr')).data().role_permission) + ' > sera supprimé définitivement',
                 icon: 'warning',
                 showCancelButton: true,

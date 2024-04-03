@@ -1,5 +1,5 @@
 <script>
-    jQuery(function ($) {
+    jQuery(function($) {
         $('#dates').flatpickr({
             defaultDate: "today",
             //  dateFormat: "d-m-Y",
@@ -14,22 +14,20 @@
 </script>
 <script>
     // rechargercher la page quand on clique sur annuler dans le modal
-    $("#close_modal").click(function (e) {
+    $("#close_modal").click(function(e) {
         e.preventDefault();
         alert(1)
         location.reload;
-
     });
     let jsonData;
-    Dropzone.options.dpzSingleFile =
-    {
+    Dropzone.options.dpzSingleFile = {
         paramName: "file",
         maxFilesize: 10,
         acceptedFiles: ".xls, .xlsx, .csv",
-        success: function (file, response) {
+        success: function(file, response) {
             var inputFile = file;
             var reader = new FileReader();
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 try {
                     var data = e.target.result;
                     var workbook;
@@ -47,34 +45,15 @@
                     }
                     var sheetName = workbook.SheetNames[0];
                     var sheet = workbook.Sheets[sheetName];
-
                     // Convertir la feuille en JSON
                     const nonEmptyZRows = XLSX.utils.sheet_to_json(sheet, {
                         header: 1
                     }).filter(row =>
-                        row[30] !== undefined && row[30] !== null && row[30] !== ''
-                    );
-
+                        row[30] !== undefined && row[30] !== null && row[30] !== '');
                     // Extrayez les clés
                     const keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0].map((_, index) => index + 1) : [];
-
-
-                    // Vérifiez si le nombre de clés est inférieur ou supérieur à 22
-                    // if (keys.length !== 30) {
-                    //     Swal.fire({
-                    //         title: 'Mauvais fichier',
-                    //         html: 'Veillez sélectionner le bon fichier !',
-                    //         icon: 'error',
-                    //         confirmButtonText: 'OK',
-                    //     }).then((result) => {
-                    //         // Rechargez la page après que l'utilisateur a cliqué sur "OK" sur l'alerte
-                    //         if (result.isConfirmed) {
-                    //             window.location.reload();
-                    //         }
-                    //     });
-                    // } else {
-                    // Eliminer la première ligne 
                     const dataRows = nonEmptyZRows.slice(1);
+
                     // Convertir les données en format JSON en utilisant les clés
                     jsonData = dataRows.map(row =>
                         keys.reduce((obj, key, index) => {
@@ -82,8 +61,7 @@
                             return obj;
                         }, {})
                     );
-
-                    // Extraction du numero de l'expediteur
+                    // Extraction des numeros
                     jsonData = jsonData.map(obj => {
                         if (obj['9']) {
                             const extractedPart9 = obj['9'].split(':')[1].split('/')[0];
@@ -100,18 +78,41 @@
                     });
 
 
+                    if (inputFile.name.endsWith('.csv')) {
+
+                    }
+
+
+                    jsonData.forEach(function(item) {
+                        // Vérifie si la clé "3" existe dans l'élément
+                        if (item["3"]) {
+                            // Convertir la valeur en nombre de millisecondes depuis le 1er janvier 1970
+                            var timestamp = (item["3"] - 25569) * 86400 * 1000;
+
+                            // Créer une nouvelle date à partir du timestamp
+                            var date = new Date(timestamp);
+
+                            // Formater la date en format YYYY-MM-DD HH:mm:ss
+                            var formattedDate = date.toISOString().slice(0, 19).replace('T', ' ');
+
+                            // Remplacer la valeur d'origine par la date formatée
+                            item["3"] = formattedDate;
+                        }
+                    });
 
 
 
-                    // }                    
                     console.log(JSON.stringify(jsonData, null, 2));
                     // FIN DU TRAITEMENT DU FICHIER IMPORTER
-                    console.log(JSON.stringify(jsonData, null, 2));
                     var date_saisie = document.getElementById("dates").value;
-                    var dateColumnIndex = 3;// Assuming the date column is at index 17
+
+                    var dateColumnIndex = 3; // Assuming the date column is at index 17
                     if (jsonData.length > 0 && jsonData[0][dateColumnIndex]) {
                         var date_objet = jsonData[0][dateColumnIndex];
+
                         var parsedDate_objet = moment(date_objet, "YYYY-MM-DD HH:mm:ss").format("DD/MM/YYYY");
+
+
                         var parsedDate_saisie = moment(date_saisie).format("DD/MM/YYYY");
                         if (parsedDate_objet !== parsedDate_saisie) {
                             Swal.fire({
@@ -129,30 +130,68 @@
                     } else {
                         console.error('Aucune donnée disponible pour la vérification de la date.', dateColumnIndex);
                     }
+                    jsonData.forEach(function(item) {
+                        if (parseFloat(item["17"]) < 0) {
+
+                            item["5"] = "Retrait";
+
+                        } else {
+                            item["5"] = "Dépot";
+                        }
+
+                    });
+
 
                     // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
                     if ($.fn.DataTable.isDataTable("#excelDataTable")) {
                         $("#excelDataTable").DataTable().destroy();
                     }
-
                     // (Re)initialisez la DataTable
                     dataTable = $("#excelDataTable").DataTable({
                         data: jsonData,
-                        columns: [
-                            { data: '1', title: 'Identifiant' },
-                            { data: '3', title: 'Date' },
-                            { data: '9', title: 'Numero Expediteur' },
-                            { data: '11', title: 'Agence' },
-                            { data: '12', title: 'Numero Recepteur' },
-                            { data: '13', title: 'Nom Recepteur' },
-                            { data: '17', title: 'Monatnt' },
-                            { data: '23', title: 'Frais' },                      //      
-                            { data: '31', title: 'Solde' },
-                            { data: '32', title: 'Devise' },
+                        columns: [{
+                                data: '1',
+                                title: 'Identifiant'
+                            },
+                            {
+                                data: '3',
+                                title: 'Date'
+                            },
+                            {
+                                data: '9',
+                                title: 'Numero Expediteur'
+                            },
+                            {
+                                data: '11',
+                                title: 'Agence'
+                            },
+                            {
+                                data: '12',
+                                title: 'Numero Recepteur'
+                            },
+                            {
+                                data: '13',
+                                title: 'Nom Recepteur'
+                            },
+                            {
+                                data: '17',
+                                title: 'Monatnt'
+                            },
+                            {
+                                data: '23',
+                                title: 'Frais'
+                            },
+                            {
+                                data: '31',
+                                title: 'Solde'
+                            },
+                            {
+                                data: '5',
+                                title: 'Type'
+                            },
 
                         ],
-
-                        scrollX: true, // Activer le défilement horizontal
+                        scrollX: true, //         //  Activer le défilement horizontal
                         language: {
                             // Textes pour la pagination
                             paginate: {
@@ -181,7 +220,6 @@
                             }
                         }
                     });
-
                     // Affichez le modal
                     $("#excelModal").modal("show");
                 } catch (error) {
@@ -190,23 +228,19 @@
             };
             reader.readAsBinaryString(inputFile);
         },
-        error: function (file, errorMessage) {
+        error: function(file, errorMessage) {
             console.error("Erreur lors du téléchargement du fichier", file, errorMessage);
         }
     };
-
     // Fonction au clic du bouton "Enregistrer"
-    $("#btnValider").click(function (e) {
+    $("#btnValider").click(function(e) {
         e.preventDefault();
-
         // ... (votre code existant)
-
         // Appel de la fonction pour envoyer les données au contrôleur
         sendDataToController(jsonData);
     });
-
     // Fonction au clic du bouton "Annuler"
-    $("#btnAnnuler").click(function (e) {
+    $("#btnAnnuler").click(function(e) {
         e.preventDefault();
         // Réinitialisez Dropzone
         var myDropzone = Dropzone.forElement("#dpz-single-file");
@@ -218,7 +252,6 @@
             $("#excelDataTable").DataTable().destroy();
         }
     });
-
     // Fonction pour envoyer les données au contrôleur via AJAX
     function sendDataToController(jsonData) {
         $.ajax({
@@ -229,7 +262,7 @@
                 data: jsonData
             },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 if (response.success === 'true') {
                     $("#excelModal").modal("hide");
                     // Réinitialisez Dropzone
@@ -254,7 +287,7 @@
                     console.error('Erreur : ' + response.message);
                 }
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 console.error(xhr.responseText);
             }
         });

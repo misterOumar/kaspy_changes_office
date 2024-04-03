@@ -112,10 +112,10 @@ $api_url = API_HOST . 'index.php?page=api_mtn_money';
                             $duree = full['duree'],
                             $type = full['type_operation'];
                         var bg;
-                        if ($type == "Dépot") {
-                            bg = 'bg-success'
-                        } else {
+                        if ($type == "Retrait") {
                             bg = 'bg-info'
+                        } else {
+                            bg = 'bg-success'
 
                         }
                         if ($user_img) {
@@ -269,7 +269,7 @@ $api_url = API_HOST . 'index.php?page=api_mtn_money';
                 {
                     text: feather.icons['download'].toSvg({
                         class: 'me-50 font-small-4'
-                    }),
+                    })+ 'Faire le point',
                     className: 'btn btn-success  me-2 export',
                     attr: {
                         'id': 'bt_importer',

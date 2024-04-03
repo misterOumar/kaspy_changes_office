@@ -85,6 +85,37 @@ class depenses
         return $req->fetchAll();
     }
 
+
+    /**
+     * Renvoi la liste des depenses par date.
+     *
+     * @return array
+     */
+    static function getRapport()
+    {
+        global $db;
+        $req = $db->prepare("SELECT * FROM depenses ORDER BY dates");
+        $req->execute([]);
+        return $req->fetchAll();
+    }
+
+      /**
+     * Renvoi la liste des depenses entre deux dates.
+     * @param $dates
+     * @return array
+     */
+    static function getAllBetween2Date($magasin, $date_debut, $date_fin)
+    {
+        global $db;
+        $req = $db->prepare(
+            "SELECT * FROM depenses 
+            WHERE magasin = ? AND dates BETWEEN ? AND ? GROUP BY dates"
+            );
+        $req->execute([$magasin, $date_debut, $date_fin]);
+        return $req->fetchAll();
+    }
+
+
     /**
      * Méthode pour récupérer un(e) depenses en fonction de son id.
      *
@@ -202,7 +233,7 @@ class depenses
     {
         global $db;
         $req = $db->prepare('
-            UPDATE depenses SET dates = ?, , nature_depense = ?, designation = ?, fournisseur = ?, montant = ?, mode_reglement = ?, annee_academique = ?, magasin = ?, date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
+            UPDATE depenses SET dates = ?,  nature_depense = ?, designation = ?, fournisseur = ?, montant = ?, mode_reglement = ?, annee_academique = ?, magasin = ?, date_modif = ?, user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
         ');
         return $req->execute([$dates, $nature_depense, $designation, $fournisseur, $montant, $mode_reglement, $annee_academique, $magasin, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
     }

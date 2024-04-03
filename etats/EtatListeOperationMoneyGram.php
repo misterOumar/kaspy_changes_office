@@ -2,6 +2,7 @@
 require_once('../plugins/fpdf184/fpdf.php');
 include_once('../config/config.php');
 include_once('../config/db.php');
+include_once('../functions/functions.php');
 require_once("../models/Bureaux.php");
 require_once("../models/Money_gram.php");
 
@@ -199,7 +200,7 @@ $pdf->nom_entreprise = $entreprise['raison_sociale'];
 $pdf->sigle = $entreprise['sigle'];
 $pdf->slogan = $entreprise['slogan'];
 $pdf->annee = $_SESSION["KaspyISS_annee"];
-$pdf->SetTitle('RAPPORT RIA', 1);
+$pdf->SetTitle('RAPPORT MONEY GRAM', 1);
 
 
 $pdf->AliasNbPages();

@@ -324,6 +324,7 @@ if (isset($_GET['idSuppr'])) {
             'success' => 'true',
             'message' => $message
         ]);
+        
     } else {
         $message = "Erreur impossible de supprimer ce role details.";
         echo json_encode([
@@ -331,4 +332,6 @@ if (isset($_GET['idSuppr'])) {
             'message' => $message
         ]);
     }
+    var_dump($message);
+    die();
 }

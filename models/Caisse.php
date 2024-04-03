@@ -147,14 +147,75 @@ class caisse
     {
         global $db;
         $req = $db->prepare(
-            "SELECT `caisse`.`date` AS `date`,
-            'Caisse' AS `op`,
-        `caisse`.`type_operation` AS `type_transaction`,
-        `caisse`.`libelle` AS 'Libelle',
-        sum((case when (`caisse`.`type_operation` = 'Entrée') then `caisse`.`montant` else 0 end)) AS `ENTREE`,
-        sum((case when (`caisse`.`type_operation` = 'Sortie') then `caisse`.`montant` else 0 end)) AS `SORTIE`,
-        (sum((case when (`caisse`.`type_operation` = 'Entrée') then `caisse`.`montant` else 0 end)) - sum((case when (`caisse`.`type_operation` = 'Sortie') then `caisse`.`montant` else 0 end))) AS 'SOLDE'        
-        FROM caisse GROUP BY `caisse`.`type_operation` UNION ALL SELECT * FROM `caisse_interne_transactions` GROUP BY `date`, `type_transaction` ORDER BY `date` ;"
+            "SELECT
+            DATE AS `date`,
+            `type_transaction`,
+            `op`,
+            `Libelle`,
+            `ENTREE`,
+            `SORTIE`,
+            `SOLDE`
+        FROM
+            (
+            SELECT
+                DATE_FORMAT(
+                    STR_TO_DATE(`caisse`.`date`, '%Y-%m-%d'),
+                    '%d-%m-%Y'
+                ) AS DATE,
+                'Caisse' AS `op`,
+                `caisse`.`type_operation` AS `type_transaction`,
+                `caisse`.`libelle` AS 'Libelle',
+                SUM(
+                    (
+                        CASE WHEN(`caisse`.`type_operation` = 'Entrée') THEN `caisse`.`montant` ELSE 0
+                    END
+                )
+        ) AS `ENTREE`,
+        SUM(
+            (
+                CASE WHEN(`caisse`.`type_operation` = 'Sortie') THEN `caisse`.`montant` ELSE 0
+            END
+        )
+        ) AS `SORTIE`,
+        (
+            SUM(
+                (
+                    CASE WHEN(`caisse`.`type_operation` = 'Entrée') THEN `caisse`.`montant` ELSE 0
+                END
+            )
+        ) - SUM(
+            (
+                CASE WHEN(`caisse`.`type_operation` = 'Sortie') THEN `caisse`.`montant` ELSE 0
+            END
+        )
+        )
+        ) AS 'SOLDE'
+        FROM
+            caisse
+        GROUP BY
+            `date`
+        ORDER BY
+            `date` ASC
+        ) AS subquery1
+        UNION ALL
+        SELECT
+            `date`,
+            `type_transaction`,
+            `op` AS `op`,
+            `Libelle`,
+            `ENTREE`,
+            `SORTIE`,
+            `SOLDE`
+        FROM
+            `caisse_interne_transactions`
+        GROUP BY
+            `date`,
+            `type_transaction`,
+            `libelle`
+        ORDER BY
+            `date` ASC;
+        
+        "
         );
         $req->execute([]);
         return $req->fetchAll();

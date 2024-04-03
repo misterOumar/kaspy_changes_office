@@ -12,7 +12,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 <!-- BEGIN: Head-->
 
 <head>
-    <title><?= APP_NAME ?> - Upload MTN </title>
+    <title><?= APP_NAME ?> - Importation MTN </title>
 
     <!-- Fichiers CSS par défaut (TEMPLATE) -->
     <?php include_once 'includes/head.php' ?>
@@ -62,14 +62,14 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Point MTN MONEY</h2>
+                            <h2 class="content-header-title float-start mb-0">Point Journalier MTN MONEY</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="index.php?page=home">Accueil</a>
                                     </li>
                                     <li class="breadcrumb-item"><a href="#">Structures</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Upload MTN MONEY
+                                    <li class="breadcrumb-item active"> MTN Money
                                     </li>
                                 </ol>
                             </div>
@@ -97,7 +97,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                 </div>
                                 <div class="card-body">
                                     <form action="#" class="dropzone dropzone-area" id="dpz-single-file">
-                                        <div class="dz-message">Déposez les fichiers MTN MONEY ici ou cliquez pour les télécharger.</div>
+                                        <div class="dz-message">Déposez le fichier MTN MONEY ici ou cliquez pour le télécharger.</div>
                                         <div class="fallback">
                                             <input type='file' class='form-control me-1' name="fileInput" id="fileInput" style="width: 350px;" />
                                         </div>

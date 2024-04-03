@@ -49,7 +49,7 @@ class   EtatListeCarte extends FPDF
             $this->Ln(12);
             $this->Cell(45);
             $this->SetFont('Helvetica', 'B', 15);
-            $this->Cell(200, 10, 'STOCK DISPONIBLE', 1, 0, 'C');
+            $this->Cell(100, 10, 'STOCK DE CARTE DISPONIBLE', 1, 0, 'C');
 
             // Décalage à droite
             $this->Cell(20);
@@ -74,21 +74,21 @@ class   EtatListeCarte extends FPDF
     {
         // En-tête
         $this->SetFont('Helvetica', 'B', 10);
-        $this->Cell(95, 7, "TYPE DE CARTE", 1, 0, 'C');
-        $this->Cell(60, 7, "ENTREE", 1, 0, 'C');
-        $this->Cell(60, 7, "SORTIE", 1, 0, 'C');
-        $this->Cell(60, 7, "STOCK", 1, 0, 'C');
+        $this->Cell(70, 7, "TYPE DE CARTE", 1, 0, 'C');
+        $this->Cell(40, 7, "ENTREE", 1, 0, 'C');
+        $this->Cell(40, 7, "SORTIE", 1, 0, 'C');
+        $this->Cell(40, 7, "STOCK", 1, 0, 'C');
         $this->Ln();
 
      
-        $this->SetFont('Helvetica', '', 12);
+        $this->SetFont('Helvetica', '', 9);
         if (count($data) > 0 ) {
             foreach ($data as $carte) {
 
-                $this->Cell(95, 6,  $carte['type_carte'], 1, 0, '');
-                $this->Cell(60, 6,  $carte['entree'], 1, 0, 'C');
-                $this->Cell(60, 6,  $carte['sortie'], 1, 0, 'C');
-                $this->Cell(60, 6,  $carte['stock'], 1, 0, 'C');
+                $this->Cell(70, 6,  $carte['type_carte'], 1, 0, '');
+                $this->Cell(40, 6,  $carte['entree'], 1, 0, 'C');
+                $this->Cell(40, 6,  $carte['sortie'], 1, 0, 'C');
+                $this->Cell(40, 6,  $carte['stock'], 1, 0, 'C');
                 $this->Ln();
             }  # code...
         }else{
@@ -140,10 +140,10 @@ $pdf->annee = $_SESSION["KaspyISS_annee"];
 
 
 // Param"trage de la difusion de l'état
-$pdf->SetTitle('Liste des Proprietaires', 1);
+$pdf->SetTitle('Liste de stock disponible', 1);
 
 $pdf->AliasNbPages();
-$pdf->AddPage('L');
+$pdf->AddPage('P');
 
 $pdf->BasicTable($data);
 
@@ -165,7 +165,7 @@ function generatePDF($data)
 
     // Titre du document
     $pdf->SetFont('Arial', 'B', 16);
-    $pdf->Cell(0, 10, 'Liste des Proprietaires', 0, 1, 'C');
+    $pdf->Cell(0, 10, 'Liste de stock disponible', 0, 1, 'C');
 
     // Heure de génération
     $pdf->SetFont('Arial', '', 12);
@@ -180,16 +180,9 @@ function generatePDF($data)
     }
 
     // Génération du PDF
-    $pdf->Output('liste_Proprietaires.pdf', 'D'); // 'D' pour afficher le téléchargement du fichier
+    $pdf->Output('liste_stock_disponible.pdf', 'D'); // 'D' pour afficher le téléchargement du fichier
 }
 
-// Exemple de données de bâtiments (vous pouvez remplacer cela par les données de votre base de données)
-$proprietaires = array(
-    array('nom' => 'Batiment A'),
-    array('nom' => 'Batiment B'),
-    array('nom' => 'Batiment C'),
-    // Ajoutez d'autres bâtiments ici...
-);
 
 // Appel de la fonction pour générer le PDF
 generatePDF($proprietaires);
