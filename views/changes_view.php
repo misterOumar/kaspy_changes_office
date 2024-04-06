@@ -182,17 +182,23 @@
                                         </div>
                                         <div class='mb-1'><small id='telephoneHelp' class='text-danger invisible'></small></div>
 
+                                             <!--- EXAMEN --->
+                                             <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="convertisseur" name="convertisseur" />
+                                                <label class="form-check-label" for="convertisseur">Convertisseur</label>
+                                            </div>
+
                                         <!--- MONTANT --->
                                         <div>
                                             <label class='form-label' for='email'>Montant</label>
-                                            <input type='text' class='form-control dt-email' id='montant' name='montant' placeholder="Veuillez saisir le prix unitaire" aria - Label='email' maxlength='75' />
+                                            <input type='text' class='form-control dt-email' id='montant' name='montant' value="1" placeholder="Veuillez saisir le prix unitaire" aria - Label='email' maxlength='75' />
                                         </div>
                                         <div class='mb-1'><small id='montantHelp' class='text-danger invisible'></small></div>
 
                                         <!--- TAUX --->
                                         <div>
                                             <label class='form-label' for='compte_contribuable'>Taux de change</label>
-                                            <input type='tel' class='form-control dt-full-compte_contribuable' id='taux' name='taux' placeholder="Veuillez saisir la taux" aria - Label='compte_contribuable' maxlength='75' />
+                                            <input type='tel' class='form-control dt-full-compte_contribuable' id='taux' name='taux' value="650" placeholder="Veuillez saisir la taux" aria - Label='compte_contribuable' maxlength='75' />
                                         </div>
                                         <div class='mb-1'><small id='tauxHelp' class='text-danger invisible'></small></div>
 

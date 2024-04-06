@@ -23,7 +23,7 @@
         $('#tauxHelp').addClass('invisible');
 
 
-        
+
         $('#adresse').val('');
         $('#adresse').removeClass('is-invalid');
         $('#adresseHelp').html('Veuillez saisir  l\'adresse...');
@@ -34,7 +34,7 @@
         $('#date_vHelp').html('Veuillez sélectionner la date ...');
         $('#date_vHelp').addClass('invisible');
 
-        
+
         $('#telephone').val('');
         $('#telephone').removeClass('is-invalid');
         $('#telephoneHelp').html('Veuillez saisir la telephone...');
@@ -109,7 +109,7 @@
         $('#tauxHelp').html('');
     });
 
-   
+
 
     $('#telephone').on('change', function() {
         $('#telephone').removeClass('is-invalid');
@@ -121,12 +121,23 @@
         $('#date_vHelp').html(' ');
     });
 
-    $('#montant, #taux').on('input', function() {
+
+
+    $('#montant, #taux, #convertisseur').on('input', function() {
         var montant = parseFloat($('#montant').val());
         var taux = parseFloat($('#taux').val());
-        
+        let montantPayer;
+
+        // Vérifie si la case à cocher est cochée
+        if ($('#convertisseur').is(':checked')) {
+            montantPayer = montant / taux;
+
+        } else {
+             montantPayer = montant * taux;
+
+        }
+
         if (!isNaN(montant) && !isNaN(taux)) {
-            var montantPayer = montant * taux;
             $('#montant_a_payer').val(montantPayer.toFixed(2)); // Assurez-vous d'afficher le montant avec deux décimales
         }
     });
@@ -151,11 +162,11 @@
 
 
     $('#montant').on('keyup', function() {
-        var loyer = $('#montant').val();
-        if ($.isNumeric(loyer) === false) {
+        var montant = $('#montant').val();
+        if ($.isNumeric(montant) === false) {
             formValide = false;
             $('#montant').addClass('is-invalid');
-            $('#montantHelp').html('Veuillez saisir une montant  correcte');
+            $('#montantHelp').html('Veuillez saisir un montant correcte');
             $('#montantHelp').removeClass('invisible');
             $('#montant').val('')
             e.preventDefault()
@@ -239,7 +250,7 @@
     $('#bt_enregistrer').on('click', function(e) {
 
         // Cas de la duree
-        
+
         //cas du libelle
         let client = $('#client').val();
         if (client === '') {
@@ -272,20 +283,20 @@
 
 
         let devise = $('#devise').val();
-        if (devise =='Choisir la dévise') {
+        if (devise == 'Choisir la dévise') {
             formValide = false;
             $('#devise').addClass('is-invalid');
             $('#deviseHelp').html('Veuillez saisir la devise.');
             $('#deviseHelp').removeClass('invisible');
             e.preventDefault()
-        } else if (devise !='Choisir la dévise') {
+        } else if (devise != 'Choisir la dévise') {
             formValide = true;
             $('#devise').removeClass('is-invalid');
             $('#deviseHelp').html('');
             $('#deviseHelp').addClass('invisible');
         }
-        
-    if ($("#radio_achat").is(":checked") || $("#radio_vente").is(":checked")) {
+
+        if ($("#radio_achat").is(":checked") || $("#radio_vente").is(":checked")) {
             formValide = true;
             $('#radio_achat').removeClass('is-invalid');
             $('#radio_vente').removeClass('is-invalid');
@@ -328,7 +339,7 @@
             $('#montant').removeClass('is-invalid');
             $('#montantHelp').html('');
             $('#montantHelp').addClass('invisible');
-        }    
+        }
         let carte = $('#telephone').val();
         if (carte === '') {
             formValide = false;
@@ -341,8 +352,8 @@
             $('#telephone').removeClass('is-invalid');
             $('#telephoneHelp').html('');
             $('#telephoneHelp').addClass('invisible');
-        }    
-         
+        }
+
 
         // window.location.reload();
 
@@ -382,7 +393,7 @@
 
 
 
-   
+
 
     //Le telephone  ne doit contenir ds lettres
     // $('#taux_modif').on('keyup', function() {
@@ -487,13 +498,13 @@
         var taux = $('#taux_modif').val();
         var client = $('#client_modif').val();
         var montant = $('#montant_modif').val();
-        var telephone = $('#telephone_modif').val();       
+        var telephone = $('#telephone_modif').val();
         var date_v = $('#date_v_modif').val();
 
 
-        if (  client === ''   && montant == '' && taux === '' && telephone === '') {
+        if (client === '' && montant == '' && taux === '' && telephone === '') {
             formValide = false;
-            
+
             $('#client_modif').addClass('is-invalid');
             $('#client_modifHelp').html('Veillez saisir le client.');
             $('#client_modifHelp').removeClass('invisible');
@@ -516,7 +527,7 @@
             e.preventDefault()
         } else {
             formValide = true;
-            
+
 
             $('#client_modif').removeClass('is-invalid');
             $('#client_modifHelp').html('');

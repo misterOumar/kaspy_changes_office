@@ -75,7 +75,7 @@
 
                     <!-- GESTION ROLE MONEYGRAM -->
                     <?php if (intval($_SESSION['KaspyISS_user_details'][10]['lecture']) === 1) { ?>
-                        <li class="<?= $_GET['page'] === 'money_gram' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=money_gram"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Money
+                        <li class="<?= $_GET['page'] === 'money_gram' ? "active" : ($_GET['page'] === 'upload_moneygram' ? "active" : "") ?>"><a class="d-flex align-items-center" href="index.php?page=money_gram"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Money
                                     Gram</span></a>
                         </li>
                     <?php }; ?>
