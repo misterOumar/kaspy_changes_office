@@ -10,20 +10,17 @@ if (isset($_POST['upload_western_file'])) {
     include('../models/Western_union.php');
 
     // recuperrer les données postées
-    $tableData = $_POST['data'];
+    $transactions = $_POST['data'];
 
-    $datesArray = [];
+   
 
-    // Parcourez chaque élément du tableau et récupérez la valeur de 'Dates'
-    foreach ($tableData as $item) {
-        $datesArray[] = $item['Date'];
-    }
     
+    $datesArray = [];
+    // Parcourez chaque élément du tableau et récupérez la valeur de 'Dates'
+    foreach ($transactions as $item) {
+        $datesArray[] = $item[12];
+    }
 
-    // var_dump($tableData);
-    // Affichez les valeurs de 'Dates'
-    // var_dump($datesArray[0]);
-    // recuperation des informations sur l'utilisateur
    
     $transaction = western_union::getByDates($datesArray[0]);
     //  var_dump($transaction);
@@ -43,31 +40,31 @@ if (isset($_POST['upload_western_file'])) {
     $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
     $dt = date("Y-m-d H:i:s");
 
-    foreach ($tableData as $rowData) {
+    foreach ($transactions as $rowData) {
         western_union::Ajouter(
-            $rowData["Code du Pays d'Origine"],
-            $rowData["Code de la Devise d'Origine"],
-            $rowData["Identifiant du terminal"],
-            $rowData["Identité de l'opérateur"],
+            $rowData[0],
+            $rowData[1],
+            $rowData[2],
+            $rowData[3],
             0,
-            $rowData["Nom d'utilisateur"],
-            $rowData["MTCN"],
-            $rowData["Receveur"],
-            $rowData["Expéditeur"],
-            $rowData["Code du Pays de Destination"],
-            $rowData["Code de la Devise de Destination"],
-            $rowData["Type de Transaction"],
-            $rowData["Date"],
-            $rowData["Heure"],
-            $rowData["Montant envoyé"],
-            $rowData["Frais de Transfert"],
-            $rowData["Montant total recueilli"],
-            $rowData["Taux de change"],
-            $rowData["Montant payé attendu"],
-            $rowData["Total des frais"],
-            $rowData["Total des taxes"],
-            $rowData["Type de paiement"],
-            $rowData["Type de transaction"],
+            $rowData[5],
+            $rowData[6],
+            $rowData[7],
+            $rowData[8],
+            $rowData[9],
+            $rowData[10],
+            $rowData[11],
+            $rowData[12],
+            $rowData[13],
+            $rowData[14],
+            $rowData[15],
+            $rowData[19],
+            $rowData[20],
+            $rowData[21],
+            $rowData[22],
+            $rowData[23],
+            $rowData[24],
+            $rowData[26],
             $magasin,
             $dt,
             $us,

@@ -17,7 +17,7 @@
                             <!-- - DATE DEBUT - -->
                             <div>
                                 <label class='form-label' for='date_debut'>Periode du</label>
-                                <input type='text' class='form-control dt-full-libelle date_debut_filtre'  name='date_debut' placeholder='2024-01-12' />
+                                <input type='text' class='form-control dt-full-libelle date_debut_filtre' name='date_debut' placeholder='2024-01-12' />
                             </div>
                             <div class='mb-1'><small id='date_debutHelp' class='text-danger invisible'></small></div>
                         </div>
@@ -26,13 +26,13 @@
                             <!-- - DATE FIN - -->
                             <div>
                                 <label class='form-label' for='date_fin'></label>
-                                <input type='text' class='form-control dt-full-libelle date_fin_filtre'  name='date_fin' placeholder='2024-01-12' />
+                                <input type='text' class='form-control dt-full-libelle date_fin_filtre' name='date_fin' placeholder='2024-01-12' />
                             </div>
                             <div class='mb-1'><small id='date_finHelp' class='text-danger invisible'></small></div>
                         </div>
                     </div>
                     <div class="col-12 text-center mt-2">
-                       <a href=""></a> <button type="submit" class="btn btn-primary me-1"   id="bt_moov" name="bt_moov">Visualiser</button>
+                        <a href=""></a> <button type="submit" class="btn btn-primary me-1" id="bt_moov" name="bt_moov">Visualiser</button>
                         <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
                             Annuler
                         </button>
@@ -44,14 +44,3 @@
     </div>
 </div>
 <!-- journal des recouvrement -->
-<?php include 'js/logiques/reporting_logiques.php' ?>
-
- <!-- Script JavaScript pour ouvrir le lien dans un nouvel onglet -->
-<script>
-         document.getElementById('btn_moov').addEventListener('click', function() {
-        // Construisez l'URL de votre script PHP
-        var url = 'etats/EtatListeMoov.php';
-        // Ouvrez le lien dans un nouvel onglet
-        window.open(url, '_blank');
-    });
-</script>

@@ -188,6 +188,7 @@
                                             <input type='text' class='form-control dt-email' id='montant' name='montant' placeholder="Veuillez saisir le prix unitaire" aria - Label='email' maxlength='75' />
                                         </div>
                                         <div class='mb-1'><small id='montantHelp' class='text-danger invisible'></small></div>
+
                                         <!--- TAUX --->
                                         <div>
                                             <label class='form-label' for='compte_contribuable'>Taux de change</label>
@@ -195,9 +196,15 @@
                                         </div>
                                         <div class='mb-1'><small id='tauxHelp' class='text-danger invisible'></small></div>
 
+                                        <!--- MONTANT A PAYER --->
+                                        <div>
+                                            <label class='form-label' for='montant_a_payer'>Montant à payer</label>
+                                            <input type='tel' class='form-control dt-full-montant_a_payer' id='montant_a_payer'  readonly/>
+                                        </div>
+
                                         <!--- ADRESSE --->
                                         <div>
-                                            <label class='form-label' for='compte_contribuable'>Adresse</label>
+                                            <label class='form-label' for='adresse'>Adresse</label>
                                             <input type='text' class='form-control dt-full-compte_contribuable' id='adresse' name='adresse' placeholder="Veuillez saisir l'adresse" aria - Label='compte_contribuable' maxlength='75' />
                                         </div>
                                         <div class='mb-1'><small id='adresseHelp' class='text-danger invisible'></small></div>

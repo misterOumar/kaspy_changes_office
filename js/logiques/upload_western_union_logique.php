@@ -4,36 +4,29 @@
     jQuery(function($) {
         $('#dates').flatpickr({
             defaultDate: "today",
-            //  dateFormat: "d-m-Y",
-            monthNames: ["Jan", "Feb", "Mar", "Avr", "Mai", "Juin", "Juil", "Aou", "Sept", "Oct", "Nov", "Dec"]
+            dateFormat: "d-m-Y",
         })
         $('#dates_modif').flatpickr({
             defaultDate: "today",
             //  dateFormat: "d-m-Y",
-            monthNames: ["Jan", "Feb", "Mar", "Avr", "Mai", "Juin", "Juil", "Aou", "Sept", "Oct", "Nov", "Dec"]
         })
     })
-</script>
 
-
-<script>
     // rechargercher la page quand on clique sur annuler dans le modal
     $("#close_modal").click(function(e) {
         e.preventDefault();
-        alert(1)
         location.reload;
 
     });
 
 
-    let jsonData;
+    let transactions;
 
     Dropzone.options.dpzSingleFile = {
         paramName: "file",
         maxFilesize: 10,
         acceptedFiles: ".xls, .xlsx, .csv",
         success: function(file, response) {
-
             var inputFile = file;
             var reader = new FileReader();
             reader.onload = function(e) {
@@ -47,36 +40,28 @@
                             encoding: "UTF-8",
                             delimiter: ','
                         });
-
                     } else {
                         workbook = XLSX.read(data, {
                             type: 'binary',
                             header: 3
                         });
                     }
+
+
+                    // Récupération de la feuille de calcul
                     var sheetName = workbook.SheetNames[0];
                     var sheet = workbook.Sheets[sheetName];
 
-                    // Convertir la feuille en JSON
-                    const nonEmptyZRows = XLSX.utils.sheet_to_json(sheet, {
-                        header: 1
-                    }).filter(row =>
-                        row[25] !== undefined && row[25] !== null && row[25] !== ''
-                    );
-
-                    // Extrayez les clés
-                    let keys = nonEmptyZRows.length > 0 ? nonEmptyZRows[0] : [];     
-
-                    // Convertir les clés
-                    keys = encodeKeysInUTF8(keys);
+                    // Vérifier si le nombre de colonnes correspond à votre attente
+                    var expectedColumnCount = 27;
+                    var range = XLSX.utils.decode_range(sheet['!ref']);
+                    var actualColumnCount = range.e.c - range.s.c + 1;
 
 
-
-                    // Vérifiez si le nombre de clés est inférieur ou supérieur à 22
-                    if (keys.length !== 26) {
+                    if (actualColumnCount !== expectedColumnCount && actualColumnCount !== (expectedColumnCount - 1)) {
                         Swal.fire({
-                            title: 'Mauvais fichier',
-                            html: 'Veillez sélectionner le bon fichier !',
+                            title: 'Mauvais fihchier',
+                            html: 'Veuillez sélectionner le bon fichier !',
                             icon: 'error',
                             confirmButtonText: 'OK',
                         }).then((result) => {
@@ -85,26 +70,131 @@
                                 window.location.reload();
                             }
                         });
-                    } else {
-                        // Eliminer la première ligne 
-                        const dataRows = nonEmptyZRows.slice(1);
-                        // Convertir les données en format JSON en utilisant les clés
-                        jsonData = dataRows.map(row =>
-                            keys.reduce((obj, key, index) => {
-                                obj[key] = row[index];
-                                return obj;
-                            }, {})
-                        );
+                        return;
                     }
 
-                    var date_saisie = document.getElementById("dates").value;
-                    var dateColumnIndex = "Date"; // Assuming the date column is at index 17
 
-                    if (jsonData.length > 0 && jsonData[0][dateColumnIndex]) {
-                        var date_objet = jsonData[0][dateColumnIndex];
+                    // Parcourir toutes les cellules de la feuille
+                    for (var key in sheet) {
+                        if (!sheet.hasOwnProperty(key)) continue;
+                        if (key[0] === '!') continue; // Ignorer les clés spéciales comme '!ref'
+                        var cell = sheet[key];
+                        if (cell.t === 's') { // Si la cellule contient une chaîne de caractères
+                            cell.v = fixEncoding(cell.v);
+                        }
+                    }
+
+                    // Récupération des données des transactions envoyées
+                    var rangeEnvoyees = XLSX.utils.decode_range(sheet['!ref']);
+                    var debutRangeEnvoyees = 0;
+                    var finRangeEnvoyees = 0;
+                    for (var R = rangeEnvoyees.s.r; R <= rangeEnvoyees.e.r; ++R) {
+                        var cellule = XLSX.utils.encode_cell({
+                            r: R,
+                            c: rangeEnvoyees.s.c
+                        });
+                        var valeurCellule = sheet[cellule] ? sheet[cellule].v : '';
+                        if (valeurCellule === 'Transactions envoyées') {
+                            debutRangeEnvoyees = R + 3;
+                            break;
+                        }
+                    }
+                    finRangeEnvoyees = debutRangeEnvoyees;
+                    while (true) {
+                        var cellule = XLSX.utils.encode_cell({
+                            r: finRangeEnvoyees,
+                            c: rangeEnvoyees.s.c
+                        });
+                        var valeurCellule = sheet[cellule] ? sheet[cellule].v : '';
+                        if (!valeurCellule) break; // Cellule vide, fin des transactions envoyées
+                        finRangeEnvoyees++;
+                    }
+
+                    // Récupération des données des transactions envoyées
+                    var dataEnvoyees = [];
+                    for (var R = debutRangeEnvoyees; R < finRangeEnvoyees; ++R) {
+                        var row = [];
+                        for (var C = rangeEnvoyees.s.c; C <= rangeEnvoyees.e.c; ++C) {
+                            var cellule = XLSX.utils.encode_cell({
+                                r: R,
+                                c: C
+                            });
+                            var valeurCellule = sheet[cellule] ? sheet[cellule].v : '';
+                            row.push(valeurCellule);
+                        }
+                        dataEnvoyees.push(row);
+                    }
+
+                    // Ajouter la colonne "Type de transaction" à dataEnvoyees
+                    dataEnvoyees[0].push("Type de transaction");
+                    for (var i = 1; i < dataEnvoyees.length; i++) {
+                        dataEnvoyees[i].push("envoi");
+                    }
+
+
+                    // TRANSACTIONS PAYEES
+
+                    // Récupération des données des transactions payées
+                    var rangePayees = XLSX.utils.decode_range(sheet['!ref']);
+                    var debutRangePayees = 0;
+                    var finRangePayees = 0;
+                    for (var R = rangePayees.s.r; R <= rangePayees.e.r; ++R) {
+                        var cellule = XLSX.utils.encode_cell({
+                            r: R,
+                            c: rangePayees.s.c
+                        });
+                        var valeurCellule = sheet[cellule] ? sheet[cellule].v : '';
+                        if (valeurCellule === 'Transactions Payées') {
+                            debutRangePayees = R + 3;
+                            break;
+                        }
+                    }
+                    finRangePayees = debutRangePayees;
+                    while (true) {
+                        var cellule = XLSX.utils.encode_cell({
+                            r: finRangePayees,
+                            c: rangePayees.s.c
+                        });
+                        var valeurCellule = sheet[cellule] ? sheet[cellule].v : '';
+                        if (!valeurCellule) break; // Cellule vide, fin des transactions payées
+                        finRangePayees++;
+                    }
+
+                    // Récupération des données des transactions payées
+                    var dataPayees = [];
+                    for (var R = debutRangePayees; R < finRangePayees; ++R) {
+                        var row = [];
+                        for (var C = rangePayees.s.c; C <= rangePayees.e.c; ++C) {
+                            var cellule = XLSX.utils.encode_cell({
+                                r: R,
+                                c: C
+                            });
+                            var valeurCellule = sheet[cellule] ? sheet[cellule].v : '';
+                            row.push(valeurCellule);
+                        }
+                        dataPayees.push(row);
+                    }
+
+                    // Ajouter la colonne "Type de transaction" à dataPayees
+                    dataPayees[0].push("Type de transaction");
+                    for (var i = 1; i < dataPayees.length; i++) {
+                        dataPayees[i].push("payer");
+                    }
+
+
+                    // TOUTES LES TRANSACTIONS
+
+                    // concaténer les données transactions envoyées et les transactions payées 
+                    transactions = dataEnvoyees.concat(dataPayees.slice(1));
+
+                    var date_saisie = document.getElementById("dates").value;
+                    var dateColumnIndex = 12; // Assuming the date column is at index 17
+
+                    if (transactions.length > 0 && transactions[1][dateColumnIndex]) {
+                        var date_objet = transactions[1][dateColumnIndex];
                         var parsedDate_objet = moment(date_objet, "DD-MM-YYYY").format("DD/MM/YYYY");
                         // var parsedDate_objet = date_objet;
-                        var parsedDate_saisie = moment(date_saisie).format("DD/MM/YYYY");
+                        var parsedDate_saisie = moment(date_saisie, "DD-MM-YYYY").format("DD/MM/YYYY");
                         if (parsedDate_objet !== parsedDate_saisie) {
 
                             Swal.fire({
@@ -118,35 +208,20 @@
                                     window.location.reload();
                                 }
                             });
+                            return;
                         }
                     } else {
                         console.error('Aucune donnée disponible pour la vérification de la date.');
                     }
-                    // Parcourir toutes les données
-                    jsonData.forEach(function(item) {
-                        // Vérifier si la propriété "Type de paiement" est égale à "CASH"
-                        if (item["Type de paiement"] === "CASH") {
-                            // Si c'est le cas, remplacer la valeur de la propriété "null" par "envoi"
-                            item["Type de transaction"] = "envoi";
-                            // Supprimer la propriété "null" si nécessaire
-                            delete item["null"];
-                        } else {
-                            // Sinon, remplacer la valeur de la propriété "null" par "payer"
-                            item["Type de transaction"] = "payer";
-                            // Supprimer la propriété "null" si nécessaire
-                            delete item["null"];
-                        }
 
-                        if (item["Taux de change"] == null) {
-                            item["Taux de change"] = 0;
-                        }
+                    // // Parcourir toutes les données
+                    // transactions.forEach(function(item) {
+                    //     // Supprimer les colonnes null ou vide
+                    //     delete item[4];
+                    //     delete item[25];
+                    // });
 
-                        if (item["Type de paiement"] == null) {
-                            item["Type de paiement"] = 'Inconnu';
-                        }
 
-                        delete item["Superv. Op. Identifiant"];
-                    });
 
                     // STATS
                     var montant_envoyer = 0;
@@ -161,40 +236,39 @@
                     var frais_envoyer = 0;
                     var frais_payer = 0;
                     var impots_payees = 0;
-                    jsonData.forEach(function(item) {
-                        if (item["Type de transaction"] === "envoi") {
+
+                    // Retirer la première ligne de transactions et la stocker dans une autre variable
+                    var entetesTransactions = transactions.shift();
+
+                    transactions.forEach(function(item) {
+                        if (item[26] === "envoi") {
                             nombre_transaction_envoyees += 1;
-                            montant_envoyer += item["Montant envoyé"];
-                            frais_envoyees += item["Frais de Transfert"];
-                            frais_message_envoyees += item["Frais du message"];
-                            frais_livraison_envoyees += item["Frais de livraison"];
-                            impots_envoyees += item["Total des taxes"];
+                            montant_envoyer += item[14];
+                            frais_envoyees += item[15];
+                            frais_livraison_envoyees += item[16];
+                            frais_message_envoyees += item[17];
+                            impots_envoyees += item[23];
 
                         } else {
                             nombre_transaction_payees += 1;
-                            montant_collecte += item["Montant payé attendu"];
-                            frais_payer += item["Frais de Transfert"];
-                            impots_payees += item["Total des taxes"];
+                            montant_collecte += item[21];
+                            frais_payer += item[15];
+                            impots_payees += item[23];
 
                         }
                     });
 
 
-
                     // Affichez les données dans un DataTable
                     $("#excelDataTable").DataTable({
-
-                        data: jsonData,
-                        columns: Object.keys(jsonData[0]).map(function(col) {
+                        data: transactions,
+                        columns: entetesTransactions.map(function(header) {
                             return {
-                                data: col,
-                                title: col
+                                title: header
                             };
-                        }),
-
-
-
+                        })
                     });
+
 
                     // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
                     if ($.fn.DataTable.isDataTable("#excelDataTable")) {
@@ -203,11 +277,10 @@
 
                     // (Re)initialisez la DataTable
                     dataTable = $("#excelDataTable").DataTable({
-                        data: jsonData,
-                        columns: Object.keys(jsonData[0]).map(function(col) {
+                        data: transactions,
+                        columns: entetesTransactions.map(function(header) {
                             return {
-                                data: col,
-                                title: col
+                                title: header
                             };
                         }),
                         scrollX: true, // Activer le défilement horizontal
@@ -257,6 +330,7 @@
                     $('#frais_paye').text(frais_payer);
                     // Affichez le modal
                     $("#excelModal").modal("show");
+
                 } catch (error) {
                     console.error('Erreur lors de la lecture du fichier Excel :', error);
                 }
@@ -268,14 +342,12 @@
         }
     };
 
-    // Fonction au clic du bouton "Enregistrer"
+
+
+    //  au clic du bouton "Enregistrer"
     $("#btnValider").click(function(e) {
         e.preventDefault();
-
-        // ... (votre code existant)
-
-        // Appel de la fonction pour envoyer les données au contrôleur
-        sendDataToController(jsonData);
+        sendDataToController(transactions);
     });
 
     // Fonction au clic du bouton "Annuler"
@@ -293,13 +365,13 @@
     });
 
     // Fonction pour envoyer les données au contrôleur via AJAX
-    function sendDataToController(jsonData) {
+    function sendDataToController(transactions) {
         $.ajax({
             url: 'controllers/upload_western_union_controller.php', // Remplacez par le chemin réel vers votre contrôleur
             method: 'POST',
             data: {
                 upload_western_file: true,
-                data: jsonData
+                data: transactions
             },
             dataType: 'json',
             success: function(response) {
@@ -312,6 +384,11 @@
                     }
                     // MESSAGE ALERT
                     swal_Alert_Sucess(response.message);
+
+                    // Si elle a déjà été initialisée, détruisez-la avant de la réinitialiser
+                    if ($.fn.DataTable.isDataTable("#excelDataTable")) {
+                        $("#excelDataTable").DataTable().destroy();
+                    }
                 } else if (response.success === 'existe') {
                     // MESSAGE ALERT SI  EXISTE
                     swal_Alert_Danger(response.message);

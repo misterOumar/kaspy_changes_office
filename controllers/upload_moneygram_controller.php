@@ -1,7 +1,5 @@
 <?php
 
-
-
 // IMPORTATION DES DONNEES
 if (isset($_POST['upload_moneygram_file'])) {
     // inclusion des fichiers ressources
@@ -11,39 +9,50 @@ if (isset($_POST['upload_moneygram_file'])) {
      include('../models/Money_gram.php');
 
     // recuperrer les données postées
-    $tableData = $_POST['data'];
+    $transactions = $_POST['data'];
     // recuperation des informations sur l'utilisateur
 
-    $transaction = moneygram::getByDate($tableData['dates']);
+  
 
-    if ($transaction['Dates'] == $tableData['dates']) {
+    $datesArray = [];
+    // Parcourez chaque élément du tableau et récupérez la valeur de 'Dates'
+    foreach ($transactions as $item) {
+        $datesArray[] = $item[0];
+    }
+
+    
+
+   
+    $transaction = moneygram::getByDates($datesArray[0]);
+
+    // TODO: Vérifier la date colunn date-heure
+    if ($transaction['date_heure'] === $datesArray[0]) {
         $message = "Ce fichier a été déjà importé";
-        $response = [
-            'success' => "existe",
+        echo json_encode([
+            'success' => 'existe',
             'message' => $message
-        ];
+        ]);
     } else{  
-        var_dump($transaction);
     $ip = getIp();
     $navigateur = getNavigateur();
     $magasin = $_SESSION["KaspyISS_bureau"];
     $us = $_SESSION["KaspyISS_user"]['users'];
     $pc = gethostbyaddr($_SERVER['REMOTE_ADDR']);
     $dt = date("Y-m-d H:i:s");
-    // var_dump($tableData);
-    foreach ($tableData as $rowData) {
+
+    foreach ($transactions as $transaction) {
         moneygram::Ajouter(
-            $rowData["Heure et date (locales)"],
-            $rowData["Num Réf"],
-            $rowData["code d'autorisation"],
-            $rowData["Identifiant d'utilisateur"],
-            $rowData["ID de point de vente"],
-            $rowData["Montant"],
-            $rowData["Frais"],
-            $rowData["Total"],
-            $rowData["Taxe"],
-            $rowData["Type"], 
-            $rowData["Dates"], 
+            $transaction[0],
+            $transaction[1],
+            $transaction[3],
+            $transaction[3],
+            $transaction[4],
+            $transaction[5],
+            $transaction[6],
+            $transaction[7],
+            $transaction[10],
+            $transaction[9], 
+            $dt, 
             $magasin,              
             $dt,
             $us,
@@ -64,8 +73,5 @@ if (isset($_POST['upload_moneygram_file'])) {
         'success' => 'true',
         'message' => $message
     ]);
-
 }
-    // Envoie la réponse JSON au script JavaScript
-    echo json_encode($response);
 }

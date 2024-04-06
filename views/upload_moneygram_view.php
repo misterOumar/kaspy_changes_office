@@ -95,7 +95,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                         <div class="col-md-3">
                                             <label class='form-label' for='taxe'>Taxes</label>
                                             <input type="int" id="taxe" name="taxe"
-                                                class="form-control flatpickr-date-time" />
+                                                class="form-control flatpickr-date-time" value="0" />
                                         </div>
 
                                     </div>

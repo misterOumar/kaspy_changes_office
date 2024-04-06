@@ -126,7 +126,7 @@ class moneygram
     static function getByDates($dates)
     {
         global $db;
-        $sql = "SELECT * FROM moneygram WHERE dates = ?";
+        $sql = "SELECT * FROM moneygram WHERE date_heure = ?";
         $req = $db->prepare($sql);
         $req->execute([$dates]);
         return $req->fetch();

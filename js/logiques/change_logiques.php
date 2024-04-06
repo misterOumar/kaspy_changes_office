@@ -91,7 +91,7 @@
 
     $('#montant').on('change', function() {
         $('#montant').removeClass('is-invalid');
-        $('#montantHelp').html('Veuillez saisir le montant...');
+        $('#montantHelp').html('');
     });
 
     $('#client').on('change', function() {
@@ -106,20 +106,31 @@
 
     $('#carte').on('change', function() {
         $('#taux').removeClass('is-invalid');
-        $('#tauxHelp').html('Veillez selectionner la taux');
+        $('#tauxHelp').html('');
     });
 
    
 
     $('#telephone').on('change', function() {
         $('#telephone').removeClass('is-invalid');
-        $('#telephoneHelp').html('Veillez saisir la telephone');
+        $('#telephoneHelp').html('');
     });
 
     $('#date_v').on('change', function() {
         $('#date_v').removeClass('is-invalid');
-        $('#date_vHelp').html('Veillez selectionner  la date ');
+        $('#date_vHelp').html(' ');
     });
+
+    $('#montant, #taux').on('input', function() {
+        var montant = parseFloat($('#montant').val());
+        var taux = parseFloat($('#taux').val());
+        
+        if (!isNaN(montant) && !isNaN(taux)) {
+            var montantPayer = montant * taux;
+            $('#montant_a_payer').val(montantPayer.toFixed(2)); // Assurez-vous d'afficher le montant avec deux décimales
+        }
+    });
+
     // Champ du montant ne doit contenir des letters
     // $('#montant').on('keyup', function() {
     //     var loyer = $('#montant').val();
