@@ -137,7 +137,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                     <!-- COMPTE -->
                                     <div>
                                         <label class='form-label' for='compte_contribuable'>Numéro de Téléphone</label>
-                                        <input type='tel' class='form-control dt-full-compte_contribuable' id='tel_cli' name='tel_cli' placeholder="" aria - Label='compte_contribuable' maxlength='75' />
+                                        <input type='tel' class='form-control dt-full-compte_contribuable' id='tel_cli' name='tel_cli' value="05" />
                                     </div>
                                     <div class='mb-1'><small id='tel_cliHelp' class='text-danger invisible'></small></div>
 
@@ -292,7 +292,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <script src="js/plugins/tables/datatable/vfs_fonts.js"></script>
     <script src="js/plugins/tables/datatable/buttons.html5.min.js"></script>
     <script src="js/plugins/tables/datatable/buttons.print.min.js"></script>
-    <script src="js/plugins/pickers/flatpickr/flatpickr.min.js"></script>
 
     <!--<script src="js/template/ui/jquery.sticky.js"></script> -->
     <script src="js/template/forms/spinner/jquery.bootstrap-touchspin.js"></script>
@@ -317,7 +316,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.ext_io.js"></script>
     <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.ext_ui.js"></script>
     <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.documents.core_core.js"></script>
-    <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.ext_collectionsextended.js"></script>
     <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.excel_core.js"></script>
     <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.ext_threading.js"></script>
     <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.ext_web.js"></script>

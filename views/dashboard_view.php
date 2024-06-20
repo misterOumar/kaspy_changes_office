@@ -9,7 +9,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
 
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html class="loading" lang="fr" data-textdirection="ltr">
 <!-- BEGIN: Head-->
 
 <head>
@@ -24,7 +24,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <!-- Fichiers CSS spécifiques a la page (TEMPLATE) -->
     <link rel="stylesheet" type="text/css" href="css/template/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="css/core/menu/menu-types/vertical-menu.css">
-    <link rel="stylesheet" type="text/css" href="css/template/pages/dashboard-ecommerce.css">
 
     <link rel="stylesheet" type="text/css" href="css/plugins/charts/apexcharts.css">
     <link rel="stylesheet" type="text/css" href="css/plugins/charts/chart-apex.css">
@@ -97,7 +96,22 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                         </div>
                                     </div>
                                     <div class="card-body statistics-body">
-                                        <div class="row">
+                                        <div class="row mb-2">
+
+                                            <!-- Statistics Change -->
+                                            <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
+                                                <div class="d-flex flex-row">
+                                                    <div class="avatar bg-light-warning  me-2">
+                                                        <span class="avatar-content">
+                                                            <i data-feather='dollar-sign' class="avatar-icon"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="my-auto">
+                                                        <h4 class="fw-bolder mb-0"><?= $nbre_changes ?></h4>
+                                                        <p class="card-text font-small-3 mb-0">Opérations changes</p>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                             <!-- Statistics Cartes Visa -->
                                             <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
@@ -144,6 +158,11 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                     </div>
                                                 </div>
                                             </div>
+
+
+
+                                        </div>
+                                        <div class="row">
                                             <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-sm-0">
                                                 <div class="d-flex flex-row">
                                                     <div class="avatar bg-light-danger me-2">
@@ -158,7 +177,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -166,10 +184,119 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                             <!--/ Statistics Card -->
                         </div>
 
-                        <!--
-                        <div id="chart">
-                        </div> 
-                        -->
+                        <div class="row">
+
+
+                            <!-- DEPOTS MOBILE MONEY Starts-->
+                            <div class="col-xl-6 col-12">
+                                <div class="card">
+                                    <div class="d-flex justify-content-between align-item-center">
+
+                                        <div class="card-header flex-column align-items-start">
+                                            <h4 class="card-title mb-75">Dépôts Mobile Money </h4>
+                                            <span class="card-subtitle text-muted">Transactions mobile money</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mt-md-0 mt-1">
+                                            <i class="font-medium-2" data-feather="calendar"></i>
+                                            <input type="text" id="date_envois_mobile_money" class="form-control flat-picker bg-transparent border-0 shadow-none" placeholder="YYYY-MM-DD to YYYY-MM-DD" />
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="chart_pie_envois_mm"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- DEPOTS MOBILE MONEY Ends-->
+
+                            <!-- RETRAITS MOBILE MONEY Starts-->
+                            <div class="col-xl-6 col-12">
+                                <div class="card">
+                                    <div class="d-flex justify-content-between align-item-center">
+
+                                        <div class="card-header flex-column align-items-start">
+                                            <h4 class="card-title mb-75">Rétraits Mobile Money </h4>
+                                            <span class="card-subtitle text-muted">Transactions mobile money</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mt-md-0 mt-1">
+                                            <i class="font-medium-2" data-feather="calendar"></i>
+                                            <input type="text" id="date_retrait_mobile_money" class="form-control flat-picker bg-transparent border-0 shadow-none" placeholder="YYYY-MM-DD to YYYY-MM-DD" />
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="chart_pie_retraits_mobile_money"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- RETRAITS MOBILE MONEY Ends-->
+
+                            <!-- ACHAT DE DEVISE Starts-->
+                            <div class="col-xl-6 col-12">
+                                <div class="card">
+                                    <div class="d-flex justify-content-between align-item-center">
+
+                                        <div class="card-header flex-column align-items-start">
+                                            <h4 class="card-title mb-75">Achats de dévises : <?= $nbre_achat_devise; ?> </h4>
+                                            <span class="card-subtitle text-muted">Opérations changes</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mt-md-0 mt-1">
+                                            <i class="font-medium-2" data-feather="calendar"></i>
+                                            <input type="text" id="date_achat_devises" class="form-control flat-picker bg-transparent border-0 shadow-none" placeholder="YYYY-MM-DD to YYYY-MM-DD" />
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="chart_pie_achat_devises"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ACHAT DE DEVISE Ends-->
+
+                            <!-- VENTE DE DEVISE Starts-->
+                            <div class="col-xl-6 col-12">
+                                <div class="card">
+                                    <div class="d-flex justify-content-between align-item-center">
+
+                                        <div class="card-header flex-column align-items-start">
+                                            <h4 class="card-title mb-75">Ventes de dévises : <?= $nbre_vente_devise; ?> </h4>
+                                            <span class="card-subtitle text-muted">Opérations changes</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mt-md-0 mt-1">
+                                            <i class="font-medium-2" data-feather="calendar"></i>
+                                            <input type="text" id="date_vente_devises" class="form-control flat-picker bg-transparent border-0 shadow-none" placeholder="YYYY-MM-DD to YYYY-MM-DD" />
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="chart_pie_vente_devises"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- VENTE DE DEVISE Ends-->
+
+                        </div>
+
+
+                        <!-- TRANSACTIONS MONEY GRAM - RIA - WESTERN Starts-->
+                        <div class="col-xl-12 col-12">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-item-center">
+
+                                    <div class="card-header flex-column align-items-start">
+                                        <h4 class="card-title mb-75">Transactions WU, MG, RIA </h4>
+                                        <span class="card-subtitle text-muted">Transactions bancaire</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mt-md-0 mt-1">
+                                        <i class="font-medium-2" data-feather="calendar"></i>
+                                        <input type="text" id="date_envois_mobile_money" class="form-control flat-picker bg-transparent border-0 shadow-none" placeholder="YYYY-MM-DD to YYYY-MM-DD" />
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div id="chart_transactions"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- TRANSACTIONS MONEY GRAM - RIA - WESTERN Ends-->
+
+
+
 
 
 
@@ -205,32 +332,12 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <!-- START: Footer-->
     <?php include 'includes/footer.php' ?>
     <!-- END: Footer-->
-    <?php include 'js/logiques/reporting_logiques.php' ?>
-    <?php include 'js/logiques/home_logiques.php' ?>
 
     <script src="js/plugins/charts/apexcharts.min.js"></script>
-    <script src="js/plugins/charts/apexcharts.m.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-    <script>
-        var options = {
-            chart: {
-                type: 'bar'
-            },
-            series: [{
-                name: 'sales',
-                data: [30, 40, 45, 50, 49, 60, 70, 91, 125]
-            }],
-            xaxis: {
-                categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
-            }
-        }
-
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-        chart.render();
-    </script>
+    <?php include 'js/logiques/dashboard_logiques.php' ?>
 
 
     <script>

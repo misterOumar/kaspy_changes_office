@@ -250,3 +250,15 @@ function encodeKeysInUTF8(keys) {
       return fixEncoding(key);
   });
 }
+
+
+/**
+ * retirer la validation
+ * @param {string}
+ */
+function clearValidation(id) {
+  $('#' + id).on('input', function() {
+      $('#' + id).removeClass('is-invalid');
+      $('#' + id + 'Help').html('');
+  });
+}

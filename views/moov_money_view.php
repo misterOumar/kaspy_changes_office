@@ -144,7 +144,7 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
                                     <div>
                                         <label class='form-label' for='compte_contribuable'>Numéro de Téléphone</label>
-                                        <input type='tel' class='form-control dt-full-compte_contribuable' id='tel_cli' name='tel_cli' placeholder="" aria - Label='compte_contribuable' maxlength='75' />
+                                        <input type='tel' class='form-control dt-full-compte_contribuable' id='tel_cli' name='tel_cli' value="01" />
                                     </div>
                                     <div class='mb-1'><small id='tel_cliHelp' class='text-danger invisible'></small></div>
 
@@ -294,7 +294,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <script src="js/plugins/tables/datatable/vfs_fonts.js"></script>
     <script src="js/plugins/tables/datatable/buttons.html5.min.js"></script>
     <script src="js/plugins/tables/datatable/buttons.print.min.js"></script>
-    <script src="js/plugins/pickers/flatpickr/flatpickr.min.js"></script>
 
     <!--<script src="js/template/ui/jquery.sticky.js"></script> -->
     <script src="js/template/forms/spinner/jquery.bootstrap-touchspin.js"></script>
@@ -319,7 +318,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.ext_io.js"></script>
     <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.ext_ui.js"></script>
     <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.documents.core_core.js"></script>
-    <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.ext_collectionsextended.js"></script>
     <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.excel_core.js"></script>
     <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.ext_threading.js"></script>
     <script type="text/javascript" src="http://cdn-na.infragistics.com/igniteui/2023.1/latest/js/modules/infragistics.ext_web.js"></script>
@@ -335,276 +333,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 
 
     <script>
-        //    $(function() {
-        //        $("#input").on("change", function() {
-        //            var excelFile,
-        //                fileReader = new FileReader();
-        //            $("#result").hide();
-
-        //            fileReader.onload = function(e) {
-        //                var buffer = new Uint8Array(fileReader.result);
-        //                $.ig.excel.Workbook.load(
-        //                    buffer,
-        //                    function(workbook) {
-        //                        var column,
-        //                            row,
-        //                            cellValue,
-        //                            columnIndex,
-        //                            i,
-        //                            worksheet = workbook.worksheets(0),
-        //                            columnsNumber = 0,
-        //                            data = [],
-        //                            worksheetRowsCount = worksheet.rows.length, // Utilisez .length au lieu de .count
-        //                            headerRows = 1;
-
-        //                        // Trouver le nombre maximum de colonnes
-        //                        for (i = 0; i < headerRows; i++) {
-        //                            var currentColumns = worksheet.rows[i].cells.length; // Utilisez .cells.length au lieu de .count
-        //                            if (currentColumns > columnsNumber) {
-        //                                columnsNumber = currentColumns;
-        //                            }
-        //                        }
-
-        //                        // Construire les données
-        //                        // 
-
-        //                        for (i = headerRows; i < worksheetRowsCount; i++) 
-        //                        {
-        //                            var rowData = {};
-        //                            row = worksheet.rows[i];
-        //                            for (columnIndex = 0; columnIndex < columnsNumber; columnIndex++) {
-        //                                column = worksheet.rows[headerRows - 1].getCellText(columnIndex);
-        //                                cellValue = row.getCellText(columnIndex);
-        //                                if (!rowData[column]) {
-        //                                    rowData[column] = [];
-        //                                }
-        //                                rowData[column].push(cellValue);
-        //                            }
-        //                            data.push(rowData);
-        //                        }
-
-        //                        // Log des données dans la console
-
-        //                        console.log("Data:", data);
-
-        //                        // Affichage des données dans un tableau ou autre structure
-
-        //                        displayDataInTable(data);
-
-        //                        // Afficher le modal ou autre action
-
-        //                        $("#offcanvasBottom1").modal("show");
-        //                    },
-        //                    function(error) {
-        //                        $("#result").text("The excel file is corrupted.");
-        //                        $("#result").show(1000);
-        //                    }
-        //                );
-        //            }
-        //            if (this.files.length > 0) {
-        //                excelFile = this.files[0];
-        //                if (
-        //                    excelFile.type === "application/vnd.ms-excel" ||
-        //                    excelFile.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-        //                    (excelFile.type === "" &&
-        //                        (excelFile.name.endsWith("xls") || excelFile.name.endsWith("xlsx")))
-        //                ) {
-        //                    fileReader.readAsArrayBuffer(excelFile);
-        //                } else {
-        //                    $("#result").text(
-        //                        "The format of the file you have selected is not supported. Please select a valid Excel file ('.xls, *.xlsx')."
-        //                    );
-        //                    $("#result").show(1000);
-        //                }
-        //            }
-        //        });
-        //    function displayDataInTable(data) {
-        //        // Construction du tableau HTML
-        //        var tableHtml = "<table class='styled-table'><thead><tr>";
-        //        // Ajouter les en-têtes de colonnes
-        //        for (var key in data[0]) {
-        //            if (data[0].hasOwnProperty(key)) {
-        //                tableHtml += "<th>" + key + "</th>";
-        //            }
-        //        }
-        //        tableHtml += "</tr></thead><tbody>";
-        //        // Ajouter les données
-        //        for (var i = 0; i < data.length; i++) {
-        //            tableHtml += "<tr>";
-        //            for (var key in data[i]) {
-        //                if (data[i].hasOwnProperty(key)) {
-        //                    tableHtml += "<td>" + data[i][key] + "</td>";
-        //                }
-        //            }
-        //            tableHtml += "</tr>";
-        //        }
-        //        tableHtml += "</tbody></table>";
-
-        //        // Ajouter le tableau au conteneur HTML
-        //        $("#S").html(tableHtml);
-        //    }
-
-        //    });
-
-        $(function() {
-            $("#input").on("change", function() {
-                var excelFile,
-                    fileReader = new FileReader();
-                $("#result").hide();
-                fileReader.onload = function(e) {
-                    var buffer = new Uint8Array(fileReader.result);
-                    $.ig.excel.Workbook.load(
-                        buffer,
-                        function(workbook) {
-                            var column,
-                                row,
-                                cellValue,
-                                columnIndex,
-                                i,
-                                worksheet = workbook.worksheets(0),
-                                columnsNumber = 0,
-                                data = [],
-                                worksheetRowsCount = worksheet.rows.length,
-                                headerRows = 1;
-
-                            // Trouver le nombre maximum de colonnes
-
-                            for (i = 0; i < headerRows; i++) {
-                                var currentColumns = worksheet.rows[i].cells.length;
-                                if (currentColumns > columnsNumber) {
-                                    columnsNumber = currentColumns;
-                                }
-                            }
-
-                            // Construire les données
-
-                            for (i = headerRows; i < worksheetRowsCount; i++) {
-                                var rowData = {};
-                                row = worksheet.rows[i];
-                                for (columnIndex = 0; columnIndex < columnsNumber; columnIndex++) {
-                                    column = worksheet.rows[headerRows - 1].getCellText(columnIndex);
-                                    cellValue = row.getCellText(columnIndex);
-                                    if (!rowData[column]) {
-                                        rowData[column] = [];
-                                    }
-                                    rowData[column].push(cellValue);
-                                }
-                                data.push(rowData);
-                            }
-                            // Filtrer et trier les données
-                            var filteredData = filterAndSortData(data);
-                            // Log des données dans la console
-                            console.log("Data:", filteredData);
-                            // Affichage des données dans un tableau ou autre structure
-                            displayDataInTable(filteredData);
-                            // Afficher le modal ou autre action
-                            $("#offcanvasBottom1").modal("show");
-                        },
-                        function(error) {
-                            $("#result").text("The excel file is corrupted.");
-                            $("#result").show(1000);
-                        }
-                    );
-                };
-
-                if (this.files.length > 0) {
-                    excelFile = this.files[0];
-                    if (
-                        excelFile.type === "application/vnd.ms-excel" ||
-                        excelFile.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-                        (excelFile.type === "" &&
-                            (excelFile.name.endsWith("xls") || excelFile.name.endsWith("xlsx")))
-                    ) {
-                        fileReader.readAsArrayBuffer(excelFile);
-                    } else {
-                        $("#result").text(
-                            "The format of the file you have selected is not supported. Please select a valid Excel file ('.xls, *.xlsx')."
-                        );
-                        $("#result").show(1000);
-                    }
-                }
-            });
-
-            function filterAndSortData(data) {
-                var uniqueRows = [];
-                var seenRows = {};
-                // Filtrer et trier les données
-                data.forEach(function(row) {
-                    var key = row["MONTANT"] + row["DATE"] + row["CLIENT"] + row["TELEPHONE CLIENT"] + row["DESTINATAIRE"] + row["TELEPHONE DESTINATAIRE"];
-                    // Vérifier si la clé a déjà été vue
-                    if (!seenRows[key]) {
-                        seenRows[key] = true;
-                        uniqueRows.push(row);
-                    }
-                });
-                // Trier les données
-                uniqueRows.sort(function(a, b) {
-                    // Vous pouvez personnaliser l'ordre de tri en fonction de vos besoins
-                    // Par exemple, trier par date
-                    return new Date(a["DATE"]) - new Date(b["DATE"]);
-                });
-                return uniqueRows;
-            }
-
-            function displayDataInTable(data) {
-                // Construction du tableau HTML
-                var tableHtml = "<table class='styled-table'><thead><tr>";
-                // Ajouter les en-têtes de colonnes
-                for (var key in data[0]) {
-                    if (data[0].hasOwnProperty(key)) {
-                        tableHtml += "<th>" + key + "</th>";
-                    }
-                }
-                tableHtml += "</tr></thead><tbody>";
-                // Ajouter les données
-                for (var i = 0; i < data.length; i++) {
-                    tableHtml += "<tr>";
-                    for (var key in data[i]) {
-                        if (data[i].hasOwnProperty(key)) {
-                            tableHtml += "<td>" + data[i][key] + "</td>";
-                        }
-                    }
-                    tableHtml += "</tr>";
-                }
-                tableHtml += "</tbody></table>";
-                // Ajouter le tableau au conteneur HTML
-                $("#S").html(tableHtml);
-            }
-
-        });
-        $('#bt_enregistrer').on('click', function() {
-            // Enregistrez les données actuelles de la table dans la base de données
-            saveToDatabase($('#S').DataTable().data().toArray());
-            //    location.reload();
-            $('#input').val('');
-            // window.location.reload();
-        });
-
-        $('#bt_annuler').on('click', function() {
-            // Enregistrez les données actuelles de la table dans la base de données
-            //    window.location.reload();
-        });
-
-        function saveToDatabase(data) {
-            // Extraire les données de la table
-            var dataToSave = data;
-            // Assurez-vous d'avoir le bon chemin pour le script PHP qui gère l'insertion dans la base de données
-            var insertScript = 'controllers/save_moov_money_controller.php';
-            // Effectuer la requête AJAX
-            $.ajax({
-                type: 'POST',
-                url: insertScript,
-                data: {
-                    data: JSON.stringify(dataToSave)
-                }, // Passer les données à insérer
-                success: function(response) {
-                    console.log('Data inserted successfully:', response);
-                },
-                error: function(error) {
-                    console.error('Error inserting data:', error);
-                }
-            });
-        }
         $(window).on('load', function() {
             if (feather) {
                 feather.replace({
@@ -617,25 +345,3 @@ if (!isset($_SESSION["KaspyISS_user"])) {
 </body>
 
 </html>
-<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-
-    th,
-    td {
-        /* border: 1px solid #ddd; */
-        padding: 8px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #f2f2f2;
-    }
-
-    tr:hover {
-        background-color: #f5f5f5;
-    }
-</style>

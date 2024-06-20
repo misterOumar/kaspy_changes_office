@@ -10,10 +10,6 @@
         require_once("../models/Bureaux.php");
         require_once("../models/Orange.php");
 
-
-
-
-
         $date_debut = $_POST["date_debut"];
         $date_debut = date('Y-m-d', strtotime($date_debut));
 

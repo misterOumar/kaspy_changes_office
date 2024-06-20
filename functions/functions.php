@@ -51,9 +51,9 @@ function verifierEmail($var)
  */
 function getIp()
 {
-    if (isset ($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } elseif (isset ($_SERVER['HTTP_CLIENT_IP'])) {
+    } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
         $ip = $_SERVER['HTTP_CLIENT_IP'];
     } else {
         $ip = $_SERVER['REMOTE_ADDR'];
@@ -68,7 +68,7 @@ function getIp()
  */
 function getNavigateur()
 {
-    if (isset ($_SERVER['HTTP_USER_AGENT'])) {
+    if (isset($_SERVER['HTTP_USER_AGENT'])) {
         $browser = $_SERVER['HTTP_USER_AGENT'];
     } else {
         $browser = "Inconnu";
@@ -146,11 +146,12 @@ function randomCodeFacture()
 
     $randomPass = implode($pass); //turn the array into a string
     $date = date('Y-m-d H:i:s');
-    return $randomPass."".$date;
+    return $randomPass . "" . $date;
 }
 
 
-function genererNumeroContrat($dateSignature, $typeContrat) {
+function genererNumeroContrat($dateSignature, $typeContrat)
+{
     // Convertir la date de signature en format ymd (sans les deux derniers chiffres de l'année)
     $anneeSignature = date('y', strtotime($dateSignature));
     $moisSignature = date('m', strtotime($dateSignature));
@@ -160,7 +161,7 @@ function genererNumeroContrat($dateSignature, $typeContrat) {
     $numeroAleatoire = mt_rand(100000, 999999);
 
     // Créer un numéro de contrat avec les informations et le nombre aléatoire
-    $numeroContrat = sprintf("%s%02d%02d%02d%06d",substr($typeContrat, 0, 2), $anneeSignature, $moisSignature, $jourSignature, $numeroAleatoire);
+    $numeroContrat = sprintf("%s%02d%02d%02d%06d", substr($typeContrat, 0, 2), $anneeSignature, $moisSignature, $jourSignature, $numeroAleatoire);
 
     return $numeroContrat;
 }
@@ -169,16 +170,29 @@ function genererNumeroContrat($dateSignature, $typeContrat) {
  * remplace underscore par espace
  * @param $chaine
  */
-function remplacerUnderscore($chaine) {
+function remplacerUnderscore($chaine)
+{
     $resultat = str_replace('_', ' ', $chaine);
-    
+
     return $resultat;
 }
 
 
-function formaterNombre($nombre) {
+function formaterNombre($nombre)
+{
     // Utilisation de number_format pour ajouter les séparateurs de milliers
     $nombreFormate = number_format($nombre, 0, '', ' ');
-    
+
     return $nombreFormate;
+}
+
+
+/**
+ * Conertir un nombre en lettre
+ * @param $nombre
+ */
+function convertirNombreEnLettres($nombre)
+{
+    $convertisseur = new NumberFormatter("fr", NumberFormatter::SPELLOUT);
+    return ucfirst($convertisseur->format($nombre));
 }

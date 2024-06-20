@@ -55,9 +55,10 @@
                     var sheet = workbook.Sheets[sheetName];
 
                     // Vérifier si le nombre de colonnes correspond à votre attente
-                    var expectedColumnCount = 10;
+                    var expectedColumnCount = 11;
                     var range = XLSX.utils.decode_range(sheet['!ref']);
                     var actualColumnCount = range.e.c - range.s.c + 1;
+                    console.log(actualColumnCount);
 
                     if (actualColumnCount !== expectedColumnCount && actualColumnCount !== (expectedColumnCount - 1)) {
                         Swal.fire({

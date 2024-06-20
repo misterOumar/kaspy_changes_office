@@ -1,4 +1,12 @@
 /* GESTION GLOBALE */
-
+.required::after{
+    content: "*";
+    color: #d00;
+    position: absolute;
+    margin-left: 2px;
+    font-size: 18px;
+    font-weight: 800;
+    margin-top: -5px;
+}
 
 /* SALLES DE CLASSE */

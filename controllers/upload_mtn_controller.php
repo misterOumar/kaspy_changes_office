@@ -48,7 +48,7 @@ if (isset($_POST['upload_mtn'])) {
                     $rowData[3],
                     $rowData[5],
                     $rowData[12],
-                    $rowData[17],
+                    $rowData[17] < 0 ? $rowData[17] * (-1) : $rowData[17],
                     $rowData[31],
                     $rowData[1],
                     $magasin,

@@ -87,15 +87,27 @@
                         </li>
                     <?php }; ?>
 
-                    <!-- GESTION ROLE CHANGES -->
-                    <?php if (intval($_SESSION['KaspyISS_user_details'][2]['lecture']) === 1) { ?>
-                        <li class="<?= $_GET['page'] === 'changes' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=changes"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Changes</span></a>
-                        </li>
-                    <?php }; ?>
-
-
                 </ul>
             </li>
+
+            <!-- GESTION ROLE CHANGES -->
+            <?php if (intval($_SESSION['KaspyISS_user_details'][2]['lecture']) === 1) { ?>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="dollar-sign"></i><span class="menu-title text-truncate" data-i18n="Invoice">Changes</span></a>
+                    <ul class="menu-content">
+
+                        <li class="<?= $_GET['page'] === 'achat_devises' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=achat_devises"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Achats de dévise</span></a>
+                        </li>
+                        <li class="<?= $_GET['page'] === 'vente_devises' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=vente_devises"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Ventes de dévise</span></a>
+                        </li>
+
+                        <li class="<?= $_GET['page'] === 'devises' ? "active" : "" ?>">
+                            <a class="d-flex align-items-center" href="index.php?page=devises"><i data-feather="circle"></i>
+                                <span class="menu-item text-truncate" data-i18n="List">Dévises</span></a>
+                        </li>
+
+                    </ul>
+                </li>
+            <?php }; ?>
 
 
             <!-- GESTION ROLE RECHARGEMENT UBA -->
@@ -149,20 +161,20 @@
             <?php }; ?>
 
             <?php if (intval($_SESSION['KaspyISS_user_details'][22]['lecture']) === 1) { ?>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='dollar-sign'></i><span class="menu-title text-truncate" data-i18n="Invoice">Caisse interne</span></a>
-                <ul class="menu-content">
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='dollar-sign'></i><span class="menu-title text-truncate" data-i18n="Invoice">Caisse interne</span></a>
+                    <ul class="menu-content">
 
 
-                    
+
                         <li class="<?= $_GET['page'] === 'caisse' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=caisse"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Caisse transactions</span></a>
                         </li>
-                    
+
                         <li class="<?= $_GET['page'] === 'caisse_uba' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=caisse_uba"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Caisse UBA</span></a>
                         </li>
-                </ul>
-            </li>
+                    </ul>
+                </li>
             <?php
-                    }; ?>
+            }; ?>
 
 
 
@@ -172,12 +184,18 @@
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="sliders"></i><span class="menu-title text-truncate" data-i18n="Invoice">Structure</span></a>
                 <ul class="menu-content">
 
+                    <?php if (intval($_SESSION['KaspyISS_user_details'][18]['lecture']) === 1) { ?>
+                        <li class="<?= $_GET['page'] === 'types_piece' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=types_piece"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Type de pièce</span></a>
+                        </li>
+                    <?php
+                    }; ?>
 
                     <?php if (intval($_SESSION['KaspyISS_user_details'][18]['lecture']) === 1) { ?>
                         <li class="<?= $_GET['page'] === 'type_carte' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=type_carte"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Type de cartes</span></a>
                         </li>
                     <?php
                     }; ?>
+
                     <?php if (intval($_SESSION['KaspyISS_user_details'][19]['lecture']) === 1) { ?>
                         <li class="<?= $_GET['page'] === 'mode_reglements' ? "active" : "" ?>"><a class="d-flex align-items-center" href="index.php?page=mode_reglements"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Mode de règlement</span></a>
                         </li>
@@ -241,4 +259,3 @@
     </div>
 </div>
 <!-- END: Main Menu-->
-

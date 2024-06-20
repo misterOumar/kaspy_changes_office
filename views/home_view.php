@@ -18,16 +18,12 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <!-- Fichiers CSS par défaut (TEMPLATE) -->
     <?php include_once 'includes/head.php' ?>
     <!-- Fichier fenetre des differents Liste et journaux -->
-    <?php include_once 'components/journal_recouvrement.php' ?>
-    <?php include_once 'components/batiment_par_proprietaire.php' ?>
 
     <!-- Fichiers CSS spécifiques a la page (TEMPLATE) -->
     <link rel="stylesheet" type="text/css" href="css/template/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="css/core/menu/menu-types/vertical-menu.css">
-    <link rel="stylesheet" type="text/css" href="css/template/pages/dashboard-ecommerce.css">
 
-    <link rel="stylesheet" type="text/css" href="css/plugins/charts/apexcharts.css">
-    <link rel="stylesheet" type="text/css" href="css/plugins/charts/chart-apex.css">
+    
 
 
     <!-- Mes fichiers style CSS -->
@@ -228,11 +224,11 @@ if (!isset($_SESSION["KaspyISS_user"])) {
                             <!-- AFFICHAGE DES CHANGES SUR LE HOME -->
                             <?php if (intval($_SESSION['KaspyISS_user_details'][2]['lecture']) === 1) { ?>
                                 <div class="col-xl-4 col-md-6 col-12">
-                                    <a href="index.php?page=changes">
+                                    <a href="index.php?page=achat_devises">
                                         <div class="card card-congratulation-medal">
                                             <div class="card-body d-flex align-items-center justify-content-between">
                                                 <div>
-                                                    <h5>Changes</h5>
+                                                    <h5>Achat de dévise</h5>
                                                     <p class="card-text font-small-3"> Transactions </p>
                                                 </div>
                                                 <!-- <a href="index.php?page=ria" class="btn btn-primary">Ria </a> -->
@@ -259,10 +255,8 @@ if (!isset($_SESSION["KaspyISS_user"])) {
             <script src="js/template/vendors.min.js"></script>
             <script src="js/template/app.js"></script>
             <script src="js/template/app-menu.js"></script>
-            <script src="js/plugins/charts/apexcharts.min.js"></script>
 
             <!-- BEGIN: FICHIERS JS DES PAGES -->
-            <!-- <script src="js/template/pages/dashboard-ecommerce.js"></script> -->
 
             <!-- jQuery -->
             <script src="plugins/jquery/jquery.min.js"></script>
@@ -270,8 +264,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
             <!-- START: Footer-->
             <!--?php include 'includes/footer.php' ?-->
             <!-- END: Footer-->
-            <?php include 'js/logiques/reporting_logiques.php' ?>
-            <?php include 'js/logiques/home_logiques.php' ?>
 
 
 

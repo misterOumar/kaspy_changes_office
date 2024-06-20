@@ -159,6 +159,95 @@ class orange
         $req->execute([$date_debut, $date_fin]);
         return $req->fetchAll();
     }
+
+
+    // STATISTIQUES MOBILE MONEY
+    /**
+     * Renvoi la liste des dépots des transactions mobiles money
+     * @param 
+     */
+    static function getAllDepotMobileMoney(){
+        global $db;
+        $req = $db->prepare(
+            "SELECT
+            label,
+            SUM(montant) AS montant
+        FROM
+            (
+            SELECT
+            'Orange' as label,
+            SUM(CASE WHEN type_operation = 'Dépot' THEN montant ELSE 0 END) AS montant
+            FROM orange
+            GROUP BY label
+        
+            UNION ALL
+                
+           SELECT
+            'Mtn' as label,
+            SUM(CASE WHEN type_operation = 'Dépot' THEN montant ELSE 0 END) AS montant
+            FROM mtn
+            GROUP BY label
+        
+            UNION ALL
+                
+            SELECT
+            'Moov' as label,
+            SUM(CASE WHEN type_operation = 'Dépot' THEN montant ELSE 0 END) AS montant
+            FROM moov
+            GROUP BY label
+        ) as sous_requet
+        GROUP BY label
+            "
+        );
+
+        $req->execute([]);
+        return $req->fetchAll();
+    }
+
+
+    /**
+     * Renvoi la liste des dépots des transactions mobiles money
+     * @param 
+     */
+    static function getAllRetraitMobileMoney(){
+        global $db;
+        $req = $db->prepare(
+            "SELECT
+            label,
+            SUM(montant) AS montant
+        FROM
+            (
+            SELECT
+            'Orange' as label,
+            SUM(CASE WHEN type_operation = 'Retrait' THEN montant ELSE 0 END) AS montant
+            FROM orange
+            GROUP BY label
+        
+            UNION ALL
+                
+           SELECT
+            'Mtn' as label,
+            SUM(CASE WHEN type_operation = 'Retrait' THEN montant ELSE 0 END) AS montant
+            FROM mtn
+            GROUP BY label
+        
+            UNION ALL
+                
+            SELECT
+            'Moov' as label,
+            SUM(CASE WHEN type_operation = 'Retrait' THEN montant ELSE 0 END) AS montant
+            FROM moov
+            GROUP BY label
+        ) as sous_requet
+        GROUP BY label
+            "
+        );
+
+        $req->execute([]);
+        return $req->fetchAll();
+    }
+
+    
     
     //||**********************************||
     //||------------ INSERTIONS ------------||

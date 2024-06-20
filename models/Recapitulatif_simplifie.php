@@ -104,14 +104,14 @@ class RecapitulatifSimplifie
                 DATE_FORMAT(STR_TO_DATE(date, '%Y-%m-%d'), '%d-%m-%Y') AS date_formattee,
                 magasin AS agence,
                 0 AS nombre_envoi,
-                SUM(montant2) AS montant_envoi,
+                SUM(montant) AS montant_envoi,
                 0 AS frais_envoi,
                 0 AS nombre_reception,
                 0 AS montant_reception,
                 0 AS nombre_rembourssement,
                 0 AS montant_rembourssement,
                 0 AS frais_rembourssement,
-                SUM(montant2) AS montant_change,
+                SUM(montant) AS montant_change,
                 0 AS montant_tthu
 
             FROM changes

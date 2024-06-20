@@ -1,6 +1,6 @@
 <?php
 include('../config/config.php');
-$api_url = API_HOST . 'index.php?page=api_changes';
+$api_url = API_HOST . 'index.php?page=api_achat_devises';
 ?>
 <script>
     $(function() {
@@ -15,36 +15,17 @@ $api_url = API_HOST . 'index.php?page=api_changes';
                     .add({
                         responsive_id: champ_bd.id,
                         id: champ_bd.id,
-
-                        // DATE
-                        date: champ_bd.date,
-
-                        
-                  
-
-                        // // TYPE DE L OPERATION
-                        type: champ_bd.type,
-
-
-                        //MONTANT APPORTE
-                        montant1: champ_bd.montant1 + " "+champ_bd.devise,
-
-                        //TAUX DE L 'ECHANGE
-                        taux: champ_bd.taux ,
-
-                        //MONTANT FINAL DONNE AU CLIENT
-                        montant2: champ_bd.montant2,
-
-                        //NOM && PRENOM DU CLIENT DU CLIENT B
-                        client: champ_bd.client,
-
-                        //TELEPHONE  DU CLIENT  
-                        telephone: champ_bd.telephone,
-
-                        //ADRESSE DU CLIENT 
-                        adresse: champ_bd.adresse,
+                        dates: champ_bd.dates,
+                        type_emetteur: champ_bd.type_emetteur,
+                        emetteur_approvisionnement: champ_bd.emetteur_approvisionnement,
+                        numero_piece: champ_bd.numero_piece,
+                        devise: champ_bd.devise,
+                        quantite: champ_bd.quantite,
+                        taux_achat: champ_bd.taux_achat,
+                        montant_brut: champ_bd.montant_brut,
+                        montant_net: champ_bd.montant_net,
                         status: 5
-                        
+
 
 
                     })
@@ -72,29 +53,20 @@ $api_url = API_HOST . 'index.php?page=api_changes';
                     },
                     // used for sorting so will hide this column
                     {
-                        data: 'date'
+                        data: 'dates'
                     },
-                     
-             
 
-                     
                     {
-                        data: 'montant1'
+                        data: 'emetteur_approvisionnement'
                     },
                     {
-                        data: 'taux'
+                        data: 'taux_achat'
                     },
                     {
-                        data: 'montant2'
+                        data: 'montant_brut'
                     },
                     {
-                        data: 'client'
-                    },
-                    {
-                        data: 'telephone'
-                    },                    
-                    {
-                        data: 'adresse'
+                        data: 'montant_net'
                     },
 
                     {
@@ -142,9 +114,9 @@ $api_url = API_HOST . 'index.php?page=api_changes';
                             var $user_img = full['avatar'],
                                 $libelle = full['libelle'],
                                 $duree = full['duree'],
-                                $type = full['type'];
+                                $type = full['type_emetteur'];
                             var bg;
-                            if ($type == "Achat") {
+                            if ($type == "Clientèle") {
                                 bg = 'bg-success'
                             } else {
                                 bg = 'bg-info'
@@ -159,8 +131,9 @@ $api_url = API_HOST . 'index.php?page=api_changes';
                                 var stateNum = full['status'];
                                 var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
                                 var $state = states[stateNum],
-                                    $expediteur = full['date'],
-                                    $initials = $expediteur.match(/\b\w/g) || [];
+                                    $nom_prenom = full['emetteur_approvisionnement'],
+                                    $dates = full['dates'],
+                                    $initials = $nom_prenom.match(/\b\w/g) || [];
                                 $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
                                 $output = '<span class="avatar-content ' + bg + '" >' + $initials + '</span>';
                             }
@@ -176,7 +149,7 @@ $api_url = API_HOST . 'index.php?page=api_changes';
                                 '</div>' +
                                 '<div class="d-flex flex-column">' +
                                 '<span class="emp_nom text-truncate fw-bold">' +
-                                $expediteur +
+                                $dates +
                                 '</span>' +
                                 '<small class="emp_nom_pop text-truncate text-muted">' +
                                 $type +
@@ -203,24 +176,38 @@ $api_url = API_HOST . 'index.php?page=api_changes';
                                 }) +
                                 '</a>' +
                                 '<div class="dropdown-menu dropdown-menu-end">' +
-                                //Supprimer
-                                '<a  href="javascript:;" class="dropdown-item delete-record">' +
-                                feather.icons['trash-2'].toSvg({
+                                //Détail
+                                '<a href="javascript:;" class="dropdown-item details ">' +
+                                feather.icons['eye'].toSvg({
                                     class: 'font-small-4 me-50'
                                 }) +
-                                'Supprimer</a>' +
+                                'Voir détails</a>' +
 
                                 //Propriétés
-                                '<a href="javascript:;" class="dropdown-item proprietes" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
+                                '<a href="javascript:;" class="dropdown-item proprietes " data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">' +
                                 feather.icons['info'].toSvg({
                                     class: 'font-small-4 me-50'
                                 }) +
                                 'Propriétés</a>' +
 
+                                //Supprimer
+                                '<a  href="javascript:;" class="dropdown-item delete-record bg-light-danger">' +
+                                feather.icons['trash-2'].toSvg({
+                                    class: 'font-small-4 me-50'
+                                }) +
+                                'Supprimer</a>' +
+
                                 '</div>' +
                                 '</div>' +
-                                '<a href="javascript:;" class="item-edit bt_modifier" data-bs-target="#modal-modif" data-bs-toggle="modal">' +
+                                '<a href="javascript:;" class="item-edit bt_modifier pe-1" data-bs-target="#modal-modif" data-bs-toggle="modal">' +
                                 feather.icons['edit'].toSvg({
+                                    class: 'font-small-4'
+                                }) +
+
+                                // imprimer
+                                '</a>' +
+                                '<a href="javascript:;" class="bt_imprimer" name="imprimerRecuAchat" >' +
+                                feather.icons['printer'].toSvg({
                                     class: 'font-small-4'
                                 }) +
                                 '</a>'
@@ -370,56 +357,50 @@ $api_url = API_HOST . 'index.php?page=api_changes';
                 dateFormat: 'm/d/Y'
             });
         }
+
         // MODIFIER UN ELEMENT
-        $('#form_ajouter').on('submit', function(e) {
+        $('#bt_enregistrer').on('click', function(e) {
 
-            var $new_client = $('#client').val(),
 
-                $new_date_v = $('#date_v').val(),
-
-                $new_type= $("input[name='radio_type']:checked").val(),
-
-                $new_montant2= ($('#montant').val())*($('#taux').val()),
-
+            var $new_date = $('#date_achat').val(),
+                $new_type = $("#type").val(),
+                $new_nom_prenom = $('#nom_prenom').val(),
+                $new_numero_piece = $('#numero_piece').val(),
                 $new_devise = $('#devise').val(),
-
-                $new_adresse = $('#adresse').val(),
-
-                $new_taux = $('#taux').val(),
-                $new_montant = $('#montant').val(),
-                $new_telephone = $('#telephone').val();
+                $new_quantite = ($('#quantite').val()),
+                $new_taux_achat = $('#taux_achat').val(),
+                $new_montant_brut = $('#total_brut').val(),
+                $new_montant_net = $('#total_net').val();
             e.preventDefault()
 
-            if ($new_montant != '') {
+            if ($new_nom_prenom != '') {
                 // Ajout Back
                 initializeFlash();
 
-                var form = $('#form_ajouter');
-                var method = form.prop('method');
-                var url = form.prop('action');
+                // Sérialiser les données des deux formulaires
+                var formDataClient = $('#form_client').serialize();
+                var formDataFacturation = $('#form_facturation').serialize();
+
+                // Concaténer les données des deux formulaires
+                var combinedFormData = formDataClient + '&' + formDataFacturation;
+
+                // console.log(combinedFormData);
 
                 $.ajax({
-                    type: method,
-                    data: form.serialize() + "&bt_enregistrer=" + true,
-                    url: url,
+                    url: 'controllers/achat_devises_controller.php',
+                    type: 'POST',
+                    data: combinedFormData + "&bt_enregistrer=" + true,
                     success: function(result) {
                         //console.log(result);
                         var donnee = JSON.parse(result);
 
                         if (donnee['success'] === 'true') {
 
-                            $('#client').val("");
-                            $('#taux').val("");
-                            $('#montant').val("");
-                            $('#date_v').val("");
-                            
-                            $('#telephone').val("");
-                            $('#montantHelp').html("").addClass('invisible');
-                            $('#clientHelp').html("").addClass('invisible');
-                            $('#telephoneHelp').html("").addClass('invisible');
-                            $('#montantHelp').html("").addClass('invisible');
-                            $('#tauxHelp').html("").addClass('invisible');
-                            $('#date_vHelp').html("").addClass('invisible');
+                            // reset forms
+                            $('#form_client').trigger("reset");
+                            $('#form_facturation').trigger("reset");
+
+
 
                             // MESSAGE ALERT
                             swal_Alert_Sucess(donnee['message'])
@@ -428,30 +409,31 @@ $api_url = API_HOST . 'index.php?page=api_changes';
                             $.ajax({
                                 type: "GET",
                                 data: "idLast=" + true,
-                                url: "controllers/changes_controller.php",
+                                url: "controllers/achat_devises_controller.php",
                                 success: function(result) {
                                     var donnees = JSON.parse(result)
                                     if (donnees['last_transaction'] !== 'null') {
-                                        let ventes = donnees['last_transaction'];
-                                        let last_id = ventes['id'];
+                                        let achat = donnees['last_transaction'];
+                                        let last_id = achat['id'];
                                         let total = donnees['total'];
+
+                                        // Ouvrir un nouvel onglet pour afficher le reçu PDF
+                                        window.open('etats/RecuAchatDevises.php?idRecuImprimer=' + last_id, '_blank');
 
                                         // Ajout Front et ajout de l'id de la dernière ligne crée
                                         dt_basic.row
                                             .add({
                                                 responsive_id: last_id,
                                                 id: last_id,
-                                                date: $new_date_v,
-                                                devise:$new_devise,
-                                                type: $new_type,                                                
-                                                montant1: $new_montant,
-                                                taux: $new_taux,
-                                                 montant2: $new_montant2,
-                                                client: $new_client,
-                                                telephone: $new_telephone,                              
-                                                                                         
-                                                adresse: $new_adresse,
-                                               
+                                                dates: $new_date,
+                                                type_emetteur: $new_type,
+                                                emetteur_approvisionnement: $new_nom_prenom,
+                                                numero_piece: $new_numero_piece,
+                                                devise: $new_devise,
+                                                quantite: $new_quantite,
+                                                taux_achat: $new_taux_achat,
+                                                montant_brut: $new_montant_brut,
+                                                montant_net: $new_montant_net,
                                                 status: 5
 
                                             })
@@ -476,38 +458,45 @@ $api_url = API_HOST . 'index.php?page=api_changes';
                 }
             }
         });
+
+        // EDITER UNE LIGNE
         var that
         $('.datatables-basic tbody').on('click', '.item-edit', function() {
             that = this
             $.ajax({
                 type: "GET",
-                data: "idChange=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
-                url: "controllers/changes_controller.php",
+                data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+                url: "controllers/achat_devises_controller.php",
                 success: function(result) {
                     var donnees = JSON.parse(result);
-                    if (donnees['change'] !== 'null') {
-                        // Remplir le formulaire
-                        let vente = donnees['change'];
-                        $('#idModif').val(vente['id']);
-                        $('#montant_modif').val(vente['montant1']);
-                         $('#type_modif').val(vente['type']);
-                        $('#devise_modif').val(vente['devise']);
-                        $('#adresse_modif').val(vente['adresse']);
-                        $('#date_vmodif').val(vente['date']);
-                        $('#client_modif').val(vente['client']);
-                        $('#taux_modif').val(vente['taux']);
-                        $('#telephone_modif').val(vente['telephone']);
+                    if (donnees['achat_devise'] !== 'null') {
 
-                        var radioTypeModifValue = vente['type'];
-                        // console.log(vente['type']);
-                        // Vérifie si la valeur est égale à 'Dépot'
-                        if (radioTypeModifValue ==='Achat') {
-                            // Coche le radio bouton 'Dépot'
-                            $('#radio_achat_modif').prop('checked', true);
-                        } else {
-                            // Sinon, coche le radio bouton 'Retrait'
-                            $('#radio_vente_modif').prop('checked', true);
-                        }
+                        let achat_devise = donnees['achat_devise']
+                        let client = donnees['client']
+
+                        // Remplir le formulaire du client 
+                        $('#civilite_modif').val(client['civilite']);
+                        $('#type_modif').val(client['type']);
+                        $('#nom_prenom_modif').val(client['nom']);
+                        $('#type_piece_modif').val(client['type_de_piece']);
+                        $('#numero_piece_modif').val(client['numero_de_piece']);
+                        $('#telephone_modif').val(client['contact']);
+                        $('#email_modif').val(client['email']);
+                        $('#adresse_modif').val(client['adresse']);
+                        $('#id_client_modif').val(client['id']);
+
+                        // Remplir le formulaire de la facturation
+                        $('#date_achat_modif').val(achat_devise['dates']);
+                        $('#devise_modif').val(achat_devise['devise']);
+                        $('#mode_reglement_modif').val(achat_devise['mode_reglement']);
+                        $('#quantite_modif').val(achat_devise['quantite']);
+                        $('#taux_achat_modif').val(achat_devise['taux_achat']);
+                        $('#remise_modif').val(achat_devise['remise']);
+                        $('#total_brut_modif').val(achat_devise['montant_brut']);
+                        $('#total_net_modif').val(achat_devise['montant_net']);
+                        $('#observation_modif').val(achat_devise['observation']);
+                        $('#id_achat_modif').val(achat_devise['id']);
+
 
                     }
                 }
@@ -520,13 +509,14 @@ $api_url = API_HOST . 'index.php?page=api_changes';
             $.ajax({
                 type: "GET",
                 data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
-                url: "controllers/changes_controller.php",
+                url: "controllers/achat_devises_controller.php",
                 success: function(result) {
 
                     var donnees = JSON.parse(result);
-                    if (donnees['changes'] !== 'null') {
+                    if (donnees['achat_devise'] !== 'null') {
 
-                        let proprietes = donnees['changes']
+                        let proprietes = donnees['achat_devise']
+                        console.log(proprietes);
                         $("#offcanvasBottomLabel").html("Propriété de la transaction MTN Money « " + proprietes['date_creation'] + " »");
                         $("#date_creation").html(proprietes['date_creation']);
                         $("#user_creation").html(proprietes['user_creation']);
@@ -538,12 +528,133 @@ $api_url = API_HOST . 'index.php?page=api_changes';
                         $("#navigateur_modification").html(proprietes['navigateur_modif']);
                         $("#ordinateur_modification").html(proprietes['ordinateur_modif']);
                         $("#ip_modification").html(proprietes['ip_modif']);
-                        $("#ecole").html(proprietes['magasin']);
+                        $("#ecole").html(proprietes['agence']);
 
 
                     }
                 }
             })
+        });
+
+        // DETAIL D'UNE LIGNE
+        $('.datatables-basic tbody').on('click', '.details', function() {
+            var that = this
+            $.ajax({
+                type: "GET",
+                data: "idProprietes=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
+                url: "controllers/achat_devises_controller.php",
+                success: function(result) {
+                    var donnees = JSON.parse(result);
+                    if (donnees['achat_devise'] !== 'null') {
+
+                        let achat_devise = donnees['achat_devise']
+                        let client = donnees['client']
+
+                        console.table(achat_devise);
+
+
+                        $('#titre_modal').text("Détail de l'achat de devise du " + achat_devise.date_creation)
+
+                        // le tableau de la transaction
+                        $('.modal_details .modal-body').html(`
+                            <table class="table table-bordered text-nowrap text-center table-hover">             
+                                <tbody class="details">
+                                    <tr>
+                                        <th colspan="2" class="text-center bg-light-primary">Informations sur le client</th>  
+                                    </tr>
+                                    <tr>
+                                        <td  class="text-start" style="with:30%">Civilité</td>                                      
+                                        <th  class="text-start">${client.civilite}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Nom & Prénom(s)</td>                                      
+                                        <th  class="text-start">${client.nom}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Type</td>                                      
+                                        <th  class="text-start">${client.type}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Type de pièce</td>                                      
+                                        <th  class="text-start">${client.type_de_piece}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Numéro de pièce</td>                                      
+                                        <th  class="text-start">${client.numero_de_piece}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Contact</td>                                      
+                                        <th  class="text-start">${client.contact}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Email</td>                                      
+                                        <th  class="text-start">${client.email}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Adresse</td>                                      
+                                        <th  class="text-start">${client.adresse}</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2" class="text-center bg-light-primary">Informations sur la facturation</th>  
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Devise</td>                                      
+                                        <th  class="text-start">${achat_devise.devise}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Quantite</td>                                      
+                                        <th  class="text-start">${achat_devise.quantite}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Taux achat</td>                                      
+                                        <th  class="text-start">${achat_devise.taux_achat}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Montant Brut</td>                                      
+                                        <th  class="text-start">${achat_devise.montant_brut}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Remise</td>                                      
+                                        <th  class="text-start">${achat_devise.remise}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Montant Net</td>                                      
+                                        <th  class="text-start">${achat_devise.montant_net}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Montant en lettre</td>                                      
+                                        <th  class="text-start">${achat_devise.montant_lettre}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Mode de réglement</td>                                      
+                                        <th  class="text-start">${achat_devise.mode_reglement}</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start" style="with:30%">Observation</td>                                      
+                                        <th  class="text-start">${achat_devise.observation}</th>
+                                    </tr>
+                                
+                                </tbody>
+                            </table>
+                        `);
+
+
+                        // afficher le modal
+                        $('.modal_details').modal('show')
+
+
+
+                    }
+                }
+            })
+        });
+
+        // IMPRIMER UN RECU
+        $('.datatables-basic tbody').on('click', '.bt_imprimer', function() {
+            var that = this
+            var idRecu = (dt_basic.row($(that).parents('tr')).data().id)
+            // Ouvrir un nouvel onglet pour afficher le reçu PDF
+            window.open('etats/RecuAchatDevises.php?idRecuImprimer=' + idRecu, '_blank');
         });
 
         // SUPPRIMER UNE LIGNE
@@ -584,7 +695,7 @@ $api_url = API_HOST . 'index.php?page=api_changes';
                 $.ajax({
                     type: "GET",
                     data: "idSuppr=" + (dt_basic.row($(that).parents('tr')).data().id), //Envois de l'id selectionné
-                    url: "controllers/changes_controller.php",
+                    url: "controllers/achat_devises_controller.php",
                     success: function(result) {
                         var donneee = JSON.parse(result);
                         if (donneee['success'] === 'true') {

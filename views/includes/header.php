@@ -34,7 +34,8 @@
                     <a class="btn btn-flat-primary dropdown-toggl" id="dropdownMenuButton100" data-bs-toggle="dropdown" aria-expanded="false" style="left:-20px">
                         Etats
                     </a>
-                    <ul class="dropdown-menu sub-menu01" aria-labelledby="navbarDropdown">
+                    <ul class="dropdown-menu sub-menu01 " aria-labelledby="navbarDropdown" style="max-height: 85vh; overflow:scroll">
+
                         <!-- GESTION DE L AFFICHAGE  MOBILE MONEY-->
                         <strong class="ms-2"> Mobile Money</strong>
 
@@ -54,10 +55,24 @@
 
                         <div class="dropdown-divider"></div>
 
+                        <!-- GESTION DE L AFFICHAGE  CHANGES-->
+                        <?php if (intval($_SESSION['KaspyISS_user_details'][2]['visualisation']) === 1 && intval($_SESSION['KaspyISS_user_details'][9]['visualisation']) === 1) { ?>
+                            <strong class="ms-2"> Opérations de changes</strong>
+
+                            <li><a class="dropdown-item" href="etats/EtatListeAchatsDevise.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                    Journal des achats de dévises</a> </li>
+                            <li><a class="dropdown-item" href="etats/EtatListeVentesDevise.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                    Journal des ventes de dévises</a> </li>
+                            <li><a class="dropdown-item" href="etats/EtatListeRapportChange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
+                                    Rapport des opérations de changes</a> </li>
+                        <?php }; ?>
+
+                        <div class="dropdown-divider"></div>
+
 
                         <!-- GESTION DE L AFFICHAGE  CARTE-->
                         <?php if (intval($_SESSION['KaspyISS_user_details'][8]['visualisation']) === 1 && intval($_SESSION['KaspyISS_user_details'][9]['visualisation']) === 1) { ?>
-                            <div class="dropdown-divider"></div>
+
                             <strong class="ms-2"> Cartes</strong>
                             <li><a class="dropdown-item" href="etats/EtatListeCarte.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
                                     Liste des cartes</a> </li>
@@ -68,6 +83,7 @@
                         <?php }; ?>
 
                         <div class="dropdown-divider"></div>
+
 
                         <!-- GESTION DE L AFFICHAGE  DES TRANSACTION -->
                         <strong class="ms-2"> Transactions</strong>
@@ -99,10 +115,7 @@
 
                         <div class="dropdown-divider"></div>
 
-                        <?php if (intval($_SESSION['KaspyISS_user_details'][2]['visualisation']) === 1) { ?>
-                            <li><a class="dropdown-item" href="etats/EtatListeChange.php" target="_blank"><i class="fas fa-file-alt mr-2"> </i>
-                                    Journal des opérations de changes</a> </li>
-                        <?php }; ?>
+
 
                     </ul>
                 </li>
@@ -283,20 +296,18 @@
     });
 </script>
 
-
 <script>
     // Filtre des dates pour les états
 
     $('.date_debut_filtre').flatpickr({
         defaultDate: '01-01-2024',
         dateFormat: "d-m-Y",
-        locale: 'fr',
     })
 
     $('.date_fin_filtre').flatpickr({
         defaultDate: 'today',
         dateFormat: "d-m-Y",
-        locale: 'fr',
     })
 
+    //
 </script>

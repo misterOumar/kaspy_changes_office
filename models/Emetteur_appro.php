@@ -7,21 +7,20 @@
 
 
 /**
- * Class changes - Représente un(e) changes
+ * Class Emmetteur_appro - Représente un(e) emetteurs_appro
  */
-class changes
+class emetteur_appro
 {
     public $id;
-    public $montant1;
-    public $taux;
-    public $montant2;
-    public $client;
-    public $telephone;
-    public $date;
-    public $devise;
+    public $civilite;
+    public $nom;
+    public $type;
+    public $type_de_piece;
+    public $numero_de_piece;
+    public $contact;
+    public $email;
     public $adresse;
-    public $magasin;
-    public $type_operation;
+    public $agence;
     public $date_creation;
     public $user_creation;
     public $navigateur_creation;
@@ -34,7 +33,7 @@ class changes
     public $ip_modif;
 
     /**
-     * changes constructor.
+     * emetteurs_appro constructor.
      *
      * @param $id
      */
@@ -42,20 +41,19 @@ class changes
     {
         global $db;
         $id = strSecur($id);
-        $req = $db->prepare('SELECT * FROM changes WHERE id = ?');
+        $req = $db->prepare('SELECT * FROM emetteurs_appro WHERE id = ?');
         $req->execute([$id]);
         $data = $req->fetch();
         $this->id = $id;
-        $this->montant1 = $data['montant1'];     
-        $this->taux = $data['taux'];
-        $this->montant2 = $data['montant2'];
-        $this->client = $data['client'];
-        $this->telephone = $data['telephone'];
-        $this->date = $data['date'];
-        $this->type_operation = $data['type_operation'];
-        $this->devise = $data['devise'];
+        $this->civilite = $data['civilite'];
+        $this->nom = $data['nom'];
+        $this->type = $data['type'];
+        $this->type_de_piece = $data['type_de_piece'];
+        $this->numero_de_piece = $data['numero_de_piece'];
+        $this->contact = $data['contact'];
+        $this->email = $data['email'];
         $this->adresse = $data['adresse'];
-        $this->magasin = $data['magasin'];
+        $this->agence = $data['agence'];
         $this->date_creation = $data['date_creation'];
         $this->user_creation = $data['user_creation'];
         $this->navigateur_creation = $data['navigateur_creation'];
@@ -74,90 +72,86 @@ class changes
     //||**********************************||
 
 
-    
+
 
     static function getAll()
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM changes ORDER BY id");
+        $req = $db->prepare("SELECT * FROM emetteurs_appro ORDER BY id");
         $req->execute([]);
         return $req->fetchAll();
     }
 
 
     /**
-     * Méthode pour récupérer un(e) changes en fonction de son id.
+     * Méthode pour récupérer un(e) emetteurs_appro en fonction de son id.
      *
      * @param $id
      * @return mixed
      */
-
-    // static function getAllByID($id)
-    // {
-    //     global $db;
-    //     $req = $db->prepare("SELECT changes.*,
-    //     type_carte.libelle AS type_carte,
-    //     FROM changes
-    //     LEFT JOIN type_carte ON changes.type_carte = type_carte.id
-    //     WHERE changes.id = ?");
-    //     $req->execute([$id]);
-    //     return $req->fetch();
-    // }
     static function getByID($id)
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM changes WHERE id = ?");
+        $req = $db->prepare("SELECT * FROM emetteurs_appro WHERE id = ?");
         $req->execute([$id]);
         return $req->fetch();
     }
-    /**
-     * Méthode pour récupérer un(e) changes en fonction du type de carte.
-     *
-     * @param $id
-     * @return mixed
-     */
 
-     
 
     /**
-     * Méthode de récupération du dernier element de la table changes.
+     * Méthode de récupération du dernier element de la table emetteurs_appro.
      *
      * @return mixed
      */
     static function getLast()
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM changes  ORDER BY id DESC LIMIT 1");
+        $req = $db->prepare("SELECT * FROM emetteurs_appro  ORDER BY id DESC LIMIT 1");
         $req->execute([]);
         return $req->fetch();
     }
 
 
     /**
-     * Méthode de récupération du nombre d'enregistrement de la table changes.
+     * Méthode de récupération du nombre d'enregistrement de la table emetteurs_appro.
      *
      * @return mixed
      */
     static function getCount()
     {
         global $db;
-        $req = $db->prepare("SELECT COUNT(*) FROM changes");
+        $req = $db->prepare("SELECT COUNT(*) FROM emetteurs_appro");
         $req->execute([]);
         return $req->fetch()[0];
     }
 
 
     /**
-     * Méthode de récupération de changes en fonction du changes.
+     * Méthode de récupération de emetteurs_appro en fonction du emetteurs_appro.
      *
-     * @param $changes
+     * @param $emetteurs_appro
      * @return mixed
      */
-    static function getByClient($client)
+    static function getByClient($nom)
     {
         global $db;
-        $req = $db->prepare("SELECT * FROM changes WHERE client= ? ");
-        $req->execute([$client]);
+        $req = $db->prepare("SELECT * FROM emetteurs_appro WHERE nom= ? ");
+        $req->execute([$nom]);
+        return $req->fetch();
+    }
+
+
+    /**
+     * Méthode de récupération de emetteurs_appro en fonction du numero_piece.
+     *
+     * @param $numero_piece
+     * @return mixed
+     */
+    static function getByNumeroPiece($numero_de_piece)
+    {
+        global $db;
+        $req = $db->prepare("SELECT * FROM emetteurs_appro WHERE numero_de_piece = ? ");
+        $req->execute([$numero_de_piece]);
         return $req->fetch();
     }
 
@@ -166,9 +160,9 @@ class changes
     //||----------- INSERTIONS -----------||
     //||**********************************||
     /**
-     * Méthode pour insérer un(e) changes en base de données.
+     * Méthode pour insérer un(e) emetteurs_appro en base de données.
      *
-     * @param $changes
+     * @param $emetteurs_appro
      * @param $date_debut
      * @param $date_fin
      * @param $ecole
@@ -185,18 +179,16 @@ class changes
      * @return bool
      */
     static function Ajouter(
-        $date, 
-       
-        $devise,
-        $type_operation,
-        $montant1,
-        $taux,
-        $montant2,
-        $client,
-        $telephone,
-      
+        $civilite,
+        $nom,
+        $type,
+        $type_de_piece,
+        $numero_de_piece,
+        $contact,
+        $email,
         $adresse,
-        $magasin,
+
+        $agence,
         $date_creation,
         $user_creation,
         $navigateur_creation,
@@ -210,11 +202,10 @@ class changes
     ) {
         global $db;
         $req = $db->prepare('
-            INSERT INTO changes(date ,devise,type,montant1,taux,montant2, client ,telephone, adresse, magasin, date_creation,user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
-            VALUES(?, ?, ?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
+            INSERT INTO emetteurs_appro(civilite, nom, type, type_de_piece, numero_de_piece, contact, email, adresse,  agence, date_creation,user_creation, navigateur_creation, ordinateur_creation, ip_creation, date_modif, user_modif, navigateur_modif, ordinateur_modif, ip_modif) 
+            VALUES(?, ?, ? ,? ,? ,? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)      
         ');
-        return $req->execute([$date,$devise, $type_operation,$montant1, $taux, $montant2, $client, $telephone,
-         $adresse, $magasin, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
+        return $req->execute([$civilite, $nom, $type, $type_de_piece, $numero_de_piece,  $contact, $email, $adresse,  $agence, $date_creation, $user_creation, $navigateur_creation, $ordinateur_creation, $ip_creation, $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif]);
     }
 
 
@@ -222,9 +213,9 @@ class changes
     //||---------- MODIFICATIONS ---------||
     //||**********************************||
     /**
-     * Méthode pour modifier un(e) changes en base de données.
+     * Méthode pour modifier un(e) emetteurs_appro en base de données.
      *
-     * @param $changes
+     * @param $emetteurs_appro
      * @param $date_debut
      * @param $date_fin
      * @param $ecole
@@ -243,17 +234,15 @@ class changes
 
 
     static function Modifier(
-        $date, 
-       
-        $devise,
-        $type_operation,
-        $montant1,
-        $taux,
-        $montant2,
-        $client,
-        $telephone,
-     
+        $civilite,
+        $nom,
+        $type,
+        $type_de_piece,
+        $numero_de_piece,
+        $contact,
+        $email,
         $adresse,
+        $agence,
         $date_modif,
         $user_modif,
         $navigateur_modif,
@@ -263,15 +252,26 @@ class changes
     ) {
         global $db;
         $req = $db->prepare('
-            UPDATE changes SET date =?,devise=? ,type=?,  montant1=?,taux=?,
-            montant2=?,client=? ,telephone = ?, adresse =?, date_modif = ?,
-             user_modif = ?, navigateur_modif = ?,
-              ordinateur_modif = ?,
-               ip_modif = ? WHERE id= ?
+            UPDATE emetteurs_appro SET civilite =?, nom=?, type=?, type_de_piece=?, numero_de_piece = ?, contact = ?, email = ?, adresse = ?, agence= ?, date_modif = ?,
+             user_modif = ?, navigateur_modif = ?, ordinateur_modif = ?, ip_modif = ? WHERE id= ?
         ');
-        return $req->execute([$date, $devise,  $type_operation,
-       $montant1, $taux, $montant2, $client, $telephone,
-        $adresse,   $date_modif, $user_modif, $navigateur_modif, $ordinateur_modif, $ip_modif, $id]);
+        return $req->execute([
+            $civilite,
+            $nom,
+            $type,
+            $type_de_piece,
+            $numero_de_piece,
+            $contact,
+            $email,
+            $adresse,
+            $agence,
+            $date_modif,
+            $user_modif,
+            $navigateur_modif,
+            $ordinateur_modif,
+            $ip_modif, 
+            $id
+        ]);
     }
 
 
@@ -280,7 +280,7 @@ class changes
     //||**********************************||
 
     /**
-     * Méthode pour supprimer un(e) changes
+     * Méthode pour supprimer un(e) emetteurs_appro
      *
      * @param $id
      * @return bool
@@ -288,7 +288,7 @@ class changes
     static function Supprimer($id)
     {
         global $db;
-        $req = $db->prepare('DELETE FROM changes WHERE id= ?');
+        $req = $db->prepare('DELETE FROM emetteurs_appro WHERE id= ?');
         return $req->execute([$id]);
     }
 }

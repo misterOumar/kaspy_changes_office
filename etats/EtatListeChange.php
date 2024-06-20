@@ -77,9 +77,9 @@ class  EtatListeChange extends FPDF
         $this->SetFont('Helvetica', 'B', 10);
         $this->Cell(10, 7, "Nº", 1, 0, 'C');
         $this->Cell(20, 7, "Date", 1, 0, 'C');
-        $this->Cell(30, 7, "Montant Apporté", 1, 0, 'C');
+        $this->Cell(30, 7, "Unité", 1, 0, 'C');
         $this->Cell(40, 7, "Taux d'échange ", 1, 0, 'C');
-        $this->Cell(30, 7, "Montant reçu", 1, 0, 'C');
+        $this->Cell(30, 7, "Montant ", 1, 0, 'C');
         $this->Cell(35, 7, "Client", 1, 0, 'C');
         $this->Cell(25, 7, "Telephone", 1, 0, 'C');  
         $this->Ln();
@@ -90,9 +90,9 @@ class  EtatListeChange extends FPDF
 
             $this->Cell(10, 6, $i, 1, 0, 'C');
             $this->Cell(20, 6,  $change['date'], 1, 0, 'C');
-            $this->Cell(30, 6,  formaterNombre($change['montant1']). ' ('.$change['devise'].')', 1, 0, '');
+            $this->Cell(30, 6,  formaterNombre($change['unite']). ' ('.$change['devise_unite'].')', 1, 0, '');
             $this->Cell(40, 6,  $change['taux']. ' ('.$change['type'].')', 1, 0, 'C');
-            $this->Cell(30, 6,  formaterNombre($change['montant2']), 1, 0, 'C');
+            $this->Cell(30, 6,  formaterNombre($change['montant']). ' ('.$change['devise_montant'].')', 1, 0, 'C');
             $this->Cell(35, 6,  $change['client'], 1, 0, 'C');
             $this->Cell(25, 6,  $change['telephone'], 1, 0, 'C');  
             $this->Ln();

@@ -604,4 +604,3 @@
 
 <script src="js/template/extensions/ext-component-sweet-alerts.js"></script>
 <script src="js/template/extensions/sweetalert2.all.min.js"></script>
-<script src="js/template/extensions/extensions/polyfill.min.js"></script>

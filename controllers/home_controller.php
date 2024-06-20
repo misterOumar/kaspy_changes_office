@@ -3,11 +3,9 @@
 if (isset($_GET['page']) and !empty($_GET['page']) and $_GET['page'] === 'home') {
     include('../config/config.php');
     include('../config/db.php');
-    include('models/Locataires.php');
-    include('models/Batiments.php');
-    include('models/Appartements.php');
-    include('models/Proprietaires.php');
-    include('models/Recouvrement.php');
+
+    // require '../plugins/email/envois_mail_point_journalier.php';
+    // require '../etats/EtatListeAchatsDevise.php';
 
     //RECUPERATION DU MOIS EN COURS
     $dateCourante = date("Y-m-d H:i:s");
@@ -30,6 +28,7 @@ if (isset($_GET['page']) and !empty($_GET['page']) and $_GET['page'] === 'home')
     ];
     
     $moisActuel = $moisEnFrancais[$mois];
+
     
 }
 

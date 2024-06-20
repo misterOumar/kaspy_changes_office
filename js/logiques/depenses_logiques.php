@@ -210,7 +210,7 @@
 
     // Champ numérique
     $('#montant_modif').on('keyup', function() {
-        var montant = $('#montant').val();
+        var montant = $('#montant_modif').val();
         if ($.isNumeric(montant) === false) {
             submitUpdate = false;
             $('#montant_modif').addClass('is-invalid');

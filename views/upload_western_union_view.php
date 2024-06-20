@@ -262,7 +262,6 @@ if (!isset($_SESSION["KaspyISS_user"])) {
     <script src="js/plugins/tables/datatable/vfs_fonts.js"></script>
     <script src="js/plugins/tables/datatable/buttons.html5.min.js"></script>
     <script src="js/plugins/tables/datatable/buttons.print.min.js"></script>
-    <script src="js/plugins/pickers/flatpickr/flatpickr.min.js"></script>
 
     <!--<script src="js/template/ui/jquery.sticky.js"></script> -->
     <script src="js/template/forms/spinner/jquery.bootstrap-touchspin.js"></script>
